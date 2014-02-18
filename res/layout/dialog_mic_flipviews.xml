@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <ViewFlipper
+        android:id="@+id/mictestflip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <include
+            android:id="@+id/firstpage"
+            layout="@layout/dialog_mic_setup" />
+
+        <include
+            android:id="@+id/secondpage"
+            layout="@layout/dialog_mic_test" />
+    </ViewFlipper>
+
+</LinearLayout>

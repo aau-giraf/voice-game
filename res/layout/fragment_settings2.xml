@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/carspeed"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="50dp"
+        android:text="@string/obstacles"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="50dp"
+        android:text="@string/mic_settings"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView3"
+        android:layout_marginTop="50dp"
+        android:text="@string/colors"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView3"
+        android:layout_marginLeft="100dp"
+        android:layout_toRightOf="@+id/textView2"
+        android:onClick="showMicTestDialog"
+        android:text="@string/start" />
+
+    <RadioGroup
+        android:id="@+id/car_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button1"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/speed25pct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/twentyfivepct" />
+
+        <RadioButton
+            android:id="@+id/speed50pct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fiftypct" />
+
+        <RadioButton
+            android:id="@+id/speed75pct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/seventyfivepct" />
+
+        <RadioButton
+            android:id="@+id/speed100pct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hundredpct" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/obstacle_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/car_speed"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_below="@+id/car_speed"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/obstacles1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/one" />
+
+        <RadioButton
+            android:id="@+id/obstacles2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/two" />
+
+        <RadioButton
+            android:id="@+id/obstacles3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/three" />
+
+        <RadioButton
+            android:id="@+id/obstacles4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/four" />
+    </RadioGroup>
+
+    <View
+        android:id="@+id/color1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/textView4"
+        android:layout_marginTop="100dp"
+        android:background="#FFFFFF"
+        android:clickable="true"
+        android:onClick="changeColors" />
+
+    <View
+        android:id="@+id/color3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignLeft="@+id/button1"
+        android:layout_alignTop="@+id/textView4"
+        android:layout_marginTop="100dp"
+        android:background="#FFFFFF"
+        android:clickable="true"
+        android:onClick="changeColors" />
+
+    <View
+        android:id="@+id/color2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignTop="@+id/color1"
+        android:layout_marginLeft="45dp"
+        android:layout_toRightOf="@+id/color1"
+        android:background="#FFFFFF"
+        android:clickable="true"
+        android:onClick="changeColors" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/color2"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="45dp"
+        android:text="@string/one"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView5"
+        android:layout_marginLeft="130dp"
+        android:layout_toRightOf="@+id/textView5"
+        android:text="@string/two"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView6"
+        android:layout_marginLeft="130dp"
+        android:layout_toRightOf="@+id/textView6"
+        android:text="@string/three"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>
