@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    tools:context=".SettingsActivity" >
+
+    <fragment
+        android:id="@+id/settings1fragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".35"
+        class="dk.aau.cs.giraf.cars.Settings1Fragment"
+        tools:layout="@layout/fragment_settings1" />
+
+    <fragment
+        android:id="@+id/settings2fragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".65"
+        class="dk.aau.cs.giraf.cars.Settings2Fragment"
+        tools:layout="@layout/fragment_settings2" />
+
+</LinearLayout><!-- From: file:/D:/Windows%207/Dokumenter/SVN/P6%20-%20SW615F14/Temp%20Git/cars/res/layout/activity_settings.xml -->
