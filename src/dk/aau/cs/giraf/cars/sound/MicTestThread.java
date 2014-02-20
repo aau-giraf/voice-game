@@ -1,5 +1,7 @@
 package dk.aau.cs.giraf.cars.sound;
 
+import android.util.Log;
+
 import java.util.Arrays;
 
 import dk.aau.cs.giraf.cars.gamecode.GameInfo;
@@ -28,13 +30,16 @@ public class MicTestThread extends Thread {
     }
 
     private void collectFrequencies() {
+        Log.d("WAI", "CollectingFrequencies");
         while (mRun) {
             switch (mTestType) {
                 case High:
                     collectHighFreq();
+                    Log.d("WAI", "CollectedHighFrequency");
                     break;
                 case Low:
                     collectLowFreq();
+                    Log.d("WAI", "CollectedLowFrequency");
                     break;
             }
         }
@@ -62,6 +67,7 @@ public class MicTestThread extends Thread {
 
             tmpCurrFreq = GameInfo.getCurrFreq();
 
+
             if (tmpCurrFreq > 50) {
                 frequencyRange = tmpCurrFreq / arrayIntervals;
 
@@ -83,6 +89,7 @@ public class MicTestThread extends Thread {
             }
         }
         mTmpHighFreq = (highestValue + 1) * 50 - 100;
+        Log.d("FREQ", "High: " + mTmpHighFreq);
     }
 
     private void collectLowFreq() {
@@ -98,6 +105,7 @@ public class MicTestThread extends Thread {
             }
 
             tmpCurrFreq = GameInfo.getCurrFreq();
+
 
             if (tmpCurrFreq > 50) {
                 frequencyRange = tmpCurrFreq / arrayIntervals;
@@ -120,6 +128,7 @@ public class MicTestThread extends Thread {
             }
         }
         mTmpLowFreq = (highestValue + 1) * 50 + 100;
+        Log.d("FREQ", "Low: " + mTmpLowFreq);
 
         System.out.println(mTmpLowFreq);
     }
