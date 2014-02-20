@@ -12,27 +12,29 @@ public class RecorderThread extends Thread {
     public final int highestHumanPitch = 3400; //Determine the highest frequency a human can make to get rid of false data
     public final int voiceSensitivity = 10000;  //Determine the "volume" that that has to be recorded before the input data is valid
 
+    private int bufferSize;
+    private final int sampleRate = 44100;
+    private short[] audioData;
+
     public RecorderThread() {
 
     }
 
+    private AudioRecord initialize() {
+        System.out.println("Initializing RecorderThread");
+
+        bufferSize = AudioRecord.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT) * 2;
+        AudioRecord recorder = new AudioRecord(AudioSource.MIC, sampleRate, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, bufferSize);
+
+        recording = true;
+        audioData = new short[bufferSize];
+
+        return recorder;
+    }
+
     @Override
     public void run() {
-        System.out.println("recorderThread started");
-        AudioRecord recorder;
-        short[] audioData;
-        int bufferSize;
-        int sampleRate = 44100;
-
-        bufferSize = AudioRecord.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_IN_MONO,
-                AudioFormat.ENCODING_PCM_16BIT) * 2; //get the buffer size to use with this audio record
-
-        recorder = new AudioRecord(AudioSource.MIC, sampleRate, AudioFormat.CHANNEL_IN_MONO,
-                AudioFormat.ENCODING_PCM_16BIT, bufferSize); //instantiate the AudioRecorder
-
-
-        recording = true; //variable to use start or stop recording
-        audioData = new short[bufferSize]; //short array that pcm data is put into.
+        AudioRecord recorder = initialize();
 
         while (recording) {  //loop while recording is needed
             if (recorder.getRecordingState() == android.media.AudioRecord.RECORDSTATE_STOPPED) {
