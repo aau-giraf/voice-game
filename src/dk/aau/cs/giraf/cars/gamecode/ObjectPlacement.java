@@ -4,13 +4,14 @@ import java.util.Random;
 
 public class ObjectPlacement {
 
-    // 0 = ingen objekt 1 = ikke nåbart område  2 = objekt
+    private enum Objects{NONE,NOTREACHABLE,OBJECT}
+
     public static int[][] objectPlacement(int numberOfObjects) {
         int i, j;
         boolean availablePathToEnd = false;
 
-        int[][] roadObstacles;
-        roadObstacles = new int[5][6];
+        Objects[][] roadObstacles;
+        roadObstacles = new Objects[5][6];
 
         int[][] ObstacleArray;
         ObstacleArray = new int[numberOfObjects][2];
@@ -22,7 +23,7 @@ public class ObjectPlacement {
             int randomColoum = 0;
             for (i = 0; i < 5; i++) {
                 for (j = 0; j < 6; j++) {
-                    roadObstacles[i][j] = 0;
+                    roadObstacles[i][j] = Objects.NONE;
                 }
             }
 
@@ -43,7 +44,7 @@ public class ObjectPlacement {
 
                 ObstacleArray[i][0] = randomRow;
                 ObstacleArray[i][1] = randomColoum;
-                roadObstacles[randomRow][randomColoum] = 2;
+                roadObstacles[randomRow][randomColoum] = Objects.OBJECT;
             }
 
 
@@ -69,20 +70,20 @@ public class ObjectPlacement {
         return ObstacleArray;
     }
 
-    public static void path(int row, int column, int depth, int[][] roadObstacles, int[] garagesReached) {
+    public static void path(int row, int column, int depth, Objects[][] roadObstacles, int[] garagesReached) {
         //	System.out.println("Column = " + column);
         if (column == 0 && depth < 14) {
             recursivePath(row, column, depth, roadObstacles, garagesReached);
         } else if (column >= 6) {
             garagesReached[row] = 1;
-        } else if (roadObstacles[row][column] == 2 || depth == 14) {
+        } else if (roadObstacles[row][column] == Objects.OBJECT || depth == 14) {
         } else {
 
             recursivePath(row, column, depth, roadObstacles, garagesReached);
         }
     }
 
-    private static void recursivePath(int row, int column, int depth, int[][] roadObstacles, int[] garagesReached) {
+    private static void recursivePath(int row, int column, int depth, Objects[][] roadObstacles, int[] garagesReached) {
         //	System.out.println("recursivePath");
         depth++;
         switch (row) {
