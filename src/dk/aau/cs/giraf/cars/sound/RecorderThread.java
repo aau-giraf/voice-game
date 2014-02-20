@@ -53,10 +53,9 @@ public class RecorderThread extends Thread {
     }
 
     private int calculateCurrentFrequency() {
-        double[] endAudioData = new double[bufferSize * 2];
-        //Now we need to decode the PCM data using the Zero Crossings Method
         short[] imgAudioData = new short[bufferSize];
-        endAudioData = FFT.fft(audioData, imgAudioData, true);
+        //Decode the PCM data using the Zero Crossings Method
+        double[] endAudioData = FFT.fft(audioData, imgAudioData, true);
 
         double[] magnitude = new double[bufferSize - 1];
         int highestMagnitude = 0;
