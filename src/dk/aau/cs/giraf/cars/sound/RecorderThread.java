@@ -62,18 +62,9 @@ public class RecorderThread extends Thread {
                 double total = 0;
                 double magnitudeTotal = 0;
 
-                int start;
-                if (highestMagnitude > 2) {
-                    start = -2;
-                } else {
-                    start = 0;
-                }
-                int end;
-                if (highestMagnitude + 2 < frequency.length) {
-                    end = 2;
-                } else {
-                    end = 0;
-                }
+                int start = highestMagnitude > 2 ? -2 : 0;
+                int end = highestMagnitude + 2 < frequency.length ? 2 : 0;
+                
                 for (int i = start; i < end; i++) {
                     total += frequency[highestMagnitude + i] * magnitude[highestMagnitude + i];
                     magnitudeTotal += magnitude[highestMagnitude + i];
