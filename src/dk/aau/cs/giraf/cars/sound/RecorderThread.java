@@ -35,10 +35,6 @@ public class RecorderThread extends Thread {
         audioData = new short[bufferSize]; //short array that pcm data is put into.
 
         while (recording) {  //loop while recording is needed
-
-            if (recorder.getState() == android.media.AudioRecord.STATE_INITIALIZED) { // check to see if the recorder has initialized yet.
-
-            }
             if (recorder.getRecordingState() == android.media.AudioRecord.RECORDSTATE_STOPPED) {
                 recorder.startRecording();  //check to see if the Recorder has stopped or is not recording, and make it record.
 
