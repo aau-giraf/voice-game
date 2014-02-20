@@ -21,6 +21,8 @@ public class ObjectPlacement {
             Random rand = new Random();
             int randomRow = 0;
             int randomColoum = 0;
+
+            //initialize all entries in roadObstacles to NONE
             for (i = 0; i < 5; i++) {
                 for (j = 0; j < 6; j++) {
                     roadObstacles[i][j] = Objects.NONE;

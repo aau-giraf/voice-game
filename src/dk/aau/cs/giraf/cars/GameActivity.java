@@ -153,29 +153,28 @@ public class GameActivity extends Activity {
     }
 
     public void AddObjects() {
-        Random rand = new Random();
+
         int i;
         int numberOfObjects = GameInfo.numberOfObstacles;
         int[][] roadObstacles;
         roadObstacles = ObjectPlacement.objectPlacement(numberOfObjects);
-        for (i = 0; i < numberOfObjects; i++) {
-            int obstaclesNumber = Math.abs(rand.nextInt() % 4);
-            if (obstaclesNumber == 0) {
-                objectList.add(new Bump(roadObstacles[i][0], roadObstacles[i][1]));
-            }
-            if (obstaclesNumber == 1) {
-                objectList.add(new Cat(roadObstacles[i][0], roadObstacles[i][1]));
-            }
-            if (obstaclesNumber == 2) {
-                objectList.add(new Barricade(roadObstacles[i][0], roadObstacles[i][1]));
-            }
-            if (obstaclesNumber == 3) {
-                objectList.add(new Rock(roadObstacles[i][0], roadObstacles[i][1]));
-            }
-        }
+
+        randomizeObjects(numberOfObjects, roadObstacles);
+
         objectList.add(new Car(MapDivider.mapYStart + MapDivider.obstacleSpace + MapDivider.totalObstacleHeight, GameInfo.carSpeed, carColors, carBitmapIds));
 
+        createLanes();
+
+        SetObjects();
+    }
+
+    /**
+     * Creates 3 lanes and initializes them
+     */
+    private void createLanes() {
         ArrayList<Integer> laneNumbers = new ArrayList<Integer>();
+        Random rand = new Random();
+
         laneNumbers.add(1);
         laneNumbers.add(2);
         laneNumbers.add(3);
@@ -192,8 +191,31 @@ public class GameActivity extends Activity {
         arrayNumber = rand.nextInt(laneNumbers.size());
         objectList.add(new Garage(laneNumbers.get(arrayNumber), 6, color3, color3_Ids));
         laneNumbers.remove(arrayNumber);
+    }
 
-        SetObjects();
+    /**
+     * randomizes the model of the objects on the field.
+     * @param numberOfObjects the number of objects to randomize
+     * @param roadObstacles the array containing the obstacles' locations
+     */
+    private void randomizeObjects(int numberOfObjects, int[][] roadObstacles) {
+        int i;
+        Random rand = new Random();
+        for (i = 0; i < numberOfObjects; i++) {
+            int obstaclesNumber = Math.abs(rand.nextInt() % 4);
+            if (obstaclesNumber == 0) {
+                objectList.add(new Bump(roadObstacles[i][0], roadObstacles[i][1]));
+            }
+            if (obstaclesNumber == 1) {
+                objectList.add(new Cat(roadObstacles[i][0], roadObstacles[i][1]));
+            }
+            if (obstaclesNumber == 2) {
+                objectList.add(new Barricade(roadObstacles[i][0], roadObstacles[i][1]));
+            }
+            if (obstaclesNumber == 3) {
+                objectList.add(new Rock(roadObstacles[i][0], roadObstacles[i][1]));
+            }
+        }
     }
 
     public void SetObjects() {
