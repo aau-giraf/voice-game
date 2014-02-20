@@ -8,11 +8,9 @@ import dk.aau.cs.giraf.cars.gamecode.GameInfo;
 
 public class RecorderThread extends Thread {
 	public boolean recording;  //variable to start or stop recording
-	public int frequency; //the public variable that contains the frequency value "heard", it is updated continually while the thread is running.
 	public int highestHumanPitch = 3400; //Determin the highst frequency a human can make to get rid of false data
 	public int voiceSensetivity = 10000;  //Determin the "volume" that that has to be recorded before the input data is valid
 	private int currentFrequency = -1;
-	int count = 0;
 	public RecorderThread() {
 		
 	}
