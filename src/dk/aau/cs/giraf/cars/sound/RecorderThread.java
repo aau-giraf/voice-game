@@ -36,46 +36,13 @@ public class RecorderThread extends Thread {
     public void run() {
         AudioRecord recorder = initialize();
 
-        while (recording) {  //loop while recording is needed
+        while (recording) {
             if (recorder.getRecordingState() == android.media.AudioRecord.RECORDSTATE_STOPPED) {
-                recorder.startRecording();  //check to see if the Recorder has stopped or is not recording, and make it record.
+                recorder.startRecording();
             } else {
-                recorder.read(audioData, 0, bufferSize); //read the PCM audio data into the audioData array
-                double[] endAudioData = new double[bufferSize * 2];
-                //Now we need to decode the PCM data using the Zero Crossings Method
-                //FFT fft1 = new FFT();
-                short[] imgAudioData = new short[bufferSize];
-                endAudioData = FFT.fft(audioData, imgAudioData, true);
-
-                double[] magnitude = new double[bufferSize - 1];
-                int highestMagnitude = 0;
-                for (int p = 2; p < (bufferSize - 1) * 2; p += 2) {
-                    magnitude[p / 2 - 1] = Math.sqrt(endAudioData[p] * endAudioData[p] + endAudioData[p + 1] * endAudioData[p + 1]);
-                    //System.out.println("magnitude = " + magnitude[p/2-1]);
-                    if (magnitude[p / 2 - 1] > magnitude[highestMagnitude]) {
-                        highestMagnitude = p / 2 - 1;
-                    }
-                }
-                double[] frequency = new double[bufferSize - 1];
-                for (int i = 0; i < (bufferSize - 1); i++) {
-                    frequency[i] = ((i + 1) * sampleRate / 2) / (bufferSize / 2);
-                }
-
-                double total = 0;
-                double magnitudeTotal = 0;
-
-                int start = highestMagnitude > 2 ? -2 : 0;
-                int end = highestMagnitude + 2 < frequency.length ? 2 : 0;
-
-                for (int i = start; i < end; i++) {
-                    total += frequency[highestMagnitude + i] * magnitude[highestMagnitude + i];
-                    magnitudeTotal += magnitude[highestMagnitude + i];
-                }
-
-                double averageFreq = total / magnitudeTotal;
-                averageFreq = (averageFreq <= highestHumanPitch && magnitudeTotal > voiceSensitivity) ? averageFreq : 0;
-
-                GameInfo.setCurrFreq((int) averageFreq);
+                //read the PCM audio data into the audioData array
+                recorder.read(audioData, 0, bufferSize);
+                GameInfo.setCurrFreq(calculateCurrentFrequency());
             }
         }
 
@@ -83,5 +50,41 @@ public class RecorderThread extends Thread {
             recorder.stop(); //stop the recorder before ending the thread
         recorder.release(); //release the recorders resources
         recorder = null; //set the recorder to be garbage collected.
+    }
+
+    private int calculateCurrentFrequency() {
+        double[] endAudioData = new double[bufferSize * 2];
+        //Now we need to decode the PCM data using the Zero Crossings Method
+        short[] imgAudioData = new short[bufferSize];
+        endAudioData = FFT.fft(audioData, imgAudioData, true);
+
+        double[] magnitude = new double[bufferSize - 1];
+        int highestMagnitude = 0;
+        for (int p = 2; p < (bufferSize - 1) * 2; p += 2) {
+            magnitude[p / 2 - 1] = Math.sqrt(endAudioData[p] * endAudioData[p] + endAudioData[p + 1] * endAudioData[p + 1]);
+            if (magnitude[p / 2 - 1] > magnitude[highestMagnitude]) {
+                highestMagnitude = p / 2 - 1;
+            }
+        }
+        double[] frequency = new double[bufferSize - 1];
+        for (int i = 0; i < (bufferSize - 1); i++) {
+            frequency[i] = ((i + 1) * sampleRate / 2) / (bufferSize / 2);
+        }
+
+        double total = 0;
+        double magnitudeTotal = 0;
+
+        int start = highestMagnitude > 2 ? -2 : 0;
+        int end = highestMagnitude + 2 < frequency.length ? 2 : 0;
+
+        for (int i = start; i < end; i++) {
+            total += frequency[highestMagnitude + i] * magnitude[highestMagnitude + i];
+            magnitudeTotal += magnitude[highestMagnitude + i];
+        }
+
+        double averageFreq = total / magnitudeTotal;
+        averageFreq = (averageFreq <= highestHumanPitch && magnitudeTotal > voiceSensitivity) ? averageFreq : 0;
+
+        return (int) averageFreq;
     }
 }
