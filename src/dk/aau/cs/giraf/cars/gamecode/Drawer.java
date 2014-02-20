@@ -3,16 +3,16 @@ package dk.aau.cs.giraf.cars.gamecode;
 import javax.microedition.khronos.opengles.GL10;
 
 public interface Drawer {
-	 
-	// SpriteBatcher V1.1
-	// Author: Tim Wicksteed
-	// www.ionage.co.uk
-	// An object implementing this interface must be handed to SpriteBatcher
-	// when it is created. The onDrawFrame method of SpriteBatcher automatically
-	// calls the method onDrawFrame() of the object implementing Drawer.
-	 
-	// All draw calls onto GameRenderer should be made from within this method.
-	
+
+    // SpriteBatcher V1.1
+    // Author: Tim Wicksteed
+    // www.ionage.co.uk
+    // An object implementing this interface must be handed to SpriteBatcher
+    // when it is created. The onDrawFrame method of SpriteBatcher automatically
+    // calls the method onDrawFrame() of the object implementing Drawer.
+
+    // All draw calls onto GameRenderer should be made from within this method.
+
 	/* License
 
 	Copyright (c) 2013 Tim Wicksteed
@@ -34,7 +34,7 @@ public interface Drawer {
 	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 	DEALINGS IN THE SOFTWARE. */
 
-	 
-	public void onDrawFrame(GL10 gl, GameRenderer spriteBatcher);
-	 
-	}
+
+    public void onDrawFrame(GL10 gl, GameRenderer spriteBatcher);
+
+}

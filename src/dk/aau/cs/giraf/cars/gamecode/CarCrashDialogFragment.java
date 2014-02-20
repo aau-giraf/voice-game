@@ -12,32 +12,32 @@ import android.widget.Button;
 import dk.aau.cs.giraf.cars.R;
 
 public class CarCrashDialogFragment extends DialogFragment {
-	
-	//Empty constructor
-	public CarCrashDialogFragment() {
 
-	}
-	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.dialog_car_crash, container, false);
-		
-		Button nextButton = (Button) view.findViewById(R.id.next_button);
-		
-		nextButton.setOnClickListener(new OnClickListener() {
-        	public void onClick(View v) {
-        		GameInfo.pause = false;
-        		dismiss();
-        	}
+    //Empty constructor
+    public CarCrashDialogFragment() {
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.dialog_car_crash, container, false);
+
+        Button nextButton = (Button) view.findViewById(R.id.next_button);
+
+        nextButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                GameInfo.pause = false;
+                dismiss();
+            }
         });
-		
+
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         view.setBackgroundColor(Color.WHITE);
-        
-		return view;
 
-	}
+        return view;
+
+    }
 }
 
 
