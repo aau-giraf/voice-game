@@ -16,12 +16,10 @@ public class RecorderThread extends Thread {
 
     }
 
-
     @Override
     public void run() {
         System.out.println("recorderThread started");
         AudioRecord recorder;
-        int p;
         short[] audioData;
         int bufferSize;
         int Samplerate = 44100;
@@ -55,16 +53,15 @@ public class RecorderThread extends Thread {
 
                 double[] magnitude = new double[bufferSize - 1];
                 int highestMagnitude = 0;
-                for (p = 2; p < (bufferSize - 1) * 2; p += 2) {
+                for (int p = 2; p < (bufferSize - 1) * 2; p += 2) {
                     magnitude[p / 2 - 1] = Math.sqrt(endAudioData[p] * endAudioData[p] + endAudioData[p + 1] * endAudioData[p + 1]);
                     //System.out.println("magnitude = " + magnitude[p/2-1]);
                     if (magnitude[p / 2 - 1] > magnitude[highestMagnitude]) {
                         highestMagnitude = p / 2 - 1;
                     }
                 }
-                int i;
                 double[] frequency = new double[bufferSize - 1];
-                for (i = 0; i < (bufferSize - 1); i++) {
+                for (int i = 0; i < (bufferSize - 1); i++) {
                     frequency[i] = ((i + 1) * Samplerate / 2) / (bufferSize / 2);
                 }
 
@@ -83,7 +80,7 @@ public class RecorderThread extends Thread {
                 } else {
                     end = 0;
                 }
-                for (i = start; i < end; i++) {
+                for (int i = start; i < end; i++) {
                     total += frequency[highestMagnitude + i] * magnitude[highestMagnitude + i];
                     magnitudeTotal += magnitude[highestMagnitude + i];
                 }
