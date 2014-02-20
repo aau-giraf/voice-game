@@ -74,16 +74,12 @@ public class RecorderThread extends Thread {
                 averageFreq = (averageFreq <= highestHumanPitch && magnitudeTotal > voiceSensitivity) ? averageFreq : 0;
 
                 GameInfo.setCurrFreq((int) averageFreq);
-
-            }//else recorder started
-
-        } //while recording
+            }
+        }
 
         if (recorder.getState() == android.media.AudioRecord.RECORDSTATE_RECORDING)
             recorder.stop(); //stop the recorder before ending the thread
         recorder.release(); //release the recorders resources
         recorder = null; //set the recorder to be garbage collected.
-
-    }//run
-
-}//recorderThread
+    }
+}
