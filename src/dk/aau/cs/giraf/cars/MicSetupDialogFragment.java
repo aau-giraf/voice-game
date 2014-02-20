@@ -151,8 +151,8 @@ public class MicSetupDialogFragment extends DialogFragment {
 
         Drawable car = getResources().getDrawable(R.drawable.car);
 
-        int carWidth = (int) (car.getIntrinsicWidth());
-        int carHeight = (int) (car.getIntrinsicHeight());
+        int carWidth = car.getIntrinsicWidth();
+        int carHeight = car.getIntrinsicHeight();
 
         System.out.println(carWidth);
         System.out.println(carHeight);
