@@ -8,8 +8,8 @@ import dk.aau.cs.giraf.cars.gamecode.GameInfo;
 
 public class RecorderThread extends Thread {
     public boolean recording;  //variable to start or stop recording
-    public int highestHumanPitch = 3400; //Determin the highst frequency a human can make to get rid of false data
-    public int voiceSensetivity = 10000;  //Determin the "volume" that that has to be recorded before the input data is valid
+    public int highestHumanPitch = 3400; //Determine the highest frequency a human can make to get rid of false data
+    public int voiceSensitivity = 10000;  //Determine the "volume" that that has to be recorded before the input data is valid
     private int currentFrequency = -1;
 
     public RecorderThread() {
@@ -22,12 +22,12 @@ public class RecorderThread extends Thread {
         AudioRecord recorder;
         short[] audioData;
         int bufferSize;
-        int Samplerate = 44100;
+        int sampleRate = 44100;
 
-        bufferSize = AudioRecord.getMinBufferSize(Samplerate, AudioFormat.CHANNEL_IN_MONO,
+        bufferSize = AudioRecord.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_IN_MONO,
                 AudioFormat.ENCODING_PCM_16BIT) * 2; //get the buffer size to use with this audio record
 
-        recorder = new AudioRecord(AudioSource.MIC, Samplerate, AudioFormat.CHANNEL_IN_MONO,
+        recorder = new AudioRecord(AudioSource.MIC, sampleRate, AudioFormat.CHANNEL_IN_MONO,
                 AudioFormat.ENCODING_PCM_16BIT, bufferSize); //instantiate the AudioRecorder
 
 
@@ -37,9 +37,7 @@ public class RecorderThread extends Thread {
         while (recording) {  //loop while recording is needed
             if (recorder.getRecordingState() == android.media.AudioRecord.RECORDSTATE_STOPPED) {
                 recorder.startRecording();  //check to see if the Recorder has stopped or is not recording, and make it record.
-
             } else {
-
                 recorder.read(audioData, 0, bufferSize); //read the PCM audio data into the audioData array
                 double[] endAudioData = new double[bufferSize * 2];
                 //Now we need to decode the PCM data using the Zero Crossings Method
@@ -58,7 +56,7 @@ public class RecorderThread extends Thread {
                 }
                 double[] frequency = new double[bufferSize - 1];
                 for (int i = 0; i < (bufferSize - 1); i++) {
-                    frequency[i] = ((i + 1) * Samplerate / 2) / (bufferSize / 2);
+                    frequency[i] = ((i + 1) * sampleRate / 2) / (bufferSize / 2);
                 }
 
                 double total = 0;
@@ -82,7 +80,7 @@ public class RecorderThread extends Thread {
                 }
 
                 double averageFreq = total / magnitudeTotal;
-                if (averageFreq <= highestHumanPitch && magnitudeTotal > voiceSensetivity) {
+                if (averageFreq <= highestHumanPitch && magnitudeTotal > voiceSensitivity) {
                     currentFrequency = (int) averageFreq;
                     //System.out.println("average frequency = " + (int)averageFreq + " magnitude total = " + (int)magnitudeTotal);
                 } else {
