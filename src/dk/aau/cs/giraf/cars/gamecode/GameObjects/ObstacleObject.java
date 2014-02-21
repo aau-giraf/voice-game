@@ -26,6 +26,9 @@ public class ObstacleObject extends GameObject implements IDrawable, ICollidable
     @Override
     public void draw(GL10 gl, GameRenderer spriteBatcher) {
         // TODO Auto-generated method stub
+
+        if(modelId == 0)
+            throw new IllegalArgumentException();
         if (GameInfo.win == false) {
             spriteBatcher.draw(gl, modelId, srcRect, rectangle);
         }
