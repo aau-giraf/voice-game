@@ -22,6 +22,6 @@ public class Bump extends ObstacleObject {
 
     public Bump(Point p)
     {
-        super(p);
+        this(p.x,p.y);
     }
 }

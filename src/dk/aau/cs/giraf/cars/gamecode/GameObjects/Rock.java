@@ -22,6 +22,6 @@ public class Rock extends ObstacleObject{
 
     public Rock(Point p)
     {
-        super(p);
+        this(p.x,p.y);
     }
 }

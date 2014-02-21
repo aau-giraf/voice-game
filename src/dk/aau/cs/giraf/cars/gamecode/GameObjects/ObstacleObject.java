@@ -25,7 +25,8 @@ public class ObstacleObject extends GameObject implements IDrawable, ICollidable
 
     public ObstacleObject(Point p)
     {
-            this(p.x, p.y);
+
+            this(p.x,p.y);
     }
 
     @Override
@@ -33,7 +34,7 @@ public class ObstacleObject extends GameObject implements IDrawable, ICollidable
         // TODO Auto-generated method stub
 
         if(modelId == 0)
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("No modelId set " + this.getClass());
         if (GameInfo.win == false) {
             spriteBatcher.draw(gl, modelId, srcRect, rectangle);
         }

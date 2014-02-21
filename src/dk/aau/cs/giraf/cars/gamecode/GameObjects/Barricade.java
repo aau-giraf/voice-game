@@ -22,6 +22,6 @@ public class Barricade extends ObstacleObject  {
 
     public Barricade(Point p)
     {
-        super(p);
+        this(p.x,p.y);
     }
 }

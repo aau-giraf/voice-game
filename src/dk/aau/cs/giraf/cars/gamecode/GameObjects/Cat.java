@@ -16,6 +16,6 @@ public class Cat extends ObstacleObject {
 
     public Cat(Point p)
     {
-        super(p);
+        this(p.x,p.y);
     }
 }
