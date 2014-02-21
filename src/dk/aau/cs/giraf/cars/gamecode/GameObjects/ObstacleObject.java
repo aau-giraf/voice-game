@@ -23,6 +23,11 @@ public class ObstacleObject extends GameObject implements IDrawable, ICollidable
         collisionBox[3] = new Point(rectangle.right, objectSideCollisionY);
     }
 
+    public ObstacleObject(Point p)
+    {
+            this(p.x, p.y);
+    }
+
     @Override
     public void draw(GL10 gl, GameRenderer spriteBatcher) {
         // TODO Auto-generated method stub

@@ -19,4 +19,9 @@ public class Barricade extends ObstacleObject  {
         modelId = R.drawable.barricade;
         srcRect = new Rect(0, 0, 299, 306);
     }
+
+    public Barricade(Point p)
+    {
+        super(p);
+    }
 }

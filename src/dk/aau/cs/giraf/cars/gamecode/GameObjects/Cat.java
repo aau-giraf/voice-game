@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.cars.gamecode.GameObjects;
 
+import android.graphics.Point;
 import android.graphics.Rect;
 import dk.aau.cs.giraf.cars.R;
 
@@ -11,5 +12,10 @@ public class Cat extends ObstacleObject {
         super(lane,column);
         modelId = R.drawable.cat;
         srcRect = new Rect(0, 0, 219, 271);
+    }
+
+    public Cat(Point p)
+    {
+        super(p);
     }
 }

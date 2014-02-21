@@ -19,4 +19,9 @@ public class Bump extends ObstacleObject {
        modelId=R.drawable.bump;
        srcRect = new Rect(0, 0, 411, 288);
    }
+
+    public Bump(Point p)
+    {
+        super(p);
+    }
 }

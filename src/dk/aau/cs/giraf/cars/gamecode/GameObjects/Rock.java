@@ -19,4 +19,9 @@ public class Rock extends ObstacleObject{
         modelId=R.drawable.rock;
         srcRect = new Rect(0, 0, 383, 278);
     }
+
+    public Rock(Point p)
+    {
+        super(p);
+    }
 }
