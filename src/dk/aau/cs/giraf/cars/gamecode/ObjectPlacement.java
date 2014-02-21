@@ -42,11 +42,14 @@ public class ObjectPlacement {
 
         column = rand.nextInt(2) == 1 ? 0 : 1;
 
+        Log.d("Object", "Start");
+
         Pos endLane = insertObstaclesOnLane(start, column, obstacles);
+        Log.d("Object", "endLane: " + endLane + " column: " + column);
         column +=2;
 
-        Log.d("Object", "Start");
-        for (; column < columns - 1; column+=2) {
+
+        for (; column < columns; column+=2) {
             //if (difficulty > 0) {
             Log.d("Object", "endLane: " + endLane + " column: " + column);
             endLane = insertObstaclesOnLane(endLane, column, obstacles);
@@ -69,9 +72,9 @@ public class ObjectPlacement {
     private static Pos insertObstaclesOnLane(Pos lane, int column, List<Point> obstacles) {
         Pos other = getOtherLane(lane);
 
-        obstacles.add(new Point(column, lane.ordinal()));
-        obstacles.add(new Point(column, other.ordinal()));
-
+        obstacles.add(new Point( lane.ordinal(),column));
+        obstacles.add(new Point(other.ordinal(), column));
+        Log.d("Object", "insetObstaclesOnLane, lane: " + lane + " other: " + other);
         return getLastLane(lane, other);
     }
 
@@ -112,13 +115,13 @@ public class ObjectPlacement {
         Log.d("Object", "getLastLane - " + first.val + " " + second.val + " val: " + val);
 
         switch (val) {
-            case 1:
+            case 4:
                 res = Pos.LOWER;
                 break;
             case 2:
                 res = Pos.MIDDLE;
                 break;
-            case 4:
+            case 1:
                 res = Pos.UPPER;
                 break;
             default:
