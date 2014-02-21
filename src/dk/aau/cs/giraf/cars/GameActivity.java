@@ -6,6 +6,7 @@ import java.util.Random;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Menu;
 import dk.aau.cs.giraf.cars.gamecode.GameInfo;
@@ -154,12 +155,9 @@ public class GameActivity extends Activity {
 
     public void AddObjects() {
 
-        int i;
-        int numberOfObjects = GameInfo.numberOfObstacles;
-        int[][] roadObstacles;
-        roadObstacles = ObjectPlacement.objectPlacement(numberOfObjects);
+        List<Point> roadObstacles = ObjectPlacement.objectPlacement(4,2, ObjectPlacement.Pos.MIDDLE, ObjectPlacement.Pos.MIDDLE);
 
-        randomizeObjects(numberOfObjects, roadObstacles);
+        randomizeObjects(roadObstacles);
 
         objectList.add(new Car(MapDivider.mapYStart + MapDivider.obstacleSpace + MapDivider.totalObstacleHeight, GameInfo.carSpeed, carColors, carBitmapIds));
 
@@ -198,22 +196,22 @@ public class GameActivity extends Activity {
      * @param numberOfObjects the number of objects to randomize
      * @param roadObstacles the array containing the obstacles' locations
      */
-    private void randomizeObjects(int numberOfObjects, int[][] roadObstacles) {
+    private void randomizeObjects(List<Point> obstacles) {
         int i;
         Random rand = new Random();
-        for (i = 0; i < numberOfObjects; i++) {
+        for (Point p : obstacles) {
             int obstaclesNumber = Math.abs(rand.nextInt() % 4);
             if (obstaclesNumber == 0) {
-                objectList.add(new Bump(roadObstacles[i][0], roadObstacles[i][1]));
+                objectList.add(new Bump(p.x,p.y));
             }
             if (obstaclesNumber == 1) {
-                objectList.add(new Cat(roadObstacles[i][0], roadObstacles[i][1]));
+                objectList.add(new Cat(p.x,p.y));
             }
             if (obstaclesNumber == 2) {
-                objectList.add(new Barricade(roadObstacles[i][0], roadObstacles[i][1]));
+                objectList.add(new Barricade(p.x,p.y));
             }
             if (obstaclesNumber == 3) {
-                objectList.add(new Rock(roadObstacles[i][0], roadObstacles[i][1]));
+                objectList.add(new Rock(p.x,p.y));
             }
         }
     }
