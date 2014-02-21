@@ -157,7 +157,7 @@ public class GameActivity extends Activity {
 
         List<Point> roadObstacles = ObjectPlacement.objectPlacement(4,2, ObjectPlacement.Pos.MIDDLE, ObjectPlacement.Pos.MIDDLE);
 
-        randomizeObjects(roadObstacles);
+        addObjectsToField(roadObstacles);
 
         objectList.add(new Car(MapDivider.mapYStart + MapDivider.obstacleSpace + MapDivider.totalObstacleHeight, GameInfo.carSpeed, carColors, carBitmapIds));
 
@@ -193,10 +193,9 @@ public class GameActivity extends Activity {
 
     /**
      * randomizes the model of the objects on the field.
-     * @param numberOfObjects the number of objects to randomize
-     * @param roadObstacles the array containing the obstacles' locations
+     * @param obstacles The list containing the positions of objects
      */
-    private void randomizeObjects(List<Point> obstacles) {
+    private void addObjectsToField(List<Point> obstacles) {
         int i;
         Random rand = new Random();
         for (Point p : obstacles) {
@@ -214,6 +213,16 @@ public class GameActivity extends Activity {
                 objectList.add(new Rock(p.x,p.y));
             }
         }
+    }
+
+    /**
+     * Converts a point in the 4x3 array of field the a point in the array of the drawable area
+     * @param p A point on the road where objects can be placed
+     * @return
+     */
+    private Point calculateOffset(Point p)
+    {
+            return new Point(p.x, p.y+1);
     }
 
     public void SetObjects() {
