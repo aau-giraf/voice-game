@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import dk.aau.cs.giraf.cars.gamecode.GameInfo;
 import dk.aau.cs.giraf.cars.gamecode.GameObject;
@@ -38,7 +39,6 @@ public class GameActivity extends Activity {
     private int[] carColors;
     private int[] carBitmapIds;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
@@ -157,6 +157,8 @@ public class GameActivity extends Activity {
 
         List<Point> roadObstacles = ObjectPlacement.objectPlacement(4,2, ObjectPlacement.Pos.MIDDLE, ObjectPlacement.Pos.MIDDLE);
 
+
+        Log.d("Object","RoadObstacles size: "+roadObstacles.size());
         addObjectsToField(roadObstacles);
 
         objectList.add(new Car(MapDivider.mapYStart + MapDivider.obstacleSpace + MapDivider.totalObstacleHeight, GameInfo.carSpeed, carColors, carBitmapIds));
@@ -196,21 +198,21 @@ public class GameActivity extends Activity {
      * @param obstacles The list containing the positions of objects
      */
     private void addObjectsToField(List<Point> obstacles) {
-        int i;
+
         Random rand = new Random();
         for (Point p : obstacles) {
-            int obstaclesNumber = Math.abs(rand.nextInt() % 4);
+            int obstaclesNumber = rand.nextInt(4);
             if (obstaclesNumber == 0) {
-                objectList.add(new Bump(p.x,p.y));
+                objectList.add(new Bump(calculateOffset(p)));
             }
             if (obstaclesNumber == 1) {
-                objectList.add(new Cat(p.x,p.y));
+                objectList.add(new Cat(calculateOffset(p)));
             }
             if (obstaclesNumber == 2) {
-                objectList.add(new Barricade(p.x,p.y));
+                objectList.add(new Barricade(calculateOffset(p)));
             }
             if (obstaclesNumber == 3) {
-                objectList.add(new Rock(p.x,p.y));
+                objectList.add(new Rock(calculateOffset(p)));
             }
         }
     }
@@ -222,7 +224,7 @@ public class GameActivity extends Activity {
      */
     private Point calculateOffset(Point p)
     {
-            return new Point(p.x, p.y+1);
+            return new Point(p.x+1, p.y+1);
     }
 
     public void SetObjects() {
