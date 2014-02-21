@@ -17,6 +17,6 @@ public class Barricade extends ObstacleObject  {
     {
         super(lane,column);
         modelId = R.drawable.barricade;
-
+        srcRect = new Rect(0, 0, 299, 306);
     }
 }

@@ -17,5 +17,6 @@ public class Rock extends ObstacleObject{
     public Rock(int lane, int column) {
         super(lane, column);
         modelId=R.drawable.rock;
+        srcRect = new Rect(0, 0, 383, 278);
     }
 }

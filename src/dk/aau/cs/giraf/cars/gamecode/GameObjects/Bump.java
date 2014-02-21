@@ -17,5 +17,6 @@ public class Bump extends ObstacleObject {
    {
        super(lane,column);
        modelId=R.drawable.bump;
+       srcRect = new Rect(0, 0, 411, 288);
    }
 }

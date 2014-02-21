@@ -11,6 +11,7 @@ public class ObstacleObject extends GameObject implements IDrawable, ICollidable
     Rect rectangle;
     Point[] collisionBox;
     int modelId;
+    Rect srcRect;
 
     public ObstacleObject(int lane, int column) {
         rectangle = MapDivider.CalculateObstacle(lane, column);
@@ -26,7 +27,7 @@ public class ObstacleObject extends GameObject implements IDrawable, ICollidable
     public void draw(GL10 gl, GameRenderer spriteBatcher) {
         // TODO Auto-generated method stub
         if (GameInfo.win == false) {
-            spriteBatcher.draw(gl, modelId, new Rect(0, 0, 219, 271), rectangle);
+            spriteBatcher.draw(gl, modelId, srcRect, rectangle);
         }
     }
 
