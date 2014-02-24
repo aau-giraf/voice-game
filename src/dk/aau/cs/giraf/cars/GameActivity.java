@@ -6,7 +6,9 @@ import java.util.Random;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import dk.aau.cs.giraf.cars.gamecode.GameInfo;
 import dk.aau.cs.giraf.cars.gamecode.GameObject;
@@ -37,7 +39,6 @@ public class GameActivity extends Activity {
     private int[] carColors;
     private int[] carBitmapIds;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
@@ -153,29 +154,27 @@ public class GameActivity extends Activity {
     }
 
     public void AddObjects() {
-        Random rand = new Random();
-        int i;
-        int numberOfObjects = GameInfo.numberOfObstacles;
-        int[][] roadObstacles;
-        roadObstacles = ObjectPlacement.objectPlacement(numberOfObjects);
-        for (i = 0; i < numberOfObjects; i++) {
-            int obstaclesNumber = Math.abs(rand.nextInt() % 4);
-            if (obstaclesNumber == 0) {
-                objectList.add(new Bump(roadObstacles[i][0], roadObstacles[i][1]));
-            }
-            if (obstaclesNumber == 1) {
-                objectList.add(new Cat(roadObstacles[i][0], roadObstacles[i][1]));
-            }
-            if (obstaclesNumber == 2) {
-                objectList.add(new Barricade(roadObstacles[i][0], roadObstacles[i][1]));
-            }
-            if (obstaclesNumber == 3) {
-                objectList.add(new Rock(roadObstacles[i][0], roadObstacles[i][1]));
-            }
-        }
+
+        List<Point> roadObstacles = ObjectPlacement.objectPlacement(4,2, ObjectPlacement.Pos.MIDDLE, ObjectPlacement.Pos.MIDDLE);
+
+
+        Log.d("Object","RoadObstacles size: "+roadObstacles.size());
+        addObjectsToField(roadObstacles);
+
         objectList.add(new Car(MapDivider.mapYStart + MapDivider.obstacleSpace + MapDivider.totalObstacleHeight, GameInfo.carSpeed, carColors, carBitmapIds));
 
+        createLanes();
+
+        SetObjects();
+    }
+
+    /**
+     * Creates 3 lanes and initializes them
+     */
+    private void createLanes() {
         ArrayList<Integer> laneNumbers = new ArrayList<Integer>();
+        Random rand = new Random();
+
         laneNumbers.add(1);
         laneNumbers.add(2);
         laneNumbers.add(3);
@@ -192,8 +191,40 @@ public class GameActivity extends Activity {
         arrayNumber = rand.nextInt(laneNumbers.size());
         objectList.add(new Garage(laneNumbers.get(arrayNumber), 6, color3, color3_Ids));
         laneNumbers.remove(arrayNumber);
+    }
 
-        SetObjects();
+    /**
+     * randomizes the model of the objects on the field.
+     * @param obstacles The list containing the positions of objects
+     */
+    private void addObjectsToField(List<Point> obstacles) {
+
+        Random rand = new Random();
+        for (Point p : obstacles) {
+            int obstaclesNumber = rand.nextInt(4);
+            if (obstaclesNumber == 0) {
+                objectList.add(new Bump(calculateOffset(p)));
+            }
+            if (obstaclesNumber == 1) {
+                objectList.add(new Cat(calculateOffset(p)));
+            }
+            if (obstaclesNumber == 2) {
+                objectList.add(new Barricade(calculateOffset(p)));
+            }
+            if (obstaclesNumber == 3) {
+                objectList.add(new Rock(calculateOffset(p)));
+            }
+        }
+    }
+
+    /**
+     * Converts a point in the 4x3 array of field the a point in the array of the drawable area
+     * @param p A point on the road where objects can be placed
+     * @return
+     */
+    private Point calculateOffset(Point p)
+    {
+            return new Point(p.x+1, p.y+1);
     }
 
     public void SetObjects() {
