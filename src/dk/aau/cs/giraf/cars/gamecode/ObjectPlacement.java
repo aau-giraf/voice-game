@@ -2,9 +2,7 @@ package dk.aau.cs.giraf.cars.gamecode;
 
 import android.graphics.Point;
 import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
 
@@ -20,8 +18,6 @@ public class ObjectPlacement {
         Pos(int val) {
             this.val = val;
         }
-
-
     }
 
     /**
@@ -48,7 +44,6 @@ public class ObjectPlacement {
         Log.d("Object", "endLane: " + endLane + " column: " + column);
         column +=2;
 
-
         for (; column < columns; column+=2) {
             //if (difficulty > 0) {
             Log.d("Object", "endLane: " + endLane + " column: " + column);
@@ -57,7 +52,6 @@ public class ObjectPlacement {
             //difficulty--;
         }
         //}
-
         return obstacles;
     }
 
@@ -97,9 +91,7 @@ public class ObjectPlacement {
         }
         Log.d("Object", "thisLane: " + thisLane.toString() + " res: " + res.toString());
         return res;
-
     }
-
     /**
      * Finds and returns the remaining lane
      *
@@ -126,14 +118,12 @@ public class ObjectPlacement {
                 break;
             default:
                 throw new IllegalArgumentException();
-
         }
         Log.d("Object", "res: " + res.toString());
         return res;
     }
 
     public static void path(int row, int column, int depth, Objects[][] roadObstacles, int[] garagesReached) {
-        //	System.out.println("Column = " + column);
         if (column == 0 && depth < 14) {
             recursivePath(row, column, depth, roadObstacles, garagesReached);
         } else if (column >= 6) {
@@ -146,7 +136,6 @@ public class ObjectPlacement {
     }
 
     private static void recursivePath(int row, int column, int depth, Objects[][] roadObstacles, int[] garagesReached) {
-        //	System.out.println("recursivePath");
         depth++;
         switch (row) {
             case 1:
