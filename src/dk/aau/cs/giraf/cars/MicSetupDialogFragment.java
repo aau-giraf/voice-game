@@ -158,7 +158,7 @@ public class MicSetupDialogFragment extends DialogFragment {
         System.out.println(carHeight);
         MapDivider.CalculateConstants(gameViewHeight, 100);
 
-        mCar = new MicCar(gameViewWidth, gameViewHeight, carWidth, carHeight, mMicThread.getTmpLowFreq(), mMicThread.getTmpHighFreq());
+        mCar = new MicCar(gameViewWidth, gameViewHeight, carWidth, carHeight, mMicThread.getLowFreq(), mMicThread.getHighFreq());
 
         mGameThread = new GameThread((Car) mCar);
 
