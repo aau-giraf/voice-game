@@ -132,7 +132,6 @@ public class ObjectPlacement {
     }
 
     public static void path(int row, int column, int depth, Objects[][] roadObstacles, int[] garagesReached) {
-        //	System.out.println("Column = " + column);
         if (column == 0 && depth < 14) {
             recursivePath(row, column, depth, roadObstacles, garagesReached);
         } else if (column >= 6) {
@@ -145,7 +144,6 @@ public class ObjectPlacement {
     }
 
     private static void recursivePath(int row, int column, int depth, Objects[][] roadObstacles, int[] garagesReached) {
-        //	System.out.println("recursivePath");
         depth++;
         switch (row) {
             case 1:
