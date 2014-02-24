@@ -5,8 +5,8 @@ import java.util.Arrays;
 import dk.aau.cs.giraf.cars.gamecode.GameInfo;
 
 public class MicTestThread extends Thread {
-    private static final int MAX_FREQUENCY = 3400;
-    private static final int MIN_FREQUENCY = 50;
+    private static final int MAX_FREQ = 3400;
+    private static final int MIN_FREQ = 50;
     private static final int FREQ_INTERVAL_SIZE = 50;
     private static final int MAGIC_FREQUENCY_CALIBRATION_NUMBER = 100;
 
@@ -14,52 +14,49 @@ public class MicTestThread extends Thread {
     private int lowFreq = 0;
     private int highFreq = 0;
     private SetupStates curTestType = SetupStates.Low;
-    private boolean restartHigh = false;
-    private boolean restartLow = false;
+    private boolean restart = false;
 
     public MicTestThread() { }
 
-    public void setType(SetupStates testType) { curTestType = testType; }
-    public int getHighFreq() { return highFreq; }
-    public int getLowFreq() { return lowFreq; }
+    public void SetType(SetupStates testType) { curTestType = testType; }
+    public int GetHighFreq() { return highFreq; }
+    public int GetLowFreq() { return lowFreq; }
 
-    public void saveFrequencies() {
+    public void SaveFrequencies() {
         GameInfo.setHighFreq(highFreq);
         GameInfo.setLowFreq(lowFreq);
     }
 
-    public void stopThread() { isRunning = false; }
-    public void restartLowFreq() { restartLow = true; }
-    public void restartHighFreq() { restartHigh = true; }
+    public void StopThread() { isRunning = false; }
+    public void Restart() { restart = true; }
 
     @Override
     public void run() {
         isRunning = true;
-        Log.d("WAI", "CollectingFrequencies");
         while (isRunning) {
             switch (curTestType) {
                 case High:
-                    collectHighFreq();
-                    Log.d("WAI", "CollectedHighFrequency");
+                    highFreq = collectFrequency(SetupStates.High);
+                    Log.v("HIGH", "" + highFreq);
                     break;
                 case Low:
-                    collectLowFreq();
-                    Log.d("WAI", "CollectedLowFrequency");
+                    lowFreq = collectFrequency(SetupStates.Low);
+                    Log.v("LOW", "" + lowFreq);
                     break;
             }
         }
     }
 
-    private void collectHighFreq() {
-        int freqIntervals = (MAX_FREQUENCY - MIN_FREQUENCY) / FREQ_INTERVAL_SIZE + 1;
+    private int collectFrequency(SetupStates freqType) {
+        int freqIntervals = (MAX_FREQ - MIN_FREQ) / FREQ_INTERVAL_SIZE + 1;
         int[] frequencyRangeArray = new int[freqIntervals];
         int tmpCurrFreq;
         int frequencyIndex;
 
-        while (curTestType == SetupStates.High) {
-            if (restartHigh) {
+        while (curTestType == freqType) {
+            if (restart) {
                 Arrays.fill(frequencyRangeArray, 0);
-                restartHigh = false;
+                restart = false;
             }
 
             tmpCurrFreq = GameInfo.getCurrFreq();
@@ -82,45 +79,8 @@ public class MicTestThread extends Thread {
             if (frequencyRangeArray[i] > frequencyRangeArray[highestValueIndex])
                 highestValueIndex = i;
 
-        highFreq = (highestValueIndex + 1) * FREQ_INTERVAL_SIZE - MAGIC_FREQUENCY_CALIBRATION_NUMBER;
-        Log.d("FREQ", "High: " + highFreq);
-    }
-
-    private void collectLowFreq() {
-        int freqIntervals = (MAX_FREQUENCY - MIN_FREQUENCY) / FREQ_INTERVAL_SIZE + 1;
-        int[] frequencyRangeArray = new int[freqIntervals];
-        int tmpCurrFreq;
-        int frequencyIndex;
-
-        while (curTestType == SetupStates.Low) {
-            if (restartLow) {
-                Arrays.fill(frequencyRangeArray, 0);
-                restartLow = false;
-            }
-
-            tmpCurrFreq = GameInfo.getCurrFreq();
-
-            if (tmpCurrFreq > 50) {
-                frequencyIndex = tmpCurrFreq / FREQ_INTERVAL_SIZE;
-
-                if (frequencyIndex != 0)
-                    frequencyRangeArray[frequencyIndex]++;
-
-                try {
-                    Thread.sleep(1);
-                }
-                catch (InterruptedException e) { }
-            }
-        }
-
-        int highestValueIndex = 0;
-        for (int i = 1; i < freqIntervals; i++)
-            if (frequencyRangeArray[i] > frequencyRangeArray[highestValueIndex])
-                highestValueIndex = i;
-
-        lowFreq = (highestValueIndex + 1) * FREQ_INTERVAL_SIZE + MAGIC_FREQUENCY_CALIBRATION_NUMBER;
-        Log.d("FREQ", "Low: " + lowFreq);
-
-        System.out.println(lowFreq);
+        int freq = (highestValueIndex + 1) * FREQ_INTERVAL_SIZE + MAGIC_FREQUENCY_CALIBRATION_NUMBER;
+        Log.d("FRQ", "Frequency: " + freq);
+        return freq;
     }
 }

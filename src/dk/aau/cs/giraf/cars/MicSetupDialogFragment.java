@@ -69,11 +69,11 @@ public class MicSetupDialogFragment extends DialogFragment {
                         img.setImageDrawable(getResources().getDrawable(R.drawable.mus));
 
                         testState = SetupStates.High;
-                        mMicThread.setType(testState);
+                        mMicThread.SetType(testState);
                         break;
                     case High:
                         testState = SetupStates.Complete;
-                        mMicThread.setType(testState);
+                        mMicThread.SetType(testState);
 
                         nextView();
                         break;
@@ -89,16 +89,8 @@ public class MicSetupDialogFragment extends DialogFragment {
 
         retryButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                switch (testState) {
-                    case Low:
-                        mMicThread.restartLowFreq();
-                        Toast.makeText(getActivity(), "Optagelse genstartet", Toast.LENGTH_SHORT).show();
-                        break;
-                    case High:
-                        mMicThread.restartHighFreq();
-                        Toast.makeText(getActivity(), "Optagelse genstartet", Toast.LENGTH_SHORT).show();
-                        break;
-                }
+                mMicThread.Restart();
+                Toast.makeText(getActivity(), "Optagelse genstartet", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -136,7 +128,7 @@ public class MicSetupDialogFragment extends DialogFragment {
 
         nextButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                mMicThread.saveFrequencies();
+                mMicThread.SaveFrequencies();
                 dismiss();
             }
         });
@@ -158,7 +150,7 @@ public class MicSetupDialogFragment extends DialogFragment {
         System.out.println(carHeight);
         MapDivider.CalculateConstants(gameViewHeight, 100);
 
-        mCar = new MicCar(gameViewWidth, gameViewHeight, carWidth, carHeight, mMicThread.getLowFreq(), mMicThread.getHighFreq());
+        mCar = new MicCar(gameViewWidth, gameViewHeight, carWidth, carHeight, mMicThread.GetLowFreq(), mMicThread.GetHighFreq());
 
         mGameThread = new GameThread((Car) mCar);
 
@@ -173,7 +165,7 @@ public class MicSetupDialogFragment extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
 
         mRecordThread.start();
-        mMicThread.setType(SetupStates.Low);
+        mMicThread.SetType(SetupStates.Low);
         mMicThread.start();
 
     }
@@ -183,7 +175,7 @@ public class MicSetupDialogFragment extends DialogFragment {
     public void onDestroy() {
         super.onDestroy();
         mRecordThread.recording = false;
-        mMicThread.stopThread();
+        mMicThread.StopThread();
         mGameThread.stopRunning();
     }
 
