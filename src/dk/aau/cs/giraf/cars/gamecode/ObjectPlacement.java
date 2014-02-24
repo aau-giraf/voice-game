@@ -4,7 +4,6 @@ import android.graphics.Point;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
 
