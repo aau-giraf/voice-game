@@ -4,13 +4,16 @@ import java.util.Random;
 
 public class ObjectPlacement {
 
+    private static int gameLength = 5;
+    private static int gameHeight = 6;
+
     // 0 = ingen objekt 1 = ikke nåbart område  2 = objekt
     public static int[][] objectPlacement(int numberOfObjects) {
         int i, j;
         boolean availablePathToEnd = false;
 
         int[][] roadObstacles;
-        roadObstacles = new int[5][6];
+        roadObstacles = new int[gameLength][gameHeight];
 
         int[][] ObstacleArray;
         ObstacleArray = new int[numberOfObjects][2];
@@ -20,12 +23,6 @@ public class ObjectPlacement {
             Random rand = new Random();
             int randomRow = 0;
             int randomColoum = 0;
-            for (i = 0; i < 5; i++) {
-                for (j = 0; j < 6; j++) {
-                    roadObstacles[i][j] = 0;
-                }
-            }
-
 
             for (i = 0; i < numberOfObjects; i++) {
 
