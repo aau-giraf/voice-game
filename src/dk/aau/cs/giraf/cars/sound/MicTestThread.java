@@ -36,11 +36,11 @@ public class MicTestThread extends Thread {
         while (isRunning) {
             switch (curTestType) {
                 case High:
-                    highFreq = collectFrequency(SetupStates.High);
+                    highFreq = collectFrequency(SetupStates.High) - MAGIC_FREQUENCY_CALIBRATION_NUMBER;
                     Log.v("HIGH", "" + highFreq);
                     break;
                 case Low:
-                    lowFreq = collectFrequency(SetupStates.Low);
+                    lowFreq = collectFrequency(SetupStates.Low) + MAGIC_FREQUENCY_CALIBRATION_NUMBER;
                     Log.v("LOW", "" + lowFreq);
                     break;
             }
@@ -79,7 +79,7 @@ public class MicTestThread extends Thread {
             if (frequencyRangeArray[i] > frequencyRangeArray[highestValueIndex])
                 highestValueIndex = i;
 
-        int freq = (highestValueIndex + 1) * FREQ_INTERVAL_SIZE + MAGIC_FREQUENCY_CALIBRATION_NUMBER;
+        int freq = (highestValueIndex + 1) * FREQ_INTERVAL_SIZE;
         Log.d("FRQ", "Frequency: " + freq);
         return freq;
     }
