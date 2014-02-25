@@ -3,6 +3,7 @@ package dk.aau.cs.giraf.cars;
 import android.app.DialogFragment;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,6 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+import dk.aau.cs.giraf.cars.gamecode.GameInfo;
 import dk.aau.cs.giraf.cars.gamecode.GameObject;
 import dk.aau.cs.giraf.cars.gamecode.GameThread;
 import dk.aau.cs.giraf.cars.gamecode.GameView;
@@ -34,11 +40,21 @@ public class MicSetupDialogFragment extends DialogFragment {
     private static final float GAMEVIEW_WIDTH = 100.0f;
     private static final float GAMEVIEW_HEIGHT = 400.0f;
     private ViewFlipper mFlipper;
-
+    final Handler handler = new Handler();
     private SetupStates testState = SetupStates.Low;
+    private TextView text;
 
-    public MicSetupDialogFragment() {
+    public MicSetupDialogFragment() {}
 
+    final Runnable setText = new Runnable() {
+        @Override
+        public void run() {
+            text.setText("FREQ: " + GameInfo.getCurrFreq());
+        }
+    };
+
+    private void updateFrequency() {
+        handler.post(setText);
     }
 
     @Override
@@ -47,8 +63,17 @@ public class MicSetupDialogFragment extends DialogFragment {
         // Inflate the Dialog’s UI.
         View view = inflater.inflate(R.layout.dialog_mic_flipviews, container, false);
         // Update the Dialog’s contents.
-        final TextView text = (TextView) view.findViewById(R.id.dialog_mic_test_textview);
+        text = (TextView) view.findViewById(R.id.dialog_mic_test_textview);
         text.setText(getString(R.string.mic_test_low));
+
+        Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                updateFrequency();
+            }
+        },0,1);
+
         final ImageView img = (ImageView) view.findViewById(R.id.dialog_drawable_to_mimic);
 
 
