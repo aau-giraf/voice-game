@@ -23,15 +23,7 @@ public class GameThread extends Thread {
         collidableObjects = new ArrayList<ICollidable>();
         this.manager = manager;
 
-        for (GameObject object : gameObjects) {
-            if (object instanceof IWorkable) {
-                workableObjects.add((IWorkable) object);
-            } else if (object instanceof ICollidable) {
-                collidableObjects.add((ICollidable) object);
-            } else if (object instanceof Car) {
-                car = (Car) object;
-            }
-        }
+        SetObjects(gameObjects);
     }
 
     public GameThread(Car car) {

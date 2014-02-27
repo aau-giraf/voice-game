@@ -18,7 +18,6 @@ import dk.aau.cs.giraf.cars.sound.RecorderThread;
 
 
 public class SettingsActivity extends Activity implements InputTestDialogListener, ListClickListener, OnCheckedChangeListener {
-    RecorderThread recorderThread = new RecorderThread();
     RadioGroup carSpeed;
     RadioGroup obstacleCount;
     private long mChildId;
