@@ -53,8 +53,15 @@ public class MicSetupDialogFragment extends DialogFragment {
         }
     };
 
-    private void updateFrequency() {
-        handler.post(setText);
+    private void showFrequency()
+    {
+        Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(setText);
+            }
+        },0,1);
     }
 
     @Override
@@ -66,13 +73,7 @@ public class MicSetupDialogFragment extends DialogFragment {
         text = (TextView) view.findViewById(R.id.dialog_mic_test_textview);
         text.setText(getString(R.string.mic_test_low));
 
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                updateFrequency();
-            }
-        },0,1);
+        showFrequency();
 
         final ImageView img = (ImageView) view.findViewById(R.id.dialog_drawable_to_mimic);
 
@@ -108,6 +109,7 @@ public class MicSetupDialogFragment extends DialogFragment {
 
         cancelButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
+
                 getDialog().dismiss();
             }
         });
@@ -194,7 +196,6 @@ public class MicSetupDialogFragment extends DialogFragment {
         mMicThread.start();
 
     }
-
 
     @Override
     public void onDestroy() {
