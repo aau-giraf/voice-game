@@ -109,7 +109,6 @@ public class MicSetupDialogFragment extends DialogFragment {
 
         cancelButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                
                 getDialog().dismiss();
             }
         });
