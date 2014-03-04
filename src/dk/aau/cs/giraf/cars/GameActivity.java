@@ -10,18 +10,8 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import dk.aau.cs.giraf.cars.gamecode.GameInfo;
-import dk.aau.cs.giraf.cars.gamecode.GameObject;
-import dk.aau.cs.giraf.cars.gamecode.GameThread;
-import dk.aau.cs.giraf.cars.gamecode.GameView;
-import dk.aau.cs.giraf.cars.gamecode.MapDivider;
-import dk.aau.cs.giraf.cars.gamecode.ObjectPlacement;
-import dk.aau.cs.giraf.cars.gamecode.GameObjects.Barricade;
-import dk.aau.cs.giraf.cars.gamecode.GameObjects.Bump;
-import dk.aau.cs.giraf.cars.gamecode.GameObjects.Car;
-import dk.aau.cs.giraf.cars.gamecode.GameObjects.Cat;
-import dk.aau.cs.giraf.cars.gamecode.GameObjects.Garage;
-import dk.aau.cs.giraf.cars.gamecode.GameObjects.Rock;
+import dk.aau.cs.giraf.cars.gamecode.*;
+import dk.aau.cs.giraf.cars.gamecode.GameObjects.*;
 import dk.aau.cs.giraf.cars.sound.RecorderThread;
 
 public class GameActivity extends Activity {
