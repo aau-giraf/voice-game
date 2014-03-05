@@ -9,7 +9,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import dk.aau.cs.giraf.cars.R;
-import dk.aau.cs.giraf.cars.gamecode.GameInfo;
+import dk.aau.cs.giraf.cars.gamecode.GameInfo.GameInfo;
 import dk.aau.cs.giraf.cars.gamecode.GameObject;
 import dk.aau.cs.giraf.cars.gamecode.GameRenderer;
 import dk.aau.cs.giraf.cars.gamecode.IDrawable;
@@ -88,7 +88,7 @@ public class Car extends GameObject implements IWorkable, IDrawable {
                     closestLane = i;
                 }
             }
-            int offset = MapDivider.laneCenters[closestLane] - yOffset;
+                int offset = MapDivider.laneCenters[closestLane] - yOffset;
             if (offset != 0) {
                 if (offset > 0) {
                     yOffset++;

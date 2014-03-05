@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cars.gamecode;
+package dk.aau.cs.giraf.cars.gamecode.GameInfo;
 
 import android.graphics.Color;
 

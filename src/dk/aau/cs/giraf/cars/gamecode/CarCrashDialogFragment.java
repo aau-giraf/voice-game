@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import dk.aau.cs.giraf.cars.R;
+import dk.aau.cs.giraf.cars.gamecode.GameInfo.GameInfo;
 
 public class CarCrashDialogFragment extends DialogFragment {
 

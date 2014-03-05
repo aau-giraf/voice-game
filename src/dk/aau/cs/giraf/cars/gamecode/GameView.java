@@ -12,6 +12,7 @@ import android.graphics.Rect;
 import android.opengl.GLSurfaceView;
 import dk.aau.cs.giraf.cars.GameActivity;
 import dk.aau.cs.giraf.cars.R;
+import dk.aau.cs.giraf.cars.gamecode.GameInfo.GameInfo;
 
 @SuppressLint("ViewConstructor")
 public class GameView extends GLSurfaceView implements Drawer {

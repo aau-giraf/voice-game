@@ -19,7 +19,7 @@ import android.widget.ViewFlipper;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import dk.aau.cs.giraf.cars.gamecode.GameInfo;
+import dk.aau.cs.giraf.cars.gamecode.GameInfo.GameInfo;
 import dk.aau.cs.giraf.cars.gamecode.GameObject;
 import dk.aau.cs.giraf.cars.gamecode.GameThread;
 import dk.aau.cs.giraf.cars.gamecode.GameView;
@@ -61,7 +61,7 @@ public class MicSetupDialogFragment extends DialogFragment {
             public void run() {
                 handler.post(setText);
             }
-        },0,1);
+        }, 0, 1);
     }
 
     @Override

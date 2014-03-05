@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.graphics.Color;
-import dk.aau.cs.giraf.cars.gamecode.GameInfo;
+import dk.aau.cs.giraf.cars.gamecode.GameInfo.GameInfo;
 
 public abstract class Settings {
     public static boolean load(long userId, Context context) {

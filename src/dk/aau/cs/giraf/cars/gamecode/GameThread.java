@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.FragmentManager;
+import dk.aau.cs.giraf.cars.gamecode.GameInfo.GameInfo;
 import dk.aau.cs.giraf.cars.gamecode.GameObjects.Car;
 import dk.aau.cs.giraf.cars.gamecode.GameObjects.Garage;
 

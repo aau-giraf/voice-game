@@ -2,8 +2,8 @@ package dk.aau.cs.giraf.cars.gamecode.GameObjects;
 
 import android.graphics.Point;
 import android.graphics.Rect;
-import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.gamecode.*;
+import dk.aau.cs.giraf.cars.gamecode.GameInfo.GameInfo;
 
 import javax.microedition.khronos.opengles.GL10;
 
