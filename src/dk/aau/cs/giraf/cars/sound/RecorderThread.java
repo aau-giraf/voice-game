@@ -7,7 +7,7 @@ import android.media.MediaRecorder.AudioSource;
 import dk.aau.cs.giraf.cars.gamecode.GameInfo;
 
 
-public class RecorderThread extends Thread {
+public class RecorderThread extends InputThread {
     public boolean recording;  //variable to start or stop recording
     public final int highestHumanPitch = 3400; //Determine the highest frequency a human can make to get rid of false data
     public final int voiceSensitivity = 10000;  //Determine the "volume" that that has to be recorded before the input data is valid
