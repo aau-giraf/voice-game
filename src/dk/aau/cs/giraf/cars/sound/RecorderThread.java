@@ -17,7 +17,6 @@ public class RecorderThread extends InputThread {
     private short[] audioData;
 
     public RecorderThread() {
-
     }
 
     private AudioRecord initialize() {
