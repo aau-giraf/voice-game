@@ -27,12 +27,12 @@ import dk.aau.cs.giraf.cars.gamecode.MapDivider;
 import dk.aau.cs.giraf.cars.gamecode.GameObjects.Car;
 import dk.aau.cs.giraf.cars.objects.MicCar;
 import dk.aau.cs.giraf.cars.sound.MicTestThread;
-import dk.aau.cs.giraf.cars.sound.RecorderThread;
+import dk.aau.cs.giraf.cars.sound.PitchRecorder;
 import dk.aau.cs.giraf.cars.sound.SetupStates;
 
 public class MicSetupDialogFragment extends DialogFragment {
 
-    private RecorderThread mRecordThread = new RecorderThread();
+    private PitchRecorder pitchRecorder = new PitchRecorder();
     private MicTestThread mMicThread = new MicTestThread();
     private GameView mGameView;
     private GameObject mCar;
@@ -190,7 +190,7 @@ public class MicSetupDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mRecordThread.start();
+        pitchRecorder.start();
         mMicThread.SetType(SetupStates.Low);
         mMicThread.start();
 
@@ -199,7 +199,7 @@ public class MicSetupDialogFragment extends DialogFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mRecordThread.recording = false;
+        pitchRecorder.recording = false;
         mMicThread.StopThread();
         mGameThread.stopRunning();
     }

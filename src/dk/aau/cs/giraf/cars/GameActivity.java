@@ -12,13 +12,13 @@ import android.util.Log;
 import android.view.Menu;
 import dk.aau.cs.giraf.cars.gamecode.*;
 import dk.aau.cs.giraf.cars.gamecode.GameObjects.*;
-import dk.aau.cs.giraf.cars.sound.RecorderThread;
+import dk.aau.cs.giraf.cars.sound.PitchRecorder;
 
 public class GameActivity extends Activity {
     GameView view;
     List<GameObject> objectList;
     GameThread gameThread;
-    RecorderThread recorderThread;
+    PitchRecorder pitchRecorder;
 
     private int color1 = GameInfo.color1;
     private int[] color1_Ids = null;
@@ -61,12 +61,12 @@ public class GameActivity extends Activity {
         setContentView(view);
 
         gameThread = new GameThread(objectList, getFragmentManager());
-        recorderThread = new RecorderThread();
+        pitchRecorder = new PitchRecorder();
 
         SetObjects();
 
         gameThread.start();
-        recorderThread.start();
+        pitchRecorder.start();
     }
 
     private void checkForGarageRecoloring() {
@@ -138,7 +138,7 @@ public class GameActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         gameThread.stopRunning();
-        recorderThread.recording = false;
+        pitchRecorder.recording = false;
         GameInfo.win = false;
         BitmapContainer.clear();
     }
