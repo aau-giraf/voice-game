@@ -4,7 +4,7 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder.AudioSource;
 
-import dk.aau.cs.giraf.cars.gamecode.GameInfo;
+import dk.aau.cs.giraf.cars.gamecode.GameInfo.GameInfo;
 
 
 public class RecorderThread extends InputThread {

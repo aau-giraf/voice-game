@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import dk.aau.cs.giraf.cars.gamecode.*;
+import dk.aau.cs.giraf.cars.gamecode.GameInfo.GameInfo;
 import dk.aau.cs.giraf.cars.gamecode.GameObjects.*;
 import dk.aau.cs.giraf.cars.sound.PitchRecorder;
 

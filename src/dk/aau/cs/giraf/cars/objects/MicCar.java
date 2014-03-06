@@ -4,7 +4,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.graphics.Rect;
 import dk.aau.cs.giraf.cars.R;
-import dk.aau.cs.giraf.cars.gamecode.GameInfo;
+import dk.aau.cs.giraf.cars.gamecode.GameInfo.GameInfo;
 import dk.aau.cs.giraf.cars.gamecode.GameRenderer;
 import dk.aau.cs.giraf.cars.gamecode.MapDivider;
 import dk.aau.cs.giraf.cars.gamecode.GameObjects.Car;

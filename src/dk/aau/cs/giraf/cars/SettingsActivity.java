@@ -13,7 +13,7 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import dk.aau.cs.giraf.cars.MicSetupDialogFragment.InputTestDialogListener;
 import dk.aau.cs.giraf.cars.R.id;
 import dk.aau.cs.giraf.cars.Settings1Fragment.ListClickListener;
-import dk.aau.cs.giraf.cars.gamecode.GameInfo;
+import dk.aau.cs.giraf.cars.gamecode.GameInfo.GameInfo;
 
 
 public class SettingsActivity extends Activity implements InputTestDialogListener, ListClickListener, OnCheckedChangeListener {

@@ -2,7 +2,7 @@ package dk.aau.cs.giraf.cars.sound;
 
 import android.util.Log;
 import java.util.Arrays;
-import dk.aau.cs.giraf.cars.gamecode.GameInfo;
+import dk.aau.cs.giraf.cars.gamecode.GameInfo.GameInfo;
 
 public class MicTestThread extends Thread {
     private static final int MAX_FREQ = 3400;
