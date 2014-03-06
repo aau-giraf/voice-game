@@ -1,7 +1,7 @@
 package dk.aau.cs.giraf.cars.gamecode.GameInfo;
 
 import dk.aau.cs.giraf.cars.MicSetupDialogFragment;
-import dk.aau.cs.giraf.cars.sound.RecorderThread;
+import dk.aau.cs.giraf.cars.sound.InputThread;
 
 public class PitchGameType extends GameType{
 
@@ -15,7 +15,7 @@ public class PitchGameType extends GameType{
     public PitchGameType(float minPitch, float maxPitch){
 
         //Change to Volume specific implementations
-        super.InputThread = new RecorderThread();//
+        super.InputThread = new InputThread();//
         super.ControlSetup = new MicSetupDialogFragment();
 
         this.minPitch = minPitch;

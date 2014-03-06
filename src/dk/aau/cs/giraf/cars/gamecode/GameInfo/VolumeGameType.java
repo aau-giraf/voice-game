@@ -2,7 +2,7 @@ package dk.aau.cs.giraf.cars.gamecode.GameInfo;
 
 
 import dk.aau.cs.giraf.cars.MicSetupDialogFragment;
-import dk.aau.cs.giraf.cars.sound.RecorderThread;
+import dk.aau.cs.giraf.cars.sound.InputThread;
 
 public class VolumeGameType  extends GameType {
     private float minVolume;
@@ -16,7 +16,7 @@ public class VolumeGameType  extends GameType {
         throw new UnsupportedOperationException();
 
         //Change to Volume specific implementations
-        super.InputThread = new RecorderThread();//
+        super.InputThread = new InputThread();//
         super.ControlSetup = new MicSetupDialogFragment();
 
 //        this.minVolume = minVolume;
