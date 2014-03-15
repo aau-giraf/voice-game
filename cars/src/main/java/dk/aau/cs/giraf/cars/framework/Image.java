@@ -1,0 +1,13 @@
+package dk.aau.cs.giraf.cars.framework;
+
+import dk.aau.cs.giraf.cars.framework.Graphics.ImageFormat;
+
+public interface Image {
+    public int getWidth();
+
+    public int getHeight();
+
+    public ImageFormat getFormat();
+
+    public void dispose();
+}
