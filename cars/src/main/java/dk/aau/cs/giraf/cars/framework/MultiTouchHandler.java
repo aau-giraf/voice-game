@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cars.framework.implementation;
+package dk.aau.cs.giraf.cars.framework;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,6 @@ import java.util.List;
 import android.view.MotionEvent;
 import android.view.View;
 
-import dk.aau.cs.giraf.cars.framework.Pool;
 import dk.aau.cs.giraf.cars.framework.Input.TouchEvent;
 import dk.aau.cs.giraf.cars.framework.Pool.PoolObjectFactory;
 

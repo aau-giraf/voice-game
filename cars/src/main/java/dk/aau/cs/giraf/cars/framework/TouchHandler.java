@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cars.framework.implementation;
+package dk.aau.cs.giraf.cars.framework;
 
 import java.util.List;
 

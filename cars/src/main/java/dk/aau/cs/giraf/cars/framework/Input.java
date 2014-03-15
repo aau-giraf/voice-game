@@ -6,10 +6,6 @@ import android.content.Context;
 import android.os.Build.VERSION;
 import android.view.View;
 
-import dk.aau.cs.giraf.cars.framework.implementation.MultiTouchHandler;
-import dk.aau.cs.giraf.cars.framework.implementation.SingleTouchHandler;
-import dk.aau.cs.giraf.cars.framework.implementation.TouchHandler;
-
 public class Input {
     public static class TouchEvent {
         public static final int TOUCH_DOWN = 0;
