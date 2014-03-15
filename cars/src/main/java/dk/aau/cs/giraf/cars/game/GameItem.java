@@ -2,7 +2,7 @@ package dk.aau.cs.giraf.cars.game;
 
 import android.graphics.Rect;
 
-import dk.aau.cs.giraf.cars.framework.implementation.AndroidGraphics;
+import dk.aau.cs.giraf.cars.framework.Graphics;
 
 public abstract class GameItem {
     private Rect bounds;
@@ -31,7 +31,7 @@ public abstract class GameItem {
         return this.bounds.intersect(item.bounds);
     }
 
-    public abstract void Paint(AndroidGraphics graphics, float deltaTime);
+    public abstract void Paint(Graphics graphics, float deltaTime);
 
     public abstract void Update(float deltaTime);
 }

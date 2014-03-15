@@ -2,7 +2,7 @@ package dk.aau.cs.giraf.cars.game;
 
 import android.graphics.Rect;
 
-import dk.aau.cs.giraf.cars.framework.implementation.AndroidGraphics;
+import dk.aau.cs.giraf.cars.framework.Graphics;
 
 public class Car extends GameItem {
     public Car(Rect bounds) {
@@ -10,7 +10,7 @@ public class Car extends GameItem {
     }
 
     @Override
-    public void Paint(AndroidGraphics graphics, float deltaTime) {
+    public void Paint(Graphics graphics, float deltaTime) {
         Rect bounds = this.GetBounds();
 
         graphics.drawScaledImage(Assets.GetCar(),

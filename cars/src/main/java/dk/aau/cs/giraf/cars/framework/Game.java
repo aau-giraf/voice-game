@@ -12,7 +12,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import dk.aau.cs.giraf.cars.framework.implementation.AndroidFastRenderView;
-import dk.aau.cs.giraf.cars.framework.implementation.AndroidGraphics;
 import dk.aau.cs.giraf.cars.framework.implementation.AndroidInput;
 
 public abstract class Game extends Activity {
@@ -44,7 +43,7 @@ public abstract class Game extends Activity {
                 / getWindowManager().getDefaultDisplay().getHeight();
 
         renderView = new AndroidFastRenderView(this, frameBuffer);
-        graphics = new AndroidGraphics(getAssets(), frameBuffer);
+        graphics = new Graphics(getAssets(), frameBuffer);
         fileIO = new FileIO(this);
         audio = new Audio(this);
         input = new AndroidInput(this, renderView, scaleX, scaleY);
