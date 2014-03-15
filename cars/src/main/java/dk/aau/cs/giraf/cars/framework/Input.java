@@ -2,8 +2,15 @@ package dk.aau.cs.giraf.cars.framework;
 
 import java.util.List;
 
-public interface Input {
+import android.content.Context;
+import android.os.Build.VERSION;
+import android.view.View;
 
+import dk.aau.cs.giraf.cars.framework.implementation.MultiTouchHandler;
+import dk.aau.cs.giraf.cars.framework.implementation.SingleTouchHandler;
+import dk.aau.cs.giraf.cars.framework.implementation.TouchHandler;
+
+public class Input {
     public static class TouchEvent {
         public static final int TOUCH_DOWN = 0;
         public static final int TOUCH_UP = 1;
@@ -15,11 +22,28 @@ public interface Input {
         public int pointer;
     }
 
-    public boolean isTouchDown(int pointer);
+    TouchHandler touchHandler;
 
-    public int getTouchX(int pointer);
+    public Input(Context context, View view, float scaleX, float scaleY) {
+        if (Integer.parseInt(VERSION.SDK) < 5)
+            touchHandler = new SingleTouchHandler(view, scaleX, scaleY);
+        else
+            touchHandler = new MultiTouchHandler(view, scaleX, scaleY);
+    }
 
-    public int getTouchY(int pointer);
+    public boolean isTouchDown(int pointer) {
+        return touchHandler.isTouchDown(pointer);
+    }
 
-    public List<TouchEvent> getTouchEvents();
+    public int getTouchX(int pointer) {
+        return touchHandler.getTouchX(pointer);
+    }
+
+    public int getTouchY(int pointer) {
+        return touchHandler.getTouchY(pointer);
+    }
+
+    public List<TouchEvent> getTouchEvents() {
+        return touchHandler.getTouchEvents();
+    }
 }
