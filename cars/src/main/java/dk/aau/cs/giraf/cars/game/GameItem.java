@@ -22,6 +22,22 @@ public abstract class GameItem {
         this.bounds.top = y;
     }
 
+    public int getX() {
+        return bounds.left;
+    }
+
+    public int getY() {
+        return bounds.top;
+    }
+
+    public int getWidth() {
+        return bounds.width();
+    }
+
+    public int getHeight() {
+        return bounds.height();
+    }
+
     public void SetSize(int w, int h) {
         this.bounds.right = this.bounds.left + w;
         this.bounds.bottom = this.bounds.top + h;
