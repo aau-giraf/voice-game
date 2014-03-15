@@ -10,7 +10,7 @@ public class LoadingScreen extends Screen {
 
     @Override
     public void update(float deltaTime) {
-
+        Assets.LoadAssets(game.getGraphics());
     }
 
     @Override
