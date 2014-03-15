@@ -6,10 +6,6 @@ public abstract class GameItem {
     float x, y;
     final float width, height;
 
-    public GameItem(float width, float height) {
-        this(0, 0, width, height);
-    }
-
     public GameItem(float x, float y, float width, float height) {
         this.x = x;
         this.y = y;
