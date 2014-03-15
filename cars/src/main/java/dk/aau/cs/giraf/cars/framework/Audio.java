@@ -8,8 +8,6 @@ import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
-import dk.aau.cs.giraf.cars.framework.implementation.AndroidSound;
-
 public class Audio {
     AssetManager assets;
     SoundPool soundPool;
@@ -33,7 +31,7 @@ public class Audio {
         try {
             AssetFileDescriptor assetDescriptor = assets.openFd(filename);
             int soundId = soundPool.load(assetDescriptor, 0);
-            return new AndroidSound(soundPool, soundId);
+            return new Sound(soundPool, soundId);
         } catch (IOException e) {
             throw new RuntimeException("Couldn't load sound '" + filename + "'");
         }

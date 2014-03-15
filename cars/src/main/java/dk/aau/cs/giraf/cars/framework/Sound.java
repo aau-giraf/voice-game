@@ -1,7 +1,22 @@
 package dk.aau.cs.giraf.cars.framework;
 
-public interface Sound {
-    public void play(float volume);
+import android.media.SoundPool;
 
-    public void dispose();
+public class Sound {
+    int soundId;
+    SoundPool soundPool;
+
+    public Sound(SoundPool soundPool, int soundId) {
+        this.soundId = soundId;
+        this.soundPool = soundPool;
+    }
+
+    public void play(float volume) {
+        soundPool.play(soundId, volume, volume, 0, 0, 1);
+    }
+
+    public void dispose() {
+        soundPool.unload(soundId);
+    }
+
 }
