@@ -8,7 +8,6 @@ import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
-import dk.aau.cs.giraf.cars.framework.implementation.AndroidMusic;
 import dk.aau.cs.giraf.cars.framework.implementation.AndroidSound;
 
 public class Audio {
@@ -24,7 +23,7 @@ public class Audio {
     public Music createMusic(String filename) {
         try {
             AssetFileDescriptor assetDescriptor = assets.openFd(filename);
-            return new AndroidMusic(assetDescriptor);
+            return new Music(assetDescriptor);
         } catch (IOException e) {
             throw new RuntimeException("Couldn't load music '" + filename + "'");
         }
