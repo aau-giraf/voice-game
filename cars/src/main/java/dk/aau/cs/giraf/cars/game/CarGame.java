@@ -1,9 +1,9 @@
 package dk.aau.cs.giraf.cars.game;
 
+import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Screen;
-import dk.aau.cs.giraf.cars.framework.implementation.AndroidGame;
 
-public class CarGame extends AndroidGame {
+public class CarGame extends Game {
     @Override
     public Screen getInitScreen() {
         return new LoadingScreen(this);

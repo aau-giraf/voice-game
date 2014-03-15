@@ -6,14 +6,16 @@ import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import dk.aau.cs.giraf.cars.framework.Game;
+
 public class AndroidFastRenderView extends SurfaceView implements Runnable {
-    AndroidGame game;
+    Game game;
     Bitmap framebuffer;
     Thread renderThread = null;
     SurfaceHolder holder;
     volatile boolean running = false;
 
-    public AndroidFastRenderView(AndroidGame game, Bitmap framebuffer) {
+    public AndroidFastRenderView(Game game, Bitmap framebuffer) {
         super(game);
         this.game = game;
         this.framebuffer = framebuffer;
