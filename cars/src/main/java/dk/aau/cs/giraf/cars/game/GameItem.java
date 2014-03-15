@@ -1,50 +1,23 @@
 package dk.aau.cs.giraf.cars.game;
 
-import android.graphics.Rect;
-
 import dk.aau.cs.giraf.cars.framework.Graphics;
 
 public abstract class GameItem {
-    private Rect bounds;
+    float x, y, width, height;
 
-    public GameItem(Rect bounds) {
-        this.bounds = bounds;
+    public GameItem(float x, float y, float width, float height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
     }
 
-    public Rect GetBounds() {
-        return bounds;
-    }
-
-    public void SetPosition(int x, int y) {
-        this.bounds.right += (x - this.bounds.left);
-        this.bounds.bottom += (y - this.bounds.top);
-        this.bounds.left = x;
-        this.bounds.top = y;
-    }
-
-    public int getX() {
-        return bounds.left;
-    }
-
-    public int getY() {
-        return bounds.top;
-    }
-
-    public int getWidth() {
-        return bounds.width();
-    }
-
-    public int getHeight() {
-        return bounds.height();
-    }
-
-    public void SetSize(int w, int h) {
-        this.bounds.right = this.bounds.left + w;
-        this.bounds.bottom = this.bounds.top + h;
+    public android.graphics.Rect GetBounds() {
+        return new android.graphics.Rect((int) x, (int) y, (int) (x + width), (int) (y + height));
     }
 
     public boolean CollidesWith(GameItem item) {
-        return this.bounds.intersect(item.bounds);
+        return (this.x + this.width < item.x || item.x + item.width < this.x || this.y + this.height < item.y || this.y + this.height < item.y);
     }
 
     public abstract void Paint(Graphics graphics, float deltaTime);

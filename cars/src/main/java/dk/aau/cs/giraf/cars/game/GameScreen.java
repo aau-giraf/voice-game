@@ -11,8 +11,9 @@ public class GameScreen extends Screen {
 
     public GameScreen(Game game) {
         super(game);
-        this.car = new Car(new Rect(0, 0, 200, 99));
-        this.car.SetPosition(50, (game.getGraphics().getHeight() - car.GetBounds().height()) / 2);
+        this.car = new Car(0, 0, 200, 99);
+        this.car.x = 50;
+        this.car.y = (game.getGraphics().getHeight() - car.height) / 2f;
     }
 
     @Override
