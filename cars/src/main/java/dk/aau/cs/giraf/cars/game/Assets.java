@@ -7,8 +7,9 @@ public class Assets {
     private static boolean loaded = false;
 
     public static void LoadAssets(Graphics graphics) {
-        Assets.grass = graphics.newImage("grass.jpg", Graphics.ImageFormat.RGB565);
-        Assets.tarmac = graphics.newImage("tarmac.jpg", Graphics.ImageFormat.RGB565);
+        grass = graphics.newImage("grass.jpg", Graphics.ImageFormat.RGB565);
+        tarmac = graphics.newImage("tarmac.jpg", Graphics.ImageFormat.RGB565);
+        car = graphics.newImage("car.png", Graphics.ImageFormat.ARGB8888);
 
         loaded = true;
     }
@@ -19,6 +20,7 @@ public class Assets {
 
     private static Image grass;
     private static Image tarmac;
+    private static Image car;
 
     public static Image GetGrass() {
         return grass;
@@ -26,5 +28,9 @@ public class Assets {
 
     public static Image GetTarmac() {
         return tarmac;
+    }
+
+    public static Image GetCar() {
+        return car;
     }
 }
