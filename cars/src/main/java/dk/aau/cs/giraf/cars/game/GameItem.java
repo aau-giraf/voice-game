@@ -3,7 +3,8 @@ package dk.aau.cs.giraf.cars.game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 
 public abstract class GameItem {
-    float x, y, width, height;
+    float x, y;
+    final float width, height;
 
     public GameItem(float width, float height) {
         this(0, 0, width, height);
