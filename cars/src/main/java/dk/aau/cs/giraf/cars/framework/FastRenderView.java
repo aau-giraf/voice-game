@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cars.framework.implementation;
+package dk.aau.cs.giraf.cars.framework;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -8,14 +8,14 @@ import android.view.SurfaceView;
 
 import dk.aau.cs.giraf.cars.framework.Game;
 
-public class AndroidFastRenderView extends SurfaceView implements Runnable {
+public class FastRenderView extends SurfaceView implements Runnable {
     Game game;
     Bitmap framebuffer;
     Thread renderThread = null;
     SurfaceHolder holder;
     volatile boolean running = false;
 
-    public AndroidFastRenderView(Game game, Bitmap framebuffer) {
+    public FastRenderView(Game game, Bitmap framebuffer) {
         super(game);
         this.game = game;
         this.framebuffer = framebuffer;

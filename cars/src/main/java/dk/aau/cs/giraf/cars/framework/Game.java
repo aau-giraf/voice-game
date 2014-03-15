@@ -11,10 +11,8 @@ import android.os.PowerManager.WakeLock;
 import android.view.Window;
 import android.view.WindowManager;
 
-import dk.aau.cs.giraf.cars.framework.implementation.AndroidFastRenderView;
-
 public abstract class Game extends Activity {
-    AndroidFastRenderView renderView;
+    FastRenderView renderView;
     Graphics graphics;
     Audio audio;
     Input input;
@@ -41,7 +39,7 @@ public abstract class Game extends Activity {
         float scaleY = (float) frameBufferHeight
                 / getWindowManager().getDefaultDisplay().getHeight();
 
-        renderView = new AndroidFastRenderView(this, frameBuffer);
+        renderView = new FastRenderView(this, frameBuffer);
         graphics = new Graphics(getAssets(), frameBuffer);
         fileIO = new FileIO(this);
         audio = new Audio(this);
