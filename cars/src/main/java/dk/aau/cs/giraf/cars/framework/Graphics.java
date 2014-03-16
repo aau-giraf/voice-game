@@ -134,6 +134,32 @@ public class Graphics {
         canvas.drawBitmap(Image.bitmap, srcRect, dstRect, null);
     }
 
+    public void fillImageTexture(Image image, int x, int y, int width, int height) {
+        int imgw = image.getWidth();
+        int imgh = image.getHeight();
+
+        Rect src = new Rect();
+        Rect dst = new Rect();
+
+        for (int h = 0; h < height; h += imgh) {
+            src.bottom = imgh;
+            if(h + imgh > height)
+                src.bottom = height - h;
+
+            dst.top = y + h;
+            dst.bottom = dst.top + src.bottom;
+            for (int w = 0; w < width; w += imgw) {
+                src.right = imgw;
+                if(w + imgw > width)
+                    src.right = width - w;
+
+                dst.left = h + w;
+                dst.right = dst.left + src.right;
+                canvas.drawBitmap(image.bitmap, src, dst, null);
+            }
+        }
+    }
+
 
     public int getWidth() {
         return frameBuffer.getWidth();
