@@ -18,7 +18,7 @@ public abstract class GameItem {
     }
 
     public boolean CollidesWith(GameItem item) {
-        return (this.x + this.width < item.x || item.x + item.width < this.x || this.y + this.height < item.y || this.y + this.height < item.y);
+        return !(this.x + this.width < item.x || item.x + item.width < this.x || this.y + this.height < item.y || this.y + this.height < item.y);
     }
 
     public abstract void Paint(Graphics graphics, float deltaTime);
