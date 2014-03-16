@@ -1,5 +1,7 @@
 package dk.aau.cs.giraf.cars.game;
 
+import java.util.ArrayList;
+
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -8,6 +10,8 @@ public class GameScreen extends Screen {
     private CarControl carControl;
     private Car car;
     private float speed; //Pixels per second
+
+    private ArrayList<Obstacle> obstacles;
 
     private final int grassSize = 70;
 
@@ -19,6 +23,9 @@ public class GameScreen extends Screen {
 
         this.carControl = new TouchCarControl(200);
         this.speed = 70;
+
+        this.obstacles = new ArrayList<Obstacle>();
+        this.obstacles.add(new Obstacle(100, 100, 100, 100));
     }
 
     @Override
@@ -31,6 +38,12 @@ public class GameScreen extends Screen {
         if (car.y < grassSize) car.y = grassSize;
         if (car.y > game.getHeight() - car.height - grassSize)
             car.y = game.getHeight() - car.height - grassSize;
+
+        for (Obstacle o : obstacles) {
+            o.Update(deltaTime);
+            if (o.CollidesWith(car))
+                obstacles.remove(o);
+        }
     }
 
     @Override
@@ -40,6 +53,9 @@ public class GameScreen extends Screen {
         graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, game.getWidth(), game.getHeight() - grassSize * 2);
 
         car.Paint(graphics, deltaTime);
+
+        for (Obstacle o : obstacles)
+            o.Paint(graphics, deltaTime);
     }
 
     @Override
