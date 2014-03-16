@@ -11,6 +11,8 @@ public class GameScreen extends Screen {
     private Car car;
     private float speed; //Pixels per second
 
+    private final int grassSize = 70;
+
     public GameScreen(Game game) {
         super(game);
         this.car = new Car(0, 0, 200, 99);
@@ -29,14 +31,16 @@ public class GameScreen extends Screen {
         if (car.x > game.getWidth())
             car.x = -car.width;
         car.y += carControl.getMove(game, deltaTime);
-        if (car.y < 50) car.y = 50;
-        if (car.y > game.getHeight() - car.height - 50) car.y = game.getHeight() - car.height - 50;
+        if (car.y < grassSize) car.y = grassSize;
+        if (car.y > game.getHeight() - car.height - grassSize)
+            car.y = game.getHeight() - car.height - grassSize;
     }
 
     @Override
     public void paint(float deltaTime) {
         Graphics graphics = game.getGraphics();
-        graphics.drawARGB(255, 255, 255, 255);
+        graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
+        graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, game.getWidth(), game.getHeight() - grassSize * 2);
         car.Paint(graphics, deltaTime);
     }
 
