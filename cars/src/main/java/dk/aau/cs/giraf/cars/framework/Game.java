@@ -2,9 +2,9 @@ package dk.aau.cs.giraf.cars.framework;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
@@ -19,6 +19,14 @@ public abstract class Game extends Activity {
     FileIO fileIO;
     Screen screen;
     WakeLock wakeLock;
+    Point size;
+
+    public int getWidth() {
+        return size.x;
+    }
+    public int getHeight() {
+        return size.y;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,22 +36,15 @@ public abstract class Game extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        boolean isPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-        int frameBufferWidth = isPortrait ? 800 : 1280;
-        int frameBufferHeight = isPortrait ? 1280 : 800;
-        Bitmap frameBuffer = Bitmap.createBitmap(frameBufferWidth,
-                frameBufferHeight, Config.RGB_565);
-
-        float scaleX = (float) frameBufferWidth
-                / getWindowManager().getDefaultDisplay().getWidth();
-        float scaleY = (float) frameBufferHeight
-                / getWindowManager().getDefaultDisplay().getHeight();
+        this.size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(this.size);
+        Bitmap frameBuffer = Bitmap.createBitmap(this.size.x, this.size.y, Config.RGB_565);
 
         renderView = new FastRenderView(this, frameBuffer);
         graphics = new Graphics(getAssets(), frameBuffer);
         fileIO = new FileIO(this);
         audio = new Audio(this);
-        input = new Input(this, renderView, scaleX, scaleY);
+        input = new Input(this, renderView, 1, 1);
         screen = getInitScreen();
         setContentView(renderView);
 
