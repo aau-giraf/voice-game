@@ -9,6 +9,7 @@ import dk.aau.cs.giraf.cars.framework.Graphics;
 public class GameScreen extends Screen {
     private CarControl carControl;
     private Car car;
+    private float speed; //Pixels per second
 
     public GameScreen(Game game) {
         super(game);
@@ -16,13 +17,18 @@ public class GameScreen extends Screen {
         this.car.x = -car.width;
         this.car.y = (game.getGraphics().getHeight() - car.height) / 2f;
 
+        this.speed = 70;
+
         this.carControl = new TouchCarControl(200);
     }
 
     @Override
     public void update(float deltaTime) {
         car.Update(deltaTime);
-        car.y = car.y + carControl.getMove(game, deltaTime);
+        car.x += speed * (deltaTime / 100.0f);
+        if (car.x > game.getGraphics().getWidth())
+            car.x = -car.width;
+        car.y += carControl.getMove(game, deltaTime);
     }
 
     @Override
