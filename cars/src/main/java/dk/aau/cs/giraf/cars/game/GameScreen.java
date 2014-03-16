@@ -1,7 +1,5 @@
 package dk.aau.cs.giraf.cars.game;
 
-import android.graphics.Rect;
-
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -19,9 +17,8 @@ public class GameScreen extends Screen {
         this.car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
 
-        this.speed = 70;
-
         this.carControl = new TouchCarControl(200);
+        this.speed = 70;
     }
 
     @Override
@@ -41,6 +38,7 @@ public class GameScreen extends Screen {
         Graphics graphics = game.getGraphics();
         graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
         graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, game.getWidth(), game.getHeight() - grassSize * 2);
+
         car.Paint(graphics, deltaTime);
     }
 

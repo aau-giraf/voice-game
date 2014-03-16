@@ -10,6 +10,7 @@ public class Assets {
         grass = graphics.newImage("grass.jpg", Graphics.ImageFormat.RGB565);
         tarmac = graphics.newImage("tarmac.jpg", Graphics.ImageFormat.RGB565);
         car = graphics.newImage("car.png", Graphics.ImageFormat.ARGB8888);
+        obstacle = graphics.newImage("obstacle.jpg", Graphics.ImageFormat.RGB565);
 
         loaded = true;
     }
@@ -21,6 +22,7 @@ public class Assets {
     private static Image grass;
     private static Image tarmac;
     private static Image car;
+    private static Image obstacle;
 
     public static Image GetGrass() {
         return grass;
@@ -32,5 +34,9 @@ public class Assets {
 
     public static Image GetCar() {
         return car;
+    }
+
+    public static Image GetObstacle() {
+        return obstacle;
     }
 }
