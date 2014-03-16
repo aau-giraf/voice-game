@@ -13,8 +13,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
 
-import dk.aau.cs.giraf.cars.framework.Graphics;
-
 public class Graphics {
     public static enum ImageFormat {
         ARGB8888, ARGB4444, RGB565
@@ -101,8 +99,6 @@ public class Graphics {
 
     public void drawString(String text, int x, int y, Paint paint) {
         canvas.drawText(text, x, y, paint);
-
-
     }
 
 
@@ -112,37 +108,30 @@ public class Graphics {
         srcRect.right = srcX + srcWidth;
         srcRect.bottom = srcY + srcHeight;
 
-
         dstRect.left = x;
         dstRect.top = y;
         dstRect.right = x + srcWidth;
         dstRect.bottom = y + srcHeight;
 
-        canvas.drawBitmap(((dk.aau.cs.giraf.cars.framework.Image) Image).bitmap, srcRect, dstRect,
-                null);
+        canvas.drawBitmap(Image.bitmap, srcRect, dstRect, null);
     }
 
     public void drawImage(Image Image, int x, int y) {
-        canvas.drawBitmap(((dk.aau.cs.giraf.cars.framework.Image) Image).bitmap, x, y, null);
+        canvas.drawBitmap(Image.bitmap, x, y, null);
     }
 
     public void drawScaledImage(Image Image, int x, int y, int width, int height, int srcX, int srcY, int srcWidth, int srcHeight) {
-
-
         srcRect.left = srcX;
         srcRect.top = srcY;
         srcRect.right = srcX + srcWidth;
         srcRect.bottom = srcY + srcHeight;
-
 
         dstRect.left = x;
         dstRect.top = y;
         dstRect.right = x + width;
         dstRect.bottom = y + height;
 
-
-        canvas.drawBitmap(((dk.aau.cs.giraf.cars.framework.Image) Image).bitmap, srcRect, dstRect, null);
-
+        canvas.drawBitmap(Image.bitmap, srcRect, dstRect, null);
     }
 
 
