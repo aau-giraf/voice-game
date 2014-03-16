@@ -15,7 +15,7 @@ public class GameScreen extends Screen {
         super(game);
         this.car = new Car(0, 0, 200, 99);
         this.car.x = -car.width;
-        this.car.y = (game.getGraphics().getHeight() - car.height) / 2f;
+        this.car.y = (game.getHeight() - car.height) / 2f;
 
         this.speed = 70;
 
@@ -26,9 +26,11 @@ public class GameScreen extends Screen {
     public void update(float deltaTime) {
         car.Update(deltaTime);
         car.x += speed * (deltaTime / 100.0f);
-        if (car.x > game.getGraphics().getWidth())
+        if (car.x > game.getWidth())
             car.x = -car.width;
         car.y += carControl.getMove(game, deltaTime);
+        if (car.y < 50) car.y = 50;
+        if (car.y > game.getHeight() - car.height - 50) car.y = game.getHeight() - car.height - 50;
     }
 
     @Override
