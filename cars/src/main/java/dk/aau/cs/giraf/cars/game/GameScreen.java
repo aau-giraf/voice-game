@@ -7,18 +7,22 @@ import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 
 public class GameScreen extends Screen {
+    private CarControl carControl;
     private Car car;
 
     public GameScreen(Game game) {
         super(game);
         this.car = new Car(0, 0, 200, 99);
-        this.car.x = 50;
+        this.car.x = -car.width;
         this.car.y = (game.getGraphics().getHeight() - car.height) / 2f;
+
+        this.carControl = new TouchCarControl(200);
     }
 
     @Override
     public void update(float deltaTime) {
         car.Update(deltaTime);
+        car.y = car.y + carControl.getMove(game, deltaTime);
     }
 
     @Override
