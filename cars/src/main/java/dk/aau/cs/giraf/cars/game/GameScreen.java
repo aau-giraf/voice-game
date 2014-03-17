@@ -69,6 +69,11 @@ public class GameScreen extends Screen {
         graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
         graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, game.getWidth(), game.getHeight() - grassSize * 2);
 
+        for (int i = 0; i < game.getWidth(); i += 10) {
+            graphics.drawImage(Assets.getBorder(), i, grassSize - 19, 0, 0, 10, 25);
+            graphics.drawImage(Assets.getBorder(), i, game.getHeight() - grassSize - 6, 0, 25, 10, 25);
+        }
+
         car.Paint(graphics, deltaTime);
 
         for (Obstacle o : obstacles)
