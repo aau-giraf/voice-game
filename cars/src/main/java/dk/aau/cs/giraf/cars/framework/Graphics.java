@@ -153,7 +153,7 @@ public class Graphics {
                 if(w + imgw > width)
                     src.right = width - w;
 
-                dst.left = h + w;
+                dst.left = x + w;
                 dst.right = dst.left + src.right;
                 canvas.drawBitmap(image.bitmap, src, dst, null);
             }
