@@ -11,7 +11,7 @@ public class LoadingScreen extends Screen {
     @Override
     public void update(float deltaTime) {
         Assets.LoadAssets(game.getGraphics());
-        game.setScreen(new GameScreen(game));
+        game.setScreen(new GameScreen(game, new TestObstacles()));
     }
 
     @Override

@@ -11,11 +11,12 @@ public class GameScreen extends Screen {
     private Car car;
     private float speed; //Pixels per second
 
+    private ObstacleGenerator obstacleGenerator;
     private ArrayList<Obstacle> obstacles;
 
     private final int grassSize = 70;
 
-    public GameScreen(Game game) {
+    public GameScreen(Game game, ObstacleGenerator obstacleGenerator) {
         super(game);
         this.car = new Car(0, 0, 200, 99);
         this.car.x = -car.width;
@@ -25,7 +26,10 @@ public class GameScreen extends Screen {
         this.speed = 70;
 
         this.obstacles = new ArrayList<Obstacle>();
-        this.obstacles.add(new Obstacle(100, 100, 100, 100));
+        this.obstacleGenerator = obstacleGenerator;
+
+        for (Obstacle o : obstacleGenerator.CreateObstacles(game.getWidth(), game.getHeight()))
+            this.obstacles.add(o);
     }
 
     @Override
@@ -39,10 +43,10 @@ public class GameScreen extends Screen {
         if (car.y > game.getHeight() - car.height - grassSize)
             car.y = game.getHeight() - car.height - grassSize;
 
-        for (Obstacle o : obstacles) {
-            o.Update(deltaTime);
-            if (o.CollidesWith(car))
-                obstacles.remove(o);
+        for (int i = 0; i < obstacles.size(); i++) {
+            obstacles.get(i).Update(deltaTime);
+            if (obstacles.get(i).CollidesWith(car))
+                obstacles.remove(i--);
         }
     }
 
