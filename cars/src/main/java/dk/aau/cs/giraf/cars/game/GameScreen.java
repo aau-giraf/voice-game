@@ -14,7 +14,7 @@ public class GameScreen extends Screen {
     private ObstacleGenerator obstacleGenerator;
     private ArrayList<Obstacle> obstacles;
 
-    private Garage garage1, garage2, garage3;
+    private ArrayList<Garage> garages;
 
     private final int grassSize = 70;
     private final float garageSize = 150;
@@ -35,9 +35,8 @@ public class GameScreen extends Screen {
             this.obstacles.add(o);
 
         float garageSpace = (game.getHeight() - 2 * grassSize - 3 * garageSize) / 4f;
-        this.garage1 = new Garage(game.getWidth() - garageSize, grassSize + garageSpace, garageSize, garageSize);
-        this.garage2 = new Garage(game.getWidth() - garageSize, grassSize + 2 * garageSpace + garageSize, garageSize, garageSize);
-        this.garage3 = new Garage(game.getWidth() - garageSize, grassSize + 3 * garageSpace + 2 * garageSize, garageSize, garageSize);
+        for (int i = 0; i < 3; i++)
+            garages.add(new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize, garageSize, garageSize));
     }
 
     @Override
@@ -58,18 +57,14 @@ public class GameScreen extends Screen {
                 resetRound();
         }
 
-        garage1.Update(deltaTime);
-        if (garage1.CollidesWith(car))
-            garage1.Close();
-        garage2.Update(deltaTime);
-        if (garage2.CollidesWith(car))
-            garage2.Close();
-        garage3.Update(deltaTime);
-        if (garage3.CollidesWith(car))
-            garage3.Close();
+        for (Garage garage : garages) {
+            garage.Update(deltaTime);
+            if (garage.CollidesWith(car))
+                garage.Close();
+        }
     }
 
-    private void resetRound(){
+    private void resetRound() {
         this.obstacles.clear();
         for (Obstacle o : obstacleGenerator.CreateObstacles(game.getWidth(), game.getHeight()))
             this.obstacles.add(o);
@@ -88,12 +83,11 @@ public class GameScreen extends Screen {
 
         car.Paint(graphics, deltaTime);
 
-        for (Obstacle o : obstacles)
-            o.Paint(graphics, deltaTime);
+        for (Obstacle obstacle : obstacles)
+            obstacle.Paint(graphics, deltaTime);
 
-        garage1.Paint(graphics, deltaTime);
-        garage2.Paint(graphics, deltaTime);
-        garage3.Paint(graphics, deltaTime);
+        for (Garage garage : garages)
+            garage.Paint(graphics, deltaTime);
     }
 
     @Override
