@@ -70,7 +70,9 @@ public class GameScreen extends Screen {
     }
 
     private void resetRound(){
-        
+        this.obstacles.clear();
+        for (Obstacle o : obstacleGenerator.CreateObstacles(game.getWidth(), game.getHeight()))
+            this.obstacles.add(o);
     }
 
     @Override
