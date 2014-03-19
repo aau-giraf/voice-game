@@ -55,7 +55,7 @@ public class GameScreen extends Screen {
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(deltaTime);
             if (obstacles.get(i).CollidesWith(car))
-                obstacles.remove(i--);
+                resetRound();
         }
 
         garage1.Update(deltaTime);
@@ -67,6 +67,10 @@ public class GameScreen extends Screen {
         garage3.Update(deltaTime);
         if (garage3.CollidesWith(car))
             garage3.Close();
+    }
+
+    private void resetRound(){
+        
     }
 
     @Override
