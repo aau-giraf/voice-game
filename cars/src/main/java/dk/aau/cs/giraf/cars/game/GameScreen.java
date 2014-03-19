@@ -57,6 +57,7 @@ public class GameScreen extends Screen {
                 resetRound();
         }
 
+        boolean anyOpen = true;
         for (Garage garage : garages) {
             garage.Update(deltaTime);
             if (garage.CollidesWith(car)) {
@@ -65,6 +66,8 @@ public class GameScreen extends Screen {
                 else
                     garage.Close();
             }
+            if (garage.getIsClosed())
+                anyOpen = false;
         }
     }
 
