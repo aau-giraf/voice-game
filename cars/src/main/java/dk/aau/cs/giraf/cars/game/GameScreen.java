@@ -59,8 +59,14 @@ public class GameScreen extends Screen {
         }
 
         garage1.Update(deltaTime);
+        if (garage1.CollidesWith(car))
+            garage1.Close();
         garage2.Update(deltaTime);
+        if (garage2.CollidesWith(car))
+            garage2.Close();
         garage3.Update(deltaTime);
+        if (garage3.CollidesWith(car))
+            garage3.Close();
     }
 
     @Override
