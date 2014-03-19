@@ -59,8 +59,12 @@ public class GameScreen extends Screen {
 
         for (Garage garage : garages) {
             garage.Update(deltaTime);
-            if (garage.CollidesWith(car))
-                garage.Close();
+            if (garage.CollidesWith(car)) {
+                if (garage.getIsClosed())
+                    resetRound();
+                else
+                    garage.Close();
+            }
         }
     }
 
