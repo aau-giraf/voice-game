@@ -32,6 +32,10 @@ public class Garage extends GameItem {
         }
     }
 
+    public boolean getIsClosed(){
+        return drawnPart == 2;
+    }
+
     @Override
     public void Update(float deltaTime) {
         if (drawnPart == 1) {
