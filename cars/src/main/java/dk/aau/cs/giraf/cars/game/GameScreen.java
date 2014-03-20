@@ -78,6 +78,8 @@ public class GameScreen extends Screen {
         this.obstacles.clear();
         for (Obstacle o : obstacleGenerator.CreateObstacles(game.getWidth(), game.getHeight()))
             this.obstacles.add(o);
+        car.x = -car.width;
+        this.car.y = (game.getHeight() - car.height) / 2f;
     }
 
     @Override
