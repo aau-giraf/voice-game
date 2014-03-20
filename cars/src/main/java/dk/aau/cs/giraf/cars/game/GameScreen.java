@@ -34,6 +34,7 @@ public class GameScreen extends Screen {
         for (Obstacle o : obstacleGenerator.CreateObstacles(game.getWidth(), game.getHeight()))
             this.obstacles.add(o);
 
+        this.garages = new ArrayList<Garage>();
         float garageSpace = (game.getHeight() - 2 * grassSize - 3 * garageSize) / 4f;
         for (int i = 0; i < 3; i++)
             garages.add(new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize, garageSize, garageSize));
@@ -53,8 +54,10 @@ public class GameScreen extends Screen {
 
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(deltaTime);
-            if (obstacles.get(i).CollidesWith(car))
+            if (obstacles.get(i).CollidesWith(car)) {
                 resetRound();
+                break;
+            }
         }
 
         boolean anyOpen = true;
