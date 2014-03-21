@@ -1,1 +1,1 @@
-include ':cars', ':OasisLib'
+include ':cars', ':OasisLib', ':giraf-component'
