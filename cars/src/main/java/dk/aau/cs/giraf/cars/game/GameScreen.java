@@ -1,5 +1,8 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.graphics.Color;
+import android.graphics.Paint;
+
 import java.util.ArrayList;
 
 import dk.aau.cs.giraf.cars.framework.Game;
@@ -19,6 +22,10 @@ public class GameScreen extends Screen {
     private final int grassSize = 70;
     private final float garageSize = 150;
 
+    private GameState state = GameState.Running;
+    private Paint paint = new Paint();
+    private int amountOfGarages = 3;
+
     public GameScreen(Game game, ObstacleGenerator obstacleGenerator) {
         super(game);
         this.car = new Car(0, 0, 200, 99);
@@ -36,12 +43,24 @@ public class GameScreen extends Screen {
 
         this.garages = new ArrayList<Garage>();
         float garageSpace = (game.getHeight() - 2 * grassSize - 3 * garageSize) / 4f;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < amountOfGarages; i++)
             garages.add(new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize, garageSize, garageSize));
+
+        initializePaint();
     }
+
+
 
     @Override
     public void update(float deltaTime) {
+        if(state == GameState.Running)
+            updateRunning(deltaTime);
+        if(state == GameState.Won)
+            updateWon();
+    }
+
+    private void updateRunning(float deltaTime)
+    {
         car.Update(deltaTime);
         car.x += speed * (deltaTime / 100.0f);
         if (car.x > game.getWidth())
@@ -72,6 +91,28 @@ public class GameScreen extends Screen {
             if (garage.getIsClosed())
                 anyOpen = false;
         }
+
+        if (allGaragesClosed())
+            state = GameState.Won;
+    }
+
+    private boolean allGaragesClosed()
+    {
+        int counter=0;
+        for (Garage garage : garages)
+        {
+            if (garage.getIsClosed())
+                counter++;
+        }
+        if (amountOfGarages == counter)
+            return true;
+        else
+            return false;
+    }
+
+    private void updateWon()
+    {
+
     }
 
     private void resetRound() {
@@ -84,6 +125,22 @@ public class GameScreen extends Screen {
 
     @Override
     public void paint(float deltaTime) {
+        if(state == GameState.Running)
+            drawRunning(deltaTime);
+        if(state == GameState.Won)
+            drawWon();
+    }
+
+    private void initializePaint()
+    {
+        paint.setTextSize(100);
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setAntiAlias(true);
+        paint.setColor(Color.WHITE);
+    }
+
+    private void drawRunning(float deltaTime)
+    {
         Graphics graphics = game.getGraphics();
         graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
         graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, game.getWidth(), game.getHeight() - grassSize * 2);
@@ -100,6 +157,14 @@ public class GameScreen extends Screen {
 
         for (Garage garage : garages)
             garage.Paint(graphics, deltaTime);
+    }
+
+    private void drawWon()
+    {
+        Graphics g = game.getGraphics();
+        g.drawARGB(155, 0, 0, 0);
+        g.drawString("Resume", 400, 165, paint);
+        g.drawString("Menu", 400, 360, paint);
     }
 
     @Override
