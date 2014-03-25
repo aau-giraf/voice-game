@@ -31,7 +31,7 @@ public class WedgeObstacles implements ObstacleGenerator{
     }
     private PointF placeObstacleAfterWedge(PointF[] wedge )
     {
-
+        return new PointF();
     }
 
     private PointF findObstaclePlacement(PointF[] wedge )
@@ -56,6 +56,8 @@ public class WedgeObstacles implements ObstacleGenerator{
         float placement = rand.nextFloat()*length;
 
         PointF displacedPoint = displacePoint(left,right,length/placement);
+
+        return new PointF();
     }
 
     private PointF displacePoint(PointF p, PointF x, float displacementFactor )
