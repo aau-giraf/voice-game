@@ -16,6 +16,7 @@ public class GameScreen extends Screen {
 
     private ArrayList<Garage> garages;
 
+    private final int pixelsPerSecond = 200;
     private final int grassSize = 70;
     private final float garageSize = 150;
 
@@ -25,7 +26,7 @@ public class GameScreen extends Screen {
         this.car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
 
-        this.carControl = new TouchCarControl(200);
+        this.carControl = new TouchCarControl();
         this.speed = 70;
 
         this.obstacles = new ArrayList<Obstacle>();

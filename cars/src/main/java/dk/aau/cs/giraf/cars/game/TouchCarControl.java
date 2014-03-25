@@ -9,10 +9,8 @@ import dk.aau.cs.giraf.cars.framework.Input;
 
 public class TouchCarControl implements CarControl {
     private int lastMove = 0;
-    private int pixelsPerSecond;
 
-    public TouchCarControl(int pixelsPerSecond) {
-        this.pixelsPerSecond = pixelsPerSecond;
+    public TouchCarControl() {
     }
 
     @Override
