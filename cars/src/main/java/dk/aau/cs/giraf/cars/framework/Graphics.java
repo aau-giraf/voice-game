@@ -9,6 +9,7 @@ import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
@@ -65,14 +66,47 @@ public class Graphics {
             }
         }
 
-        if (bitmap.getConfig() == Config.RGB_565)
-            format = ImageFormat.RGB565;
-        else if (bitmap.getConfig() == Config.ARGB_4444)
-            format = ImageFormat.ARGB4444;
-        else
-            format = ImageFormat.ARGB8888;
+        format = getImageFormat(bitmap.getConfig());
 
         return new Image(bitmap, format);
+    }
+
+    public Image recolorImage(Image image, int newColor) {
+        int oldColor = Color.WHITE;
+
+        int[] pixels = new int [image.bitmap.getWidth() * image.bitmap.getHeight()];
+
+        image.bitmap.getPixels(
+                pixels,
+                0,
+                image.bitmap.getWidth(),
+                0,
+                0,
+                image.bitmap.getWidth(),
+                image.bitmap.getHeight()
+        );
+
+        for (int i = 0; i < image.bitmap.getWidth() * image.bitmap.getHeight(); i++)
+            if (pixels[i] == oldColor)
+                pixels[i] = newColor;
+
+        Bitmap recoloredBitmap = Bitmap.createBitmap(
+                pixels,
+                image.bitmap.getWidth(),
+                image.bitmap.getHeight(),
+                image.bitmap.getConfig()
+        );
+
+        return new Image(recoloredBitmap, getImageFormat(recoloredBitmap.getConfig()));
+    }
+
+    private ImageFormat getImageFormat(Config config) {
+        if (config == Config.RGB_565)
+            return ImageFormat.RGB565;
+        else if (config == Config.ARGB_4444)
+            return ImageFormat.ARGB4444;
+        else
+            return ImageFormat.ARGB8888;
     }
 
     public void clearScreen(int color) {

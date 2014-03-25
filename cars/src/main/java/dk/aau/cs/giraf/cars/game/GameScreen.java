@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Screen;
@@ -13,6 +14,8 @@ public class GameScreen extends Screen {
     private CarControl carControl;
     private Car car;
     private float speed; //Pixels per second
+
+    private int[] colors;
 
     private ObstacleGenerator obstacleGenerator;
     private ArrayList<Obstacle> obstacles;
@@ -31,9 +34,15 @@ public class GameScreen extends Screen {
 
     public GameScreen(Game game, ObstacleGenerator obstacleGenerator) {
         super(game);
+
+        colors = new int[] { Color.BLUE, Color.RED, Color.GREEN };
+
         this.car = new Car(0, 0, 200, 99);
         this.car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
+
+        Random r = new Random();
+        car.setColor(game.getGraphics(), colors[r.nextInt(colors.length)]);
 
         this.carControl = new TouchCarControl();
         this.speed = 70;
@@ -46,9 +55,11 @@ public class GameScreen extends Screen {
 
         this.garages = new ArrayList<Garage>();
         float garageSpace = (game.getHeight() - 2 * grassSize - 3 * garageSize) / 4f;
-        for (int i = 0; i < amountOfGarages; i++)
-            garages.add(new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize, garageSize, garageSize));
-
+        for (int i = 0; i < amountOfGarages; i++) {
+            Garage g = new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize, garageSize, garageSize);
+            g.setColor(game.getGraphics(), colors[i]);
+            garages.add(g);
+        }
         initializePaint();
         winningOverlay = new WinningOverlay();
     }
