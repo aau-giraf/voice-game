@@ -20,4 +20,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':giraf-component')
+    compile project(':OasisLib')
 }
