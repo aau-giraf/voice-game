@@ -17,14 +17,18 @@ public class TouchCarControl implements CarControl {
     public float getMove(Game game) {
         List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
 
+        int width = game.getWidth();
+        int height = (int) (game.getHeight() * .25);
+        int bottomOffset = game.getHeight() - height;
+
         int len = touchEvents.size();
         for (int i = 0; i < len; i++) {
             Input.TouchEvent event = touchEvents.get(i);
             if (event.type == Input.TouchEvent.TOUCH_DOWN) {
-                if (inBounds(event, 0, 0, 1280, 200)) {
+                if (inBounds(event, 0, 0, width, height)) {
                     lastMove = -1;
                     break;
-                } else if (inBounds(event, 0, 600, 1280, 200)) {
+                } else if (inBounds(event, 0, bottomOffset, width, height)) {
                     lastMove = 1;
                     break;
                 }
