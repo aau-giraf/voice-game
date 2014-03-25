@@ -1,13 +1,13 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.graphics.Paint;
+
 import java.util.List;
 
 import dk.aau.cs.giraf.cars.framework.Game;
+import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 
-/**
- * Created by - on 25-03-14.
- */
 public class WinningOverlay {
 
     public WinningOverlay(){}
@@ -23,6 +23,7 @@ public class WinningOverlay {
                 if (inBounds(event, 0, 0, 800, 240)) {
 
                     if (!inBounds(event, 0, 0, 35, 35)) {
+                        game.setScreen(new GameScreen(game, new TestObstacles()));
                         return GameState.Running;
                     }
                 }
@@ -43,5 +44,13 @@ public class WinningOverlay {
             return true;
         else
             return false;
+    }
+
+    public void Draw(Game game, Paint paint)
+    {
+        Graphics g = game.getGraphics();
+        g.drawARGB(155, 0, 0, 0);
+        g.drawString("Spil igen", 400, 165, paint);
+        g.drawString("Menu", 400, 360, paint);
     }
 }

@@ -65,6 +65,9 @@ public class GameScreen extends Screen {
 
     private void updateRunning(float deltaTime)
     {
+        if (allGaragesClosed())
+            state = GameState.Won;
+
         car.Update(deltaTime);
         car.x += speed * (deltaTime / 100.0f);
         if (car.x > game.getWidth())
@@ -98,9 +101,6 @@ public class GameScreen extends Screen {
             if (garage.getIsClosed())
                 anyOpen = false;
         }
-
-        if (allGaragesClosed())
-            state = GameState.Won;
     }
 
     private boolean allGaragesClosed()
@@ -170,20 +170,15 @@ public class GameScreen extends Screen {
 
     private void drawWon()
     {
-        Graphics g = game.getGraphics();
-        g.drawARGB(155, 0, 0, 0);
-        g.drawString("Spil igen", 400, 165, paint);
-        g.drawString("Menu", 400, 360, paint);
+        winningOverlay.Draw(game, paint);
     }
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-        state = GameState.Running;
     }
 
     @Override
