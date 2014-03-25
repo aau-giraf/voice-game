@@ -49,7 +49,7 @@ public class GameScreen extends Screen {
             car.x = -car.width;
 
         float move = carControl.getMove(game);
-        move = Math.max(Math.min(move, -1), 1);
+        move = Math.min(Math.max(move, -1), 1);
         move *= pixelsPerSecond * (deltaTime / 100.0f);
         car.y += move;
         if (car.y < grassSize) car.y = grassSize;
