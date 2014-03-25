@@ -21,6 +21,7 @@ public class GameScreen extends Screen {
 
     private ArrayList<Garage> garages;
 
+    private final int pixelsPerSecond = 200;
     private final int grassSize = 70;
     private final float garageSize = 150;
 
@@ -36,7 +37,7 @@ public class GameScreen extends Screen {
         this.car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
 
-        this.carControl = new TouchCarControl(200);
+        this.carControl = new TouchCarControl();
         this.speed = 70;
 
         this.obstacles = new ArrayList<Obstacle>();
@@ -72,7 +73,10 @@ public class GameScreen extends Screen {
         if (car.x > game.getWidth())
             car.x = -car.width;
 
-        car.y += carControl.getMove(game, deltaTime);
+        float move = carControl.getMove(game);
+        move = Math.min(Math.max(move, -1), 1);
+        move *= pixelsPerSecond * (deltaTime / 100.0f);
+        car.y += move;
         if (car.y < grassSize) car.y = grassSize;
         if (car.y > game.getHeight() - car.height - grassSize)
             car.y = game.getHeight() - car.height - grassSize;
