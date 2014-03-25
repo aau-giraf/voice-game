@@ -34,7 +34,7 @@ public class TouchCarControl implements CarControl {
             }
         }
 
-        return lastMove * pixelsPerSecond * (deltaTime / 100.0f);
+        return lastMove;
     }
 
     private boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height) {

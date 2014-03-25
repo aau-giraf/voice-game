@@ -41,6 +41,6 @@ public class VolumeCarControl implements CarControl {
         volume /= (upper - lower) / 2f;
         volume -= 1;
 
-        return volume * pixelsPerSecond * (deltaTime / 100.0f);
+        return volume;
     }
 }
