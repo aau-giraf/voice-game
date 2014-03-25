@@ -4,10 +4,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import dk.aau.cs.giraf.cars.framework.Game;
-import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 
@@ -59,7 +57,6 @@ public class GameScreen extends Screen {
 
     @Override
     public void update(float deltaTime) {
-        List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
         if(state == GameState.Running)
             updateRunning(deltaTime);
         if(state == GameState.Won)
