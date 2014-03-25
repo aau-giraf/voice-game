@@ -13,6 +13,7 @@ public class Assets {
         car = graphics.newImage("car.png", Graphics.ImageFormat.ARGB8888);
         obstacle = graphics.newImage("obstacle.jpg", Graphics.ImageFormat.RGB565);
         garage = graphics.newImage("garage.jpg", Graphics.ImageFormat.RGB565);
+        trophy = graphics.newImage("pokal.gif", Graphics.ImageFormat.ARGB8888);
 
         loaded = true;
     }
@@ -27,6 +28,7 @@ public class Assets {
     private static Image car;
     private static Image obstacle;
     private static Image garage;
+    private static Image trophy;
 
     public static Image GetGrass() {
         return grass;
