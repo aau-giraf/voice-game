@@ -4,8 +4,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import dk.aau.cs.giraf.cars.framework.Game;
+import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 
@@ -25,6 +27,8 @@ public class GameScreen extends Screen {
     private GameState state = GameState.Running;
     private Paint paint = new Paint();
     private int amountOfGarages = 3;
+
+    private WinningOverlay winningOverlay;
 
     public GameScreen(Game game, ObstacleGenerator obstacleGenerator) {
         super(game);
@@ -47,12 +51,14 @@ public class GameScreen extends Screen {
             garages.add(new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize, garageSize, garageSize));
 
         initializePaint();
+        winningOverlay = new WinningOverlay();
     }
 
 
 
     @Override
     public void update(float deltaTime) {
+        List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
         if(state == GameState.Running)
             updateRunning(deltaTime);
         if(state == GameState.Won)
@@ -110,9 +116,11 @@ public class GameScreen extends Screen {
             return false;
     }
 
+
+
     private void updateWon()
     {
-
+        state = winningOverlay.ButtonPressed(game);
     }
 
     private void resetRound() {
@@ -163,7 +171,7 @@ public class GameScreen extends Screen {
     {
         Graphics g = game.getGraphics();
         g.drawARGB(155, 0, 0, 0);
-        g.drawString("Resume", 400, 165, paint);
+        g.drawString("Spil igen", 400, 165, paint);
         g.drawString("Menu", 400, 360, paint);
     }
 
@@ -174,7 +182,7 @@ public class GameScreen extends Screen {
 
     @Override
     public void resume() {
-
+        state = GameState.Running;
     }
 
     @Override
