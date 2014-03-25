@@ -53,4 +53,6 @@ public class Assets {
     public static Image getGarage() {
         return garage;
     }
+
+    public static Image GetTrophy(){return trophy;}
 }
