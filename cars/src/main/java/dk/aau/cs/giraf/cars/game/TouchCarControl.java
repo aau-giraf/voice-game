@@ -16,7 +16,7 @@ public class TouchCarControl implements CarControl {
     }
 
     @Override
-    public float getMove(Game game, float deltaTime) {
+    public float getMove(Game game) {
         List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
 
         int len = touchEvents.size();

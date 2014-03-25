@@ -29,7 +29,7 @@ public class VolumeCarControl implements CarControl {
     }
 
     @Override
-    public float getMove(Game game, float deltaTime) {
+    public float getMove(Game game) {
 
         float volume = (float)mediaRecorder.getMaxAmplitude();
 

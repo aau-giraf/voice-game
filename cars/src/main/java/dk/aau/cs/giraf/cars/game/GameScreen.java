@@ -47,7 +47,7 @@ public class GameScreen extends Screen {
         if (car.x > game.getWidth())
             car.x = -car.width;
 
-        car.y += carControl.getMove(game, deltaTime);
+        car.y += carControl.getMove(game);
         if (car.y < grassSize) car.y = grassSize;
         if (car.y > game.getHeight() - car.height - grassSize)
             car.y = game.getHeight() - car.height - grassSize;
