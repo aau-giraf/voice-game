@@ -9,24 +9,26 @@ import dk.aau.cs.giraf.cars.framework.Input;
 
 public class TouchCarControl implements CarControl {
     private int lastMove = 0;
-    private int pixelsPerSecond;
 
-    public TouchCarControl(int pixelsPerSecond) {
-        this.pixelsPerSecond = pixelsPerSecond;
+    public TouchCarControl() {
     }
 
     @Override
-    public float getMove(Game game, float deltaTime) {
+    public float getMove(Game game) {
         List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
+
+        int width = game.getWidth();
+        int height = (int) (game.getHeight() * .25);
+        int bottomOffset = game.getHeight() - height;
 
         int len = touchEvents.size();
         for (int i = 0; i < len; i++) {
             Input.TouchEvent event = touchEvents.get(i);
             if (event.type == Input.TouchEvent.TOUCH_DOWN) {
-                if (inBounds(event, 0, 0, 1280, 200)) {
+                if (inBounds(event, 0, 0, width, height)) {
                     lastMove = -1;
                     break;
-                } else if (inBounds(event, 0, 600, 1280, 200)) {
+                } else if (inBounds(event, 0, bottomOffset, width, height)) {
                     lastMove = 1;
                     break;
                 }
@@ -36,7 +38,7 @@ public class TouchCarControl implements CarControl {
             }
         }
 
-        return lastMove * pixelsPerSecond * (deltaTime / 100.0f);
+        return lastMove;
     }
 
     private boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height) {
