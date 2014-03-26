@@ -38,12 +38,9 @@ public class FastRenderView extends SurfaceView implements Runnable {
                 continue;
 
 
-            float deltaTime = (System.nanoTime() - startTime) / 10000000.000f;
+            // Calculate deltaTime as milliseconds
+            float deltaTime = (System.nanoTime() - startTime) / 1000000.000f;
             startTime = System.nanoTime();
-
-            if (deltaTime > 3.15) {
-                deltaTime = (float) 3.15;
-            }
 
 
             game.getCurrentScreen().update(deltaTime);
