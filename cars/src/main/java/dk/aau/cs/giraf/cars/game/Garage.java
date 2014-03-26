@@ -9,7 +9,7 @@ import dk.aau.cs.giraf.cars.framework.Image;
 public class Garage extends GameItem {
     private int partWidth;
     private int drawnPart;
-    private final float closingTime = 100;
+    private final float closingTime = 1000;
     private float closingWait = 0;
 
     int color;

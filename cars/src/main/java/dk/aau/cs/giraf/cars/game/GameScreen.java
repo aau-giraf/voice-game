@@ -3,7 +3,10 @@ package dk.aau.cs.giraf.cars.game;
 import android.graphics.Color;
 import android.graphics.Paint;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Random;
 
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Screen;
@@ -38,12 +41,11 @@ public class GameScreen extends Screen {
         colors.add(Color.MAGENTA);
         colors.add(Color.CYAN);
         colors.add(Color.GREEN);
+        Collections.shuffle(colors);
 
         this.car = new Car(0, 0, 200, 99);
         this.car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
-
-        car.setColor(colors.getFirst());
 
         this.carControl = new TouchCarControl();
         this.speed = 70;
@@ -61,6 +63,10 @@ public class GameScreen extends Screen {
             g.setColor(colors.get(i));
             garages.add(g);
         }
+
+        Collections.shuffle(colors);
+        car.setColor(colors.removeFirst());
+
         initializePaint();
         winningOverlay = new WinningOverlay();
     }
@@ -81,13 +87,13 @@ public class GameScreen extends Screen {
             state = GameState.Won;
 
         car.Update(deltaTime);
-        car.x += speed * (deltaTime / 100.0f);
+        car.x += speed * (deltaTime / 1000.0f);
         if (car.x > game.getWidth())
             car.x = -car.width;
 
         float move = carControl.getMove(game);
         move = Math.min(Math.max(move, -1), 1);
-        move *= pixelsPerSecond * (deltaTime / 100.0f);
+        move *= pixelsPerSecond * (deltaTime / 1000.0f);
         car.y += move;
         if (car.y < grassSize) car.y = grassSize;
         if (car.y > game.getHeight() - car.height - grassSize)
@@ -142,12 +148,8 @@ public class GameScreen extends Screen {
 
     private void resetRound(boolean garageJustClosed) {
         if (garageJustClosed)
-        {
-            if (colors.size() > 1) {
-                colors.removeFirst();
-                car.setColor(colors.getFirst());
-            }
-        }
+            car.setColor(colors.removeFirst());
+
         this.obstacles.clear();
         for (Obstacle o : obstacleGenerator.CreateObstacles(game.getWidth(), game.getHeight()))
             this.obstacles.add(o);
