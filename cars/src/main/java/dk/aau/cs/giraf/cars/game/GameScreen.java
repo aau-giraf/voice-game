@@ -2,8 +2,10 @@ package dk.aau.cs.giraf.cars.game;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 import dk.aau.cs.giraf.cars.framework.Game;
@@ -15,7 +17,7 @@ public class GameScreen extends Screen {
     private Car car;
     private float speed; //Pixels per second
 
-    private int[] colors;
+    private LinkedList<Integer> colors;
 
     private ObstacleGenerator obstacleGenerator;
     private ArrayList<Obstacle> obstacles;
@@ -38,14 +40,15 @@ public class GameScreen extends Screen {
     public GameScreen(Game game, ObstacleGenerator obstacleGenerator) {
         super(game);
 
-        colors = new int[] { Color.BLUE, Color.RED, Color.GREEN };
+        colors = new LinkedList<Integer>();
+        colors.add(Color.MAGENTA);
+        colors.add(Color.CYAN);
+        colors.add(Color.GREEN);
+        Collections.shuffle(colors);
 
         this.car = new Car(0, 0, 200, 99);
         this.car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
-
-        Random r = new Random();
-        car.setColor(colors[r.nextInt(colors.length)]);
 
         this.carControl = new TouchCarControl();
         this.speed = 70;
@@ -59,10 +62,14 @@ public class GameScreen extends Screen {
         this.garages = new ArrayList<Garage>();
         float garageSpace = (game.getHeight() - 2 * grassSize - 3 * garageSize) / 4f;
         for (int i = 0; i < amountOfGarages; i++) {
-            Garage g = new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize, garageSize, garageSize);
-            g.setColor(colors[i]);
+            Garage g = new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize + garageSize/4, garageSize, garageSize/2);
+            g.setColor(colors.get(i));
             garages.add(g);
         }
+
+        Collections.shuffle(colors);
+        car.setColor(colors.removeFirst());
+
         initializePaint();
         winningOverlay = new WinningOverlay();
         startOverlay = new StartOverlay(startingSeconds);
@@ -89,13 +96,13 @@ public class GameScreen extends Screen {
             state = GameState.Won;
 
         car.Update(deltaTime);
-        car.x += speed * (deltaTime / 100.0f);
+        car.x += speed * (deltaTime / 1000.0f);
         if (car.x > game.getWidth())
             car.x = -car.width;
 
         float move = carControl.getMove(game);
         move = Math.min(Math.max(move, -1), 1);
-        move *= pixelsPerSecond * (deltaTime / 100.0f);
+        move *= pixelsPerSecond * (deltaTime / 1000.0f);
         car.y += move;
         if (car.y < grassSize) car.y = grassSize;
         if (car.y > game.getHeight() - car.height - grassSize)
@@ -104,7 +111,7 @@ public class GameScreen extends Screen {
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(deltaTime);
             if (obstacles.get(i).CollidesWith(car)) {
-                resetRound();
+                resetRound(false);
                 break;
             }
         }
@@ -114,9 +121,13 @@ public class GameScreen extends Screen {
             garage.Update(deltaTime);
             if (garage.CollidesWith(car)) {
                 if (garage.getIsClosed())
-                    resetRound();
-                else
+                    resetRound(false);
+                else if (car.color == garage.color) {
                     garage.Close();
+                    resetRound(true);
+                }
+                else
+                    resetRound(false);
             }
             if (garage.getIsClosed())
                 anyOpen = false;
@@ -137,7 +148,22 @@ public class GameScreen extends Screen {
             return false;
     }
 
+<<<<<<< HEAD
     private void resetRound() {
+=======
+
+
+    private void updateWon()
+    {
+        state = winningOverlay.ButtonPressed(game);
+    }
+
+    private void resetRound(boolean garageJustClosed) {
+        if (garageJustClosed)
+            if (colors.size() > 0) //This shouldn't be necessary, but game doesn't quite stop even though all 3 garages are closed
+                car.setColor(colors.removeFirst());
+
+>>>>>>> 461733965f65a14112b36568c15ead1d715c2416
         this.obstacles.clear();
         for (Obstacle o : obstacleGenerator.CreateObstacles(game.getWidth(), game.getHeight()))
             this.obstacles.add(o);

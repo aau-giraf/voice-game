@@ -16,6 +16,8 @@ public class Car extends GameItem {
     }
     public Car(float x, float y, float height, float width) {
         super(x, y, height, width);
+
+        this.color = Color.WHITE;
         this.image = Assets.GetCar();
     }
 
