@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.graphics.Color;
 import android.graphics.Rect;
 
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -19,11 +20,12 @@ public class Garage extends GameItem {
         this.partWidth = Assets.getGarage().getWidth() / 3;
         this.drawnPart = 0;
 
-        this.color = color;
+        this.color = Color.WHITE;
         this.image = Assets.getGarage();
     }
 
     public void setColor(int color) {
+        this.color = color;
         image = Graphics.recolorImage(Assets.getGarage(), color);
     }
 
