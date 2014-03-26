@@ -29,6 +29,7 @@ public class GameScreen extends Screen {
     private GameState state = GameState.Starting;
     private Paint paint = new Paint();
     private int amountOfGarages = 3;
+    private int startingSeconds = 3;
 
     private WinningOverlay winningOverlay;
     private StartOverlay startOverlay;
@@ -63,7 +64,7 @@ public class GameScreen extends Screen {
         }
         initializePaint();
         winningOverlay = new WinningOverlay();
-        startOverlay = new StartOverlay();
+        startOverlay = new StartOverlay(startingSeconds);
     }
 
 
@@ -79,6 +80,7 @@ public class GameScreen extends Screen {
     }
 
     private void updateStarting(float deltaTime) {
+        state = startOverlay.UpdateTime(deltaTime);
     }
 
     private void updateRunning(float deltaTime)
@@ -162,7 +164,6 @@ public class GameScreen extends Screen {
 
     private void drawStarting() {
         startOverlay.Draw(game, paint);
-        state = GameState.Running;
     }
 
     private void initializePaint()
