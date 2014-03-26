@@ -1,5 +1,5 @@
 package dk.aau.cs.giraf.cars.game;
 
 public enum GameState {
-        Starting, Running, Won
+        Starting, Running, Crashed, Won
 }
