@@ -1,20 +1,17 @@
 package dk.aau.cs.giraf.cars;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import dk.aau.cs.giraf.cars.game.CarGame;
-import dk.aau.cs.giraf.gui.*;
 
-public class MainMenu extends Activity {
+
+public class Settings extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_menu);
+        setContentView(R.layout.activity_settings);
     }
 
 
@@ -22,7 +19,7 @@ public class MainMenu extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }
 
@@ -38,15 +35,4 @@ public class MainMenu extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void startGame(View view)
-    {
-        Intent intent =  new Intent(this, CarGame.class);
-        startActivity(intent);
-    }
-
-    public void showSettings(View view)
-    {
-        Intent intent =  new Intent(this, Settings.class);
-        startActivity(intent);
-    }
 }

@@ -31,6 +31,10 @@
             android:name="dk.aau.cs.giraf.cars.game.CarGame"
             android:label="@string/title_activity_cargame" >
         </activity>
+        <activity
+            android:name="dk.aau.cs.giraf.cars.Settings"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>
