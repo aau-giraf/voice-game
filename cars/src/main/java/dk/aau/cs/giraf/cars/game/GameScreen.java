@@ -23,11 +23,12 @@ public class GameScreen extends Screen {
     private final int grassSize = 70;
     private final float garageSize = 150;
 
-    private GameState state = GameState.Running;
+    private GameState state = GameState.Starting;
     private Paint paint = new Paint();
     private int amountOfGarages = 3;
 
     private WinningOverlay winningOverlay;
+    private StartOverlay startOverlay;
 
     public GameScreen(Game game, ObstacleGenerator obstacleGenerator) {
         super(game);
@@ -51,16 +52,22 @@ public class GameScreen extends Screen {
 
         initializePaint();
         winningOverlay = new WinningOverlay();
+        startOverlay = new StartOverlay();
     }
 
 
 
     @Override
     public void update(float deltaTime) {
+        if (state == GameState.Starting)
+            updateStarting(deltaTime);
         if(state == GameState.Running)
             updateRunning(deltaTime);
         if(state == GameState.Won)
             updateWon();
+    }
+
+    private void updateStarting(float deltaTime) {
     }
 
     private void updateRunning(float deltaTime)
@@ -134,10 +141,17 @@ public class GameScreen extends Screen {
 
     @Override
     public void paint(float deltaTime) {
+        if (state == GameState.Starting)
+            drawStarting();
         if(state == GameState.Running)
             drawRunning(deltaTime);
         if(state == GameState.Won)
             drawWon();
+    }
+
+    private void drawStarting() {
+        startOverlay.Draw(game, paint);
+        state = GameState.Running;
     }
 
     private void initializePaint()
