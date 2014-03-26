@@ -51,7 +51,7 @@ public class GameScreen extends Screen {
         this.car.y = (game.getHeight() - car.height) / 2f;
 
         this.carControl = new TouchCarControl();
-        this.speed = 70;
+        this.speed = 250;
 
         this.obstacles = new ArrayList<Obstacle>();
         this.obstacleGenerator = obstacleGenerator;
@@ -171,6 +171,23 @@ public class GameScreen extends Screen {
 
     @Override
     public void paint(float deltaTime) {
+        Graphics graphics = game.getGraphics();
+        graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
+        graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, game.getWidth(), game.getHeight() - grassSize * 2);
+
+        for (int i = 0; i < game.getWidth(); i += 10) {
+            graphics.drawImage(Assets.getBorder(), i, grassSize - 19, 0, 0, 10, 25);
+            graphics.drawImage(Assets.getBorder(), i, game.getHeight() - grassSize - 6, 0, 25, 10, 25);
+        }
+
+        car.Paint(graphics, deltaTime);
+
+        for (Obstacle obstacle : obstacles)
+            obstacle.Paint(graphics, deltaTime);
+
+        for (Garage garage : garages)
+            garage.Paint(graphics, deltaTime);
+
         if (state == GameState.Starting)
             startOverlay.Draw(game,paint);
         if(state == GameState.Running)
@@ -191,22 +208,7 @@ public class GameScreen extends Screen {
 
     private void drawRunning(float deltaTime)
     {
-        Graphics graphics = game.getGraphics();
-        graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
-        graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, game.getWidth(), game.getHeight() - grassSize * 2);
 
-        for (int i = 0; i < game.getWidth(); i += 10) {
-            graphics.drawImage(Assets.getBorder(), i, grassSize - 19, 0, 0, 10, 25);
-            graphics.drawImage(Assets.getBorder(), i, game.getHeight() - grassSize - 6, 0, 25, 10, 25);
-        }
-
-        car.Paint(graphics, deltaTime);
-
-        for (Obstacle obstacle : obstacles)
-            obstacle.Paint(graphics, deltaTime);
-
-        for (Garage garage : garages)
-            garage.Paint(graphics, deltaTime);
     }
 
     @Override

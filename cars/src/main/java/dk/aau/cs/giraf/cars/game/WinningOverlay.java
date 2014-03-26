@@ -44,7 +44,7 @@ public class WinningOverlay implements Overlay {
         int width = game.getWidth();
         int height = game.getHeight();
         Graphics g = game.getGraphics();
-        //g.drawARGB(255, 0, 0, 0);
+        g.drawARGB(155, 0, 0, 0);
         g.drawImage(Assets.GetTrophy(), (int)(width*.50) - Assets.GetTrophy().getWidth()/2, (int)(height*.25) - Assets.GetTrophy().getHeight()/2);
         g.drawString("Spil igen", (int)(width*.25), (int)(height*.85), paint);
         g.drawString("Menu", (int)(width*.75), (int)(height*.85), paint);

@@ -29,6 +29,7 @@ public class StartOverlay implements Overlay {
         int width = game.getWidth();
         int height = game.getHeight();
         Graphics g = game.getGraphics();
+        g.drawARGB(155,0,0,0);
         g.drawString((int)visualCounter+"", width/2, height/2, paint);
     }
 }
