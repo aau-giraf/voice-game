@@ -3,7 +3,9 @@ package dk.aau.cs.giraf.cars.game;
 import android.graphics.Color;
 import android.graphics.Paint;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 import dk.aau.cs.giraf.cars.framework.Game;
@@ -39,7 +41,7 @@ public class GameScreen extends Screen {
         colors.add(Color.MAGENTA);
         colors.add(Color.CYAN);
         colors.add(Color.GREEN);
-        colorRandomizer(colors);
+        Collections.shuffle(colors);
 
         this.car = new Car(0, 0, 200, 99);
         this.car.x = -car.width;
@@ -62,7 +64,7 @@ public class GameScreen extends Screen {
             garages.add(g);
         }
 
-        colorRandomizer(colors);
+        Collections.shuffle(colors);
         car.setColor(colors.removeFirst());
 
         initializePaint();
@@ -194,13 +196,6 @@ public class GameScreen extends Screen {
     private void drawWon()
     {
         winningOverlay.Draw(game, paint);
-    }
-
-    private void colorRandomizer(LinkedList<Integer> colors) {
-        Random r = new Random();
-
-        for (int i = 0; i < colors.size(); i++)
-            colors.add(r.nextInt(colors.size()), colors.removeFirst());
     }
 
     @Override
