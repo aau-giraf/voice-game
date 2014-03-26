@@ -73,6 +73,7 @@ public class GameScreen extends Screen {
         initializePaint();
         winningOverlay = new WinningOverlay();
         startOverlay = new StartOverlay(startingSeconds);
+        crashedOverlay = new CrashOverlay();
     }
 
 
@@ -93,7 +94,10 @@ public class GameScreen extends Screen {
     private void updateRunning(float deltaTime)
     {
         if (allGaragesClosed())
+        {
             state = GameState.Won;
+            return;
+        }
 
         car.Update(deltaTime);
         car.x += speed * (deltaTime / 1000.0f);
@@ -112,7 +116,8 @@ public class GameScreen extends Screen {
             obstacles.get(i).Update(deltaTime);
             if (obstacles.get(i).CollidesWith(car)) {
                 resetRound(false);
-                break;
+                state = GameState.Crashed;
+                return;
             }
         }
 
@@ -120,14 +125,17 @@ public class GameScreen extends Screen {
         for (Garage garage : garages) {
             garage.Update(deltaTime);
             if (garage.CollidesWith(car)) {
-                if (garage.getIsClosed())
-                    resetRound(false);
-                else if (car.color == garage.color) {
+                if (car.color == garage.color && !garage.getIsClosed())
+                {
                     garage.Close();
                     resetRound(true);
                 }
                 else
+                {
                     resetRound(false);
+                    state = GameState.Crashed;
+                    return;
+                }
             }
             if (garage.getIsClosed())
                 anyOpen = false;

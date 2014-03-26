@@ -10,7 +10,7 @@ public class StartOverlay implements Overlay {
     private float visualCounter;
     public StartOverlay(int seconds)
     {
-        counterInMS = seconds*1000;
+        counterInMS = (seconds+1)*1000;
         visualCounter = seconds;
     }
 
@@ -19,7 +19,7 @@ public class StartOverlay implements Overlay {
         counterInMS -= deltaTime;
         if (counterInMS<=0)
             return GameState.Running;
-        if (counterInMS<(visualCounter-1)*1000)
+        if (counterInMS<visualCounter*1000)
             visualCounter--;
         return GameState.Starting;
     }
@@ -29,6 +29,6 @@ public class StartOverlay implements Overlay {
         int width = game.getWidth();
         int height = game.getHeight();
         Graphics g = game.getGraphics();
-        g.drawString(visualCounter+"", width/2, height/2, paint);
+        g.drawString((int)visualCounter+"", width/2, height/2, paint);
     }
 }
