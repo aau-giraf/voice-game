@@ -19,9 +19,9 @@ public class Car extends GameItem {
         this.image = Assets.GetCar();
     }
 
-    public void setColor(Graphics graphics, int color) {
+    public void setColor(int color) {
         this.color = color;
-        this.image = graphics.recolorImage(Assets.GetCar(), color);
+        this.image = Graphics.recolorImage(Assets.GetCar(), color);
     }
 
     @Override

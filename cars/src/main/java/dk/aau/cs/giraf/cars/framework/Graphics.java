@@ -71,7 +71,7 @@ public class Graphics {
         return new Image(bitmap, format);
     }
 
-    public Image recolorImage(Image image, int newColor) {
+    public static Image recolorImage(Image image, int newColor) {
         int oldColor = Color.WHITE;
 
         int[] pixels = new int [image.bitmap.getWidth() * image.bitmap.getHeight()];
@@ -100,7 +100,7 @@ public class Graphics {
         return new Image(recoloredBitmap, getImageFormat(recoloredBitmap.getConfig()));
     }
 
-    private ImageFormat getImageFormat(Config config) {
+    private static ImageFormat getImageFormat(Config config) {
         if (config == Config.RGB_565)
             return ImageFormat.RGB565;
         else if (config == Config.ARGB_4444)

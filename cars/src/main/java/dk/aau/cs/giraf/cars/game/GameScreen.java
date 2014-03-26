@@ -42,7 +42,7 @@ public class GameScreen extends Screen {
         this.car.y = (game.getHeight() - car.height) / 2f;
 
         Random r = new Random();
-        car.setColor(game.getGraphics(), colors[r.nextInt(colors.length)]);
+        car.setColor(colors[r.nextInt(colors.length)]);
 
         this.carControl = new TouchCarControl();
         this.speed = 70;
@@ -57,7 +57,7 @@ public class GameScreen extends Screen {
         float garageSpace = (game.getHeight() - 2 * grassSize - 3 * garageSize) / 4f;
         for (int i = 0; i < amountOfGarages; i++) {
             Garage g = new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize, garageSize, garageSize);
-            g.setColor(game.getGraphics(), colors[i]);
+            g.setColor(colors[i]);
             garages.add(g);
         }
         initializePaint();

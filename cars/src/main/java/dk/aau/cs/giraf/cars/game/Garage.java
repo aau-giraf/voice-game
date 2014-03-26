@@ -23,8 +23,8 @@ public class Garage extends GameItem {
         this.image = Assets.getGarage();
     }
 
-    public void setColor(Graphics graphics, int color) {
-        image = graphics.recolorImage(Assets.getGarage(), color);
+    public void setColor(int color) {
+        image = Graphics.recolorImage(Assets.getGarage(), color);
     }
 
     @Override
