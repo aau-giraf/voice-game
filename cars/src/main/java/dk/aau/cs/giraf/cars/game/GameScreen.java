@@ -43,8 +43,6 @@ public class GameScreen extends Screen {
         this.car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
 
-        car.setColor(colors.getFirst());
-
         this.carControl = new TouchCarControl();
         this.speed = 70;
 
@@ -61,6 +59,9 @@ public class GameScreen extends Screen {
             g.setColor(colors.get(i));
             garages.add(g);
         }
+
+        car.setColor(colors.removeFirst());
+
         initializePaint();
         winningOverlay = new WinningOverlay();
     }
@@ -81,13 +82,13 @@ public class GameScreen extends Screen {
             state = GameState.Won;
 
         car.Update(deltaTime);
-        car.x += speed * (deltaTime / 100.0f);
+        car.x += speed * (deltaTime / 1000.0f);
         if (car.x > game.getWidth())
             car.x = -car.width;
 
         float move = carControl.getMove(game);
         move = Math.min(Math.max(move, -1), 1);
-        move *= pixelsPerSecond * (deltaTime / 100.0f);
+        move *= pixelsPerSecond * (deltaTime / 1000.0f);
         car.y += move;
         if (car.y < grassSize) car.y = grassSize;
         if (car.y > game.getHeight() - car.height - grassSize)
@@ -142,12 +143,8 @@ public class GameScreen extends Screen {
 
     private void resetRound(boolean garageJustClosed) {
         if (garageJustClosed)
-        {
-            if (colors.size() > 1) {
-                colors.removeFirst();
-                car.setColor(colors.getFirst());
-            }
-        }
+            car.setColor(colors.removeFirst());
+
         this.obstacles.clear();
         for (Obstacle o : obstacleGenerator.CreateObstacles(game.getWidth(), game.getHeight()))
             this.obstacles.add(o);
