@@ -33,6 +33,7 @@ public class GameScreen extends Screen {
 
     private WinningOverlay winningOverlay;
     private StartOverlay startOverlay;
+    private CrashOverlay crashedOverlay;
 
     public GameScreen(Game game, ObstacleGenerator obstacleGenerator) {
         super(game);
@@ -72,16 +73,15 @@ public class GameScreen extends Screen {
     @Override
     public void update(float deltaTime) {
         if (state == GameState.Starting)
-            updateStarting(deltaTime);
+            state = startOverlay.UpdateTime(deltaTime);
         if(state == GameState.Running)
             updateRunning(deltaTime);
+        if(state == GameState.Crashed)
+            state = crashedOverlay.ButtonPressed(game);
         if(state == GameState.Won)
-            updateWon();
+            state = winningOverlay.ButtonPressed(game);
     }
 
-    private void updateStarting(float deltaTime) {
-        state = startOverlay.UpdateTime(deltaTime);
-    }
 
     private void updateRunning(float deltaTime)
     {
@@ -137,13 +137,6 @@ public class GameScreen extends Screen {
             return false;
     }
 
-
-
-    private void updateWon()
-    {
-        state = winningOverlay.ButtonPressed(game);
-    }
-
     private void resetRound() {
         this.obstacles.clear();
         for (Obstacle o : obstacleGenerator.CreateObstacles(game.getWidth(), game.getHeight()))
@@ -155,15 +148,13 @@ public class GameScreen extends Screen {
     @Override
     public void paint(float deltaTime) {
         if (state == GameState.Starting)
-            drawStarting();
+            startOverlay.Draw(game,paint);
         if(state == GameState.Running)
             drawRunning(deltaTime);
+        if (state == GameState.Crashed)
+            crashedOverlay.Draw(game,paint);
         if(state == GameState.Won)
-            drawWon();
-    }
-
-    private void drawStarting() {
-        startOverlay.Draw(game, paint);
+            winningOverlay.Draw(game,paint);
     }
 
     private void initializePaint()
@@ -192,11 +183,6 @@ public class GameScreen extends Screen {
 
         for (Garage garage : garages)
             garage.Paint(graphics, deltaTime);
-    }
-
-    private void drawWon()
-    {
-        winningOverlay.Draw(game, paint);
     }
 
     @Override
