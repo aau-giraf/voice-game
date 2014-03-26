@@ -148,22 +148,12 @@ public class GameScreen extends Screen {
             return false;
     }
 
-<<<<<<< HEAD
-    private void resetRound() {
-=======
 
-
-    private void updateWon()
-    {
-        state = winningOverlay.ButtonPressed(game);
-    }
 
     private void resetRound(boolean garageJustClosed) {
         if (garageJustClosed)
             if (colors.size() > 0) //This shouldn't be necessary, but game doesn't quite stop even though all 3 garages are closed
                 car.setColor(colors.removeFirst());
-
->>>>>>> 461733965f65a14112b36568c15ead1d715c2416
         this.obstacles.clear();
         for (Obstacle o : obstacleGenerator.CreateObstacles(game.getWidth(), game.getHeight()))
             this.obstacles.add(o);
