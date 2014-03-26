@@ -148,7 +148,8 @@ public class GameScreen extends Screen {
 
     private void resetRound(boolean garageJustClosed) {
         if (garageJustClosed)
-            car.setColor(colors.removeFirst());
+            if (colors.size() > 0) //This shouldn't be necessary, but game doesn't quite stop even though all 3 garages are closed
+                car.setColor(colors.removeFirst());
 
         this.obstacles.clear();
         for (Obstacle o : obstacleGenerator.CreateObstacles(game.getWidth(), game.getHeight()))
