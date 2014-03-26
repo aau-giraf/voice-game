@@ -11,7 +11,7 @@ import android.os.PowerManager.WakeLock;
 import android.view.Window;
 import android.view.WindowManager;
 
-public abstract class Game extends Activity {
+public abstract class GameActivity extends Activity {
     FastRenderView renderView;
     Graphics graphics;
     Audio audio;
