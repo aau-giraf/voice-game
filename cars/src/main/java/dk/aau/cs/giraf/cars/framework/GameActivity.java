@@ -40,7 +40,7 @@ public abstract class GameActivity extends Activity implements Game {
         getWindowManager().getDefaultDisplay().getSize(this.size);
         Bitmap frameBuffer = Bitmap.createBitmap(this.size.x, this.size.y, Config.RGB_565);
 
-        renderView = new FastRenderView(this, frameBuffer);
+        renderView = new FastRenderView(this, this, frameBuffer);
         graphics = new Graphics(getAssets(), frameBuffer);
         fileIO = new FileIO(this);
         audio = new Audio(this);
