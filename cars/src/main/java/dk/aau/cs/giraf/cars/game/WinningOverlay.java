@@ -30,7 +30,7 @@ public class WinningOverlay extends Overlay {
             Input.TouchEvent event = touchEvents.get(i);
             if (event.type == Input.TouchEvent.TOUCH_UP) {
                 if (inBounds(event, 0,height/2,width/2, height/2)) {
-                    game.setScreen(new GameScreen(game, new TestObstacles()));
+                    game.setScreen(new GameScreen(game, new TestObstacles(),gameSettings));
                     return GameState.Running;
                     }
                 if (inBounds(event, width/2, height/2, width/2, height/2)) {

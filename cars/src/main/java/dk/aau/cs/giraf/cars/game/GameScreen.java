@@ -42,7 +42,7 @@ public class GameScreen extends Screen {
         super(game);
 
         gameSettings = gs;
-        colors = gs.GetColors();
+        colors = (LinkedList<Integer>)gs.GetColors().clone();
         Collections.shuffle(colors);
 
         this.car = new Car(0, 0, 200, 99);
