@@ -6,7 +6,7 @@ import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 
-public class StartOverlay implements Overlay {
+public class StartOverlay extends Overlay {
     private float counterInMS;
     private float visualCounter;
     public StartOverlay(int seconds)
@@ -25,7 +25,7 @@ public class StartOverlay implements Overlay {
         return GameState.Starting;
     }
 
-    public void Draw(Game game, Paint paint)
+    public void Draw(Game game)
     {
         int width = game.getWidth();
         int height = game.getHeight();
@@ -33,6 +33,6 @@ public class StartOverlay implements Overlay {
         g.drawARGB(155,0,0,0);
         String out;
         out = visualCounter == 0 ? game.getResources().getString(R.string.countdown_drive) : (int)visualCounter+"";
-        g.drawString(out, width/2, height/2, paint);
+        g.drawString(out, width/2, height/2, pButton);
     }
 }
