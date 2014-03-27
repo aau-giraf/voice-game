@@ -4,6 +4,7 @@ import android.graphics.Paint;
 
 import java.util.List;
 
+import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
@@ -35,7 +36,7 @@ public class CrashOverlay implements Overlay {
         int height = game.getHeight();
         Graphics g = game.getGraphics();
         g.drawARGB(155,0,0,0);
-        g.drawString("Fortsæt",width/2,height/2,paint);
+        g.drawString(game.getResources().getString(R.string.crash_button_text),width/2,height/2,paint);
     }
 
     private boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height)

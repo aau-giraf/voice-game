@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">cars</string>
+    <string name="countdown_drive">Kør</string>
+    <string name="crash_button_text">Fortsæt</string>
+    <string name="play_again_button_text">Spil igen</string>
+    <string name="menu_button_text">Menu</string>
 </resources>

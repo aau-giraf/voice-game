@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.cars.game;
 
 import android.graphics.Paint;
 
+import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 
@@ -31,7 +32,7 @@ public class StartOverlay implements Overlay {
         Graphics g = game.getGraphics();
         g.drawARGB(155,0,0,0);
         String out;
-        out = visualCounter == 0 ? "Kør" : (int)visualCounter+"";
+        out = visualCounter == 0 ? game.getResources().getString(R.string.countdown_drive) : (int)visualCounter+"";
         g.drawString(out, width/2, height/2, paint);
     }
 }

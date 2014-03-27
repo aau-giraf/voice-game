@@ -4,6 +4,7 @@ import android.graphics.Paint;
 
 import java.util.List;
 
+import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
@@ -45,8 +46,8 @@ public class WinningOverlay implements Overlay {
         int height = game.getHeight();
         Graphics g = game.getGraphics();
         g.drawARGB(155, 0, 0, 0);
-        g.drawImage(Assets.GetTrophy(), (int)(width*.50) - Assets.GetTrophy().getWidth()/2, (int)(height*.25) - Assets.GetTrophy().getHeight()/2);
-        g.drawString("Spil igen", (int)(width*.25), (int)(height*.85), paint);
-        g.drawString("Menu", (int)(width*.75), (int)(height*.85), paint);
+        g.drawImage(Assets.GetTrophy(), (int) (width * .50) - Assets.GetTrophy().getWidth() / 2, (int) (height * .25) - Assets.GetTrophy().getHeight() / 2);
+        g.drawString(game.getResources().getString(R.string.play_again_button_text), (int) (width * .25), (int) (height * .85), paint);
+        g.drawString(game.getResources().getString(R.string.menu_button_text), (int)(width*.75), (int)(height*.85), paint);
     }
 }
