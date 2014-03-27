@@ -9,9 +9,9 @@ import dk.aau.cs.giraf.cars.framework.Graphics;
 public class StartOverlay extends Overlay {
     private float counterInMS;
     private float visualCounter;
-    public StartOverlay(int seconds)
+    public StartOverlay(Game game, int seconds)
     {
-        super();
+        super(game);
 
         counterInMS = (seconds+1)*1000;
         visualCounter = seconds;
@@ -27,7 +27,6 @@ public class StartOverlay extends Overlay {
         return GameState.Starting;
     }
 
-    @Override
     public GameState ButtonPressed(Game game) {
         return null;
     }

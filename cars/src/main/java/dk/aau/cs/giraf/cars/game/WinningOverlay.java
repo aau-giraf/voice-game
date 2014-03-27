@@ -16,13 +16,13 @@ import dk.aau.cs.giraf.cars.framework.Screen;
 public class WinningOverlay extends Overlay {
     private GameSettings gameSettings;
 
-    public WinningOverlay(){ super(); }
+    public WinningOverlay(Game game){ super(game); }
 
-    public WinningOverlay(GameSettings gs){
+    public WinningOverlay(Game game, GameSettings gs){
+       super(game);
         gameSettings = gs;
     }
 
-    @Override
     public GameState ButtonPressed(Game game)
     {
         Input.TouchEvent[] touchEvents = game.getTouchEvents();

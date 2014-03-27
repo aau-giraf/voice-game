@@ -70,9 +70,9 @@ public class GameScreen extends Screen {
         Collections.shuffle(colors);
         car.setColor(colors.removeFirst());
 
-        winningOverlay = new WinningOverlay(gs);
-        startOverlay = new StartOverlay(startingSeconds);
-        crashedOverlay = new CrashOverlay();
+        winningOverlay = new WinningOverlay(game, gs);
+        startOverlay = new StartOverlay(game, startingSeconds);
+        crashedOverlay = new CrashOverlay(game);
     }
 
 
@@ -98,7 +98,8 @@ public class GameScreen extends Screen {
     private void updateCrashed()
     {
         carControl.Reset();
-        state = crashedOverlay.ButtonPressed(game);
+        if (crashedOverlay.ContinueButtonPressed(game.getTouchEvents()))
+            state = GameState.Running;
     }
 
 
