@@ -9,8 +9,12 @@ import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 
 public class WinningOverlay implements Overlay {
+    private GameSettings gameSettings;
 
-    public WinningOverlay(){}
+
+    public WinningOverlay(GameSettings gs){
+        gameSettings = gs;
+    }
 
     public GameState ButtonPressed(Game game)
     {
@@ -23,7 +27,7 @@ public class WinningOverlay implements Overlay {
             Input.TouchEvent event = touchEvents.get(i);
             if (event.type == Input.TouchEvent.TOUCH_UP) {
                 if (inBounds(event, 0,height/2,width/2, height/2)) {
-                        game.setScreen(new GameScreen(game, new TestObstacles()));
+                        game.setScreen(new GameScreen(game, new TestObstacles(),gameSettings));
                         return GameState.Running;
                     }
                 if (inBounds(event, width/2, height/2, width/2, height/2)) {

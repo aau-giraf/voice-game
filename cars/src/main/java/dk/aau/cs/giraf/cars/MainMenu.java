@@ -2,18 +2,31 @@ package dk.aau.cs.giraf.cars;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import dk.aau.cs.giraf.cars.game.CarGame;
-import dk.aau.cs.giraf.gui.*;
+import dk.aau.cs.giraf.cars.game.GameSettings;
+
+import java.util.Arrays;
+import java.util.LinkedList;
 
 public class MainMenu extends Activity {
+
+    GameSettings gamesettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        if(  intent.hasExtra("GameSettings"))
+            gamesettings = intent.getParcelableExtra("GameSettings");
+        else gamesettings = new GameSettings(new LinkedList<Integer>(Arrays.asList(Color.BLUE,Color.GREEN,Color.RED)), 70); //TODO make more convenient default gamesettings
+
+
         setContentView(R.layout.activity_main_menu);
     }
 
@@ -41,6 +54,7 @@ public class MainMenu extends Activity {
     public void startGame(View view)
     {
         Intent intent =  new Intent(this, CarGame.class);
+        intent.putExtra("GameSettings",gamesettings);
         startActivity(intent);
     }
 

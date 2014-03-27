@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.cars;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,7 +69,9 @@ public class Settings extends Activity {
 
         GameSettings gs = new GameSettings(colors, Integer.parseInt(speed.getText().toString()));
 
-
+        Intent intent = new Intent(this, MainMenu.class);
+        intent.putExtra("GameSettings",gs);
+        startActivity(intent);
     }
 
 }

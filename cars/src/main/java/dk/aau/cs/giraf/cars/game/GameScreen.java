@@ -13,6 +13,7 @@ import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 
 public class GameScreen extends Screen {
+    private GameSettings gameSettings;
     private CarControl carControl;
     private Car car;
     private float speed; //Pixels per second
@@ -37,13 +38,12 @@ public class GameScreen extends Screen {
     private StartOverlay startOverlay;
     private CrashOverlay crashedOverlay;
 
-    public GameScreen(Game game, ObstacleGenerator obstacleGenerator) {
+    public GameScreen(Game game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
 
+        gameSettings = gs;
         colors = new LinkedList<Integer>();
-        colors.add(Color.MAGENTA);
-        colors.add(Color.CYAN);
-        colors.add(Color.GREEN);
+        colors = gs.GetColors();
         Collections.shuffle(colors);
 
         this.car = new Car(0, 0, 200, 99);
@@ -51,7 +51,7 @@ public class GameScreen extends Screen {
         this.car.y = (game.getHeight() - car.height) / 2f;
 
         this.carControl = new TouchCarControl();
-        this.speed = 250;
+        this.speed = gs.GetSpeed();
 
         this.obstacles = new ArrayList<Obstacle>();
         this.obstacleGenerator = obstacleGenerator;
@@ -71,7 +71,7 @@ public class GameScreen extends Screen {
         car.setColor(colors.removeFirst());
 
         initializePaint();
-        winningOverlay = new WinningOverlay();
+        winningOverlay = new WinningOverlay(gs);
         startOverlay = new StartOverlay(startingSeconds);
         crashedOverlay = new CrashOverlay();
     }
