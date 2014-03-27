@@ -1,7 +1,5 @@
 package dk.aau.cs.giraf.cars.game;
 
-import android.util.Log;
-
 import java.util.List;
 
 import dk.aau.cs.giraf.cars.framework.Game;
