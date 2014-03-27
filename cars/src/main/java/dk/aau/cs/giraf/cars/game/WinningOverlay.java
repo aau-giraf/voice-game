@@ -10,7 +10,7 @@ import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.Screen;
 
-public class WinningOverlay implements Overlay {
+public class WinningOverlay extends Overlay {
 
     public WinningOverlay(){}
 
@@ -41,14 +41,14 @@ public class WinningOverlay implements Overlay {
         return event.x > x && event.x < x + width - 1 && event.y > y && event.y < y + height - 1;
     }
 
-    public void Draw(Game game, Paint paint)
+    public void Draw(Game game)
     {
         int width = game.getWidth();
         int height = game.getHeight();
         Graphics g = game.getGraphics();
         g.drawARGB(155, 0, 0, 0);
         g.drawImage(Assets.GetTrophy(), (int) (width * .50) - Assets.GetTrophy().getWidth() / 2, (int) (height * .25) - Assets.GetTrophy().getHeight() / 2);
-        g.drawString(game.getResources().getString(R.string.play_again_button_text), (int) (width * .25), (int) (height * .85), paint);
-        g.drawString(game.getResources().getString(R.string.menu_button_text), (int)(width*.75), (int)(height*.85), paint);
+        g.drawString(game.getResources().getString(R.string.play_again_button_text), (int) (width * .25), (int) (height * .85), pButton);
+        g.drawString(game.getResources().getString(R.string.menu_button_text), (int)(width*.75), (int)(height*.85), pButton);
     }
 }
