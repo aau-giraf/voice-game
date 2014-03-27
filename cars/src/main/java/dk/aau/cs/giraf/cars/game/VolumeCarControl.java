@@ -43,4 +43,7 @@ public class VolumeCarControl implements CarControl {
 
         return volume;
     }
+
+    @Override
+    public void Reset(){}
 }
