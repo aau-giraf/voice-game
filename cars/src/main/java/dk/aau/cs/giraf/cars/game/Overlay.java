@@ -26,6 +26,8 @@ public abstract class Overlay {
         pFocus.setColor(Color.YELLOW);
     }
 
+    public abstract GameState ButtonPressed(Game game);
+
     public abstract void Draw(Game game);
 
     protected boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height)
