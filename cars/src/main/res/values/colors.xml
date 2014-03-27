@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="colors_array">
-        <item>cyan</item>
-        <item>green</item>
-        <item>magenta</item>
-        <item>orange</item>
-        <item>pink</item>
+    <string-array name="colorname_array">
+        <item>Cyan</item>
+        <item>Green</item>
+        <item>Magenta</item>
+        <item>Blue</item>
+        <item>Yellow</item>
     </string-array>
+
 </resources>

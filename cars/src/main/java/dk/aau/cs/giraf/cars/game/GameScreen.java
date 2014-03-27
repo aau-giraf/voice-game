@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
+import android.util.Log;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -42,7 +43,6 @@ public class GameScreen extends Screen {
         super(game);
 
         gameSettings = gs;
-        colors = new LinkedList<Integer>();
         colors = gs.GetColors();
         Collections.shuffle(colors);
 
@@ -63,6 +63,7 @@ public class GameScreen extends Screen {
         float garageSpace = (game.getHeight() - 2 * grassSize - 3 * garageSize) / 4f;
         for (int i = 0; i < amountOfGarages; i++) {
             Garage g = new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize + garageSize/4, garageSize, garageSize/2);
+            Log.d("Settings",colors.toString());
             g.setColor(colors.get(i));
             garages.add(g);
         }
