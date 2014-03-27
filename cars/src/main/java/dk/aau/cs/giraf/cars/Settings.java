@@ -84,7 +84,8 @@ public class Settings extends Activity {
 
         Intent intent = new Intent(this, MainMenu.class);
         intent.putExtra("GameSettings",gs);
-        startActivity(intent);
+        setResult(Activity.RESULT_OK, intent);
+        this.finish();
     }
 
 

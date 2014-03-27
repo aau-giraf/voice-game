@@ -1,17 +1,9 @@
 package dk.aau.cs.giraf.cars.game;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Random;
-
 import android.util.Log;
-
-import dk.aau.cs.giraf.cars.MainMenu;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -100,9 +92,7 @@ public class GameScreen extends Screen {
             state = GameState.Running;
         }
         else if (winningOverlay.MenuButtonPressed(game.getTouchEvents())) {
-            Intent intent = new Intent(game, MainMenu.class);
-            intent.putExtra("GameSettings",gameSettings);
-            game.startActivity(intent);
+            game.finish();
         }
     }
 

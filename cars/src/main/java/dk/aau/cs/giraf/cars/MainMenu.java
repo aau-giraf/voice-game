@@ -16,6 +16,8 @@ import java.util.LinkedList;
 
 public class MainMenu extends Activity {
 
+    private final static int SETTINGS_IDENTIFIER = 0;
+
     GameSettings gamesettings;
 
     @Override
@@ -63,6 +65,19 @@ public class MainMenu extends Activity {
     public void showSettings(View view)
     {
         Intent intent =  new Intent(this, Settings.class);
-        startActivity(intent);
+        startActivityForResult(intent, SETTINGS_IDENTIFIER);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case (SETTINGS_IDENTIFIER) : {
+                if (resultCode == Activity.RESULT_OK)
+                    gamesettings = data.getParcelableExtra("GameSettings");
+                break;
+            }
+        }
     }
 }
