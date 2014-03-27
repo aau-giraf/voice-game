@@ -31,7 +31,6 @@ public class GameScreen extends Screen {
     private final float garageSize = 150;
 
     private GameState state = GameState.Starting;
-    private Paint paint = new Paint();
     private int amountOfGarages = 3;
     private int startingSeconds = 3;
 
@@ -71,7 +70,6 @@ public class GameScreen extends Screen {
         Collections.shuffle(colors);
         car.setColor(colors.removeFirst());
 
-        initializePaint();
         winningOverlay = new WinningOverlay(gs);
         startOverlay = new StartOverlay(startingSeconds);
         crashedOverlay = new CrashOverlay();
@@ -86,9 +84,21 @@ public class GameScreen extends Screen {
         if(state == GameState.Running)
             updateRunning(deltaTime);
         if(state == GameState.Crashed)
-            state = crashedOverlay.ButtonPressed(game);
+            updateCrashed();
         if(state == GameState.Won)
-            state = winningOverlay.ButtonPressed(game);
+            updateWon();
+    }
+
+    private void updateWon()
+    {
+        carControl.Reset();
+        state = winningOverlay.ButtonPressed(game);
+    }
+
+    private void updateCrashed()
+    {
+        carControl.Reset();
+        state = crashedOverlay.ButtonPressed(game);
     }
 
 
@@ -190,21 +200,13 @@ public class GameScreen extends Screen {
             garage.Paint(graphics, deltaTime);
 
         if (state == GameState.Starting)
-            startOverlay.Draw(game,paint);
+            startOverlay.Draw(game);
         if(state == GameState.Running)
             drawRunning(deltaTime);
         if (state == GameState.Crashed)
-            crashedOverlay.Draw(game,paint);
+            crashedOverlay.Draw(game);
         if(state == GameState.Won)
-            winningOverlay.Draw(game,paint);
-    }
-
-    private void initializePaint()
-    {
-        paint.setTextSize(100);
-        paint.setTextAlign(Paint.Align.CENTER);
-        paint.setAntiAlias(true);
-        paint.setColor(Color.WHITE);
+            winningOverlay.Draw(game);
     }
 
     private void drawRunning(float deltaTime)

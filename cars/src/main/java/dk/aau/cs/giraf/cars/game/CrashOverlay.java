@@ -4,12 +4,13 @@ import android.graphics.Paint;
 
 import java.util.List;
 
+import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 
-public class CrashOverlay implements Overlay {
-    public CrashOverlay(){}
+public class CrashOverlay extends Overlay {
+    public CrashOverlay(){ super(); }
 
     public GameState ButtonPressed(Game game)
     {
@@ -29,17 +30,12 @@ public class CrashOverlay implements Overlay {
         return GameState.Crashed;
     }
 
-    public void Draw(Game game, Paint paint)
+    public void Draw(Game game)
     {
         int width = game.getWidth();
         int height = game.getHeight();
         Graphics g = game.getGraphics();
         g.drawARGB(155,0,0,0);
-        g.drawString("Fortsæt",width/2,height/2,paint);
-    }
-
-    private boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height)
-    {
-        return event.x > x && event.x < x + width - 1 && event.y > y && event.y < y + height - 1;
+        g.drawString(game.getResources().getString(R.string.crash_button_text),width/2,height/2,pButton);
     }
 }
