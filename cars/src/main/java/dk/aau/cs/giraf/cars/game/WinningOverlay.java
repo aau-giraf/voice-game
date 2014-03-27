@@ -1,9 +1,12 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.content.Intent;
 import android.graphics.Paint;
 
 import java.util.List;
 
+import android.util.Log;
+import dk.aau.cs.giraf.cars.MainMenu;
 import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -31,11 +34,15 @@ public class WinningOverlay extends Overlay {
             Input.TouchEvent event = touchEvents[i];
             if (event.type == Input.TouchEvent.TOUCH_UP) {
                 if (inBounds(event, 0,height/2,width/2, height/2)) {
+                    Log.d("Settings","Spil igen");
                     game.setScreen(new GameScreen(game, new TestObstacles(),gameSettings));
                     return GameState.Running;
                     }
                 if (inBounds(event, width/2, height/2, width/2, height/2)) {
-                    //Go to menu and garbagecollect game
+                    Log.d("Settings","Menu");
+                    Intent intent = new Intent(game, MainMenu.class);
+                    intent.putExtra("GameSettings",gameSettings);
+                    game.startActivity(intent);
                 }
             }
         }

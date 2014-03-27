@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +23,8 @@ public class MainMenu extends Activity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        if(  intent.hasExtra("GameSettings"))
+        Log.d("Settings",String.valueOf(intent.hasExtra("GameSettings")));
+        if(intent.hasExtra("GameSettings"))
             gamesettings = intent.getParcelableExtra("GameSettings");
         else gamesettings = new GameSettings(new LinkedList<Integer>(Arrays.asList(Color.BLUE,Color.GREEN,Color.RED)), 70); //TODO make more convenient default gamesettings
 
