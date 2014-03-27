@@ -11,6 +11,8 @@ import android.os.PowerManager.WakeLock;
 import android.view.Window;
 import android.view.WindowManager;
 
+import java.util.List;
+
 public abstract class Game extends Activity {
     FastRenderView renderView;
     Graphics graphics;
@@ -20,6 +22,8 @@ public abstract class Game extends Activity {
     Screen screen;
     WakeLock wakeLock;
     Point size;
+
+    private Input.TouchEvent[] touchEvents;
 
     public int getWidth() {
         return size.x;
@@ -50,6 +54,8 @@ public abstract class Game extends Activity {
 
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "MyGame");
+
+        this.touchEvents = new Input.TouchEvent[0];
     }
 
     @Override
@@ -69,6 +75,16 @@ public abstract class Game extends Activity {
 
         if (isFinishing())
             screen.dispose();
+    }
+
+    void setTouchEvents(){
+        List<Input.TouchEvent> events = input.getTouchEvents();
+        Input.TouchEvent[] array = new Input.TouchEvent[events.size()];
+        events.toArray(array);
+    }
+    public Input.TouchEvent[] getTouchEvents()
+    {
+        return touchEvents;
     }
 
     public Input getInput() {
