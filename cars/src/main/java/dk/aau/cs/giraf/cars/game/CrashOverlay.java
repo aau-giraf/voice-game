@@ -19,13 +19,13 @@ public class CrashOverlay extends Overlay {
     @Override
     public GameState ButtonPressed(Game game)
     {
-        List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
+        Input.TouchEvent[] touchEvents = game.getTouchEvents();
         int width = game.getWidth();
         int height = game.getHeight();
 
-        int len = touchEvents.size();
+        int len = touchEvents.length;
         for (int i = 0; i < len; i++) {
-            Input.TouchEvent event = touchEvents.get(i);
+            Input.TouchEvent event = touchEvents[i];
             Log.d("EventType", event.type + "");
             if (event.type == Input.TouchEvent.TOUCH_UP) {
                 continuePressed = false;

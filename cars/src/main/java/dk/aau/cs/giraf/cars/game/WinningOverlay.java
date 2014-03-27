@@ -22,13 +22,13 @@ public class WinningOverlay extends Overlay {
     @Override
     public GameState ButtonPressed(Game game)
     {
-        List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
+        Input.TouchEvent[] touchEvents = game.getTouchEvents();
         int width = game.getWidth();
         int height = game.getHeight();
 
-        int len = touchEvents.size();
+        int len = touchEvents.length;
         for (int i = 0; i < len; i++) {
-            Input.TouchEvent event = touchEvents.get(i);
+            Input.TouchEvent event = touchEvents[i];
             if (event.type == Input.TouchEvent.TOUCH_UP) {
                 if (inBounds(event, 0,height/2,width/2, height/2)) {
                     game.setScreen(new GameScreen(game, new TestObstacles(),gameSettings));
