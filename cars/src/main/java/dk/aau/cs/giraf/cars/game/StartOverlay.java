@@ -27,6 +27,11 @@ public class StartOverlay extends Overlay {
         return GameState.Starting;
     }
 
+    @Override
+    public GameState ButtonPressed(Game game) {
+        return null;
+    }
+
     public void Draw(Game game)
     {
         int width = game.getWidth();

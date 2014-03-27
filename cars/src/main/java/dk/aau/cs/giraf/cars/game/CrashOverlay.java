@@ -16,6 +16,7 @@ public class CrashOverlay extends Overlay {
 
     public CrashOverlay(){ super(); }
 
+    @Override
     public GameState ButtonPressed(Game game)
     {
         List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();

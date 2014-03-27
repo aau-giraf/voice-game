@@ -22,6 +22,7 @@ public class WinningOverlay extends Overlay {
         gameSettings = gs;
     }
 
+    @Override
     public GameState ButtonPressed(Game game)
     {
         List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
