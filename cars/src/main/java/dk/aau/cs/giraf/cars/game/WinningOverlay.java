@@ -1,48 +1,62 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.content.Intent;
 import android.graphics.Paint;
 
 import java.util.List;
 
+import android.util.Log;
+import dk.aau.cs.giraf.cars.MainMenu;
+import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.cars.framework.Screen;
 
-public class WinningOverlay {
+public class WinningOverlay extends Overlay {
+    private GameSettings gameSettings;
 
-    public WinningOverlay(){}
+    public WinningOverlay(){ super(); }
 
+    public WinningOverlay(GameSettings gs){
+        gameSettings = gs;
+    }
+
+    @Override
     public GameState ButtonPressed(Game game)
     {
-        List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
+        Input.TouchEvent[] touchEvents = game.getTouchEvents();
+        int width = game.getWidth();
+        int height = game.getHeight();
 
-        int len = touchEvents.size();
+        int len = touchEvents.length;
         for (int i = 0; i < len; i++) {
-            Input.TouchEvent event = touchEvents.get(i);
+            Input.TouchEvent event = touchEvents[i];
             if (event.type == Input.TouchEvent.TOUCH_UP) {
-                if (inBounds(event, 0,game.getHeight()/2,game.getWidth()/2, game.getHeight()/2)) {
-                        game.setScreen(new GameScreen(game, new TestObstacles()));
-                        return GameState.Running;
+                if (inBounds(event, 0,height/2,width/2, height/2)) {
+                    Log.d("Settings","Spil igen");
+                    game.setScreen(new GameScreen(game, new TestObstacles(),gameSettings));
+                    return GameState.Running;
                     }
-                if (inBounds(event, 0, 240, 800, 240)) {
-                    //Go to menu and garbagecollect game
+                if (inBounds(event, width/2, height/2, width/2, height/2)) {
+                    Log.d("Settings","Menu");
+                    Intent intent = new Intent(game, MainMenu.class);
+                    intent.putExtra("GameSettings",gameSettings);
+                    game.startActivity(intent);
                 }
             }
         }
         return GameState.Won;
     }
 
-    private boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height)
+    public void Draw(Game game)
     {
-        return event.x > x && event.x < x + width - 1 && event.y > y && event.y < y + height - 1;
-    }
-
-    public void Draw(Game game, Paint paint)
-    {
+        int width = game.getWidth();
+        int height = game.getHeight();
         Graphics g = game.getGraphics();
-        g.drawARGB(50, 0, 0, 0);
-        g.drawImage(Assets.GetTrophy(), (int)(game.getWidth()*.50) - Assets.GetTrophy().getWidth()/2, (int)(game.getHeight()*.25) - Assets.GetTrophy().getHeight()/2);
-        g.drawString("Spil igen", (int)(game.getWidth()*.25), (int)(game.getHeight()*.85), paint);
-        g.drawString("Menu", (int)(game.getWidth()*.75), (int)(game.getHeight()*.85), paint);
+        g.drawARGB(155, 0, 0, 0);
+        g.drawImage(Assets.GetTrophy(), (int) (width * .50) - Assets.GetTrophy().getWidth() / 2, (int) (height * .25) - Assets.GetTrophy().getHeight() / 2);
+        g.drawString(game.getResources().getString(R.string.play_again_button_text), (int) (width * .25), (int) (height * .85), pButton);
+        g.drawString(game.getResources().getString(R.string.menu_button_text), (int)(width*.75), (int)(height*.85), pButton);
     }
 }

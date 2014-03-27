@@ -2,20 +2,24 @@ package dk.aau.cs.giraf.cars.game;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
+import android.util.Log;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 
 public class GameScreen extends Screen {
+    private GameSettings gameSettings;
     private CarControl carControl;
     private Car car;
     private float speed; //Pixels per second
 
-    private int[] colors;
+    private LinkedList<Integer> colors;
 
     private ObstacleGenerator obstacleGenerator;
     private ArrayList<Obstacle> obstacles;
@@ -26,26 +30,27 @@ public class GameScreen extends Screen {
     private final int grassSize = 70;
     private final float garageSize = 150;
 
-    private GameState state = GameState.Running;
-    private Paint paint = new Paint();
+    private GameState state = GameState.Starting;
     private int amountOfGarages = 3;
+    private int startingSeconds = 3;
 
     private WinningOverlay winningOverlay;
+    private StartOverlay startOverlay;
+    private CrashOverlay crashedOverlay;
 
-    public GameScreen(Game game, ObstacleGenerator obstacleGenerator) {
+    public GameScreen(Game game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
 
-        colors = new int[] { Color.BLUE, Color.RED, Color.GREEN };
+        gameSettings = gs;
+        colors = (LinkedList<Integer>)gs.GetColors().clone();
+        Collections.shuffle(colors);
 
         this.car = new Car(0, 0, 200, 99);
         this.car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
 
-        Random r = new Random();
-        car.setColor(colors[r.nextInt(colors.length)]);
-
         this.carControl = new TouchCarControl();
-        this.speed = 70;
+        this.speed = gs.GetSpeed();
 
         this.obstacles = new ArrayList<Obstacle>();
         this.obstacleGenerator = obstacleGenerator;
@@ -56,37 +61,63 @@ public class GameScreen extends Screen {
         this.garages = new ArrayList<Garage>();
         float garageSpace = (game.getHeight() - 2 * grassSize - 3 * garageSize) / 4f;
         for (int i = 0; i < amountOfGarages; i++) {
-            Garage g = new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize, garageSize, garageSize);
-            g.setColor(colors[i]);
+            Garage g = new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize + garageSize/4, garageSize, garageSize/2);
+            Log.d("Settings",colors.toString());
+            g.setColor(colors.get(i));
             garages.add(g);
         }
-        initializePaint();
-        winningOverlay = new WinningOverlay();
+
+        Collections.shuffle(colors);
+        car.setColor(colors.removeFirst());
+
+        winningOverlay = new WinningOverlay(gs);
+        startOverlay = new StartOverlay(startingSeconds);
+        crashedOverlay = new CrashOverlay();
     }
 
 
 
     @Override
     public void update(float deltaTime) {
+        if (state == GameState.Starting)
+            state = startOverlay.UpdateTime(deltaTime);
         if(state == GameState.Running)
             updateRunning(deltaTime);
+        if(state == GameState.Crashed)
+            updateCrashed();
         if(state == GameState.Won)
             updateWon();
     }
 
+    private void updateWon()
+    {
+        carControl.Reset();
+        state = winningOverlay.ButtonPressed(game);
+    }
+
+    private void updateCrashed()
+    {
+        carControl.Reset();
+        state = crashedOverlay.ButtonPressed(game);
+    }
+
+
     private void updateRunning(float deltaTime)
     {
         if (allGaragesClosed())
+        {
             state = GameState.Won;
+            return;
+        }
 
         car.Update(deltaTime);
-        car.x += speed * (deltaTime / 100.0f);
+        car.x += speed * (deltaTime / 1000.0f);
         if (car.x > game.getWidth())
             car.x = -car.width;
 
         float move = carControl.getMove(game);
         move = Math.min(Math.max(move, -1), 1);
-        move *= pixelsPerSecond * (deltaTime / 100.0f);
+        move *= pixelsPerSecond * (deltaTime / 1000.0f);
         car.y += move;
         if (car.y < grassSize) car.y = grassSize;
         if (car.y > game.getHeight() - car.height - grassSize)
@@ -95,8 +126,9 @@ public class GameScreen extends Screen {
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(deltaTime);
             if (obstacles.get(i).CollidesWith(car)) {
-                resetRound();
-                break;
+                resetRound(false);
+                state = GameState.Crashed;
+                return;
             }
         }
 
@@ -104,10 +136,17 @@ public class GameScreen extends Screen {
         for (Garage garage : garages) {
             garage.Update(deltaTime);
             if (garage.CollidesWith(car)) {
-                if (garage.getIsClosed())
-                    resetRound();
-                else
+                if (car.color == garage.color && !garage.getIsClosed())
+                {
                     garage.Close();
+                    resetRound(true);
+                }
+                else
+                {
+                    resetRound(false);
+                    state = GameState.Crashed;
+                    return;
+                }
             }
             if (garage.getIsClosed())
                 anyOpen = false;
@@ -130,12 +169,10 @@ public class GameScreen extends Screen {
 
 
 
-    private void updateWon()
-    {
-        state = winningOverlay.ButtonPressed(game);
-    }
-
-    private void resetRound() {
+    private void resetRound(boolean garageJustClosed) {
+        if (garageJustClosed)
+            if (colors.size() > 0) //This shouldn't be necessary, but game doesn't quite stop even though all 3 garages are closed
+                car.setColor(colors.removeFirst());
         this.obstacles.clear();
         for (Obstacle o : obstacleGenerator.CreateObstacles(game.getWidth(), game.getHeight()))
             this.obstacles.add(o);
@@ -145,22 +182,6 @@ public class GameScreen extends Screen {
 
     @Override
     public void paint(float deltaTime) {
-        if(state == GameState.Running)
-            drawRunning(deltaTime);
-        if(state == GameState.Won)
-            drawWon();
-    }
-
-    private void initializePaint()
-    {
-        paint.setTextSize(100);
-        paint.setTextAlign(Paint.Align.CENTER);
-        paint.setAntiAlias(true);
-        paint.setColor(Color.WHITE);
-    }
-
-    private void drawRunning(float deltaTime)
-    {
         Graphics graphics = game.getGraphics();
         graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
         graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, game.getWidth(), game.getHeight() - grassSize * 2);
@@ -177,11 +198,20 @@ public class GameScreen extends Screen {
 
         for (Garage garage : garages)
             garage.Paint(graphics, deltaTime);
+
+        if (state == GameState.Starting)
+            startOverlay.Draw(game);
+        if(state == GameState.Running)
+            drawRunning(deltaTime);
+        if (state == GameState.Crashed)
+            crashedOverlay.Draw(game);
+        if(state == GameState.Won)
+            winningOverlay.Draw(game);
     }
 
-    private void drawWon()
+    private void drawRunning(float deltaTime)
     {
-        winningOverlay.Draw(game, paint);
+
     }
 
     @Override

@@ -39,7 +39,7 @@ public class Input {
         return touchHandler.getTouchY(pointer);
     }
 
-    public List<TouchEvent> getTouchEvents() {
+    List<TouchEvent> getTouchEvents() {
         return touchHandler.getTouchEvents();
     }
 }

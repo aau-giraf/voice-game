@@ -1,7 +1,5 @@
 package dk.aau.cs.giraf.cars.game;
 
-import android.util.Log;
-
 import java.util.List;
 
 import dk.aau.cs.giraf.cars.framework.Game;
@@ -15,15 +13,15 @@ public class TouchCarControl implements CarControl {
 
     @Override
     public float getMove(Game game) {
-        List<Input.TouchEvent> touchEvents = game.getInput().getTouchEvents();
+        Input.TouchEvent[] touchEvents = game.getTouchEvents();
 
         int width = game.getWidth();
         int height = (int) (game.getHeight() * .25);
         int bottomOffset = game.getHeight() - height;
 
-        int len = touchEvents.size();
+        int len = touchEvents.length;
         for (int i = 0; i < len; i++) {
-            Input.TouchEvent event = touchEvents.get(i);
+            Input.TouchEvent event = touchEvents[i];
             if (event.type == Input.TouchEvent.TOUCH_DOWN) {
                 if (inBounds(event, 0, 0, width, height)) {
                     lastMove = -1;
@@ -39,6 +37,12 @@ public class TouchCarControl implements CarControl {
         }
 
         return lastMove;
+    }
+
+    @Override
+    public void Reset()
+    {
+        lastMove=0;
     }
 
     private boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height) {
