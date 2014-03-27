@@ -2,6 +2,10 @@
 <resources>
 
     <string name="app_name">cars</string>
+    <string name="play_again_button_text">Spil igen</string>
+    <string name="crash_button_text">Fortsæt</string>
+    <string name="countdown_drive">Kør</string>
+    <string name="menu_button_text">Menu</string>
     <string name="title_activity_main_menu">MainMenu</string>
     <string name="title_activity_cargame">Game</string>
     <string name="hello_world">Hello world!</string>
