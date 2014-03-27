@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.cars.game;
 
 import android.graphics.Paint;
+import android.util.Log;
 
 import java.util.List;
 
@@ -10,6 +11,9 @@ import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 
 public class CrashOverlay extends Overlay {
+
+    private boolean continuePressed = false;
+
     public CrashOverlay(){ super(); }
 
     public GameState ButtonPressed(Game game)
@@ -21,11 +25,22 @@ public class CrashOverlay extends Overlay {
         int len = touchEvents.size();
         for (int i = 0; i < len; i++) {
             Input.TouchEvent event = touchEvents.get(i);
+            Log.d("EventType", event.type + "");
             if (event.type == Input.TouchEvent.TOUCH_UP) {
+                continuePressed = false;
                 if (inBounds(event, width/2-75,height/2-50,150,100)) {
                     return GameState.Running;
                 }
             }
+            else if (event.type == Input.TouchEvent.TOUCH_DOWN || event.type == Input.TouchEvent.TOUCH_DRAGGED) {
+                if (inBounds(event, width/2-75,height/2-50,150,100)) {
+                    continuePressed = true;
+                }
+                else
+                    continuePressed = false;
+            }
+            else
+                continuePressed = false;
         }
         return GameState.Crashed;
     }
@@ -36,6 +51,6 @@ public class CrashOverlay extends Overlay {
         int height = game.getHeight();
         Graphics g = game.getGraphics();
         g.drawARGB(155,0,0,0);
-        g.drawString(game.getResources().getString(R.string.crash_button_text),width/2,height/2,pButton);
+        g.drawString(game.getResources().getString(R.string.crash_button_text),width/2,height/2, continuePressed ? pFocus : pButton);
     }
 }
