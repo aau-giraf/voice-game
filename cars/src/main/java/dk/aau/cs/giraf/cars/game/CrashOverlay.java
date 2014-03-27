@@ -38,9 +38,4 @@ public class CrashOverlay extends Overlay {
         g.drawARGB(155,0,0,0);
         g.drawString(game.getResources().getString(R.string.crash_button_text),width/2,height/2,pButton);
     }
-
-    private boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height)
-    {
-        return event.x > x && event.x < x + width - 1 && event.y > y && event.y < y + height - 1;
-    }
 }

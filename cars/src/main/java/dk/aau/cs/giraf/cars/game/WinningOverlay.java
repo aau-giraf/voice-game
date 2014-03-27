@@ -36,11 +36,6 @@ public class WinningOverlay extends Overlay {
         return GameState.Won;
     }
 
-    private boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height)
-    {
-        return event.x > x && event.x < x + width - 1 && event.y > y && event.y < y + height - 1;
-    }
-
     public void Draw(Game game)
     {
         int width = game.getWidth();

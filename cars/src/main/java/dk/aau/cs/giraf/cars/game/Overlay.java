@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import dk.aau.cs.giraf.cars.framework.Game;
+import dk.aau.cs.giraf.cars.framework.Input;
 
 public abstract class Overlay {
 
@@ -26,4 +27,9 @@ public abstract class Overlay {
     }
 
     public abstract void Draw(Game game);
+
+    protected boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height)
+    {
+        return event.x > x && event.x < x + width - 1 && event.y > y && event.y < y + height - 1;
+    }
 }
