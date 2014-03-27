@@ -28,6 +28,7 @@ public abstract class Game extends Activity {
     public int getWidth() {
         return size.x;
     }
+
     public int getHeight() {
         return size.y;
     }
@@ -77,13 +78,14 @@ public abstract class Game extends Activity {
             screen.dispose();
     }
 
-    void setTouchEvents(){
+    void setTouchEvents() {
         List<Input.TouchEvent> events = input.getTouchEvents();
         Input.TouchEvent[] array = new Input.TouchEvent[events.size()];
         events.toArray(array);
+        touchEvents = array;
     }
-    public Input.TouchEvent[] getTouchEvents()
-    {
+
+    public Input.TouchEvent[] getTouchEvents() {
         return touchEvents;
     }
 
