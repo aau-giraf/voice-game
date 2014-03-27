@@ -8,6 +8,7 @@ import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.cars.framework.Screen;
 
 public class WinningOverlay implements Overlay {
 
@@ -24,8 +25,8 @@ public class WinningOverlay implements Overlay {
             Input.TouchEvent event = touchEvents.get(i);
             if (event.type == Input.TouchEvent.TOUCH_UP) {
                 if (inBounds(event, 0,height/2,width/2, height/2)) {
-                        game.setScreen(new GameScreen(game, new TestObstacles()));
-                        return GameState.Running;
+                    game.setScreen(new GameScreen(game, new TestObstacles()));
+                    return GameState.Running;
                     }
                 if (inBounds(event, width/2, height/2, width/2, height/2)) {
                     //Go to menu and garbagecollect game
