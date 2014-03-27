@@ -10,7 +10,7 @@ import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 
 public class CrashOverlay extends Overlay {
-    public CrashOverlay(){}
+    public CrashOverlay(){ super(); }
 
     public GameState ButtonPressed(Game game)
     {

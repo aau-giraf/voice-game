@@ -11,6 +11,8 @@ public class StartOverlay extends Overlay {
     private float visualCounter;
     public StartOverlay(int seconds)
     {
+        super();
+
         counterInMS = (seconds+1)*1000;
         visualCounter = seconds;
     }

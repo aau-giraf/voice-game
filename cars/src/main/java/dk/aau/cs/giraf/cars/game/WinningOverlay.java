@@ -11,7 +11,7 @@ import dk.aau.cs.giraf.cars.framework.Input;
 
 public class WinningOverlay extends Overlay {
 
-    public WinningOverlay(){}
+    public WinningOverlay(){ super(); }
 
     public GameState ButtonPressed(Game game)
     {
