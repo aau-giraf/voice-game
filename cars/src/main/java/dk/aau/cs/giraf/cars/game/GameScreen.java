@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import java.util.ArrayList;
@@ -9,6 +10,8 @@ import java.util.Queue;
 import java.util.Random;
 
 import android.util.Log;
+
+import dk.aau.cs.giraf.cars.MainMenu;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -70,7 +73,7 @@ public class GameScreen extends Screen {
         Collections.shuffle(colors);
         car.setColor(colors.removeFirst());
 
-        winningOverlay = new WinningOverlay(game, gs);
+        winningOverlay = new WinningOverlay(game);
         startOverlay = new StartOverlay(game, startingSeconds);
         crashedOverlay = new CrashOverlay(game);
     }
@@ -92,7 +95,15 @@ public class GameScreen extends Screen {
     private void updateWon()
     {
         carControl.Reset();
-        state = winningOverlay.ButtonPressed(game);
+        if (winningOverlay.ResetButtonPressed(game.getTouchEvents())) {
+            game.setScreen(new GameScreen(game, new TestObstacles(), gameSettings));
+            state = GameState.Running;
+        }
+        else if (winningOverlay.MenuButtonPressed(game.getTouchEvents())) {
+            Intent intent = new Intent(game, MainMenu.class);
+            intent.putExtra("GameSettings",gameSettings);
+            game.startActivity(intent);
+        }
     }
 
     private void updateCrashed()
