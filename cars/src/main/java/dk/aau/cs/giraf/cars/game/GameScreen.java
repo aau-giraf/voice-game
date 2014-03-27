@@ -85,9 +85,15 @@ public class GameScreen extends Screen {
         if(state == GameState.Running)
             updateRunning(deltaTime);
         if(state == GameState.Crashed)
-            state = crashedOverlay.ButtonPressed(game);
+            updateCrashed();
         if(state == GameState.Won)
             state = winningOverlay.ButtonPressed(game);
+    }
+
+    private void updateCrashed()
+    {
+        carControl.Reset();
+        state = crashedOverlay.ButtonPressed(game);
     }
 
 

@@ -41,6 +41,12 @@ public class TouchCarControl implements CarControl {
         return lastMove;
     }
 
+    @Override
+    public void Reset()
+    {
+        lastMove=0;
+    }
+
     private boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height) {
         return event.x > x && event.x < x + width - 1 && event.y > y && event.y < y + height - 1;
     }
