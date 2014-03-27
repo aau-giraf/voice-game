@@ -11,4 +11,15 @@ public abstract class GameFragment extends Fragment implements Game {
     FileIO fileIO;
     Screen screen;
     Point size;
+
+    public int getWidth() {
+        return size.x;
+    }
+    public int getHeight() {
+        return size.y;
+    }
+
+    public GameFragment(int width, int height) {
+        this.size = new Point(width, height);
+    }
 }

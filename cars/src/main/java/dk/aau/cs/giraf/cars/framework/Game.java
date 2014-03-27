@@ -1,17 +1,15 @@
 package dk.aau.cs.giraf.cars.framework;
 
 public interface Game {
-    public Input getInput();
 
-    public FileIO getFileIO();
+    int getWidth();
+    int getHeight();
 
-    public Graphics getGraphics();
-
-    public Audio getAudio() ;
-
-    public void setScreen(Screen screen);
-
-    public Screen getCurrentScreen();
-
-    public abstract Screen getInitScreen();
+    Input getInput();
+    FileIO getFileIO();
+    Graphics getGraphics();
+    Audio getAudio() ;
+    void setScreen(Screen screen);
+    Screen getCurrentScreen();
+    abstract Screen getInitScreen();
 }
