@@ -23,7 +23,7 @@ public class GameScreen extends Screen {
 
     private final int pixelsPerSecond = 200;
     private final int grassSize = 70;
-    private final float garageSize = 150;
+    private final float garageSize = 250;
 
     private GameState state = GameState.Starting;
     private int amountOfGarages = 3;
