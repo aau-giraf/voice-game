@@ -28,12 +28,9 @@ public abstract class GameFragment extends Fragment implements Game {
         return size.y;
     }
 
-    public GameFragment(int width, int height) {
-        this.size = new Point(width, height);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.size = new Point(container.getWidth(), container.getHeight());
         Bitmap frameBuffer = Bitmap.createBitmap(this.size.x, this.size.y, Bitmap.Config.RGB_565);
 
         Activity activity = getActivity();
