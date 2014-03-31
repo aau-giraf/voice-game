@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 public abstract class GameFragment extends Fragment implements Game {
     FastRenderView renderView;
     Graphics graphics;
@@ -48,4 +50,66 @@ public abstract class GameFragment extends Fragment implements Game {
 
         return renderView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        screen.resume();
+        renderView.resume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        renderView.pause();
+        screen.pause();
+
+        if (isRemoving())
+            screen.dispose();
+    }
+
+    void setTouchEvents() {
+        List<Input.TouchEvent> events = input.getTouchEvents();
+        Input.TouchEvent[] array = new Input.TouchEvent[events.size()];
+        events.toArray(array);
+        this.touchEvents = array;
+    }
+
+    public Input.TouchEvent[] getTouchEvents() {
+        return touchEvents;
+    }
+
+    public Input getInput() {
+        return input;
+    }
+
+    public FileIO getFileIO() {
+        return fileIO;
+    }
+
+    public Graphics getGraphics() {
+        return graphics;
+    }
+
+    public Audio getAudio() {
+        return audio;
+    }
+
+    public void setScreen(Screen screen) {
+        if (screen == null)
+            throw new IllegalArgumentException("Screen must not be null");
+
+        this.screen.pause();
+        this.screen.dispose();
+        screen.resume();
+        screen.update(0);
+        this.screen = screen;
+    }
+
+    public Screen getCurrentScreen() {
+
+        return screen;
+    }
+
+    public abstract Screen getInitScreen();
 }
