@@ -24,7 +24,7 @@ public class FastRenderView extends SurfaceView implements Runnable {
 
     }
 
-    public void replaceBuffer(Bitmap framebuffer){
+    public void replaceBuffer(Bitmap framebuffer) {
         //TODO this method should implement a thread-safe method of replacing the framebuffer field
         throw new UnsupportedOperationException("This method has not been implemented yet.");
     }
@@ -49,7 +49,9 @@ public class FastRenderView extends SurfaceView implements Runnable {
             startTime = System.nanoTime();
 
 
-            game.setTouchEvents();
+            if (game instanceof GameActivity)
+                ((GameActivity)game).setTouchEvents();
+
             game.getCurrentScreen().update(deltaTime);
             game.getCurrentScreen().paint(deltaTime);
 
