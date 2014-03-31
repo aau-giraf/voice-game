@@ -28,7 +28,7 @@ public class MainMenu extends Activity {
         Log.d("Settings",String.valueOf(intent.hasExtra("GameSettings")));
         if(intent.hasExtra("GameSettings"))
             gamesettings = intent.getParcelableExtra("GameSettings");
-        else gamesettings = new GameSettings(new LinkedList<Integer>(Arrays.asList(Color.BLUE,Color.GREEN,Color.RED)), 70); //TODO make more convenient default gamesettings
+        else gamesettings = new GameSettings();
 
 
         setContentView(R.layout.activity_main_menu);
