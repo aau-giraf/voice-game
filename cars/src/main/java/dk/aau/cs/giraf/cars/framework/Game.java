@@ -11,5 +11,6 @@ public interface Game {
     Audio getAudio() ;
     void setScreen(Screen screen);
     Screen getCurrentScreen();
-    abstract Screen getInitScreen();
+    Screen getInitScreen();
+    Input.TouchEvent[] getTouchEvents();
 }
