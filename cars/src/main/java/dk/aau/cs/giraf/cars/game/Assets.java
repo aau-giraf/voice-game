@@ -12,9 +12,8 @@ public class Assets {
         border = graphics.newImage("border.png", Graphics.ImageFormat.ARGB8888);
         car = graphics.newImage("car.png", Graphics.ImageFormat.ARGB8888);
         obstacle = graphics.newImage("obstacle.jpg", Graphics.ImageFormat.RGB565);
-        garage = graphics.newImage("garage.jpg", Graphics.ImageFormat.RGB565);
         trophy = graphics.newImage("pokal.gif", Graphics.ImageFormat.ARGB8888);
-        garages = graphics.newImage("garages.png", Graphics.ImageFormat.ARGB8888);
+        garage = graphics.newImage("garage.png", Graphics.ImageFormat.ARGB8888);
 
         loaded = true;
     }
@@ -28,9 +27,8 @@ public class Assets {
     private static Image border;
     private static Image car;
     private static Image obstacle;
-    private static Image garage;
     private static Image trophy;
-    private static Image garages;
+    private static Image garage;
 
     public static Image GetGrass() {
         return grass;
@@ -52,11 +50,9 @@ public class Assets {
         return obstacle;
     }
 
-    public static Image getGarage() {
+    public static Image GetGarage() {
         return garage;
     }
 
     public static Image GetTrophy(){return trophy;}
-
-    public static Image GetGarages(){return garages;}
 }

@@ -7,7 +7,6 @@ import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Image;
 
 public class Garage extends GameItem {
-    private int partWidth;
     private int drawnPart;
     private final float closingTime = 1000;
     private float closingWait = 0;
@@ -17,16 +16,15 @@ public class Garage extends GameItem {
 
     public Garage(float x, float y, float width, float height) {
         super(x, y, width, height);
-        this.partWidth = Assets.getGarage().getWidth() / 3;
         this.drawnPart = 0;
 
         this.color = Color.WHITE;
-        this.image = Assets.getGarage();
+        this.image = Assets.GetGarage();
     }
 
     public void setColor(int color) {
         this.color = color;
-        image = Graphics.recolorImage(Assets.getGarage(), color);
+        image = Graphics.recolorImage(Assets.GetGarage(), color);
     }
 
     @Override
@@ -35,7 +33,7 @@ public class Garage extends GameItem {
 
         graphics.drawScaledImage(image,
                 bounds.left, bounds.top, bounds.right - bounds.left, bounds.bottom - bounds.top,
-                drawnPart * partWidth, 0, partWidth, Assets.getGarage().getHeight());
+                0, 0, Assets.GetGarage().getWidth(), Assets.GetGarage().getHeight());
     }
 
     public void Close() {
