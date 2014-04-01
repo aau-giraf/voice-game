@@ -1,12 +1,12 @@
 package dk.aau.cs.giraf.cars.game;
 
-import dk.aau.cs.giraf.cars.framework.Game;
+import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Screen;
 
 public class LoadingScreen extends Screen {
     GameSettings gamesettings;
 
-    public LoadingScreen(Game game, GameSettings gs) {
+    public LoadingScreen(GameActivity game, GameSettings gs) {
         super(game);
         gamesettings = gs;
     }
@@ -14,7 +14,7 @@ public class LoadingScreen extends Screen {
     @Override
     public void update(float deltaTime) {
         Assets.LoadAssets(game.getGraphics());
-        game.setScreen(new GameScreen(game, new TestObstacles(),gamesettings));
+        game.setScreen(new GameScreen((GameActivity) game, new TestObstacles(), gamesettings));
     }
 
     @Override

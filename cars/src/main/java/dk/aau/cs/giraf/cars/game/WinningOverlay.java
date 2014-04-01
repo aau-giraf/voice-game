@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.cars.game;
 
 import android.content.Intent;
 import android.util.Log;
+
 import dk.aau.cs.giraf.cars.MainMenu;
 import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
@@ -12,14 +13,14 @@ public class WinningOverlay extends Overlay {
     private OverlayButton resetButton;
     private OverlayButton menuButton;
 
-    public WinningOverlay(Game game){
+    public WinningOverlay(Game game) {
         super(game);
 
         int width = game.getWidth();
         int height = game.getHeight();
 
-        resetButton = new OverlayButton(0,height/2,width/2, height/2, (int) (width * .25), (int) (height * .85));
-        menuButton = new OverlayButton(width/2, height/2, width/2, height/2, (int)(width*.75), (int)(height*.85));
+        resetButton = new OverlayButton(0, height / 2, width / 2, height / 2, (int) (width * .25), (int) (height * .85));
+        menuButton = new OverlayButton(width / 2, height / 2, width / 2, height / 2, (int) (width * .75), (int) (height * .85));
     }
 
     public boolean ResetButtonPressed(Input.TouchEvent[] events) {
@@ -30,8 +31,7 @@ public class WinningOverlay extends Overlay {
         return IsButtonPressed(events, menuButton);
     }
 
-    public void Draw(Game game)
-    {
+    public void Draw(Game game) {
         int width = game.getWidth();
         int height = game.getHeight();
         Graphics g = game.getGraphics();

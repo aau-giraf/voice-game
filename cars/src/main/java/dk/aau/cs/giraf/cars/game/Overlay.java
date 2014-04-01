@@ -33,13 +33,11 @@ public abstract class Overlay {
                 if (event.type == Input.TouchEvent.TOUCH_UP) {
                     button.Pressed = false;
                     return true;
-                }
-                else if (event.type == Input.TouchEvent.TOUCH_DOWN || event.type == Input.TouchEvent.TOUCH_DRAGGED)
+                } else if (event.type == Input.TouchEvent.TOUCH_DOWN || event.type == Input.TouchEvent.TOUCH_DRAGGED)
                     button.Pressed = true;
                 else
                     button.Pressed = false;
-            }
-            else
+            } else
                 button.Pressed = false;
         }
 
@@ -48,8 +46,7 @@ public abstract class Overlay {
 
     public abstract void Draw(Game game);
 
-    protected boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height)
-    {
+    protected boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height) {
         return event.x > x && event.x < x + width - 1 && event.y > y && event.y < y + height - 1;
     }
 
