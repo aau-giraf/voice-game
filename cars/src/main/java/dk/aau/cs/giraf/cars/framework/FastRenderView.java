@@ -51,6 +51,8 @@ public class FastRenderView extends SurfaceView implements Runnable {
 
             if (game instanceof GameActivity)
                 ((GameActivity)game).setTouchEvents();
+            else if(game instanceof GameFragment)
+                ((GameFragment)game).setTouchEvents();
 
             game.getCurrentScreen().update(deltaTime);
             game.getCurrentScreen().paint(deltaTime);
