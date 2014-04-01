@@ -13,10 +13,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 
 public class Settings extends Activity {
+    GameSettings gamesettings;
+
+    ArrayList<Integer> colorValues = new ArrayList<Integer>() {{add(Color.RED);add(Color.GREEN);add(Color.MAGENTA);add(Color.BLUE);add(Color.YELLOW);}};
 
     Spinner spinner1;
     Spinner spinner2;
@@ -27,6 +32,10 @@ public class Settings extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent intent = getIntent();
+        if(intent.hasExtra("GameSettings"))
+            gamesettings = intent.getParcelableExtra("GameSettings");
+
         setContentView(R.layout.activity_settings);
 
         spinner1 = (Spinner)findViewById(R.id.spinner1);
@@ -34,9 +43,6 @@ public class Settings extends Activity {
         spinner3 = (Spinner)findViewById(R.id.spinner3);
         speed = (TextView)findViewById(R.id.speed);
 
-        Log.d("settings",String.valueOf(spinner1 == null));
-        Log.d("settings",String.valueOf (spinner2 == null));
-        Log.d("settings",String.valueOf (spinner3 == null));
 
         ArrayAdapter<CharSequence> adapter =ArrayAdapter.createFromResource(this,R.array.colorname_array,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -44,7 +50,15 @@ public class Settings extends Activity {
         spinner2.setAdapter(adapter);
         spinner3.setAdapter(adapter);
 
+        Log.d("Settings",Integer.toString(gamesettings.GetSpeed()));
+        Log.d("Settings",gamesettings.GetColors().toString());
 
+        speed.setText(gamesettings.GetSpeed());
+        LinkedList<Integer> colors = gamesettings.GetColors();
+        Log.d("Settings","Colors at creation of settings" + colors);
+        spinner1.setSelection(colorValues.indexOf(colors.get(0)));
+        spinner2.setSelection(colorValues.indexOf(colors.get(1)));
+        spinner3.setSelection(colorValues.indexOf(colors.get(2)));
     }
 
 
@@ -72,14 +86,10 @@ public class Settings extends Activity {
     {
         LinkedList<Integer> colors = new LinkedList<Integer>();
 
-        int[] colorValues = new int[]{Color.CYAN,Color.GREEN,Color.MAGENTA,Color.BLUE,Color.YELLOW};
+        colors.add(colorValues.get(spinner1.getSelectedItemPosition()));
+        colors.add(colorValues.get(spinner2.getSelectedItemPosition()));
+        colors.add(colorValues.get(spinner3.getSelectedItemPosition()));
 
-
-        colors.add(colorValues[spinner1.getSelectedItemPosition()]);
-        colors.add(colorValues[spinner2.getSelectedItemPosition()]);
-        colors.add(colorValues[spinner3.getSelectedItemPosition()]);
-
-        Log.d("Settings",colors.toString());
         GameSettings gs = new GameSettings(colors, Integer.parseInt(speed.getText().toString()));
 
         Intent intent = new Intent(this, MainMenu.class);

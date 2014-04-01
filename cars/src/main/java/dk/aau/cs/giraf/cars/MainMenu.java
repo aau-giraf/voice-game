@@ -23,7 +23,6 @@ public class MainMenu extends Activity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        Log.d("Settings",String.valueOf(intent.hasExtra("GameSettings")));
         if(intent.hasExtra("GameSettings"))
             gamesettings = intent.getParcelableExtra("GameSettings");
         else gamesettings = new GameSettings(new LinkedList<Integer>(Arrays.asList(Color.BLUE,Color.GREEN,Color.RED)), 70); //TODO make more convenient default gamesettings
@@ -63,6 +62,7 @@ public class MainMenu extends Activity {
     public void showSettings(View view)
     {
         Intent intent =  new Intent(this, Settings.class);
+        intent.putExtra("GameSettings",gamesettings);
         startActivity(intent);
     }
 }
