@@ -11,17 +11,18 @@ public class CrashOverlay extends Overlay {
 
     public CrashOverlay(Game game){
         super(game);
-        continueButton = new OverlayButton(game.getWidth() / 2 - 75, game.getHeight()/2-50, 150, 100, game.getWidth()/2, game.getHeight()/2);
+        continueButton = new OverlayButton(game.getWidth() / 2 - 75, game.getHeight()/2-50, 150, 100, game.getWidth()/2, game.getHeight()/2,
+                game.getResources().getString(R.string.crash_button_text));
     }
 
     public boolean ContinueButtonPressed(Input.TouchEvent[] touchEvents) {
-        return IsButtonPressed(touchEvents, continueButton);
+        return continueButton.IsButtonPressed(touchEvents, continueButton);
     }
 
     public void Draw(Game game)
     {
         Graphics g = game.getGraphics();
         g.drawARGB(155,0,0,0);
-        g.drawString(game.getResources().getString(R.string.crash_button_text),continueButton.DrawX,continueButton.DrawY, continueButton.Pressed ? pFocus : pButton);
+        continueButton.Draw(g);
     }
 }

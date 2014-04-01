@@ -1,12 +1,37 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.graphics.Color;
+import android.graphics.Paint;
+import dk.aau.cs.giraf.cars.R;
+import dk.aau.cs.giraf.cars.framework.Game;
+import dk.aau.cs.giraf.cars.framework.Graphics;
+import dk.aau.cs.giraf.cars.framework.Input;
+
 public class OverlayButton {
 
     int TouchX, TouchY, TouchWidth, TouchHeight;
     int DrawX, DrawY;
     boolean Pressed;
+    String buttonText;
+    protected Paint pButton;
+    protected Paint pFocus;
 
-    public OverlayButton(int touchX, int touchY, int touchWidth, int touchHeight, int drawX, int drawY) {
+    public OverlayButton(int touchX, int touchY, int touchWidth, int touchHeight, int drawX, int drawY, int textColor, int touchColor, String buttonText) {
+        pButton = new Paint();
+        pFocus = new Paint();
+
+        this.buttonText = buttonText;
+
+        pButton.setTextSize(100);
+        pButton.setTextAlign(Paint.Align.CENTER);
+        pButton.setAntiAlias(true);
+        pButton.setColor(textColor);
+
+        pFocus.setTextSize(100);
+        pFocus.setTextAlign(Paint.Align.CENTER);
+        pFocus.setAntiAlias(true);
+        pFocus.setColor(touchColor);
+
         this.TouchX = touchX;
         this.TouchY = touchY;
         this.TouchWidth = touchWidth;
@@ -16,5 +41,53 @@ public class OverlayButton {
         this.DrawY = drawY;
 
         this.Pressed = false;
+    }
+
+    /**
+     * Create a Overlaybutton with the default colors (White text, yellow when touched)
+     * @param touchX
+     * @param touchY
+     * @param touchWidth
+     * @param touchHeight
+     * @param drawX
+     * @param drawY
+     * @param buttonText
+     */
+    public OverlayButton(int touchX, int touchY, int touchWidth, int touchHeight, int drawX, int drawY, String buttonText)
+    {
+           this(touchX,touchY,touchWidth,touchHeight,drawX,drawY,Color.WHITE,Color.YELLOW,buttonText);
+    }
+
+    protected boolean IsButtonPressed(Input.TouchEvent[] touchEvents, OverlayButton button) {
+        for (int i = 0; i < touchEvents.length; i++) {
+            Input.TouchEvent event = touchEvents[i];
+            if (inBounds(event, button)) {
+                if (event.type == Input.TouchEvent.TOUCH_UP) {
+                    button.Pressed = false;
+                    return true;
+                }
+                else if (event.type == Input.TouchEvent.TOUCH_DOWN || event.type == Input.TouchEvent.TOUCH_DRAGGED)
+                    button.Pressed = true;
+                else
+                    button.Pressed = false;
+            }
+            else
+                button.Pressed = false;
+        }
+
+        return false;
+    }
+
+    protected boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height)
+    {
+        return event.x > x && event.x < x + width - 1 && event.y > y && event.y < y + height - 1;
+    }
+
+    protected boolean inBounds(Input.TouchEvent event, OverlayButton button) {
+        return inBounds(event, button.TouchX, button.TouchY, button.TouchWidth, button.TouchHeight);
+    }
+
+    public void Draw(Graphics g) {
+        g.drawString(buttonText, DrawX, DrawY, Pressed ? pFocus : pButton);
     }
 }
