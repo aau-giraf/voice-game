@@ -1,5 +1,7 @@
 package dk.aau.cs.giraf.cars.framework;
 
+import android.content.res.Resources;
+
 public interface Game {
 
     int getWidth();
@@ -13,4 +15,6 @@ public interface Game {
     Screen getCurrentScreen();
     Screen getInitScreen();
     Input.TouchEvent[] getTouchEvents();
+
+    Resources getResources();
 }
