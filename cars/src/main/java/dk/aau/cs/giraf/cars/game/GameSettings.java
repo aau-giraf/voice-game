@@ -4,13 +4,20 @@ import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.LinkedList;
 
 public class GameSettings implements Parcelable{
     private LinkedList<Integer> colors;
     private int speed;
+
+    private final int DEFAULT_SPEED = 300;
+    private final Integer[] DEFAULT_COLORS = new Integer[] {Color.BLUE, Color.GREEN, Color.RED};
+
+    public GameSettings() {
+        this.colors = new LinkedList<Integer>(Arrays.asList(DEFAULT_COLORS));
+        this.speed = DEFAULT_SPEED;
+    }
 
     public GameSettings(LinkedList<Integer> colors, int speed)
     {

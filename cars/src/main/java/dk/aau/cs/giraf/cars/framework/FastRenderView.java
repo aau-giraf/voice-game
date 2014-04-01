@@ -43,6 +43,7 @@ public class FastRenderView extends SurfaceView implements Runnable {
             startTime = System.nanoTime();
 
 
+            game.setTouchEvents();
             game.getCurrentScreen().update(deltaTime);
             game.getCurrentScreen().paint(deltaTime);
 
