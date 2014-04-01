@@ -25,7 +25,6 @@ public class MainMenu extends Activity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        Log.d("Settings",String.valueOf(intent.hasExtra("GameSettings")));
         if(intent.hasExtra("GameSettings"))
             gamesettings = intent.getParcelableExtra("GameSettings");
         else gamesettings = new GameSettings();
@@ -58,6 +57,7 @@ public class MainMenu extends Activity {
     public void showSettings(View view)
     {
         Intent intent =  new Intent(this, Settings.class);
+        intent.putExtra("GameSettings",gamesettings);
         startActivityForResult(intent, SETTINGS_IDENTIFIER);
     }
 
