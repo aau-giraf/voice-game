@@ -53,7 +53,8 @@ public class Settings extends Activity {
         Log.d("Settings",Integer.toString(gamesettings.GetSpeed()));
         Log.d("Settings",gamesettings.GetColors().toString());
 
-        speed.setText(gamesettings.GetSpeed());
+        speed.setText(Integer.toString(gamesettings.GetSpeed()));
+
         LinkedList<Integer> colors = gamesettings.GetColors();
         Log.d("Settings","Colors at creation of settings" + colors);
         spinner1.setSelection(colorValues.indexOf(colors.get(0)));
