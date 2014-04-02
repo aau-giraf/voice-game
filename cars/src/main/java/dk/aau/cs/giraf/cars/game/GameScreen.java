@@ -24,6 +24,7 @@ public class GameScreen extends Screen {
     private final int pixelsPerSecond = 200;
     private final int grassSize = 70;
     private final float garageSize = 250;
+    private float animationZoneX;
 
     private GameState state = GameState.Starting;
     private int amountOfGarages = 3;
@@ -61,6 +62,8 @@ public class GameScreen extends Screen {
             g.setColor(colors.get(i));
             garages.add(g);
         }
+
+        animationZoneX = game.getWidth() - garageSize - 100;
 
         Collections.shuffle(colors);
         car.setColor(colors.removeFirst());
@@ -109,6 +112,12 @@ public class GameScreen extends Screen {
         if (allGaragesClosed())
         {
             state = GameState.Won;
+            return;
+        }
+
+        if (car.x >= animationZoneX)
+        {
+            state = GameState.DrivingInGarage;
             return;
         }
 
@@ -207,8 +216,15 @@ public class GameScreen extends Screen {
             drawRunning(deltaTime);
         if (state == GameState.Crashed)
             crashedOverlay.Draw(game);
+        if (state == GameState.DrivingInGarage)
+            drawDrivingInGarage(game);
         if(state == GameState.Won)
             winningOverlay.Draw(game);
+    }
+
+    private void drawDrivingInGarage(Game game)
+    {
+
     }
 
     private void drawRunning(float deltaTime)
