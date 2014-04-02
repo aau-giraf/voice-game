@@ -97,10 +97,6 @@ public abstract class GameActivity extends Activity implements Game {
         return fileIO;
     }
 
-    public Graphics getGraphics() {
-        return graphics;
-    }
-
     public Audio getAudio() {
         return audio;
     }
