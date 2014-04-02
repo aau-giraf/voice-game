@@ -20,6 +20,8 @@ public class Garage extends GameItem {
 
         this.color = Color.WHITE;
         this.image = Assets.GetGarage();
+
+        this.x = this.x + this.width/2;
     }
 
     public void setColor(int color) {
