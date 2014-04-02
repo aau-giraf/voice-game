@@ -3,6 +3,8 @@ package dk.aau.cs.giraf.cars.game;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
+
 import android.util.Log;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Screen;
@@ -128,7 +130,7 @@ public class GameScreen extends Screen {
             return;
         }
 
-        if (car.x >= animationZoneX)
+        if (car.x + car.width >= animationZoneX)
         {
             state = GameState.DrivingInGarage;
             return;
@@ -238,7 +240,16 @@ public class GameScreen extends Screen {
 
     private void drawDrivingInGarage(Game game)
     {
-
+        List<Double> distances = new ArrayList<Double>();
+        for(Garage garage : garages)
+        {
+            double x1 = car.x+car.width;
+            double x2 = garage.x - garage.height/2;
+            double y1 = car.y;
+            double y2 = garage.y;
+            distances.add(Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)));
+        }
+        Collections.min(distances);
     }
 
     private void drawRunning(float deltaTime)
