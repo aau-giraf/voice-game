@@ -16,8 +16,14 @@ public class CrashOverlay extends Overlay {
     }
 
     public boolean ContinueButtonPressed(Input.TouchEvent[] touchEvents) {
-        return continueButton.IsButtonPressed(touchEvents, continueButton);
+        return continueButton.IsButtonPressed(touchEvents);
     }
+
+    public void Update(Game game)
+    {
+            continueButton.Update(game.getTouchEvents());
+    }
+
 
     public void Draw(Game game)
     {

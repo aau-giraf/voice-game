@@ -87,6 +87,8 @@ public class GameScreen extends Screen {
     private void updateWon()
     {
         carControl.Reset();
+
+        winningOverlay.Update(game);
         if (winningOverlay.ResetButtonPressed(game.getTouchEvents())) {
             game.setScreen(new GameScreen(game, new TestObstacles(), gameSettings));
             state = GameState.Running;
@@ -99,6 +101,8 @@ public class GameScreen extends Screen {
     private void updateCrashed()
     {
         carControl.Reset();
+
+        crashedOverlay.update(game);
         if (crashedOverlay.ContinueButtonPressed(game.getTouchEvents()))
             state = GameState.Running;
     }

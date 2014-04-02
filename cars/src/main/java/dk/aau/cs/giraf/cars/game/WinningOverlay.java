@@ -1,8 +1,5 @@
 package dk.aau.cs.giraf.cars.game;
 
-import android.content.Intent;
-import android.util.Log;
-import dk.aau.cs.giraf.cars.MainMenu;
 import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -23,11 +20,17 @@ public class WinningOverlay extends Overlay {
     }
 
     public boolean ResetButtonPressed(Input.TouchEvent[] events) {
-        return resetButton.IsButtonPressed(events, resetButton);
+        return resetButton.IsButtonPressed(events);
     }
 
     public boolean MenuButtonPressed(Input.TouchEvent[] events) {
-        return menuButton.IsButtonPressed(events, menuButton);
+        return menuButton.IsButtonPressed(events);
+    }
+
+    public void Update(Game game)
+    {
+        resetButton.Update(game.getTouchEvents());
+        menuButton.Update(game.getTouchEvents());
     }
 
     public void Draw(Game game)

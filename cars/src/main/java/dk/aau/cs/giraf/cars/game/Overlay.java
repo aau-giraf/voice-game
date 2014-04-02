@@ -9,10 +9,11 @@ import dk.aau.cs.giraf.cars.framework.Input;
 public abstract class Overlay {
 
 
-
     public Overlay(Game game) {
 
     }
 
     public abstract void Draw(Game game);
+
+    public abstract void Update(Game game);
 }

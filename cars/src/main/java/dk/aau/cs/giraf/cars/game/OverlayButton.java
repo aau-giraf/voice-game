@@ -58,23 +58,37 @@ public class OverlayButton {
            this(touchX,touchY,touchWidth,touchHeight,drawX,drawY,Color.WHITE,Color.YELLOW,buttonText);
     }
 
-    protected boolean IsButtonPressed(Input.TouchEvent[] touchEvents, OverlayButton button) {
+    /**
+     * Updates the value of the Pressed variable so it is true when the button is touched
+     * @param touchEvents
+     */
+    public void Update(Input.TouchEvent[] touchEvents) {
         for (int i = 0; i < touchEvents.length; i++) {
             Input.TouchEvent event = touchEvents[i];
-            if (inBounds(event, button)) {
+            if (inBounds(event, this)) {
                 if (event.type == Input.TouchEvent.TOUCH_UP) {
-                    button.Pressed = false;
-                    return true;
+                    Pressed = false;
                 }
                 else if (event.type == Input.TouchEvent.TOUCH_DOWN || event.type == Input.TouchEvent.TOUCH_DRAGGED)
-                    button.Pressed = true;
+                    Pressed = true;
                 else
-                    button.Pressed = false;
+                    Pressed = false;
             }
             else
-                button.Pressed = false;
+                Pressed = false;
         }
+    }
 
+    protected boolean IsButtonPressed(Input.TouchEvent[] touchEvents) {
+        for (int i = 0; i < touchEvents.length; i++) {
+            Input.TouchEvent event = touchEvents[i];
+            if (inBounds(event, this)) {
+                if (event.type == Input.TouchEvent.TOUCH_UP) {
+                    Pressed = false;
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
