@@ -3,6 +3,8 @@ package dk.aau.cs.giraf.cars.game;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+
+import android.graphics.Point;
 import android.util.Log;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Screen;
@@ -33,7 +35,7 @@ public class GameScreen extends Screen {
     private StartOverlay startOverlay;
     private CrashOverlay crashedOverlay;
 
-    private Garage closingGarage = null;
+    private Point lastCrash = null;
 
     public GameScreen(Game game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
@@ -112,8 +114,11 @@ public class GameScreen extends Screen {
     private void updateCrashed()
     {
         carControl.Reset();
-        if (crashedOverlay.ContinueButtonPressed(game.getTouchEvents()))
+        if (crashedOverlay.ContinueButtonPressed(game.getTouchEvents())) {
+            resetRound(false);
+            lastCrash = null;
             state = GameState.Running;
+        }
     }
 
 
@@ -141,13 +146,12 @@ public class GameScreen extends Screen {
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(deltaTime);
             if (obstacles.get(i).CollidesWith(car)) {
-                resetRound(false);
+                lastCrash = obstacles.get(i).GetCollisionCenter(car);
                 state = GameState.Crashed;
                 return;
             }
         }
 
-        boolean anyOpen = true;
         for (Garage garage : garages) {
             garage.Update(deltaTime);
             if (garage.CollidesWith(car)) {
@@ -159,13 +163,11 @@ public class GameScreen extends Screen {
                 }
                 else
                 {
-                    resetRound(false);
+                    lastCrash = garage.GetCollisionCenter(car);
                     state = GameState.Crashed;
                     return;
                 }
             }
-            if (garage.getIsClosed())
-                anyOpen = false;
         }
     }
 
@@ -219,8 +221,9 @@ public class GameScreen extends Screen {
             startOverlay.Draw(game);
         if(state == GameState.Running)
             drawRunning(deltaTime);
-        if (state == GameState.Crashed)
-            crashedOverlay.Draw(game);
+        if (state == GameState.Crashed) {
+            crashedOverlay.Draw(game, lastCrash);
+        }
         if(state == GameState.Won)
             winningOverlay.Draw(game);
     }

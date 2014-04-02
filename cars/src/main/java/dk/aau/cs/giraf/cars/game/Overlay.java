@@ -13,6 +13,4 @@ public abstract class Overlay {
     public Overlay(Game game) {
 
     }
-
-    public abstract void Draw(Game game);
 }
