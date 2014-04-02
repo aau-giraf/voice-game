@@ -34,6 +34,9 @@ public class Garage extends GameItem {
         graphics.drawScaledImage(image,
                 bounds.left, bounds.top, bounds.right - bounds.left, bounds.bottom - bounds.top,
                 0, 0, Assets.GetGarage().getWidth(), Assets.GetGarage().getHeight());
+
+        graphics.drawLine(bounds.left+5, bounds.top+5, bounds.left - bounds.height()/2, bounds.top-45,this.color,5);
+        graphics.drawLine(bounds.left+5, bounds.bottom-5, bounds.left - bounds.height()/2, bounds.bottom+45,this.color,5);
     }
 
     public void Close() {
