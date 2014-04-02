@@ -96,6 +96,8 @@ public class GameScreen extends Screen {
         }
         state = GameState.Running;
     }
+
+    private void updateWon(float deltaTime)
     {
         carControl.Reset();
 
