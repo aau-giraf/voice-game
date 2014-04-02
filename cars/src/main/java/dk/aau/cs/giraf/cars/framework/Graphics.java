@@ -19,6 +19,8 @@ public class Graphics {
         ARGB8888, ARGB4444, RGB565
     }
 
+    private static final int DEFAULT_STROKE_WIDTH = 0;
+
     AssetManager assets;
     Bitmap frameBuffer;
     Canvas canvas;
@@ -74,7 +76,7 @@ public class Graphics {
     public static Image recolorImage(Image image, int newColor) {
         int oldColor = Color.WHITE;
 
-        int[] pixels = new int [image.bitmap.getWidth() * image.bitmap.getHeight()];
+        int[] pixels = new int[image.bitmap.getWidth() * image.bitmap.getHeight()];
 
         image.bitmap.getPixels(
                 pixels,
@@ -117,7 +119,6 @@ public class Graphics {
 
     public void drawLine(int x, int y, int x2, int y2, int color) {
         paint.setColor(color);
-        paint.setStrokeWidth(0);
         canvas.drawLine(x, y, x2, y2, paint);
     }
 
@@ -125,6 +126,7 @@ public class Graphics {
         paint.setColor(color);
         paint.setStrokeWidth(width);
         canvas.drawLine(x, y, x2, y2, paint);
+        paint.setStrokeWidth(DEFAULT_STROKE_WIDTH);
     }
 
     public void drawRect(int x, int y, int width, int height, int color) {
@@ -184,14 +186,14 @@ public class Graphics {
 
         for (int h = 0; h < height; h += imgh) {
             src.bottom = imgh;
-            if(h + imgh > height)
+            if (h + imgh > height)
                 src.bottom = height - h;
 
             dst.top = y + h;
             dst.bottom = dst.top + src.bottom;
             for (int w = 0; w < width; w += imgw) {
                 src.right = imgw;
-                if(w + imgw > width)
+                if (w + imgw > width)
                     src.right = width - w;
 
                 dst.left = x + w;
