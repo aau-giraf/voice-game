@@ -48,6 +48,8 @@ public class Garage extends GameItem {
         }
     }
 
+    public boolean isClosing () { return drawnPart == 1; }
+
     public boolean getIsClosed(){
         return drawnPart == 2;
     }

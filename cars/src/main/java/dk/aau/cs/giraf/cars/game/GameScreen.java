@@ -34,6 +34,8 @@ public class GameScreen extends Screen {
     private StartOverlay startOverlay;
     private CrashOverlay crashedOverlay;
 
+    private Garage closingGarage = null;
+
     public GameScreen(Game game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
 
@@ -85,6 +87,17 @@ public class GameScreen extends Screen {
             updateCrashed();
         if(state == GameState.Won)
             updateWon();
+        if(state == GameState.Closing)
+            updateClosing(deltaTime);
+    }
+
+    private void updateClosing(float deltaTime) {
+        for (Garage g : garages) {
+            g.Update(deltaTime);
+            if (g.isClosing())
+                return;
+        }
+        state = GameState.Running;
     }
 
     private void updateWon()
@@ -151,6 +164,7 @@ public class GameScreen extends Screen {
                 {
                     garage.Close();
                     resetRound(true);
+                    state = GameState.Closing;
                 }
                 else
                 {
