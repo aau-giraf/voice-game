@@ -79,16 +79,16 @@ public class GameScreen extends Screen {
         if(state == GameState.Running)
             updateRunning(deltaTime);
         if(state == GameState.Crashed)
-            updateCrashed();
+            updateCrashed(deltaTime);
         if(state == GameState.Won)
-            updateWon();
+            updateWon(deltaTime);
     }
 
-    private void updateWon()
+    private void updateWon(float deltaTime)
     {
         carControl.Reset();
 
-        winningOverlay.Update(game);
+        winningOverlay.Update(deltaTime);
         if (winningOverlay.ResetButtonPressed(game.getTouchEvents())) {
             game.setScreen(new GameScreen(game, new TestObstacles(), gameSettings));
             state = GameState.Running;
@@ -98,11 +98,11 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void updateCrashed()
+    private void updateCrashed(float deltaTime)
     {
         carControl.Reset();
 
-        crashedOverlay.update(game);
+        crashedOverlay.Update(deltaTime);
         if (crashedOverlay.ContinueButtonPressed(game.getTouchEvents()))
             state = GameState.Running;
     }
@@ -197,22 +197,22 @@ public class GameScreen extends Screen {
             graphics.drawImage(Assets.getBorder(), i, game.getHeight() - grassSize - 6, 0, 25, 10, 25);
         }
 
-        car.Paint(graphics, deltaTime);
+        car.Draw(graphics, deltaTime);
 
         for (Obstacle obstacle : obstacles)
-            obstacle.Paint(graphics, deltaTime);
+            obstacle.Draw(graphics, deltaTime);
 
         for (Garage garage : garages)
-            garage.Paint(graphics, deltaTime);
+            garage.Draw(graphics, deltaTime);
 
         if (state == GameState.Starting)
             startOverlay.Draw(game);
         if(state == GameState.Running)
             drawRunning(deltaTime);
         if (state == GameState.Crashed)
-            crashedOverlay.Draw(game);
+            crashedOverlay.Draw(graphics,deltaTime);
         if(state == GameState.Won)
-            winningOverlay.Draw(game);
+            winningOverlay.Draw(graphics,deltaTime);
     }
 
     private void drawRunning(float deltaTime)

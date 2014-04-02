@@ -1,8 +1,9 @@
 package dk.aau.cs.giraf.cars.game;
 
 import dk.aau.cs.giraf.cars.framework.Graphics;
+import dk.aau.cs.giraf.cars.game.Interfaces.GameObject;
 
-public abstract class GameItem {
+public abstract class GameItem implements GameObject {
     float x, y;
     final float width, height;
 
@@ -22,7 +23,7 @@ public abstract class GameItem {
                this.y < item.y + item.height && this.y + this.height > item.y;
     }
 
-    public abstract void Paint(Graphics graphics, float deltaTime);
+    public abstract void Draw(Graphics graphics, float deltaTime);
 
     public abstract void Update(float deltaTime);
 }

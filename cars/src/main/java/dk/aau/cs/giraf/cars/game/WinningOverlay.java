@@ -15,8 +15,11 @@ public class WinningOverlay extends Overlay {
         int width = game.getWidth();
         int height = game.getHeight();
 
-        resetButton = new OverlayButton(0,height/2,width/2, height/2, (int) (width * .25), (int) (height * .85),game.getResources().getString(R.string.play_again_button_text));
-        menuButton = new OverlayButton(width/2, height/2, width/2, height/2, (int)(width*.75), (int)(height*.85),game.getResources().getString(R.string.menu_button_text));
+        resetButton = new OverlayButton(game,0,height/2,width/2, height/2, (int) (width * .25), (int) (height * .85),game.getResources().getString(R.string.play_again_button_text));
+        menuButton = new OverlayButton(game,width/2, height/2, width/2, height/2, (int)(width*.75), (int)(height*.85),game.getResources().getString(R.string.menu_button_text));
+
+        Add(resetButton);
+        Add(menuButton);
     }
 
     public boolean ResetButtonPressed(Input.TouchEvent[] events) {
@@ -27,20 +30,15 @@ public class WinningOverlay extends Overlay {
         return menuButton.IsButtonPressed(events);
     }
 
-    public void Update(Game game)
-    {
-        resetButton.Update(game.getTouchEvents());
-        menuButton.Update(game.getTouchEvents());
-    }
 
-    public void Draw(Game game)
+
+    public void Draw(Graphics graphics, float deltaTIme)
     {
         int width = game.getWidth();
         int height = game.getHeight();
         Graphics g = game.getGraphics();
         g.drawARGB(155, 0, 0, 0);
         g.drawImage(Assets.GetTrophy(), (int) (width * .50) - Assets.GetTrophy().getWidth() / 2, (int) (height * .25) - Assets.GetTrophy().getHeight() / 2);
-        resetButton.Draw(g);
-        menuButton.Draw(g);
+        super.Draw(graphics,deltaTIme);
     }
 }
