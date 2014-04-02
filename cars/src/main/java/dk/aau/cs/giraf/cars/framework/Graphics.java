@@ -111,12 +111,6 @@ public class Graphics {
             return ImageFormat.ARGB8888;
     }
 
-    public void clearScreen(int color) {
-        canvas.drawRGB((color & 0xff0000) >> 16, (color & 0xff00) >> 8,
-                (color & 0xff));
-    }
-
-
     public void drawLine(int x, int y, int x2, int y2, int color) {
         paint.setColor(color);
         canvas.drawLine(x, y, x2, y2, paint);
