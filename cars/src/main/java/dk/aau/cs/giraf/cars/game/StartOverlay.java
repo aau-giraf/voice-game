@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import dk.aau.cs.giraf.cars.R;
@@ -9,9 +10,19 @@ import dk.aau.cs.giraf.cars.framework.Graphics;
 public class StartOverlay extends Overlay {
     private float counterInMS;
     private float visualCounter;
+    private Paint pButton;
+
     public StartOverlay(Game game, int seconds)
     {
         super(game);
+
+        pButton = new Paint();
+
+
+        pButton.setTextSize(100);
+        pButton.setTextAlign(Paint.Align.CENTER);
+        pButton.setAntiAlias(true);
+        pButton.setColor(Color.WHITE);
 
         counterInMS = (seconds+1)*1000;
         visualCounter = seconds;
