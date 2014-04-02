@@ -174,8 +174,7 @@ public class GameScreen extends Screen {
     }
 
     @Override
-    public void paint(float deltaTime) {
-        Graphics graphics = game.getGraphics();
+    public void paint(Graphics graphics, float deltaTime) {
         graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
         graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, game.getWidth(), game.getHeight() - grassSize * 2);
 

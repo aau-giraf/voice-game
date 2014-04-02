@@ -11,17 +11,18 @@ import dk.aau.cs.giraf.cars.framework.Game;
 
 public class FastRenderView extends SurfaceView implements Runnable {
     Game game;
-    Bitmap framebuffer;
-    Thread renderThread = null;
-    SurfaceHolder holder;
+    private Bitmap framebuffer;
+    private Thread renderThread = null;
+    private Graphics graphics;
+    private SurfaceHolder holder;
     volatile boolean running = false;
 
     public FastRenderView(Context context, Game game, Bitmap framebuffer) {
         super(context);
         this.game = game;
         this.framebuffer = framebuffer;
+        this.graphics = new Graphics(context.getAssets(), framebuffer);
         this.holder = getHolder();
-
     }
 
     public void replaceBuffer(Bitmap framebuffer) {
@@ -55,7 +56,7 @@ public class FastRenderView extends SurfaceView implements Runnable {
                 ((GameFragment)game).setTouchEvents();
 
             game.getCurrentScreen().update(deltaTime);
-            game.getCurrentScreen().paint(deltaTime);
+            game.getCurrentScreen().paint(graphics, deltaTime);
 
 
             Canvas canvas = holder.lockCanvas();

@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.cars.game;
 
 import dk.aau.cs.giraf.cars.framework.GameActivity;
+import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Screen;
 
 public class LoadingScreen extends Screen {
@@ -13,13 +14,12 @@ public class LoadingScreen extends Screen {
 
     @Override
     public void update(float deltaTime) {
-        Assets.LoadAssets(game.getGraphics());
-        game.setScreen(new GameScreen((GameActivity) game, new TestObstacles(), gamesettings));
     }
 
     @Override
-    public void paint(float deltaTime) {
-
+    public void paint(Graphics graphics, float deltaTime) {
+        Assets.LoadAssets(graphics);
+        game.setScreen(new GameScreen((GameActivity) game, new TestObstacles(), gamesettings));
     }
 
     @Override
