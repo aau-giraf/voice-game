@@ -117,6 +117,13 @@ public class Graphics {
 
     public void drawLine(int x, int y, int x2, int y2, int color) {
         paint.setColor(color);
+        paint.setStrokeWidth(0);
+        canvas.drawLine(x, y, x2, y2, paint);
+    }
+
+    public void drawLine(int x, int y, int x2, int y2, int color, float width) {
+        paint.setColor(color);
+        paint.setStrokeWidth(width);
         canvas.drawLine(x, y, x2, y2, paint);
     }
 
