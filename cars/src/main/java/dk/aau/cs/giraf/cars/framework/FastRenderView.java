@@ -25,6 +25,25 @@ public class FastRenderView extends SurfaceView implements Runnable {
         this.holder = getHolder();
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+
+        // Pause rendering
+        pause();
+
+        // Create new bitmap for rendering
+        Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.RGB_565);
+        // Set the bitmap in Graphics and create a new canvas for it
+        graphics.canvas = new Canvas(bitmap);
+        graphics.frameBuffer = bitmap;
+
+        // Update the bitmap reference in this FastRenderView
+        this.framebuffer.recycle();
+        this.framebuffer = bitmap;
+
+        // Resume rendering
+        resume();
     }
 
     public void resume() {
