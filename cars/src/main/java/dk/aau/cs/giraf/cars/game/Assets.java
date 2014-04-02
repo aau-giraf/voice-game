@@ -7,6 +7,9 @@ public class Assets {
     private static boolean loaded = false;
 
     public static void LoadAssets(Graphics graphics) {
+        if (loaded)
+            return;
+
         grass = graphics.newImage("grass.jpg", Graphics.ImageFormat.RGB565);
         tarmac = graphics.newImage("tarmac.jpg", Graphics.ImageFormat.RGB565);
         border = graphics.newImage("border.png", Graphics.ImageFormat.ARGB8888);
@@ -54,5 +57,7 @@ public class Assets {
         return garage;
     }
 
-    public static Image GetTrophy(){return trophy;}
+    public static Image GetTrophy() {
+        return trophy;
+    }
 }
