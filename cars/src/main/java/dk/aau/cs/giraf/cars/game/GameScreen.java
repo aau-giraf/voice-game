@@ -58,7 +58,7 @@ public class GameScreen extends Screen {
         this.car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
 
-        this.carControl = new TouchCarControl();
+        this.carControl = new VolumeCarControl();
         this.speed = gs.GetSpeed();
 
         this.obstacles = new ArrayList<Obstacle>();
@@ -204,7 +204,7 @@ public class GameScreen extends Screen {
                     resetRound(true);
                 else
                 {
-                    crashedOverlay.setLastCrash( garage.GetCollisionCenter(car));
+                    crashedOverlay.setLastCrash(garage.GetCollisionCenter(car));
                     state = GameState.Crashed;
                     return;
                 }
