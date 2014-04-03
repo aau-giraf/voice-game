@@ -30,8 +30,6 @@ public class FastRenderView extends SurfaceView implements Runnable {
 
     }
 
-    private boolean firstdraw = true;
-
     public void run() {
         Rect dstRect = new Rect();
         long startTime = System.nanoTime();
@@ -39,10 +37,6 @@ public class FastRenderView extends SurfaceView implements Runnable {
             if (!holder.getSurface().isValid())
                 continue;
 
-            if (firstdraw) {
-                startTime = System.nanoTime();
-                firstdraw = false;
-            }
 
             // Calculate deltaTime as milliseconds
             float deltaTime = (System.nanoTime() - startTime) / 1000000.000f;
