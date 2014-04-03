@@ -67,6 +67,7 @@ public class OverlayButton implements GameObject{
     /**
      * Updates the value of the Pressed variable so it is true when the button is touched
      */
+    @Override
     public void Update(float deltaTime) {
         Input.TouchEvent[] touchEvents =game.getTouchEvents();
 
@@ -108,6 +109,7 @@ public class OverlayButton implements GameObject{
         return inBounds(event, button.TouchX, button.TouchY, button.TouchWidth, button.TouchHeight);
     }
 
+    @Override
     public void Draw(Graphics g, float deltaTime) {
         g.drawString(buttonText, DrawX, DrawY, Pressed ? pFocus : pButton);
     }

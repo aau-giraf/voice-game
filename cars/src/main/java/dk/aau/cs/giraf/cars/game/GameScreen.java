@@ -3,6 +3,8 @@ package dk.aau.cs.giraf.cars.game;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+
+import android.graphics.Point;
 import android.util.Log;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Screen;
@@ -33,7 +35,7 @@ public class GameScreen extends Screen {
     private StartOverlay startOverlay;
     private CrashOverlay crashedOverlay;
 
-    private Garage closingGarage = null;
+    private Point lastCrash = null;
 
     public GameScreen(Game game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
@@ -79,9 +81,9 @@ public class GameScreen extends Screen {
         if (state == GameState.Starting)
             state = startOverlay.UpdateTime(deltaTime);
         if(state == GameState.Running)
-            updateRunning(deltaTime);
+            crashedOverlay.lastCrash = updateRunning(deltaTime);
         if(state == GameState.Crashed)
-            updateCrashed(deltaTime);
+             updateCrashed(deltaTime);
         if(state == GameState.Won)
             updateWon(deltaTime);
         if(state == GameState.Closing)
@@ -114,19 +116,20 @@ public class GameScreen extends Screen {
     private void updateCrashed(float deltaTime)
     {
         carControl.Reset();
-
         crashedOverlay.Update(deltaTime);
-        if (crashedOverlay.ContinueButtonPressed(game.getTouchEvents()))
+        if (crashedOverlay.ContinueButtonPressed(game.getTouchEvents())) {
+            resetRound(false);
             state = GameState.Running;
+        }
     }
 
 
-    private void updateRunning(float deltaTime)
+    private Point updateRunning(float deltaTime)
     {
         if (allGaragesClosed())
         {
             state = GameState.Won;
-            return;
+            return null;
         }
 
         car.Update(deltaTime);
@@ -145,13 +148,12 @@ public class GameScreen extends Screen {
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(deltaTime);
             if (obstacles.get(i).CollidesWith(car)) {
-                resetRound(false);
+                lastCrash = obstacles.get(i).GetCollisionCenter(car);
                 state = GameState.Crashed;
-                return;
+                return lastCrash;
             }
         }
 
-        boolean anyOpen = true;
         for (Garage garage : garages) {
             garage.Update(deltaTime);
             if (garage.CollidesWith(car)) {
@@ -163,14 +165,13 @@ public class GameScreen extends Screen {
                 }
                 else
                 {
-                    resetRound(false);
+                    lastCrash = garage.GetCollisionCenter(car);
                     state = GameState.Crashed;
-                    return;
+                    return lastCrash;
                 }
             }
-            if (garage.getIsClosed())
-                anyOpen = false;
         }
+        return null;
     }
 
     private boolean allGaragesClosed()
