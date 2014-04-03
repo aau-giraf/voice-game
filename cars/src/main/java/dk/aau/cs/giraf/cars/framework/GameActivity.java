@@ -23,6 +23,10 @@ public abstract class GameActivity extends Activity implements Game {
 
     private Input.TouchEvent[] touchEvents;
 
+    public GameActivity() {
+        this.messenger = new Messenger(this);
+    }
+
     public int getWidth() {
         return size.x;
     }
@@ -109,7 +113,7 @@ public abstract class GameActivity extends Activity implements Game {
 
     public abstract Screen getInitScreen();
 
-    public GameMessenger getMessenger(){
+    public GameMessenger getMessenger() {
         return messenger;
     }
 

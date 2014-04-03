@@ -19,6 +19,10 @@ public abstract class GameFragment extends Fragment implements Game {
 
     private Input.TouchEvent[] touchEvents;
 
+    public GameFragment() {
+        this.messenger = new Messenger(this);
+    }
+
     public int getWidth() {
         return size.x;
     }
@@ -95,7 +99,7 @@ public abstract class GameFragment extends Fragment implements Game {
 
     public abstract Screen getInitScreen();
 
-    public GameMessenger getMessenger(){
+    public GameMessenger getMessenger() {
         return messenger;
     }
 
