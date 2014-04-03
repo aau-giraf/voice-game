@@ -175,9 +175,9 @@ public class GameScreen extends Screen {
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(deltaTime);
             if (obstacles.get(i).CollidesWith(car)) {
-                resetRound(false);
+                crashedOverlay.lastCrash = obstacles.get(i).GetCollisionCenter(car);
                 state = GameState.Crashed;
-                return;
+                return ;
             }
         }
 
@@ -193,7 +193,7 @@ public class GameScreen extends Screen {
                 }
                 else
                 {
-                    resetRound(false);
+                    crashedOverlay.lastCrash = garage.GetCollisionCenter(car);
                     state = GameState.Crashed;
                     return;
                 }

@@ -2,29 +2,27 @@ package dk.aau.cs.giraf.cars.game;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-import dk.aau.cs.giraf.cars.R;
+import android.graphics.Rect;
+import android.util.Log;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Interfaces.GameObject;
 
-public class OverlayButton implements GameObject{
+public class OverlayButton implements GameObject {
 
-    int TouchX, TouchY, TouchWidth, TouchHeight;
-    int DrawX, DrawY;
+    int x, y;
+
     boolean Pressed;
     String buttonText;
     protected Paint pButton;
     protected Paint pFocus;
     Game game;
+    Rect bounds;
 
-    public OverlayButton(Game game, int touchX, int touchY, int touchWidth, int touchHeight, int drawX, int drawY, int textColor, int touchColor, String buttonText) {
+    public OverlayButton(Game game, int X, int Y, int textColor, int touchColor, String buttonText) {
         pButton = new Paint();
         pFocus = new Paint();
-
-        this.game = game;
-
-        this.buttonText = buttonText;
 
         pButton.setTextSize(100);
         pButton.setTextAlign(Paint.Align.CENTER);
@@ -36,32 +34,31 @@ public class OverlayButton implements GameObject{
         pFocus.setAntiAlias(true);
         pFocus.setColor(touchColor);
 
-        this.TouchX = touchX;
-        this.TouchY = touchY;
-        this.TouchWidth = touchWidth;
-        this.TouchHeight = touchHeight;
+        this.x = X;
+        this.y = Y;
 
-        this.DrawX = drawX;
-        this.DrawY = drawY;
+        bounds = new Rect();
+        pButton.getTextBounds(buttonText, 0, buttonText.length(), bounds);
+        bounds.offset(x - bounds.width()/2, y);
+
+
+        this.game = game;
+
+        this.buttonText = buttonText;
 
         this.Pressed = false;
     }
 
     /**
      * Create a Overlaybutton with the default colors (White text, yellow when touched)
-     * @param touchX
-     * @param touchY
-     * @param touchWidth
-     * @param touchHeight
-     * @param drawX
-     * @param drawY
+     *
+     * @param x
+     * @param y
      * @param buttonText
      */
-    public OverlayButton(Game game,int touchX, int touchY, int touchWidth, int touchHeight, int drawX, int drawY, String buttonText)
-    {
-           this(game,touchX,touchY,touchWidth,touchHeight,drawX,drawY,Color.WHITE,Color.YELLOW,buttonText);
+    public OverlayButton(Game game, int x, int y, String buttonText) {
+        this(game, x, y, Color.WHITE, Color.YELLOW, buttonText);
     }
-
 
 
     /**
@@ -69,20 +66,18 @@ public class OverlayButton implements GameObject{
      */
     @Override
     public void Update(float deltaTime) {
-        Input.TouchEvent[] touchEvents =game.getTouchEvents();
+        Input.TouchEvent[] touchEvents = game.getTouchEvents();
 
         for (int i = 0; i < touchEvents.length; i++) {
             Input.TouchEvent event = touchEvents[i];
-            if (inBounds(event, this)) {
+            if (inBounds(event)) {
                 if (event.type == Input.TouchEvent.TOUCH_UP) {
                     Pressed = false;
-                }
-                else if (event.type == Input.TouchEvent.TOUCH_DOWN || event.type == Input.TouchEvent.TOUCH_DRAGGED)
+                } else if (event.type == Input.TouchEvent.TOUCH_DOWN || event.type == Input.TouchEvent.TOUCH_DRAGGED)
                     Pressed = true;
                 else
                     Pressed = false;
-            }
-            else
+            } else
                 Pressed = false;
         }
     }
@@ -90,7 +85,7 @@ public class OverlayButton implements GameObject{
     protected boolean IsButtonPressed(Input.TouchEvent[] touchEvents) {
         for (int i = 0; i < touchEvents.length; i++) {
             Input.TouchEvent event = touchEvents[i];
-            if (inBounds(event, this)) {
+            if (inBounds(event)) {
                 if (event.type == Input.TouchEvent.TOUCH_UP) {
                     Pressed = false;
                     return true;
@@ -100,17 +95,19 @@ public class OverlayButton implements GameObject{
         return false;
     }
 
-    protected boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height)
-    {
-        return event.x > x && event.x < x + width - 1 && event.y > y && event.y < y + height - 1;
+    protected boolean inBounds(Input.TouchEvent event, Rect bounds) {
+        //return event.x > bounds.left && event.x < bounds.right && event.y > bounds.bottom && event.y < bounds.bottom;
+        return bounds.contains(event.x, event.y);
+
     }
 
-    protected boolean inBounds(Input.TouchEvent event, OverlayButton button) {
-        return inBounds(event, button.TouchX, button.TouchY, button.TouchWidth, button.TouchHeight);
+    protected boolean inBounds(Input.TouchEvent event) {
+        return inBounds(event, bounds);
     }
 
     @Override
     public void Draw(Graphics g, float deltaTime) {
-        g.drawString(buttonText, DrawX, DrawY, Pressed ? pFocus : pButton);
+        g.drawString(buttonText, x, y, Pressed ? pFocus : pButton);
+
     }
 }
