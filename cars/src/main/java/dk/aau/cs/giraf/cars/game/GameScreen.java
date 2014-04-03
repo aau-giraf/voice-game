@@ -2,9 +2,13 @@ package dk.aau.cs.giraf.cars.game;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
+import android.graphics.Point;
 import android.util.Log;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Screen;
@@ -27,6 +31,7 @@ public class GameScreen extends Screen {
     private final int grassSize = 70;
     private final float garageSize = 250;
     private float animationZoneX;
+    private final float animationZoneSize = 50;
 
     private GameState state = GameState.Starting;
     private int amountOfGarages = 3;
@@ -67,7 +72,7 @@ public class GameScreen extends Screen {
             garages.add(g);
         }
 
-        animationZoneX = game.getWidth() - garageSize - 100;
+        this.animationZoneX = game.getWidth() - garageSize - animationZoneSize;
 
         Collections.shuffle(colors);
         car.setColor(colors.removeFirst());
@@ -121,18 +126,29 @@ public class GameScreen extends Screen {
             state = GameState.Running;
     }
 
+    private float animationMove()
+    {
+        Map<Double,Point> distances = new HashMap<Double, Point>();
 
+        for(Garage garage : garages)
+        {
+            distances.put(Math.abs((double)car.y-garage.y),new Point((int)(garage.x - garage.height/2),(int)garage.y));
+        }
+        double minDistance = Collections.min(distances.keySet());
+        Point p = distances.get(minDistance);
+
+        if (car.y+3 < p.y)
+            return 1;
+        else if (car.y-3 > p.y)
+            return -1;
+        else
+            return 0;
+    }
     private void updateRunning(float deltaTime)
     {
         if (allGaragesClosed())
         {
             state = GameState.Won;
-            return;
-        }
-
-        if (car.x + car.width >= animationZoneX)
-        {
-            state = GameState.DrivingInGarage;
             return;
         }
 
@@ -142,6 +158,8 @@ public class GameScreen extends Screen {
             car.x = -car.width;
 
         float move = carControl.getMove(game);
+        if (car.x + car.width >= animationZoneX)
+            move = animationMove();
         move = Math.min(Math.max(move, -1), 1);
         move *= pixelsPerSecond * (deltaTime / 1000.0f);
         car.y += move;
@@ -240,16 +258,8 @@ public class GameScreen extends Screen {
 
     private void drawDrivingInGarage(Game game)
     {
-        List<Double> distances = new ArrayList<Double>();
-        for(Garage garage : garages)
-        {
-            double x1 = car.x+car.width;
-            double x2 = garage.x - garage.height/2;
-            double y1 = car.y;
-            double y2 = garage.y;
-            distances.add(Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)));
-        }
-        Collections.min(distances);
+
+
     }
 
     private void drawRunning(float deltaTime)
