@@ -11,8 +11,6 @@ import android.os.PowerManager.WakeLock;
 import android.view.Window;
 import android.view.WindowManager;
 
-import java.util.List;
-
 public abstract class GameActivity extends Activity implements Game {
     FastRenderView renderView;
     Audio audio;
@@ -77,13 +75,6 @@ public abstract class GameActivity extends Activity implements Game {
             screen.dispose();
     }
 
-    void setTouchEvents() {
-        List<Input.TouchEvent> events = input.getTouchEvents();
-        Input.TouchEvent[] array = new Input.TouchEvent[events.size()];
-        events.toArray(array);
-        this.touchEvents = array;
-    }
-
     public Input.TouchEvent[] getTouchEvents() {
         return touchEvents;
     }
@@ -131,7 +122,7 @@ public abstract class GameActivity extends Activity implements Game {
 
         @Override
         public void setTouchEvents(Input.TouchEvent[] touchEvents) {
-
+            game.touchEvents = touchEvents;
         }
 
         @Override

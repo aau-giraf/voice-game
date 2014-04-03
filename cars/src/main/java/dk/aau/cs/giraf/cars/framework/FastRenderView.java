@@ -7,6 +7,8 @@ import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.List;
+
 import dk.aau.cs.giraf.cars.framework.Game;
 
 public class FastRenderView extends SurfaceView implements Runnable {
@@ -66,11 +68,10 @@ public class FastRenderView extends SurfaceView implements Runnable {
             float deltaTime = (System.nanoTime() - startTime) / 1000000.000f;
             startTime = System.nanoTime();
 
-
-            if (game instanceof GameActivity)
-                ((GameActivity) game).setTouchEvents();
-            else if (game instanceof GameFragment)
-                ((GameFragment) game).setTouchEvents();
+            List<Input.TouchEvent> events = game.getInput().getTouchEvents();
+            Input.TouchEvent[] array = new Input.TouchEvent[events.size()];
+            events.toArray(array);
+            game.getMessenger().setTouchEvents(array);
 
             if (graphics != null) {
                 game.getCurrentScreen().update(deltaTime);

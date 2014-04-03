@@ -2,14 +2,11 @@ package dk.aau.cs.giraf.cars.framework;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.List;
 
 public abstract class GameFragment extends Fragment implements Game {
     FastRenderView renderView;
@@ -64,13 +61,6 @@ public abstract class GameFragment extends Fragment implements Game {
             screen.dispose();
     }
 
-    void setTouchEvents() {
-        List<Input.TouchEvent> events = input.getTouchEvents();
-        Input.TouchEvent[] array = new Input.TouchEvent[events.size()];
-        events.toArray(array);
-        this.touchEvents = array;
-    }
-
     public Input.TouchEvent[] getTouchEvents() {
         return touchEvents;
     }
@@ -118,7 +108,7 @@ public abstract class GameFragment extends Fragment implements Game {
 
         @Override
         public void setTouchEvents(Input.TouchEvent[] touchEvents) {
-
+            game.touchEvents = touchEvents;
         }
 
         @Override
