@@ -13,7 +13,6 @@ import java.util.List;
 
 public abstract class GameFragment extends Fragment implements Game {
     FastRenderView renderView;
-    Graphics graphics;
     Audio audio;
     Input input;
     FileIO fileIO;
@@ -31,7 +30,6 @@ public abstract class GameFragment extends Fragment implements Game {
             throw new NullPointerException("No activity associated with getActivity()");
 
         renderView = new FastRenderView(activity, this, frameBuffer);
-        graphics = new Graphics(activity.getAssets(), frameBuffer);
         fileIO = new FileIO(activity);
         audio = new Audio(activity);
         input = new Input(activity, renderView, 1, 1);

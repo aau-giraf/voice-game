@@ -15,7 +15,6 @@ import java.util.List;
 
 public abstract class GameActivity extends Activity implements Game {
     FastRenderView renderView;
-    Graphics graphics;
     Audio audio;
     Input input;
     FileIO fileIO;
@@ -37,7 +36,6 @@ public abstract class GameActivity extends Activity implements Game {
         Bitmap frameBuffer = Bitmap.createBitmap(size.x, size.y, Config.RGB_565);
 
         renderView = new FastRenderView(this, this, frameBuffer);
-        graphics = new Graphics(getAssets(), frameBuffer);
         fileIO = new FileIO(this);
         audio = new Audio(this);
         input = new Input(this, renderView, 1, 1);
