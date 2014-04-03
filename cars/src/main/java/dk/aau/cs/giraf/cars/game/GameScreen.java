@@ -38,8 +38,6 @@ public class GameScreen extends Screen {
     private StartOverlay startOverlay;
     private CrashOverlay crashedOverlay;
 
-    private Point lastCrash = null;
-
     public GameScreen(Game game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
 
