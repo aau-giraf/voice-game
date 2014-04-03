@@ -127,8 +127,10 @@ public class GameScreen extends Screen {
     private void updateCrashed()
     {
         carControl.Reset();
-        if (crashedOverlay.ContinueButtonPressed(game.getTouchEvents()))
+        if (crashedOverlay.ContinueButtonPressed(game.getTouchEvents())) {
+            resetRound(false);
             state = GameState.Running;
+        }
     }
 
     private float animationMove()
