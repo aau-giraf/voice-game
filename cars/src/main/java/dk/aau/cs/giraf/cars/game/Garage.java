@@ -12,11 +12,12 @@ public class Garage extends GameItem {
     private enum GarageState { Open, Closing, Closed };
 
     private GarageState currentState;
-    private final float closingTimeInMs = 2000;
+    private final float closingTimeInMs = 3000;
     private float closingWait = 0;
 
     private int doorLength;
-    private int startAngle;
+    private final int START_ANGLE = 45;
+    private final int HINGE_SIZE = 5;
 
     int color;
     Image image;
@@ -30,8 +31,7 @@ public class Garage extends GameItem {
 
         this.x = this.x + this.width/2;
 
-        this.doorLength = (int)height/2;
-        this.startAngle = 45;
+        this.doorLength = (int)height/2 - HINGE_SIZE;
     }
 
     public void setColor(int color) {
@@ -47,38 +47,41 @@ public class Garage extends GameItem {
                 bounds.left, bounds.top, bounds.right - bounds.left, bounds.bottom - bounds.top,
                 0, 0, Assets.GetGarage().getWidth(), Assets.GetGarage().getHeight());
 
-        Point topDoorHinge = new Point(bounds.left + 5, bounds.top + 5);
-        Point bottomDoorHinge = new Point(bounds.left + 5, bounds.bottom - 5);
+        Point topDoorHinge = new Point(bounds.left + 5, bounds.top + HINGE_SIZE);
+        Point bottomDoorHinge = new Point(bounds.left + 5, bounds.bottom - HINGE_SIZE);
 
-        if (currentState == GarageState.Open) {
-            //graphics.drawLine(bounds.left + 5, bounds.top + 5, bounds.left - bounds.height() / 2, bounds.top - 45, this.color, 5);
-            //graphics.drawLine(bounds.left + 5, bounds.bottom - 5, bounds.left - bounds.height() / 2, bounds.bottom + 45, this.color, 5);
+        int topAngle = 180 + START_ANGLE;
+        int bottomAngle = 180 - START_ANGLE;
 
-            Point topDoorEnd = GetCircumferencePoint(topDoorHinge, doorLength, 180 + startAngle);
-            Point bottomDorEnd = GetCircumferencePoint(bottomDoorHinge, doorLength, 180 - startAngle);
-
-            graphics.drawLine(
-                    topDoorHinge.x,
-                    topDoorHinge.y,
-                    topDoorEnd.x,
-                    topDoorEnd.y,
-                    this.color,
-                    5
-            );
-
-            graphics.drawLine(
-                    bottomDoorHinge.x,
-                    bottomDoorHinge.y,
-                    bottomDorEnd.x,
-                    bottomDorEnd.y,
-                    this.color,
-                    5
-            );
-
+        if (currentState == GarageState.Closing) {
+            topAngle -= closingWait / closingTimeInMs * (90 + START_ANGLE);
+            bottomAngle += closingWait / closingTimeInMs * (90 + START_ANGLE);
         }
-        else if (currentState == GarageState.Closing) {
-
+        else if (currentState == GarageState.Closed) {
+            topAngle -= 90 + START_ANGLE;
+            bottomAngle += 90 + START_ANGLE;
         }
+
+        Point topDoorEnd = GetCircumferencePoint(topDoorHinge, doorLength, topAngle);
+        Point bottomDorEnd = GetCircumferencePoint(bottomDoorHinge, doorLength, bottomAngle);
+
+        graphics.drawLine(
+                topDoorHinge.x,
+                topDoorHinge.y,
+                topDoorEnd.x,
+                topDoorEnd.y,
+                this.color,
+                5
+        );
+
+        graphics.drawLine(
+                bottomDoorHinge.x,
+                bottomDoorHinge.y,
+                bottomDorEnd.x,
+                bottomDorEnd.y,
+                this.color,
+                5
+        );
     }
 
     public void Close() {

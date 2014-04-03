@@ -96,8 +96,10 @@ public class GameScreen extends Screen {
             updateCrashed(deltaTime);
         if (state == GameState.Won)
             updateWon(deltaTime);
-        if(state == GameState.Closing)
+        if(state == GameState.Closing) {
             updateClosing(deltaTime);
+            updateRunning(deltaTime);
+        }
     }
 
     private void updateStarting(float deltaTime) {
@@ -136,23 +138,19 @@ public class GameScreen extends Screen {
         }
     }
 
-    private float animationMove()
-    {
-        Map<Double,Point> distances = new HashMap<Double, Point>();
+    private float getGarageTargetY(){
+        float minDist = Float.MAX_VALUE;
+        Garage garage = null;
 
-        for(Garage garage : garages)
-        {
-            distances.put(Math.abs((double)car.y-garage.y),new Point((int)(garage.x - garage.height/2),(int)garage.y));
+        for (Garage g : garages) {
+            float dist = Math.abs(car.y - g.y);
+            if (dist < minDist) {
+                minDist = dist;
+                garage = g;
+            }
         }
-        double minDistance = Collections.min(distances.keySet());
-        Point p = distances.get(minDistance);
 
-        if (car.y+3 < p.y)
-            return 1;
-        else if (car.y-3 > p.y)
-            return -1;
-        else
-            return 0;
+        return garage.y + garage.height / 2f;
     }
     private void updateRunning(float deltaTime)
     {
@@ -167,15 +165,23 @@ public class GameScreen extends Screen {
         if (car.x > game.getWidth())
             car.x = -car.width;
 
+        boolean closeToGoal = car.x + car.width >= animationZoneX;
+        float targetY = closeToGoal ? getGarageTargetY() - car.height / 2f : car.y;
+
         float move = carControl.getMove(game);
-        if (car.x + car.width >= animationZoneX)
-            move = animationMove();
+        if (closeToGoal)
+            move = targetY < car.y ? -1 : (targetY > car.y ? 1 : 0);
+
         move = Math.min(Math.max(move, -1), 1);
         move *= pixelsPerSecond * (deltaTime / 1000.0f);
         car.y += move;
         if (car.y < grassSize) car.y = grassSize;
         if (car.y > game.getHeight() - car.height - grassSize)
             car.y = game.getHeight() - car.height - grassSize;
+
+        if(closeToGoal)
+            if((move > 0 && car.y > targetY) || (move < 0 && car.y < targetY))
+                car.y = targetY;
 
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(deltaTime);
@@ -186,15 +192,15 @@ public class GameScreen extends Screen {
             }
         }
 
-        boolean anyOpen = true;
         for (Garage garage : garages) {
             garage.Update(deltaTime);
             if (garage.CollidesWith(car)) {
                 if (car.color == garage.color && !garage.getIsClosed()) {
                     garage.Close();
-                    resetRound(true);
                     state = GameState.Closing;
                 }
+                else if (car.color == garage.color && garage.getIsClosed())
+                    resetRound(true);
                 else
                 {
                     crashedOverlay.setLastCrash( garage.GetCollisionCenter(car));
@@ -202,8 +208,6 @@ public class GameScreen extends Screen {
                     return;
                 }
             }
-            if (garage.getIsClosed())
-                anyOpen = false;
         }
     }
 
