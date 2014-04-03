@@ -4,6 +4,9 @@ import android.content.res.Resources;
 
 public interface Game {
 
+    int getWidth();
+    int getHeight();
+
     Input getInput();
     FileIO getFileIO();
     Audio getAudio() ;

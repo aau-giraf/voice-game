@@ -17,8 +17,17 @@ public abstract class GameFragment extends Fragment implements Game {
     Input input;
     FileIO fileIO;
     Screen screen;
+    Point size;
 
     private Input.TouchEvent[] touchEvents;
+
+    public int getWidth() {
+        return size.x;
+    }
+
+    public int getHeight() {
+        return size.y;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
