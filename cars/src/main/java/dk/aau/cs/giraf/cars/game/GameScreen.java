@@ -187,7 +187,6 @@ public class GameScreen extends Screen {
             }
         }
 
-        boolean anyOpen = true;
         for (Garage garage : garages) {
             garage.Update(deltaTime);
             if (garage.CollidesWith(car)) {
@@ -203,8 +202,6 @@ public class GameScreen extends Screen {
                     return;
                 }
             }
-            if (garage.getIsClosed())
-                anyOpen = false;
         }
     }
 
