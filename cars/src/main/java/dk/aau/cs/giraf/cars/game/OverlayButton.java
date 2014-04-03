@@ -6,8 +6,9 @@ import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.cars.game.Interfaces.GameObject;
 
-public class OverlayButton {
+public class OverlayButton implements GameObject{
 
     int TouchX, TouchY, TouchWidth, TouchHeight;
     int DrawX, DrawY;
@@ -15,10 +16,13 @@ public class OverlayButton {
     String buttonText;
     protected Paint pButton;
     protected Paint pFocus;
+    Game game;
 
-    public OverlayButton(int touchX, int touchY, int touchWidth, int touchHeight, int drawX, int drawY, int textColor, int touchColor, String buttonText) {
+    public OverlayButton(Game game, int touchX, int touchY, int touchWidth, int touchHeight, int drawX, int drawY, int textColor, int touchColor, String buttonText) {
         pButton = new Paint();
         pFocus = new Paint();
+
+        this.game = game;
 
         this.buttonText = buttonText;
 
@@ -53,28 +57,46 @@ public class OverlayButton {
      * @param drawY
      * @param buttonText
      */
-    public OverlayButton(int touchX, int touchY, int touchWidth, int touchHeight, int drawX, int drawY, String buttonText)
+    public OverlayButton(Game game,int touchX, int touchY, int touchWidth, int touchHeight, int drawX, int drawY, String buttonText)
     {
-           this(touchX,touchY,touchWidth,touchHeight,drawX,drawY,Color.WHITE,Color.YELLOW,buttonText);
+           this(game,touchX,touchY,touchWidth,touchHeight,drawX,drawY,Color.WHITE,Color.YELLOW,buttonText);
     }
 
-    protected boolean IsButtonPressed(Input.TouchEvent[] touchEvents, OverlayButton button) {
+
+
+    /**
+     * Updates the value of the Pressed variable so it is true when the button is touched
+     */
+    @Override
+    public void Update(float deltaTime) {
+        Input.TouchEvent[] touchEvents =game.getTouchEvents();
+
         for (int i = 0; i < touchEvents.length; i++) {
             Input.TouchEvent event = touchEvents[i];
-            if (inBounds(event, button)) {
+            if (inBounds(event, this)) {
                 if (event.type == Input.TouchEvent.TOUCH_UP) {
-                    button.Pressed = false;
-                    return true;
+                    Pressed = false;
                 }
                 else if (event.type == Input.TouchEvent.TOUCH_DOWN || event.type == Input.TouchEvent.TOUCH_DRAGGED)
-                    button.Pressed = true;
+                    Pressed = true;
                 else
-                    button.Pressed = false;
+                    Pressed = false;
             }
             else
-                button.Pressed = false;
+                Pressed = false;
         }
+    }
 
+    protected boolean IsButtonPressed(Input.TouchEvent[] touchEvents) {
+        for (int i = 0; i < touchEvents.length; i++) {
+            Input.TouchEvent event = touchEvents[i];
+            if (inBounds(event, this)) {
+                if (event.type == Input.TouchEvent.TOUCH_UP) {
+                    Pressed = false;
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -87,7 +109,8 @@ public class OverlayButton {
         return inBounds(event, button.TouchX, button.TouchY, button.TouchWidth, button.TouchHeight);
     }
 
-    public void Draw(Graphics g) {
+    @Override
+    public void Draw(Graphics g, float deltaTime) {
         g.drawString(buttonText, DrawX, DrawY, Pressed ? pFocus : pButton);
     }
 }

@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.cars.game;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
@@ -24,22 +25,21 @@ public class StartOverlay extends Overlay {
         pButton.setAntiAlias(true);
         pButton.setColor(Color.WHITE);
 
-        counterInMS = (seconds+1)*1000;
+        counterInMS = (seconds + 1) * 1000;
         visualCounter = seconds;
     }
 
-    public GameState UpdateTime(float deltaTime)
+    public boolean IsTimerDone(float deltaTime)
     {
         counterInMS -= deltaTime;
-        if (counterInMS<=0)
-            return GameState.Running;
-        if (counterInMS<visualCounter*1000)
-            visualCounter--;
-        return GameState.Starting;
-    }
 
-    public GameState ButtonPressed(Game game) {
-        return null;
+        if (counterInMS <= 0)
+            return true;
+
+        if (counterInMS < visualCounter * 1000)
+            visualCounter--;
+
+        return false;
     }
 
     public void Draw(Game game)
