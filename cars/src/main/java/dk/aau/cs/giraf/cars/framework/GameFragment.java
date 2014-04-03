@@ -113,7 +113,7 @@ public abstract class GameFragment extends Fragment implements Game {
 
         @Override
         public void setSize(int width, int height) {
-
+            game.size = new Point(width, height);
         }
     }
 }

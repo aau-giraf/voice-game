@@ -9,8 +9,6 @@ import android.view.SurfaceView;
 
 import java.util.List;
 
-import dk.aau.cs.giraf.cars.framework.Game;
-
 public class FastRenderView extends SurfaceView implements Runnable {
     Game game;
     private Bitmap framebuffer;
@@ -36,6 +34,7 @@ public class FastRenderView extends SurfaceView implements Runnable {
 
         // Create new bitmap for rendering
         Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.RGB_565);
+        game.getMessenger().setSize(bitmap.getWidth(), bitmap.getHeight());
         // Set the bitmap in Graphics and create a new canvas for it
         graphics.canvas = new Canvas(bitmap);
         graphics.frameBuffer = bitmap;

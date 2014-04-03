@@ -127,7 +127,7 @@ public abstract class GameActivity extends Activity implements Game {
 
         @Override
         public void setSize(int width, int height) {
-
+            game.size = new Point(width, height);
         }
     }
 }
