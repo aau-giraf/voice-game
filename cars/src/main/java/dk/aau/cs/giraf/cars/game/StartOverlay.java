@@ -42,14 +42,13 @@ public class StartOverlay extends Overlay {
         return false;
     }
 
-    public void Draw(Game game)
-    {
+    @Override
+    public void Draw(Graphics graphics, float deltaTime) {
         int width = game.getWidth();
         int height = game.getHeight();
-        Graphics g = game.getGraphics();
-        g.drawARGB(155,0,0,0);
+        graphics.drawARGB(155, 0, 0, 0);
         String out;
-        out = visualCounter == 0 ? game.getResources().getString(R.string.countdown_drive) : (int)visualCounter+"";
-        g.drawString(out, width/2, height/2, pButton);
+        out = visualCounter == 0 ? game.getResources().getString(R.string.countdown_drive) : (int) visualCounter + "";
+        graphics.drawString(out, width / 2, height / 2, pButton);
     }
 }

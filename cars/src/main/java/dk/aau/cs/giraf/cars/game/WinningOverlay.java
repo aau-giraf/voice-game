@@ -30,15 +30,14 @@ public class WinningOverlay extends Overlay {
         return menuButton.IsButtonPressed(events);
     }
 
-
+    @Override
 
     public void Draw(Graphics graphics, float deltaTIme)
     {
         int width = game.getWidth();
         int height = game.getHeight();
-        Graphics g = game.getGraphics();
-        g.drawARGB(155, 0, 0, 0);
-        g.drawImage(Assets.GetTrophy(), (int) (width * .50) - Assets.GetTrophy().getWidth() / 2, (int) (height * .25) - Assets.GetTrophy().getHeight() / 2);
+        graphics.drawARGB(155, 0, 0, 0);
+        graphics.drawImage(Assets.GetTrophy(), (int) (width * .50) - Assets.GetTrophy().getWidth() / 2, (int) (height * .25) - Assets.GetTrophy().getHeight() / 2);
         super.Draw(graphics,deltaTIme);
     }
 }

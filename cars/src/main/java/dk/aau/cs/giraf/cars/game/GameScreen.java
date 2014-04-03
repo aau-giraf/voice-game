@@ -220,16 +220,16 @@ public class GameScreen extends Screen {
             garage.Draw(graphics, deltaTime);
 
         if (state == GameState.Starting)
-            startOverlay.Draw(game);
+            startOverlay.Draw(graphics, deltaTime);
         if (state == GameState.Running)
-            drawRunning(deltaTime);
+            drawRunning(graphics, deltaTime);
         if (state == GameState.Crashed)
             crashedOverlay.Draw(graphics,deltaTime);
         if (state == GameState.Won)
             winningOverlay.Draw(graphics,deltaTime);
     }
 
-    private void drawRunning(float deltaTime) {
+    private void drawRunning(Graphics graphics, float deltaTime) {
 
     }
 
