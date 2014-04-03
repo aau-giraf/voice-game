@@ -2,19 +2,18 @@ package dk.aau.cs.giraf.cars.game;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import android.graphics.Point;
 import android.util.Log;
 
-import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.framework.Graphics;
+import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
+import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
 import dk.aau.cs.giraf.cars.game.Overlay.StartOverlay;
 import dk.aau.cs.giraf.cars.game.Overlay.WinningOverlay;
@@ -58,7 +57,7 @@ public class GameScreen extends Screen {
         this.car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
 
-        this.carControl = new TouchCarControl();
+        this.carControl = gs.GetController().GetCarControl();
         this.speed = gs.GetSpeed();
 
         this.obstacles = new ArrayList<Obstacle>();

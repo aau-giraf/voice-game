@@ -22,6 +22,7 @@ public class Settings extends Activity {
     Spinner spinner1;
     Spinner spinner2;
     Spinner spinner3;
+
     TextView speed;
 
     @Override
@@ -48,7 +49,6 @@ public class Settings extends Activity {
         speed.setText(Integer.toString(gamesettings.GetSpeed()));
 
         LinkedList<Integer> colors = gamesettings.GetColors();
-
         spinner1.setSelection(colorValues.indexOf(colors.get(0)));
         spinner2.setSelection(colorValues.indexOf(colors.get(1)));
         spinner3.setSelection(colorValues.indexOf(colors.get(2)));
@@ -62,7 +62,7 @@ public class Settings extends Activity {
         colors.add(colorValues.get(spinner2.getSelectedItemPosition()));
         colors.add(colorValues.get(spinner3.getSelectedItemPosition()));
 
-        GameSettings gs = new GameSettings(colors, Integer.parseInt(speed.getText().toString()));
+        GameSettings gs = new GameSettings(colors, Integer.parseInt(speed.getText().toString()), gamesettings.GetController());
 
         Intent intent = new Intent(this, MainMenu.class);
         intent.putExtra("GameSettings", gs);

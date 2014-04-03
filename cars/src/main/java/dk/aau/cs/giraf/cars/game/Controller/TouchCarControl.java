@@ -1,9 +1,8 @@
-package dk.aau.cs.giraf.cars.game;
-
-import java.util.List;
+package dk.aau.cs.giraf.cars.game.Controller;
 
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 
 public class TouchCarControl implements CarControl {
     private int lastMove = 0;
