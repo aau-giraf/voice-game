@@ -18,6 +18,7 @@ public abstract class GameFragment extends Fragment implements Game {
     FileIO fileIO;
     Screen screen;
     Point size;
+    GameMessenger messenger;
 
     private Input.TouchEvent[] touchEvents;
 
@@ -103,4 +104,26 @@ public abstract class GameFragment extends Fragment implements Game {
     }
 
     public abstract Screen getInitScreen();
+
+    public GameMessenger getMessenger(){
+        return messenger;
+    }
+
+    private class Messenger extends GameMessenger {
+        private GameFragment game;
+
+        public Messenger(GameFragment game) {
+            this.game = game;
+        }
+
+        @Override
+        public void setTouchEvents(Input.TouchEvent[] touchEvents) {
+
+        }
+
+        @Override
+        public void setSize(Point size) {
+
+        }
+    }
 }

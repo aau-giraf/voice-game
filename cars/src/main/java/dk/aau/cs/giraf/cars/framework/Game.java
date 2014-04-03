@@ -14,6 +14,7 @@ public interface Game {
     Screen getCurrentScreen();
     Screen getInitScreen();
     Input.TouchEvent[] getTouchEvents();
+    GameMessenger getMessenger();
 
     Resources getResources();
 }

@@ -21,6 +21,7 @@ public abstract class GameActivity extends Activity implements Game {
     Screen screen;
     WakeLock wakeLock;
     Point size;
+    GameMessenger messenger;
 
     private Input.TouchEvent[] touchEvents;
 
@@ -116,4 +117,26 @@ public abstract class GameActivity extends Activity implements Game {
     }
 
     public abstract Screen getInitScreen();
+
+    public GameMessenger getMessenger(){
+        return messenger;
+    }
+
+    private class Messenger extends GameMessenger {
+        private GameActivity game;
+
+        public Messenger(GameActivity game) {
+            this.game = game;
+        }
+
+        @Override
+        public void setTouchEvents(Input.TouchEvent[] touchEvents) {
+
+        }
+
+        @Override
+        public void setSize(Point size) {
+
+        }
+    }
 }
