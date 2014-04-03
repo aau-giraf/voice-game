@@ -12,11 +12,12 @@ public class Garage extends GameItem {
     private enum GarageState { Open, Closing, Closed };
 
     private GarageState currentState;
-    private final float closingTimeInMs = 2000;
+    private final float closingTimeInMs = 3000;
     private float closingWait = 0;
 
     private int doorLength;
-    private int startAngle;
+    private final int START_ANGLE = 45;
+    private final int HINGE_SIZE = 5;
 
     int color;
     Image image;
@@ -30,8 +31,7 @@ public class Garage extends GameItem {
 
         this.x = this.x + this.width/2;
 
-        this.doorLength = (int)height/2;
-        this.startAngle = 45;
+        this.doorLength = (int)height/2 - HINGE_SIZE;
     }
 
     public void setColor(int color) {
@@ -47,19 +47,19 @@ public class Garage extends GameItem {
                 bounds.left, bounds.top, bounds.right - bounds.left, bounds.bottom - bounds.top,
                 0, 0, Assets.GetGarage().getWidth(), Assets.GetGarage().getHeight());
 
-        Point topDoorHinge = new Point(bounds.left + 5, bounds.top + 5);
-        Point bottomDoorHinge = new Point(bounds.left + 5, bounds.bottom - 5);
+        Point topDoorHinge = new Point(bounds.left + 5, bounds.top + HINGE_SIZE);
+        Point bottomDoorHinge = new Point(bounds.left + 5, bounds.bottom - HINGE_SIZE);
 
-        int topAngle = 180 + startAngle;
-        int bottomAngle = 180 - startAngle;
+        int topAngle = 180 + START_ANGLE;
+        int bottomAngle = 180 - START_ANGLE;
 
         if (currentState == GarageState.Closing) {
-            topAngle -= closingWait / 2000 * (90 + startAngle);
-            bottomAngle += closingWait / 2000 * (90 + startAngle);
+            topAngle -= closingWait / closingTimeInMs * (90 + START_ANGLE);
+            bottomAngle += closingWait / closingTimeInMs * (90 + START_ANGLE);
         }
         else if (currentState == GarageState.Closed) {
-            topAngle -= 90 + startAngle;
-            bottomAngle += 90 + startAngle;
+            topAngle -= 90 + START_ANGLE;
+            bottomAngle += 90 + START_ANGLE;
         }
 
         Point topDoorEnd = GetCircumferencePoint(topDoorHinge, doorLength, topAngle);
