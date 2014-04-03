@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -14,7 +11,6 @@ import android.widget.TextView;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 
@@ -43,37 +39,19 @@ public class Settings extends Activity {
         spinner3 = (Spinner)findViewById(R.id.spinner3);
         speed = (TextView)findViewById(R.id.speed);
 
-
-        ArrayAdapter<CharSequence> adapter =ArrayAdapter.createFromResource(this,R.array.colorname_array,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.colorname_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(adapter);
         spinner2.setAdapter(adapter);
         spinner3.setAdapter(adapter);
 
-        Log.d("Settings",Integer.toString(gamesettings.GetSpeed()));
-        Log.d("Settings",gamesettings.GetColors().toString());
-
         speed.setText(Integer.toString(gamesettings.GetSpeed()));
 
         LinkedList<Integer> colors = gamesettings.GetColors();
-        Log.d("Settings","Colors at creation of settings" + colors);
+
         spinner1.setSelection(colorValues.indexOf(colors.get(0)));
         spinner2.setSelection(colorValues.indexOf(colors.get(1)));
         spinner3.setSelection(colorValues.indexOf(colors.get(2)));
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.settings, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
     }
 
     public void OkButtonClick(View view)
@@ -87,11 +65,8 @@ public class Settings extends Activity {
         GameSettings gs = new GameSettings(colors, Integer.parseInt(speed.getText().toString()));
 
         Intent intent = new Intent(this, MainMenu.class);
-        intent.putExtra("GameSettings",gs);
+        intent.putExtra("GameSettings", gs);
         setResult(Activity.RESULT_OK, intent);
         this.finish();
     }
-
-
-
 }

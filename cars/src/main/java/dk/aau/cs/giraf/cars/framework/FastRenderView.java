@@ -14,6 +14,7 @@ public class FastRenderView extends SurfaceView implements Runnable {
     Thread renderThread = null;
     SurfaceHolder holder;
     volatile boolean running = false;
+    private int skipFrames = 2;
 
     public FastRenderView(Game game, Bitmap framebuffer) {
         super(game);
@@ -37,6 +38,11 @@ public class FastRenderView extends SurfaceView implements Runnable {
             if (!holder.getSurface().isValid())
                 continue;
 
+            if(skipFrames > 0)
+            {
+                skipFrames--;
+                startTime = System.nanoTime();
+            }
 
             // Calculate deltaTime as milliseconds
             float deltaTime = (System.nanoTime() - startTime) / 1000000.000f;

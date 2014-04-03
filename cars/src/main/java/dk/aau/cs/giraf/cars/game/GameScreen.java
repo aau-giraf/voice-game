@@ -79,7 +79,7 @@ public class GameScreen extends Screen {
     @Override
     public void update(float deltaTime) {
         if (state == GameState.Starting)
-            state = startOverlay.UpdateTime(deltaTime);
+            updateStarting(deltaTime);
         if(state == GameState.Running)
             crashedOverlay.lastCrash = updateRunning(deltaTime);
         if(state == GameState.Crashed)
@@ -88,6 +88,11 @@ public class GameScreen extends Screen {
             updateWon(deltaTime);
         if(state == GameState.Closing)
             updateClosing(deltaTime);
+    }
+
+    private void updateStarting(float deltaTime) {
+        if (startOverlay.IsTimerDone(deltaTime))
+            state = GameState.Running;
     }
 
     private void updateClosing(float deltaTime) {
