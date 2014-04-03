@@ -50,35 +50,38 @@ public class Garage extends GameItem {
         Point topDoorHinge = new Point(bounds.left + 5, bounds.top + 5);
         Point bottomDoorHinge = new Point(bounds.left + 5, bounds.bottom - 5);
 
-        if (currentState == GarageState.Open) {
-            //graphics.drawLine(bounds.left + 5, bounds.top + 5, bounds.left - bounds.height() / 2, bounds.top - 45, this.color, 5);
-            //graphics.drawLine(bounds.left + 5, bounds.bottom - 5, bounds.left - bounds.height() / 2, bounds.bottom + 45, this.color, 5);
+        int topAngle = 180 + startAngle;
+        int bottomAngle = 180 - startAngle;
 
-            Point topDoorEnd = GetCircumferencePoint(topDoorHinge, doorLength, 180 + startAngle);
-            Point bottomDorEnd = GetCircumferencePoint(bottomDoorHinge, doorLength, 180 - startAngle);
-
-            graphics.drawLine(
-                    topDoorHinge.x,
-                    topDoorHinge.y,
-                    topDoorEnd.x,
-                    topDoorEnd.y,
-                    this.color,
-                    5
-            );
-
-            graphics.drawLine(
-                    bottomDoorHinge.x,
-                    bottomDoorHinge.y,
-                    bottomDorEnd.x,
-                    bottomDorEnd.y,
-                    this.color,
-                    5
-            );
-
+        if (currentState == GarageState.Closing) {
+            topAngle -= closingWait / 2000 * (90 + startAngle);
+            bottomAngle += closingWait / 2000 * (90 + startAngle);
         }
-        else if (currentState == GarageState.Closing) {
-
+        else if (currentState == GarageState.Closed) {
+            topAngle -= 90 + startAngle;
+            bottomAngle += 90 + startAngle;
         }
+
+        Point topDoorEnd = GetCircumferencePoint(topDoorHinge, doorLength, topAngle);
+        Point bottomDorEnd = GetCircumferencePoint(bottomDoorHinge, doorLength, bottomAngle);
+
+        graphics.drawLine(
+                topDoorHinge.x,
+                topDoorHinge.y,
+                topDoorEnd.x,
+                topDoorEnd.y,
+                this.color,
+                5
+        );
+
+        graphics.drawLine(
+                bottomDoorHinge.x,
+                bottomDoorHinge.y,
+                bottomDorEnd.x,
+                bottomDorEnd.y,
+                this.color,
+                5
+        );
     }
 
     public void Close() {
