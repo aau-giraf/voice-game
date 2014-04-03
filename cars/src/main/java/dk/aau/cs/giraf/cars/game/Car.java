@@ -32,7 +32,7 @@ public class Car extends GameItem {
 
         graphics.drawScaledImage(image,
                 bounds.left, bounds.top, bounds.right - bounds.left, bounds.bottom - bounds.top,
-                0, 0, Assets.GetCar().getWidth(), Assets.GetCar().getHeight());
+                0, 0, image.getWidth(), image.getHeight());
     }
 
     @Override
