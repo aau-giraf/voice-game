@@ -2,7 +2,11 @@ package dk.aau.cs.giraf.cars.game;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import android.graphics.Point;
 import android.util.Log;
@@ -29,6 +33,8 @@ public class GameScreen extends Screen {
     private final int pixelsPerSecond = 200;
     private final int grassSize = 70;
     private final float garageSize = 250;
+    private float animationZoneX;
+    private final float animationZoneSize = 50;
 
     private GameState state = GameState.Starting;
     private int amountOfGarages = 3;
@@ -37,6 +43,8 @@ public class GameScreen extends Screen {
     private WinningOverlay winningOverlay;
     private StartOverlay startOverlay;
     private CrashOverlay crashedOverlay;
+
+    private Garage closingGarage = null;
 
     public GameScreen(Game game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
@@ -67,6 +75,8 @@ public class GameScreen extends Screen {
             garages.add(g);
         }
 
+        this.animationZoneX = game.getWidth() - garageSize - animationZoneSize;
+
         Collections.shuffle(colors);
         car.setColor(colors.removeFirst());
 
@@ -84,9 +94,9 @@ public class GameScreen extends Screen {
         if(state == GameState.Running)
             updateRunning(deltaTime);
         if(state == GameState.Crashed)
-             updateCrashed(deltaTime);
+            updateCrashed();
         if(state == GameState.Won)
-            updateWon(deltaTime);
+            updateWon();
         if(state == GameState.Closing)
             updateClosing(deltaTime);
     }
@@ -105,11 +115,9 @@ public class GameScreen extends Screen {
         state = GameState.Running;
     }
 
-    private void updateWon(float deltaTime)
+    private void updateWon()
     {
         carControl.Reset();
-
-        winningOverlay.Update(deltaTime);
         if (winningOverlay.ResetButtonPressed(game.getTouchEvents())) {
             game.setScreen(new GameScreen(game, new TestObstacles(), gameSettings));
             state = GameState.Running;
@@ -119,17 +127,33 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void updateCrashed(float deltaTime)
+    private void updateCrashed()
     {
         carControl.Reset();
-        crashedOverlay.Update(deltaTime);
         if (crashedOverlay.ContinueButtonPressed(game.getTouchEvents())) {
             resetRound(false);
             state = GameState.Running;
         }
     }
 
+    private float animationMove()
+    {
+        Map<Double,Point> distances = new HashMap<Double, Point>();
 
+        for(Garage garage : garages)
+        {
+            distances.put(Math.abs((double)car.y-garage.y),new Point((int)(garage.x - garage.height/2),(int)garage.y));
+        }
+        double minDistance = Collections.min(distances.keySet());
+        Point p = distances.get(minDistance);
+
+        if (car.y+3 < p.y)
+            return 1;
+        else if (car.y-3 > p.y)
+            return -1;
+        else
+            return 0;
+    }
     private void updateRunning(float deltaTime)
     {
         if (allGaragesClosed())
@@ -144,6 +168,8 @@ public class GameScreen extends Screen {
             car.x = -car.width;
 
         float move = carControl.getMove(game);
+        if (car.x + car.width >= animationZoneX)
+            move = animationMove();
         move = Math.min(Math.max(move, -1), 1);
         move *= pixelsPerSecond * (deltaTime / 1000.0f);
         car.y += move;
@@ -160,6 +186,7 @@ public class GameScreen extends Screen {
             }
         }
 
+        boolean anyOpen = true;
         for (Garage garage : garages) {
             garage.Update(deltaTime);
             if (garage.CollidesWith(car)) {
@@ -176,6 +203,8 @@ public class GameScreen extends Screen {
                     return;
                 }
             }
+            if (garage.getIsClosed())
+                anyOpen = false;
         }
     }
 
@@ -230,9 +259,9 @@ public class GameScreen extends Screen {
         if(state == GameState.Running)
             drawRunning(deltaTime);
         if (state == GameState.Crashed)
-            crashedOverlay.Draw(graphics,deltaTime);
+            crashedOverlay.Draw(game.getGraphics(), deltaTime);
         if(state == GameState.Won)
-            winningOverlay.Draw(graphics,deltaTime);
+            winningOverlay.Draw(game.getGraphics(), deltaTime);
     }
 
     private void drawRunning(float deltaTime)
