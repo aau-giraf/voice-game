@@ -41,7 +41,7 @@ public class VolumeCarControl implements CarControl {
         volume /= (upper - lower) / 2f;
         volume -= 1;
 
-        return volume;
+        return -volume; //Inverted controls
     }
 
     @Override

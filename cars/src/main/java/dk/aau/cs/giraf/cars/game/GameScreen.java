@@ -97,8 +97,10 @@ public class GameScreen extends Screen {
             updateCrashed(deltaTime);
         if (state == GameState.Won)
             updateWon(deltaTime);
-        if(state == GameState.Closing)
+        if(state == GameState.Closing) {
             updateClosing(deltaTime);
+            updateRunning(deltaTime);
+        }
     }
 
     private void updateStarting(float deltaTime) {
@@ -191,15 +193,15 @@ public class GameScreen extends Screen {
             }
         }
 
-        boolean anyOpen = true;
         for (Garage garage : garages) {
             garage.Update(deltaTime);
             if (garage.CollidesWith(car)) {
                 if (car.color == garage.color && !garage.getIsClosed()) {
                     garage.Close();
-                    resetRound(true);
                     state = GameState.Closing;
                 }
+                else if (car.color == garage.color && garage.getIsClosed())
+                    resetRound(true);
                 else
                 {
                     crashedOverlay.setLastCrash( garage.GetCollisionCenter(car));
@@ -207,8 +209,6 @@ public class GameScreen extends Screen {
                     return;
                 }
             }
-            if (garage.getIsClosed())
-                anyOpen = false;
         }
     }
 
