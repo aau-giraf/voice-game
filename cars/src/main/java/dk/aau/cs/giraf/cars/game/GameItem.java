@@ -4,8 +4,9 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 import dk.aau.cs.giraf.cars.framework.Graphics;
+import dk.aau.cs.giraf.cars.game.Interfaces.GameObject;
 
-public abstract class GameItem {
+public abstract class GameItem implements GameObject {
     float x, y;
     final float width, height;
 
@@ -25,6 +26,7 @@ public abstract class GameItem {
                this.y < item.y + item.height && this.y + this.height > item.y;
     }
 
+    public abstract void Draw(Graphics graphics, float deltaTime);
     public Point GetCollisionCenter(GameItem item) {
         Rect collidee = new Rect((int)x, (int)y, (int)(x + width), (int)(y + height));
         Rect collider = new Rect((int)item.x, (int)item.y, (int)(item.x + item.width), (int)(item.y + item.height));
@@ -39,7 +41,6 @@ public abstract class GameItem {
         return new Point(collision.centerX(), collision.centerY());
     }
 
-    public abstract void Paint(Graphics graphics, float deltaTime);
 
     public abstract void Update(float deltaTime);
 }
