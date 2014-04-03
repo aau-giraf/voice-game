@@ -14,7 +14,6 @@ import android.view.WindowManager;
 public abstract class GameActivity extends Activity implements Game {
     FastRenderView renderView;
     Audio audio;
-    Input input;
     FileIO fileIO;
     Screen screen;
     WakeLock wakeLock;
@@ -50,7 +49,6 @@ public abstract class GameActivity extends Activity implements Game {
         renderView = new FastRenderView(this, this, frameBuffer);
         fileIO = new FileIO(this);
         audio = new Audio(this);
-        input = new Input(this, renderView, 1, 1);
         screen = getInitScreen();
         setContentView(renderView);
 
@@ -81,10 +79,6 @@ public abstract class GameActivity extends Activity implements Game {
 
     public Input.TouchEvent[] getTouchEvents() {
         return touchEvents;
-    }
-
-    public Input getInput() {
-        return input;
     }
 
     public FileIO getFileIO() {

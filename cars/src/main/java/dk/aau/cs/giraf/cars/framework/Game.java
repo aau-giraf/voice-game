@@ -7,7 +7,6 @@ public interface Game {
     int getWidth();
     int getHeight();
 
-    Input getInput();
     FileIO getFileIO();
     Audio getAudio() ;
     void setScreen(Screen screen);
