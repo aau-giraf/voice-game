@@ -81,7 +81,7 @@ public class GameScreen extends Screen {
         if (state == GameState.Starting)
             updateStarting(deltaTime);
         if(state == GameState.Running)
-            crashedOverlay.lastCrash = updateRunning(deltaTime);
+            updateRunning(deltaTime);
         if(state == GameState.Crashed)
              updateCrashed(deltaTime);
         if(state == GameState.Won)
@@ -129,12 +129,12 @@ public class GameScreen extends Screen {
     }
 
 
-    private Point updateRunning(float deltaTime)
+    private void updateRunning(float deltaTime)
     {
         if (allGaragesClosed())
         {
             state = GameState.Won;
-            return null;
+            return;
         }
 
         car.Update(deltaTime);
@@ -153,9 +153,9 @@ public class GameScreen extends Screen {
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(deltaTime);
             if (obstacles.get(i).CollidesWith(car)) {
-                lastCrash = obstacles.get(i).GetCollisionCenter(car);
+                crashedOverlay.lastCrash = obstacles.get(i).GetCollisionCenter(car);
                 state = GameState.Crashed;
-                return lastCrash;
+                return ;
             }
         }
 
@@ -170,13 +170,12 @@ public class GameScreen extends Screen {
                 }
                 else
                 {
-                    lastCrash = garage.GetCollisionCenter(car);
+                    crashedOverlay.lastCrash = garage.GetCollisionCenter(car);
                     state = GameState.Crashed;
-                    return lastCrash;
+                    return;
                 }
             }
         }
-        return null;
     }
 
     private boolean allGaragesClosed()
