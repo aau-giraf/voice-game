@@ -255,9 +255,9 @@ public class GameScreen extends Screen {
         if (state == GameState.Running)
             drawRunning(graphics, deltaTime);
         if (state == GameState.Crashed)
-            crashedOverlay.Draw(game.getGraphics(), deltaTime);
+            crashedOverlay.Draw(graphics, deltaTime);
         if (state == GameState.Won)
-            winningOverlay.Draw(game.getGraphics(), deltaTime);
+            winningOverlay.Draw(graphics, deltaTime);
     }
 
     private void drawRunning(Graphics graphics, float deltaTime) {
