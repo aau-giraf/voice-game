@@ -30,7 +30,7 @@ public class Garage extends GameItem {
     }
 
     @Override
-    public void Paint(Graphics graphics, float deltaTime) {
+    public void Draw(Graphics graphics, float deltaTime) {
         Rect bounds = this.GetBounds();
 
         graphics.drawScaledImage(image,
@@ -47,6 +47,8 @@ public class Garage extends GameItem {
             closingWait = 0;
         }
     }
+
+    public boolean isClosing () { return drawnPart == 1; }
 
     public boolean getIsClosed(){
         return drawnPart == 2;

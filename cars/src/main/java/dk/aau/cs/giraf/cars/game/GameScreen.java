@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
+import android.graphics.Point;
 import android.util.Log;
 
 import dk.aau.cs.giraf.cars.framework.Game;
@@ -36,6 +37,7 @@ public class GameScreen extends Screen {
     private StartOverlay startOverlay;
     private CrashOverlay crashedOverlay;
 
+    private Point lastCrash = null;
     public GameScreen(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
 
@@ -77,17 +79,36 @@ public class GameScreen extends Screen {
     @Override
     public void update(float deltaTime) {
         if (state == GameState.Starting)
-            state = startOverlay.UpdateTime(deltaTime);
+            updateStarting(deltaTime);
         if (state == GameState.Running)
-            updateRunning(deltaTime);
+            crashedOverlay.lastCrash = updateRunning(deltaTime);
         if (state == GameState.Crashed)
-            updateCrashed();
+             updateCrashed(deltaTime);
         if (state == GameState.Won)
-            updateWon();
+            updateWon(deltaTime);
+        if(state == GameState.Closing)
+            updateClosing(deltaTime);
     }
 
-    private void updateWon() {
+    private void updateStarting(float deltaTime) {
+        if (startOverlay.IsTimerDone(deltaTime))
+            state = GameState.Running;
+    }
+
+    private void updateClosing(float deltaTime) {
+        for (Garage g : garages) {
+            g.Update(deltaTime);
+            if (g.isClosing())
+                return;
+        }
+        state = GameState.Running;
+    }
+
+    private void updateWon(float deltaTime)
+    {
         carControl.Reset();
+
+        winningOverlay.Update(deltaTime);
         if (winningOverlay.ResetButtonPressed(game.getTouchEvents())) {
             game.setScreen(new GameScreen((GameActivity) game, new TestObstacles(), gameSettings));
             state = GameState.Running;
@@ -96,17 +117,23 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void updateCrashed() {
+    private void updateCrashed(float deltaTime)
+    {
         carControl.Reset();
-        if (crashedOverlay.ContinueButtonPressed(game.getTouchEvents()))
+        crashedOverlay.Update(deltaTime);
+        if (crashedOverlay.ContinueButtonPressed(game.getTouchEvents())) {
+            resetRound(false);
             state = GameState.Running;
+        }
     }
 
 
-    private void updateRunning(float deltaTime) {
-        if (allGaragesClosed()) {
+    private Point updateRunning(float deltaTime)
+    {
+        if (allGaragesClosed())
+        {
             state = GameState.Won;
-            return;
+            return null;
         }
 
         car.Update(deltaTime);
@@ -125,28 +152,29 @@ public class GameScreen extends Screen {
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(deltaTime);
             if (obstacles.get(i).CollidesWith(car)) {
-                resetRound(false);
+                lastCrash = obstacles.get(i).GetCollisionCenter(car);
                 state = GameState.Crashed;
-                return;
+                return lastCrash;
             }
         }
 
-        boolean anyOpen = true;
         for (Garage garage : garages) {
             garage.Update(deltaTime);
             if (garage.CollidesWith(car)) {
                 if (car.color == garage.color && !garage.getIsClosed()) {
                     garage.Close();
                     resetRound(true);
-                } else {
-                    resetRound(false);
+                    state = GameState.Closing;
+                }
+                else
+                {
+                    lastCrash = garage.GetCollisionCenter(car);
                     state = GameState.Crashed;
-                    return;
+                    return lastCrash;
                 }
             }
-            if (garage.getIsClosed())
-                anyOpen = false;
         }
+        return null;
     }
 
     private boolean allGaragesClosed() {
@@ -183,22 +211,22 @@ public class GameScreen extends Screen {
             graphics.drawImage(Assets.getBorder(), i, game.getHeight() - grassSize - 6, 0, 25, 10, 25);
         }
 
-        car.Paint(graphics, deltaTime);
+        car.Draw(graphics, deltaTime);
 
         for (Obstacle obstacle : obstacles)
-            obstacle.Paint(graphics, deltaTime);
+            obstacle.Draw(graphics, deltaTime);
 
         for (Garage garage : garages)
-            garage.Paint(graphics, deltaTime);
+            garage.Draw(graphics, deltaTime);
 
         if (state == GameState.Starting)
             startOverlay.Draw(game);
         if (state == GameState.Running)
             drawRunning(deltaTime);
         if (state == GameState.Crashed)
-            crashedOverlay.Draw(game);
+            crashedOverlay.Draw(graphics,deltaTime);
         if (state == GameState.Won)
-            winningOverlay.Draw(game);
+            winningOverlay.Draw(graphics,deltaTime);
     }
 
     private void drawRunning(float deltaTime) {

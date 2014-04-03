@@ -10,7 +10,7 @@ public class Obstacle extends GameItem {
     }
 
     @Override
-    public void Paint(Graphics graphics, float deltaTime) {
+    public void Draw(Graphics graphics, float deltaTime) {
         Rect bounds = this.GetBounds();
 
         graphics.drawScaledImage(Assets.GetObstacle(),
