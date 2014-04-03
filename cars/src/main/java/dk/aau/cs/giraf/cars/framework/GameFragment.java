@@ -22,14 +22,11 @@ public abstract class GameFragment extends Fragment implements Game {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Point size = new Point(400, 200);
-        Bitmap frameBuffer = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.RGB_565);
-
         Activity activity = getActivity();
         if (activity == null)
             throw new NullPointerException("No activity associated with getActivity()");
 
-        renderView = new FastRenderView(activity, this, frameBuffer);
+        renderView = new FastRenderView(activity, this, null);
         fileIO = new FileIO(activity);
         audio = new Audio(activity);
         input = new Input(activity, renderView, 1, 1);
