@@ -2,17 +2,10 @@ package dk.aau.cs.giraf.cars;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import dk.aau.cs.giraf.cars.game.CarGame;
 import dk.aau.cs.giraf.cars.game.GameSettings;
-
-import java.util.Arrays;
-import java.util.LinkedList;
 
 public class MainMenu extends Activity {
 
@@ -29,28 +22,13 @@ public class MainMenu extends Activity {
             gamesettings = intent.getParcelableExtra("GameSettings");
         else gamesettings = new GameSettings();
 
-
         setContentView(R.layout.activity_main_menu);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
     }
 
     public void startGame(View view)
     {
         Intent intent =  new Intent(this, CarGame.class);
-        intent.putExtra("GameSettings",gamesettings);
+        intent.putExtra("GameSettings", gamesettings);
         startActivity(intent);
     }
 

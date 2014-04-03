@@ -1,8 +1,7 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.game.Overlay;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
@@ -25,7 +24,7 @@ public class StartOverlay extends Overlay {
         pButton.setAntiAlias(true);
         pButton.setColor(Color.WHITE);
 
-        counterInMS = (seconds + 2) * 1000; //Added extra second to overcome high deltatime right when activity is started
+        counterInMS = (seconds + 1) * 1000;
         visualCounter = seconds;
     }
 

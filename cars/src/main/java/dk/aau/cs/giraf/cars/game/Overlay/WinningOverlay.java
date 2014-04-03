@@ -1,9 +1,12 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.game.Overlay;
 
 import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.cars.game.Assets;
+import dk.aau.cs.giraf.cars.game.Overlay.Overlay;
+import dk.aau.cs.giraf.cars.game.Overlay.OverlayButton;
 
 public class WinningOverlay extends Overlay {
     private OverlayButton resetButton;
@@ -15,8 +18,8 @@ public class WinningOverlay extends Overlay {
         int width = game.getWidth();
         int height = game.getHeight();
 
-        resetButton = new OverlayButton(game,0,height/2,width/2, height/2, (int) (width * .25), (int) (height * .85),game.getResources().getString(R.string.play_again_button_text));
-        menuButton = new OverlayButton(game,width/2, height/2, width/2, height/2, (int)(width*.75), (int)(height*.85),game.getResources().getString(R.string.menu_button_text));
+        resetButton = new OverlayButton(game, (int) (width * 0.25), (int) (height * 0.85), game.getResources().getString(R.string.play_again_button_text));
+        menuButton = new OverlayButton(game, (int) (width * 0.75), (int) (height * 0.85), game.getResources().getString(R.string.menu_button_text));
 
         Add(resetButton);
         Add(menuButton);
@@ -32,12 +35,11 @@ public class WinningOverlay extends Overlay {
 
     @Override
 
-    public void Draw(Graphics graphics, float deltaTIme)
-    {
+    public void Draw(Graphics graphics, float deltaTime) {
         int width = game.getWidth();
         int height = game.getHeight();
         graphics.drawARGB(155, 0, 0, 0);
         graphics.drawImage(Assets.GetTrophy(), (int) (width * .50) - Assets.GetTrophy().getWidth() / 2, (int) (height * .25) - Assets.GetTrophy().getHeight() / 2);
-        super.Draw(graphics,deltaTIme);
+        super.Draw(graphics, deltaTime);
     }
 }

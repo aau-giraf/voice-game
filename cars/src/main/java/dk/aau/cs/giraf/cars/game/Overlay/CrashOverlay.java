@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.game.Overlay;
 
 import android.graphics.Point;
 
@@ -6,6 +6,9 @@ import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.cars.game.Assets;
+import dk.aau.cs.giraf.cars.game.Overlay.Overlay;
+import dk.aau.cs.giraf.cars.game.Overlay.OverlayButton;
 
 public class CrashOverlay extends Overlay {
     private OverlayButton continueButton;
@@ -13,10 +16,14 @@ public class CrashOverlay extends Overlay {
     int explosionWidth = 100;
     int explosionHeight = 100;
 
+    public void setLastCrash(Point p)
+    {
+        lastCrash = p;
+    }
+
     public CrashOverlay(Game game){
         super(game);
-        continueButton = new OverlayButton(game, game.getWidth() / 2 - 75, game.getHeight()/2-50, 150, 100, game.getWidth()/2, game.getHeight()/2,
-                game.getResources().getString(R.string.crash_button_text));
+        continueButton = new OverlayButton(game, game.getWidth() / 2 - 75, game.getHeight()/2-50,game.getResources().getString(R.string.crash_button_text));
         super.Add(continueButton);
     }
 
