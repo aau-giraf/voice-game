@@ -38,11 +38,10 @@ public class FastRenderView extends SurfaceView implements Runnable {
             if (!holder.getSurface().isValid())
                 continue;
 
-            if(skipFrames <= 0)
+            if(skipFrames > 0)
             {
                 skipFrames--;
                 startTime = System.nanoTime();
-                continue;
             }
 
             // Calculate deltaTime as milliseconds

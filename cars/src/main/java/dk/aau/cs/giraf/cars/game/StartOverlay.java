@@ -25,7 +25,7 @@ public class StartOverlay extends Overlay {
         pButton.setAntiAlias(true);
         pButton.setColor(Color.WHITE);
 
-        counterInMS = (seconds + 2) * 1000; //Added extra second to overcome high deltatime right when activity is started
+        counterInMS = (seconds + 1) * 1000;
         visualCounter = seconds;
     }
 
