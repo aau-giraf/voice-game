@@ -21,7 +21,7 @@ public class FastRenderView extends SurfaceView implements Runnable {
         super(context);
         this.game = game;
         this.framebuffer = framebuffer;
-        this.graphics = new Graphics(context.getAssets(), framebuffer);
+        this.graphics = this.framebuffer == null ? null : new Graphics(context.getAssets(), framebuffer);
         this.holder = getHolder();
     }
 
@@ -39,7 +39,8 @@ public class FastRenderView extends SurfaceView implements Runnable {
         graphics.frameBuffer = bitmap;
 
         // Update the bitmap reference in this FastRenderView
-        this.framebuffer.recycle();
+        if (this.framebuffer != null)
+            this.framebuffer.recycle();
         this.framebuffer = bitmap;
 
         // Resume rendering
@@ -71,16 +72,16 @@ public class FastRenderView extends SurfaceView implements Runnable {
             else if (game instanceof GameFragment)
                 ((GameFragment) game).setTouchEvents();
 
-            game.getCurrentScreen().update(deltaTime);
-            game.getCurrentScreen().paint(graphics, deltaTime);
+            if (graphics != null) {
+                game.getCurrentScreen().update(deltaTime);
+                game.getCurrentScreen().paint(graphics, deltaTime);
 
 
-            Canvas canvas = holder.lockCanvas();
-            canvas.getClipBounds(dstRect);
-            canvas.drawBitmap(framebuffer, null, dstRect, null);
-            holder.unlockCanvasAndPost(canvas);
-
-
+                Canvas canvas = holder.lockCanvas();
+                canvas.getClipBounds(dstRect);
+                canvas.drawBitmap(framebuffer, null, dstRect, null);
+                holder.unlockCanvasAndPost(canvas);
+            }
         }
     }
 
