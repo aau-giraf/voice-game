@@ -87,7 +87,7 @@ public class GameScreen extends Screen {
     @Override
     public void update(float deltaTime) {
         if (state == GameState.Starting)
-            state = startOverlay.UpdateTime(deltaTime);
+            updateStarting(deltaTime);
         if(state == GameState.Running)
             updateRunning(deltaTime);
         if(state == GameState.Crashed)
@@ -96,6 +96,11 @@ public class GameScreen extends Screen {
             updateWon();
         if(state == GameState.Closing)
             updateClosing(deltaTime);
+    }
+
+    private void updateStarting(float deltaTime) {
+        if (startOverlay.IsTimerDone(deltaTime))
+            state = GameState.Running;
     }
 
     private void updateClosing(float deltaTime) {
@@ -236,22 +241,22 @@ public class GameScreen extends Screen {
             graphics.drawImage(Assets.getBorder(), i, game.getHeight() - grassSize - 6, 0, 25, 10, 25);
         }
 
-        car.Paint(graphics, deltaTime);
+        car.Draw(graphics, deltaTime);
 
         for (Obstacle obstacle : obstacles)
-            obstacle.Paint(graphics, deltaTime);
+            obstacle.Draw(graphics, deltaTime);
 
         for (Garage garage : garages)
-            garage.Paint(graphics, deltaTime);
+            garage.Draw(graphics, deltaTime);
 
         if (state == GameState.Starting)
             startOverlay.Draw(game);
         if(state == GameState.Running)
             drawRunning(deltaTime);
         if (state == GameState.Crashed)
-            crashedOverlay.Draw(game);
+            crashedOverlay.Draw(game.getGraphics(), deltaTime);
         if(state == GameState.Won)
-            winningOverlay.Draw(game);
+            winningOverlay.Draw(game.getGraphics(), deltaTime);
     }
 
     private void drawRunning(float deltaTime)
