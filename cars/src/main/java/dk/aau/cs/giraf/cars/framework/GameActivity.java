@@ -21,17 +21,8 @@ public abstract class GameActivity extends Activity implements Game {
     FileIO fileIO;
     Screen screen;
     WakeLock wakeLock;
-    Point size;
 
     private Input.TouchEvent[] touchEvents;
-
-    public int getWidth() {
-        return size.x;
-    }
-
-    public int getHeight() {
-        return size.y;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,9 +32,9 @@ public abstract class GameActivity extends Activity implements Game {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        this.size = new Point();
-        getWindowManager().getDefaultDisplay().getSize(this.size);
-        Bitmap frameBuffer = Bitmap.createBitmap(this.size.x, this.size.y, Config.RGB_565);
+        Point size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(size);
+        Bitmap frameBuffer = Bitmap.createBitmap(size.x, size.y, Config.RGB_565);
 
         renderView = new FastRenderView(this, this, frameBuffer);
         graphics = new Graphics(getAssets(), frameBuffer);

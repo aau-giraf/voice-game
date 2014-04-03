@@ -18,23 +18,13 @@ public abstract class GameFragment extends Fragment implements Game {
     Input input;
     FileIO fileIO;
     Screen screen;
-    Point size;
 
     private Input.TouchEvent[] touchEvents;
 
-    public int getWidth() {
-        return size.x;
-    }
-
-    public int getHeight() {
-        return size.y;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO This be hardcoded - should be fixed!
-        this.size = new Point(400, 200);
-        Bitmap frameBuffer = Bitmap.createBitmap(this.size.x, this.size.y, Bitmap.Config.RGB_565);
+        Point size = new Point(400, 200);
+        Bitmap frameBuffer = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.RGB_565);
 
         Activity activity = getActivity();
         if (activity == null)
