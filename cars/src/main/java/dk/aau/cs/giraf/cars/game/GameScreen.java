@@ -13,6 +13,9 @@ import android.util.Log;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.framework.Graphics;
+import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
+import dk.aau.cs.giraf.cars.game.Overlay.StartOverlay;
+import dk.aau.cs.giraf.cars.game.Overlay.WinningOverlay;
 
 public class GameScreen extends Screen {
     private GameSettings gameSettings;
@@ -177,7 +180,7 @@ public class GameScreen extends Screen {
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(deltaTime);
             if (obstacles.get(i).CollidesWith(car)) {
-                crashedOverlay.lastCrash = obstacles.get(i).GetCollisionCenter(car);
+                crashedOverlay.setLastCrash(obstacles.get(i).GetCollisionCenter(car));
                 state = GameState.Crashed;
                 return ;
             }
@@ -195,7 +198,7 @@ public class GameScreen extends Screen {
                 }
                 else
                 {
-                    crashedOverlay.lastCrash = garage.GetCollisionCenter(car);
+                    crashedOverlay.setLastCrash( garage.GetCollisionCenter(car));
                     state = GameState.Crashed;
                     return;
                 }
