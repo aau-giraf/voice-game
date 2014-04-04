@@ -106,7 +106,7 @@ public class GameScreen extends Screen {
 
             if (car.color == g.color && car.GetBounds().left > g.GetBounds().left && g.getIsClosed()) {
                 resetRound();
-                Log.d("garage","reseT?");
+                Log.d("garage", "reseT?");
                 state = GameState.Running;
             }
         }
@@ -189,15 +189,15 @@ public class GameScreen extends Screen {
 
         for (Garage garage : garages) {
             garage.Update(deltaTime);
-            if (garage.CollidesWith(car)) {
-                if (car.color == garage.color && !garage.getIsClosed()) {
+            if (garage.CollidesWith(car) && garage.color != car.color) {
+                crashedOverlay.setLastCrash(garage.GetCollisionCenter(car));
+                state = GameState.Crashed;
+                return;
+            } else {
+                if (car.color == garage.color && car.GetBounds().left > garage.GetBounds().left) {
                     Log.d("garage", "close");
                     garage.Close();
                     state = GameState.Closing;
-                } else {
-                    crashedOverlay.setLastCrash(garage.GetCollisionCenter(car));
-                    state = GameState.Crashed;
-                    return;
                 }
             }
         }
