@@ -91,7 +91,7 @@ public class Garage extends GameItem {
         }
     }
 
-    public boolean isClosing () { return currentState == GarageState.Closing; }
+    public boolean getIsClosing() { return currentState == GarageState.Closing; }
 
     public boolean getIsClosed(){
         return currentState == GarageState.Closed;

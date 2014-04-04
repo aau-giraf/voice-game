@@ -2,41 +2,32 @@ package dk.aau.cs.giraf.cars.game;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
-import android.graphics.Point;
 import android.util.Log;
 
 import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
-import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
 import dk.aau.cs.giraf.cars.game.Overlay.StartOverlay;
 import dk.aau.cs.giraf.cars.game.Overlay.WinningOverlay;
 
 public class GameScreen extends Screen {
+    private final int pixelsPerSecond = 200;
+    private final int grassSize = 70;
+    private final float garageSize = 250;
+    private final float animationZoneSize = 50;
     private GameSettings gameSettings;
     private CarControl carControl;
     private Car car;
     private float speed; //Pixels per second
-
     private LinkedList<Integer> colors;
-
     private ObstacleGenerator obstacleGenerator;
     private ArrayList<Obstacle> obstacles;
-
     private ArrayList<Garage> garages;
-
-    private final int pixelsPerSecond = 200;
-    private final int grassSize = 70;
-    private final float garageSize = 250;
     private float animationZoneX;
-    private final float animationZoneSize = 50;
-
     private GameState state = GameState.Starting;
     private int amountOfGarages = 3;
     private int startingSeconds = 3;
@@ -46,6 +37,7 @@ public class GameScreen extends Screen {
     private CrashOverlay crashedOverlay;
 
     private Garage closingGarage = null;
+
     public GameScreen(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
 
@@ -96,7 +88,7 @@ public class GameScreen extends Screen {
             updateCrashed(deltaTime);
         if (state == GameState.Won)
             updateWon(deltaTime);
-        if(state == GameState.Closing) {
+        if (state == GameState.Closing) {
             updateClosing(deltaTime);
             updateRunning(deltaTime);
         }
@@ -109,15 +101,20 @@ public class GameScreen extends Screen {
 
     private void updateClosing(float deltaTime) {
         for (Garage g : garages) {
+            Log.d("garage", String.format("Car: %S Garage: %S CarLeft: %S GarageLeft: %S", car.color, g.color, car.GetBounds().left, g.GetBounds().left));
             g.Update(deltaTime);
-            if (g.isClosing())
-                return;
+
+            if (car.color == g.color && car.GetBounds().left > g.GetBounds().left && g.getIsClosed()) {
+                resetRound();
+                Log.d("garage","reseT?");
+                state = GameState.Running;
+            }
         }
-        state = GameState.Running;
+
+
     }
 
-    private void updateWon(float deltaTime)
-    {
+    private void updateWon(float deltaTime) {
         carControl.Reset();
         winningOverlay.Update(deltaTime);
         if (winningOverlay.ResetButtonPressed(game.getTouchEvents())) {
@@ -128,17 +125,16 @@ public class GameScreen extends Screen {
         }
     }
 
-    private void updateCrashed(float deltaTime)
-    {
+    private void updateCrashed(float deltaTime) {
         carControl.Reset();
         crashedOverlay.Update(deltaTime);
         if (crashedOverlay.ContinueButtonPressed(game.getTouchEvents())) {
-            resetRound(false);
+            ResetCar();
             state = GameState.Running;
         }
     }
 
-    private float getGarageTargetY(){
+    private float getGarageTargetY() {
         float minDist = Float.MAX_VALUE;
         Garage garage = null;
 
@@ -152,18 +148,16 @@ public class GameScreen extends Screen {
 
         return garage.y + garage.height / 2f;
     }
-    private void updateRunning(float deltaTime)
-    {
-        if (allGaragesClosed())
-        {
+
+    private void updateRunning(float deltaTime) {
+        if (allGaragesClosed()) {
             state = GameState.Won;
             return;
         }
 
         car.Update(deltaTime);
         car.x += speed * (deltaTime / 1000.0f);
-        if (car.x > game.getWidth())
-            car.x = -car.width;
+
 
         boolean closeToGoal = car.x + car.width >= animationZoneX;
         float targetY = closeToGoal ? getGarageTargetY() - car.height / 2f : car.y;
@@ -179,8 +173,8 @@ public class GameScreen extends Screen {
         if (car.y > game.getHeight() - car.height - grassSize)
             car.y = game.getHeight() - car.height - grassSize;
 
-        if(closeToGoal)
-            if((move > 0 && car.y > targetY) || (move < 0 && car.y < targetY))
+        if (closeToGoal)
+            if ((move > 0 && car.y > targetY) || (move < 0 && car.y < targetY))
                 car.y = targetY;
 
         for (int i = 0; i < obstacles.size(); i++) {
@@ -188,22 +182,20 @@ public class GameScreen extends Screen {
             if (obstacles.get(i).CollidesWith(car)) {
                 crashedOverlay.setLastCrash(obstacles.get(i).GetCollisionCenter(car));
                 state = GameState.Crashed;
-                return ;
+                return;
             }
         }
+
 
         for (Garage garage : garages) {
             garage.Update(deltaTime);
             if (garage.CollidesWith(car)) {
                 if (car.color == garage.color && !garage.getIsClosed()) {
+                    Log.d("garage", "close");
                     garage.Close();
                     state = GameState.Closing;
-                }
-                else if (car.color == garage.color && garage.getIsClosed())
-                    resetRound(true);
-                else
-                {
-                    crashedOverlay.setLastCrash( garage.GetCollisionCenter(car));
+                } else {
+                    crashedOverlay.setLastCrash(garage.GetCollisionCenter(car));
                     state = GameState.Crashed;
                     return;
                 }
@@ -224,13 +216,28 @@ public class GameScreen extends Screen {
     }
 
 
-    private void resetRound(boolean garageJustClosed) {
-        if (garageJustClosed)
-            if (colors.size() > 0) //This shouldn't be necessary, but game doesn't quite stop even though all 3 garages are closed
-                car.setColor(colors.removeFirst());
+    private void resetRound() {
+        boolean newColor = ResetCarColor();
+
+        if (newColor)
+            ResetCar();
+    }
+
+    private boolean ResetCarColor() {
+        if (colors.size() > 0) //This shouldn't be necessary, but game doesn't quite stop even though all 3 garages are closed
+        {
+            car.setColor(colors.removeFirst());
+            return true;
+        } else return false;
+    }
+
+    private void ResetObstacles() {
         this.obstacles.clear();
         for (Obstacle o : obstacleGenerator.CreateObstacles(game.getWidth(), game.getHeight()))
             this.obstacles.add(o);
+    }
+
+    private void ResetCar() {
         car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
     }
