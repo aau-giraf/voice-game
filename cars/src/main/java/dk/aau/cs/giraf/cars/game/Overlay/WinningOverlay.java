@@ -18,8 +18,8 @@ public class WinningOverlay extends Overlay {
         int width = game.getWidth();
         int height = game.getHeight();
 
-        resetButton = new OverlayButton(game, (int) (width * 0.25), (int) (height * 0.85), game.getResources().getString(R.string.play_again_button_text));
-        menuButton = new OverlayButton(game, (int) (width * 0.75), (int) (height * 0.85), game.getResources().getString(R.string.menu_button_text));
+        resetButton = new OverlayButton(game, (int) (width * 0.25), (int) (height * 0.65), game.getResources().getString(R.string.play_again_button_text));
+        menuButton = new OverlayButton(game, (int) (width * 0.75), (int) (height * 0.65), game.getResources().getString(R.string.menu_button_text));
 
         Add(resetButton);
         Add(menuButton);
@@ -39,7 +39,7 @@ public class WinningOverlay extends Overlay {
         int width = game.getWidth();
         int height = game.getHeight();
         graphics.drawARGB(155, 0, 0, 0);
-        graphics.drawImage(Assets.GetTrophy(), (int) (width * .50) - Assets.GetTrophy().getWidth() / 2, (int) (height * .25) - Assets.GetTrophy().getHeight() / 2);
+        graphics.drawImage(Assets.GetTrophy(), (int) (width * .50) - Assets.GetTrophy().getWidth() / 2, 0);
         super.Draw(graphics, deltaTime);
     }
 }
