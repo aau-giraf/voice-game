@@ -16,8 +16,6 @@ public abstract class GameFragment extends Fragment implements Game {
     Point size;
     GameMessenger messenger;
 
-    private Input.TouchEvent[] touchEvents;
-
     public GameFragment() {
         this.messenger = new Messenger(this);
     }
@@ -41,8 +39,6 @@ public abstract class GameFragment extends Fragment implements Game {
         audio = new Audio(activity);
         screen = getInitScreen();
 
-        this.touchEvents = new Input.TouchEvent[0];
-
         return renderView;
     }
 
@@ -61,10 +57,6 @@ public abstract class GameFragment extends Fragment implements Game {
 
         if (isRemoving())
             screen.dispose();
-    }
-
-    public Input.TouchEvent[] getTouchEvents() {
-        return touchEvents;
     }
 
     public FileIO getFileIO() {
@@ -102,11 +94,6 @@ public abstract class GameFragment extends Fragment implements Game {
 
         public Messenger(GameFragment game) {
             this.game = game;
-        }
-
-        @Override
-        public void setTouchEvents(Input.TouchEvent[] touchEvents) {
-            game.touchEvents = touchEvents;
         }
 
         @Override

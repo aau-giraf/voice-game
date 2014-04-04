@@ -20,8 +20,6 @@ public abstract class GameActivity extends Activity implements Game {
     Point size;
     GameMessenger messenger;
 
-    private Input.TouchEvent[] touchEvents;
-
     public GameActivity() {
         this.messenger = new Messenger(this);
     }
@@ -54,8 +52,6 @@ public abstract class GameActivity extends Activity implements Game {
 
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "MyGame");
-
-        this.touchEvents = new Input.TouchEvent[0];
     }
 
     @Override
@@ -75,10 +71,6 @@ public abstract class GameActivity extends Activity implements Game {
 
         if (isFinishing())
             screen.dispose();
-    }
-
-    public Input.TouchEvent[] getTouchEvents() {
-        return touchEvents;
     }
 
     public FileIO getFileIO() {
@@ -116,11 +108,6 @@ public abstract class GameActivity extends Activity implements Game {
 
         public Messenger(GameActivity game) {
             this.game = game;
-        }
-
-        @Override
-        public void setTouchEvents(Input.TouchEvent[] touchEvents) {
-            game.touchEvents = touchEvents;
         }
 
         @Override
