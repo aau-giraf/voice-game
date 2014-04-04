@@ -13,10 +13,8 @@ public abstract class Overlay implements GameObject {
 
     ArrayList<Drawable> drawables;
     ArrayList<Updatable> updatables;
-    Game game;
 
-    public Overlay(Game game) {
-        this.game = game;
+    public Overlay() {
         drawables = new ArrayList<Drawable>();
         updatables = new ArrayList<Updatable>();
     }
