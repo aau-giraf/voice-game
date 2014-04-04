@@ -9,6 +9,7 @@ import java.util.Map;
 import android.graphics.Point;
 import android.util.Log;
 
+import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -81,7 +82,7 @@ public class GameScreen extends Screen {
         car.setColor(colors.removeFirst());
 
         winningOverlay = new WinningOverlay(game);
-        startOverlay = new StartOverlay(game, startingSeconds);
+        startOverlay = new StartOverlay(startingSeconds, game.getResources().getString(R.string.countdown_drive));
         crashedOverlay = new CrashOverlay(game);
     }
 
