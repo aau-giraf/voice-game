@@ -7,7 +7,7 @@ public abstract class Screen {
         this.game = game;
     }
 
-    public abstract void update(float deltaTime);
+    public abstract void update(Input.TouchEvent[] touchEvents, float deltaTime);
 
     public abstract void paint(Graphics graphics, float deltaTime);
 

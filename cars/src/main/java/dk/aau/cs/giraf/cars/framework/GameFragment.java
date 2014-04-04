@@ -74,7 +74,7 @@ public abstract class GameFragment extends Fragment implements Game {
         this.screen.pause();
         this.screen.dispose();
         screen.resume();
-        screen.update(0);
+        screen.update(new Input.TouchEvent[0], 0);
         this.screen = screen;
     }
 

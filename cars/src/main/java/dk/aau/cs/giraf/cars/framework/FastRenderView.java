@@ -78,10 +78,9 @@ public class FastRenderView extends SurfaceView implements Runnable {
             List<Input.TouchEvent> events = input.getTouchEvents();
             Input.TouchEvent[] array = new Input.TouchEvent[events.size()];
             events.toArray(array);
-            game.getMessenger().setTouchEvents(array);
 
             if (graphics != null) {
-                game.getCurrentScreen().update(deltaTime);
+                game.getCurrentScreen().update(array, deltaTime);
                 game.getCurrentScreen().paint(graphics, deltaTime);
 
 
