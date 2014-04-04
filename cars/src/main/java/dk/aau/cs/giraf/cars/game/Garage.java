@@ -47,8 +47,8 @@ public class Garage extends GameItem {
                 bounds.left, bounds.top, bounds.right - bounds.left, bounds.bottom - bounds.top,
                 0, 0, Assets.GetGarage().getWidth(), Assets.GetGarage().getHeight());
 
-        Point topDoorHinge = new Point(bounds.left + 5, bounds.top + HINGE_SIZE);
-        Point bottomDoorHinge = new Point(bounds.left + 5, bounds.bottom - HINGE_SIZE);
+        Point topDoorHinge = new Point(bounds.left + HINGE_SIZE, bounds.top + HINGE_SIZE);
+        Point bottomDoorHinge = new Point(bounds.left + HINGE_SIZE, bounds.bottom - HINGE_SIZE);
 
         int topAngle = 180 + START_ANGLE;
         int bottomAngle = 180 - START_ANGLE;
