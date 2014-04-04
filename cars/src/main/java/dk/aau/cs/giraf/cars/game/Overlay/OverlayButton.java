@@ -17,10 +17,9 @@ public class OverlayButton implements GameObject {
     String buttonText;
     protected Paint pButton;
     protected Paint pFocus;
-    Game game;
     Rect bounds;
 
-    public OverlayButton(Game game, int X, int Y, int textColor, int touchColor, String buttonText) {
+    public OverlayButton(int X, int Y, int textColor, int touchColor, String buttonText) {
         pButton = new Paint();
         pFocus = new Paint();
 
@@ -41,9 +40,6 @@ public class OverlayButton implements GameObject {
         pButton.getTextBounds(buttonText, 0, buttonText.length(), bounds);
         bounds.offset(x - bounds.width()/2, y);
 
-
-        this.game = game;
-
         this.buttonText = buttonText;
 
         this.Pressed = false;
@@ -56,8 +52,8 @@ public class OverlayButton implements GameObject {
      * @param y
      * @param buttonText
      */
-    public OverlayButton(Game game, int x, int y, String buttonText) {
-        this(game, x, y, Color.WHITE, Color.YELLOW, buttonText);
+    public OverlayButton(int x, int y, String buttonText) {
+        this(x, y, Color.WHITE, Color.YELLOW, buttonText);
     }
 
 
@@ -65,9 +61,7 @@ public class OverlayButton implements GameObject {
      * Updates the value of the Pressed variable so it is true when the button is touched
      */
     @Override
-    public void Update(float deltaTime) {
-        Input.TouchEvent[] touchEvents = game.getTouchEvents();
-
+    public void Update(Input.TouchEvent[] touchEvents, float deltaTime) {
         for (int i = 0; i < touchEvents.length; i++) {
             Input.TouchEvent event = touchEvents[i];
             if (inBounds(event)) {

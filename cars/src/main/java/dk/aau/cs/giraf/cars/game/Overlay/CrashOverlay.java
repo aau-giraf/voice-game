@@ -20,7 +20,7 @@ public class CrashOverlay extends Overlay {
     }
 
     public CrashOverlay(Game game) {
-        continueButton = new OverlayButton(game, game.getWidth() / 2, game.getHeight() / 2, game.getResources().getString(R.string.crash_button_text));
+        continueButton = new OverlayButton(game.getWidth() / 2, game.getHeight() / 2, game.getResources().getString(R.string.crash_button_text));
         super.Add(continueButton);
 
         this.lastCrash = new Rect(0, 0, 100, 100);
