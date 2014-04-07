@@ -13,7 +13,6 @@ public class GameSettings implements Parcelable {
 
     private final int DEFAULT_SPEED = 300;
     private final Integer[] DEFAULT_COLORS = new Integer[]{Color.BLUE, Color.GREEN, Color.RED};
-    private final Controller DEFAULT_CONTROL = new VolumeController();
 
     public GameSettings() {
         this.colors = new LinkedList<Integer>(Arrays.asList(DEFAULT_COLORS));

@@ -6,23 +6,21 @@ package dk.aau.cs.giraf.cars.game.Controller;
     import dk.aau.cs.giraf.cars.framework.Input;
     import dk.aau.cs.giraf.cars.game.Car;
     import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
-    private int width, height, bottomOffset;
+
 
     public class TouchCarControl implements CarControl {
         private int lastMove = 1;
         private float y = -1;
+        private int width, height;
     public TouchCarControl(int gameWidth, int gameHeight) {
         this.width = gameWidth;
-        this.height = (int)(gameHeight * 0.25);
-        this.bottomOffset = gameHeight - this.height;
+        this.height = (gameHeight - 2*70);//grassSize
     }
 
         public TouchCarControl() {
         }
 
     public float getMove(Input.TouchEvent[] touchEvents, Car car) {
-        int width = game.getWidth();
-        int height = (int) (game.getHeight() - 2*70);//grassSize
 
         int len = touchEvents.length;
         for (int i = 0; i < len; i++) {

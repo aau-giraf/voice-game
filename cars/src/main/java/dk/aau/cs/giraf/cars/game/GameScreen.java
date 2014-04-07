@@ -12,6 +12,7 @@ import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
+import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
 import dk.aau.cs.giraf.cars.game.Overlay.StartOverlay;
@@ -52,7 +53,7 @@ public class GameScreen extends Screen {
         this.car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
 
-        this.carControl = new TouchCarControl(game.getWidth(), game.getHeight());
+        this.carControl = new VolumeCarControl(500,2000,5000);
         this.speed = gs.GetSpeed();
 
         this.obstacles = new ArrayList<Obstacle>();
