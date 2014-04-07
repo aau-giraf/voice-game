@@ -11,6 +11,7 @@ import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.framework.Graphics;
+import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
 import dk.aau.cs.giraf.cars.game.Overlay.StartOverlay;
@@ -75,7 +76,9 @@ public class GameScreen extends Screen {
         Collections.shuffle(colors);
         car.setColor(colors.removeFirst());
 
-        winningOverlay = new WinningOverlay(game);
+        winningOverlay = new WinningOverlay(game.getWidth(), game.getHeight(),
+                game.getResources().getString(R.string.play_again_button_text),
+                game.getResources().getString(R.string.menu_button_text));
         startOverlay = new StartOverlay(startingSeconds, game.getResources().getString(R.string.countdown_drive));
         crashedOverlay = new CrashOverlay(game);
     }

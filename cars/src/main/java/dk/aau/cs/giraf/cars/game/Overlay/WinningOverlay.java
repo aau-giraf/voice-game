@@ -1,7 +1,5 @@
 package dk.aau.cs.giraf.cars.game.Overlay;
 
-import dk.aau.cs.giraf.cars.R;
-import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Assets;
@@ -10,19 +8,15 @@ public class WinningOverlay extends Overlay {
     private OverlayButton resetButton;
     private OverlayButton menuButton;
 
-    private int gameWidth;
-    private int gameHeight;
     private int trophyX;
     private int trophyY;
 
-    public WinningOverlay(Game game, int gameWidth, int gameHeight) {
-        this.gameWidth = gameWidth;
-        this.gameHeight = gameHeight;
+    public WinningOverlay(int gameWidth, int gameHeight, String restartMessage, String showmenuMessage) {
         this.trophyX = (gameWidth - Assets.GetTrophy().getWidth()) / 2;
         this.trophyY = (gameHeight - Assets.GetTrophy().getHeight()) / 2;
 
-        resetButton = new OverlayButton((int) (gameWidth * 0.25), (int) (gameHeight * 0.65), game.getResources().getString(R.string.play_again_button_text));
-        menuButton = new OverlayButton((int) (gameWidth * 0.75), (int) (gameHeight * 0.65), game.getResources().getString(R.string.menu_button_text));
+        resetButton = new OverlayButton((int) (gameWidth * 0.25), (int) (gameHeight * 0.65), restartMessage);
+        menuButton = new OverlayButton((int) (gameWidth * 0.75), (int) (gameHeight * 0.65), showmenuMessage);
 
         Add(resetButton);
         Add(menuButton);
