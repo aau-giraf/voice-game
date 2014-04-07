@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
+import android.graphics.Color;
 import android.util.Log;
 
 import dk.aau.cs.giraf.cars.framework.GameActivity;
@@ -18,7 +19,7 @@ public class GameScreen extends Screen {
     private final int pixelsPerSecond = 200;
     private final int grassSize = 70;
     private final float garageSize = 250;
-    private final float animationZoneSize = 50;
+    private final float animationZoneSize = 100;
     private GameSettings gameSettings;
     private CarControl carControl;
     private Car car;
@@ -67,7 +68,8 @@ public class GameScreen extends Screen {
             garages.add(g);
         }
 
-        this.animationZoneX = game.getWidth() - garageSize - animationZoneSize;
+
+        this.animationZoneX = garages.get(0).x - animationZoneSize;
 
         Collections.shuffle(colors);
         car.setColor(colors.removeFirst());
@@ -251,7 +253,7 @@ public class GameScreen extends Screen {
             graphics.drawImage(Assets.getBorder(), i, grassSize - 19, 0, 0, 10, 25);
             graphics.drawImage(Assets.getBorder(), i, game.getHeight() - grassSize - 6, 0, 25, 10, 25);
         }
-
+        
         car.Draw(graphics, deltaTime);
 
         for (Obstacle obstacle : obstacles)
