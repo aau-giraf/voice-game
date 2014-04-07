@@ -6,6 +6,7 @@ import android.graphics.Rect;
 
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Image;
+import dk.aau.cs.giraf.cars.framework.Input;
 
 public class Garage extends GameItem {
 
@@ -98,7 +99,7 @@ public class Garage extends GameItem {
     }
 
     @Override
-    public void Update(float deltaTime) {
+    public void Update(Input.TouchEvent[] touchEvents, float deltaTime) {
         if (currentState == GarageState.Closing) {
             closingWait += deltaTime;
             if (closingWait >= closingTimeInMs)

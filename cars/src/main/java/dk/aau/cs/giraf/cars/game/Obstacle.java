@@ -3,6 +3,7 @@ package dk.aau.cs.giraf.cars.game;
 import android.graphics.Rect;
 
 import dk.aau.cs.giraf.cars.framework.Graphics;
+import dk.aau.cs.giraf.cars.framework.Input;
 
 public class Obstacle extends GameItem {
     public Obstacle(float x, float y, float width, float height) {
@@ -19,7 +20,7 @@ public class Obstacle extends GameItem {
     }
 
     @Override
-    public void Update(float deltaTime) {
+    public void Update(Input.TouchEvent[] touchEvents, float deltaTime) {
 
     }
 }
