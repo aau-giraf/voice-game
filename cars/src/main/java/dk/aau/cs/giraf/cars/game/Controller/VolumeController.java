@@ -9,12 +9,12 @@ public class VolumeController extends Controller{
 
     public VolumeController()
     {
-        volumeControl= new VolumeCarControl();
+        volumeControl= new VolumeCarControl(500,2000,5000);
     }
 
     public VolumeController(Parcel in)
     {
-        volumeControl = new VolumeCarControl();
+        volumeControl = new VolumeCarControl(500,2000,5000);
     }
     
     @Override
