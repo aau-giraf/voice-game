@@ -62,7 +62,7 @@ public class Settings extends Activity {
         colors.add(colorValues.get(spinner2.getSelectedItemPosition()));
         colors.add(colorValues.get(spinner3.getSelectedItemPosition()));
 
-        GameSettings gs = new GameSettings(colors, Integer.parseInt(speed.getText().toString()), gamesettings.GetController());
+        GameSettings gs = new GameSettings(colors, Integer.parseInt(speed.getText().toString()));
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("GameSettings", gs);
