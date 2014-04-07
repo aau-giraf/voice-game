@@ -7,7 +7,7 @@ import android.view.View;
 import dk.aau.cs.giraf.cars.game.CarGame;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 
-public class MainMenu extends Activity {
+public class MainActivity extends Activity {
 
     private final static int SETTINGS_IDENTIFIER = 0;
 
@@ -18,7 +18,7 @@ public class MainMenu extends Activity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        if(intent.hasExtra("GameSettings"))
+        if(intent.hasEcxtra("GameSettings"))
             gamesettings = intent.getParcelableExtra("GameSettings");
         else gamesettings = new GameSettings();
 

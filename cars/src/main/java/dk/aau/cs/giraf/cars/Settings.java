@@ -64,7 +64,7 @@ public class Settings extends Activity {
 
         GameSettings gs = new GameSettings(colors, Integer.parseInt(speed.getText().toString()), gamesettings.GetController());
 
-        Intent intent = new Intent(this, MainMenu.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("GameSettings", gs);
         setResult(Activity.RESULT_OK, intent);
         this.finish();
