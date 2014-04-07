@@ -21,8 +21,8 @@ public class WinningOverlay extends Overlay {
         this.trophyX = (gameWidth - Assets.GetTrophy().getWidth()) / 2;
         this.trophyY = (gameHeight - Assets.GetTrophy().getHeight()) / 2;
 
-        resetButton = new OverlayButton((int) (gameWidth * 0.25), (int) (gameHeight * 0.85), game.getResources().getString(R.string.play_again_button_text));
-        menuButton = new OverlayButton((int) (gameWidth * 0.75), (int) (gameHeight * 0.85), game.getResources().getString(R.string.menu_button_text));
+        resetButton = new OverlayButton((int) (gameWidth * 0.25), (int) (gameHeight * 0.65), game.getResources().getString(R.string.play_again_button_text));
+        menuButton = new OverlayButton((int) (gameWidth * 0.75), (int) (gameHeight * 0.65), game.getResources().getString(R.string.menu_button_text));
 
         Add(resetButton);
         Add(menuButton);
