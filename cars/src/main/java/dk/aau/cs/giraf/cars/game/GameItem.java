@@ -41,6 +41,22 @@ public abstract class GameItem implements GameObject {
         return new Point(collision.centerX(), collision.centerY());
     }
 
+    public float getX(){
+        return x;
+    }
+
+    public float getY(){
+        return y;
+    }
+
+    public float getWidth(){
+        return width;
+    }
+
+    public float getHeight(){
+        return height;
+    }
+
 
     public abstract void Update(float deltaTime);
 }

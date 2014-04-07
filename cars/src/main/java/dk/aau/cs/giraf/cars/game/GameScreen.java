@@ -164,7 +164,7 @@ public class GameScreen extends Screen {
         boolean closeToGoal = car.x + car.width >= animationZoneX;
         float targetY = closeToGoal ? getGarageTargetY() - car.height / 2f : car.y;
 
-        float move = carControl.getMove(game);
+        float move = carControl.getMove(game, car);
         if (closeToGoal)
             move = targetY < car.y ? -1 : (targetY > car.y ? 1 : 0);
 

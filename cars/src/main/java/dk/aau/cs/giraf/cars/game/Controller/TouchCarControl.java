@@ -1,37 +1,48 @@
 package dk.aau.cs.giraf.cars.game.Controller;
 
-import dk.aau.cs.giraf.cars.framework.Game;
-import dk.aau.cs.giraf.cars.framework.Input;
-import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
+    import android.util.Log;
 
-public class TouchCarControl implements CarControl {
-    private int lastMove = 0;
+    import dk.aau.cs.giraf.cars.framework.Game;
+    import dk.aau.cs.giraf.cars.framework.Input;
+    import dk.aau.cs.giraf.cars.game.Car;
+    import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 
-    public TouchCarControl() {
-    }
+    public class TouchCarControl implements CarControl {
+        private int lastMove = 1;
+        private float y = -1;
 
-    @Override
-    public float getMove(Game game) {
+        public TouchCarControl() {
+        }
+
+    public float getMove(Game game, Car car) {
         Input.TouchEvent[] touchEvents = game.getTouchEvents();
 
         int width = game.getWidth();
-        int height = (int) (game.getHeight() * .25);
-        int bottomOffset = game.getHeight() - height;
+        int height = (int) (game.getHeight() - 2*70);//grassSize
 
         int len = touchEvents.length;
         for (int i = 0; i < len; i++) {
             Input.TouchEvent event = touchEvents[i];
-            if (event.type == Input.TouchEvent.TOUCH_DOWN) {
-                if (inBounds(event, 0, 0, width, height)) {
-                    lastMove = -1;
-                    break;
-                } else if (inBounds(event, 0, bottomOffset, width, height)) {
-                    lastMove = 1;
-                    break;
+            if (event.type == Input.TouchEvent.TOUCH_DRAGGED || event.type == Input.TouchEvent.TOUCH_DOWN ) {
+                if (inBounds(event, 0, 70, width, height)) {
+                    y=event.y;
                 }
-            } else if (event.type == Input.TouchEvent.TOUCH_UP) {
-                lastMove = 0;
-                break;
+            }
+            if (event.type == Input.TouchEvent.TOUCH_UP){
+                lastMove=1;
+                y=-1;
+                return lastMove;
+            }
+        }
+
+        if (y!=-1) {
+            if (y < car.getY()-10 + (car.getHeight()/2))
+                lastMove = -1;
+            else if (y > car.getY()+10 + (car.getHeight()/2))
+                lastMove = 1;
+            else
+            {
+                lastMove=0;
             }
         }
 
@@ -41,7 +52,14 @@ public class TouchCarControl implements CarControl {
     @Override
     public void Reset()
     {
-        lastMove=0;
+        lastMove=1;
+        y=-1;
+    }
+
+    @Override
+    public int getBarometerNumber(float y, float height)
+    {
+        return Math.round(10-(y/(height/10)));
     }
 
     private boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height) {
