@@ -14,14 +14,11 @@ import android.view.WindowManager;
 public abstract class GameActivity extends Activity implements Game {
     FastRenderView renderView;
     Audio audio;
-    Input input;
     FileIO fileIO;
     Screen screen;
     WakeLock wakeLock;
     Point size;
     GameMessenger messenger;
-
-    private Input.TouchEvent[] touchEvents;
 
     public GameActivity() {
         this.messenger = new Messenger(this);
@@ -50,14 +47,11 @@ public abstract class GameActivity extends Activity implements Game {
         renderView = new FastRenderView(this, this, frameBuffer);
         fileIO = new FileIO(this);
         audio = new Audio(this);
-        input = new Input(this, renderView, 1, 1);
         screen = getInitScreen();
         setContentView(renderView);
 
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "MyGame");
-
-        this.touchEvents = new Input.TouchEvent[0];
     }
 
     @Override
@@ -79,14 +73,6 @@ public abstract class GameActivity extends Activity implements Game {
             screen.dispose();
     }
 
-    public Input.TouchEvent[] getTouchEvents() {
-        return touchEvents;
-    }
-
-    public Input getInput() {
-        return input;
-    }
-
     public FileIO getFileIO() {
         return fileIO;
     }
@@ -102,7 +88,7 @@ public abstract class GameActivity extends Activity implements Game {
         this.screen.pause();
         this.screen.dispose();
         screen.resume();
-        screen.update(0);
+        screen.update(new Input.TouchEvent[0], 0);
         this.screen = screen;
     }
 
@@ -122,11 +108,6 @@ public abstract class GameActivity extends Activity implements Game {
 
         public Messenger(GameActivity game) {
             this.game = game;
-        }
-
-        @Override
-        public void setTouchEvents(Input.TouchEvent[] touchEvents) {
-            game.touchEvents = touchEvents;
         }
 
         @Override

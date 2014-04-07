@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.cars.game;
 
 import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Graphics;
+import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.Screen;
 
 public class LoadingScreen extends Screen {
@@ -13,7 +14,7 @@ public class LoadingScreen extends Screen {
     }
 
     @Override
-    public void update(float deltaTime) {
+    public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
     }
 
     @Override

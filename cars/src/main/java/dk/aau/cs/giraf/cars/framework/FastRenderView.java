@@ -14,6 +14,7 @@ public class FastRenderView extends SurfaceView implements Runnable {
     private Bitmap framebuffer;
     private Thread renderThread = null;
     private Graphics graphics;
+    private Input input;
     private SurfaceHolder holder;
     volatile boolean running = false;
     private int skipFrames = 2;
@@ -23,6 +24,7 @@ public class FastRenderView extends SurfaceView implements Runnable {
         this.game = game;
         this.framebuffer = framebuffer;
         this.graphics = this.framebuffer == null ? null : new Graphics(context.getAssets(), framebuffer);
+        this.input = new Input(context, this, 1, 1);
         this.holder = getHolder();
     }
 
@@ -73,13 +75,12 @@ public class FastRenderView extends SurfaceView implements Runnable {
             float deltaTime = (System.nanoTime() - startTime) / 1000000.000f;
             startTime = System.nanoTime();
 
-            List<Input.TouchEvent> events = game.getInput().getTouchEvents();
+            List<Input.TouchEvent> events = input.getTouchEvents();
             Input.TouchEvent[] array = new Input.TouchEvent[events.size()];
             events.toArray(array);
-            game.getMessenger().setTouchEvents(array);
 
             if (graphics != null) {
-                game.getCurrentScreen().update(deltaTime);
+                game.getCurrentScreen().update(array, deltaTime);
                 game.getCurrentScreen().paint(graphics, deltaTime);
 
 

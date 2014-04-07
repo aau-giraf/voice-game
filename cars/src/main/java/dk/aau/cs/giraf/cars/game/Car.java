@@ -5,6 +5,7 @@ import android.graphics.Rect;
 
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Image;
+import dk.aau.cs.giraf.cars.framework.Input;
 
 public class Car extends GameItem {
     int color;
@@ -36,7 +37,7 @@ public class Car extends GameItem {
     }
 
     @Override
-    public void Update(float deltaTime) {
+    public void Update(Input.TouchEvent[] touchEvents, float deltaTime) {
 
     }
 }

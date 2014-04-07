@@ -171,6 +171,10 @@ public class Graphics {
         canvas.drawBitmap(Image.bitmap, srcRect, dstRect, null);
     }
 
+    public void drawScaledImage(Image image, Rect dstRect, Rect srcRect){
+        canvas.drawBitmap(image.bitmap, srcRect, dstRect, null);
+    }
+
     public void fillImageTexture(Image image, int x, int y, int width, int height) {
         int imgw = image.getWidth();
         int imgh = image.getHeight();

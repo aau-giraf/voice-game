@@ -1,8 +1,7 @@
 package dk.aau.cs.giraf.cars.game.Interfaces;
 
-/**
- * Created by Stefan on 02-04-2014.
- */
+import dk.aau.cs.giraf.cars.framework.Input;
+
 public interface Updatable {
-    public abstract void Update(float deltaTime);
+    public abstract void Update(Input.TouchEvent[] touchEvents, float deltaTime);
 }

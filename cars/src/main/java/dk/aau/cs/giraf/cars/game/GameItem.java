@@ -4,6 +4,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 import dk.aau.cs.giraf.cars.framework.Graphics;
+import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Interfaces.GameObject;
 
 public abstract class GameItem implements GameObject {
@@ -58,5 +59,5 @@ public abstract class GameItem implements GameObject {
     }
 
 
-    public abstract void Update(float deltaTime);
+    public abstract void Update(Input.TouchEvent[] touchEvents, float deltaTime);
 }
