@@ -1,23 +1,20 @@
 package dk.aau.cs.giraf.cars.game.Controller;
 
-import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 
 public class TouchCarControl implements CarControl {
     private int lastMove = 0;
+    private int width, height, bottomOffset;
 
-    public TouchCarControl() {
+    public TouchCarControl(int gameWidth, int gameHeight) {
+        this.width = gameWidth;
+        this.height = (int)(gameHeight * 0.25);
+        this.bottomOffset = gameHeight - this.height;
     }
 
     @Override
-    public float getMove(Game game) {
-        Input.TouchEvent[] touchEvents = game.getTouchEvents();
-
-        int width = game.getWidth();
-        int height = (int) (game.getHeight() * .25);
-        int bottomOffset = game.getHeight() - height;
-
+    public float getMove(Input.TouchEvent[] touchEvents) {
         int len = touchEvents.length;
         for (int i = 0; i < len; i++) {
             Input.TouchEvent event = touchEvents[i];
@@ -39,9 +36,8 @@ public class TouchCarControl implements CarControl {
     }
 
     @Override
-    public void Reset()
-    {
-        lastMove=0;
+    public void Reset() {
+        lastMove = 0;
     }
 
     private boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height) {

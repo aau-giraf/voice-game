@@ -4,7 +4,7 @@ import android.media.MediaRecorder;
 
 import java.io.IOException;
 
-import dk.aau.cs.giraf.cars.framework.Game;
+import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 
 public class VolumeCarControl implements CarControl {
@@ -28,7 +28,7 @@ public class VolumeCarControl implements CarControl {
     }
 
     @Override
-    public float getMove(Game game) {
+    public float getMove(Input.TouchEvent[] touchEvents) {
 
         float volume = (float)mediaRecorder.getMaxAmplitude();
 
