@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        if(intent.hasEcxtra("GameSettings"))
+        if(intent.hasExtra("GameSettings"))
             gamesettings = intent.getParcelableExtra("GameSettings");
         else gamesettings = new GameSettings();
 
