@@ -58,7 +58,7 @@ public class GameScreen extends Screen {
         this.car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
 
-        this.carControl = gs.GetController().GetCarControl();
+        this.carControl = new TouchCarControl(game.getWidth(), game.getHeight());
         this.speed = gs.GetSpeed();
 
         this.obstacles = new ArrayList<Obstacle>();
