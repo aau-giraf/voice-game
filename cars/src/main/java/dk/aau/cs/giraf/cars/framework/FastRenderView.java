@@ -23,7 +23,9 @@ public class FastRenderView extends SurfaceView implements Runnable {
         super(context);
         this.game = game;
         this.framebuffer = framebuffer;
-        this.graphics = this.framebuffer == null ? null : new Graphics(context.getAssets(), framebuffer);
+        this.graphics = this.framebuffer == null ?
+                new Graphics(context.getAssets()) :
+                new Graphics(context.getAssets(), framebuffer);
         this.input = new Input(context, this, 1, 1);
         this.holder = getHolder();
     }
@@ -79,7 +81,7 @@ public class FastRenderView extends SurfaceView implements Runnable {
             Input.TouchEvent[] array = new Input.TouchEvent[events.size()];
             events.toArray(array);
 
-            if (graphics != null) {
+            if (graphics != null && graphics.frameBuffer != null) {
                 game.getCurrentScreen().update(array, deltaTime);
                 game.getCurrentScreen().paint(graphics, deltaTime);
 

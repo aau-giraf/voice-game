@@ -1,8 +1,5 @@
 package dk.aau.cs.giraf.cars.framework;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -13,6 +10,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class Graphics {
     public static enum ImageFormat {
@@ -27,6 +27,13 @@ public class Graphics {
     Paint paint;
     Rect srcRect = new Rect();
     Rect dstRect = new Rect();
+
+    Graphics(AssetManager assets) {
+        this.assets = assets;
+        this.frameBuffer = null;
+        this.canvas = null;
+        this.paint = new Paint();
+    }
 
     public Graphics(AssetManager assets, Bitmap frameBuffer) {
         this.assets = assets;
@@ -171,7 +178,7 @@ public class Graphics {
         canvas.drawBitmap(Image.bitmap, srcRect, dstRect, null);
     }
 
-    public void drawScaledImage(Image image, Rect dstRect, Rect srcRect){
+    public void drawScaledImage(Image image, Rect dstRect, Rect srcRect) {
         canvas.drawBitmap(image.bitmap, srcRect, dstRect, null);
     }
 
