@@ -5,6 +5,7 @@ import android.media.MediaRecorder;
 import java.io.IOException;
 
 import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.cars.game.Car;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 
 public class VolumeCarControl implements CarControl {
@@ -13,7 +14,14 @@ public class VolumeCarControl implements CarControl {
     private final float lower = 500f;
     private final float upper = 5000f;
 
-    public VolumeCarControl() {
+    private float minAmplitude;
+    private float normalAmplitude;
+    private float maxAmplitude;
+
+    public VolumeCarControl(float minAmplitude, float normalAmplitude, float maxAmplitude) {
+        this.minAmplitude = minAmplitude;
+        this.normalAmplitude = normalAmplitude;
+        this.maxAmplitude = maxAmplitude;
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -28,23 +36,34 @@ public class VolumeCarControl implements CarControl {
     }
 
     @Override
-    public float getMove(Input.TouchEvent[] touchEvents) {
+    public float getMove(Input.TouchEvent[] touchEvents, Car car) {
 
         float volume = (float)mediaRecorder.getMaxAmplitude();
 
-        if (volume < lower)
-            return 0;
+        if (volume < minAmplitude)
+            return 1;
 
-        if (volume > upper)
-            volume = upper;
+        if (volume > maxAmplitude)
+            volume = maxAmplitude;
 
-        volume -= lower;
-        volume /= (upper - lower) / 2f;
+        volume -= minAmplitude;
+        volume /= (maxAmplitude - minAmplitude) / 2f;
         volume -= 1;
 
         return -volume; //Inverted controls
     }
 
     @Override
+    public int getBarometerNumber(float y, float height)
+    {
+        return 0;//not implemented yet
+    }
+
+    @Override
     public void Reset(){}
+
+    public void Stop(){
+        mediaRecorder.stop();
+        mediaRecorder.release();
+    }
 }
