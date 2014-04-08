@@ -61,4 +61,9 @@ public class VolumeCarControl implements CarControl {
 
     @Override
     public void Reset(){}
+
+    public void Stop(){
+        mediaRecorder.stop();
+        mediaRecorder.release();
+    }
 }

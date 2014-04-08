@@ -291,7 +291,8 @@ public class GameScreen extends Screen {
 
     @Override
     public void dispose() {
-
+        if (carControl instanceof VolumeCarControl)
+            ((VolumeCarControl)carControl).Stop();
     }
 
     @Override
