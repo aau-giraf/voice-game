@@ -19,21 +19,22 @@ public class FastRenderView extends SurfaceView implements Runnable {
     volatile boolean running = false;
     private int skipFrames = 2;
 
-    public FastRenderView(Context context, Game game, Bitmap framebuffer) {
+    public FastRenderView(Context context, Game game, Bitmap framebuffer, float scaleX, float scaleY) {
         super(context);
         this.game = game;
         this.framebuffer = framebuffer;
         this.graphics = this.framebuffer == null ?
                 new Graphics(context.getAssets()) :
                 new Graphics(context.getAssets(), framebuffer);
-        this.input = new Input(context, this, 1, 1);
+        this.input = new Input(context, this, scaleX, scaleY);
         this.holder = getHolder();
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-
+        if (graphics.frameBuffer != null)
+            return;
         // Pause rendering
         pause();
 
