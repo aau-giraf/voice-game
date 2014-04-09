@@ -34,7 +34,7 @@ public abstract class GameFragment extends Fragment implements Game {
         if (activity == null)
             throw new NullPointerException("No activity associated with getActivity()");
 
-        renderView = new FastRenderView(activity, this, null);
+        renderView = new FastRenderView(activity, this, null, 1, 1); //Temporarily added scale of 1,1
         fileIO = new FileIO(activity);
         audio = new Audio(activity);
         screen = getInitScreen();

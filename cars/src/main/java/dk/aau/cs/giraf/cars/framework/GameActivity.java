@@ -40,11 +40,18 @@ public abstract class GameActivity extends Activity implements Game {
                         & WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        this.size = new Point();
-        getWindowManager().getDefaultDisplay().getSize(this.size);
-        Bitmap frameBuffer = Bitmap.createBitmap(this.size.x, this.size.y, Config.RGB_565);
+        int frameBufferWidth = 1280;
+        int frameBufferHeight = 800;
+        this.size = new Point(frameBufferWidth, frameBufferHeight);
 
-        renderView = new FastRenderView(this, this, frameBuffer);
+        Point actual_size = new Point();
+        getWindowManager().getDefaultDisplay().getSize(actual_size);
+        Bitmap frameBuffer = Bitmap.createBitmap(frameBufferWidth, frameBufferHeight, Config.RGB_565);
+
+        float scaleX = (float) frameBufferWidth / actual_size.x;
+        float scaleY = (float) frameBufferHeight / actual_size.y;
+
+        renderView = new FastRenderView(this, this, frameBuffer, scaleX, scaleY);
         fileIO = new FileIO(this);
         audio = new Audio(this);
         screen = getInitScreen();
