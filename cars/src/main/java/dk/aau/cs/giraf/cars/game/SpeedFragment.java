@@ -24,6 +24,7 @@ public class SpeedFragment extends CarsFragment {
             super(game, grassSize);
 
             setCarYToCenter();
+            setCarX(-getCarWidth());
 
             paint = new Paint();
             paint.setTextSize(100);
@@ -40,7 +41,11 @@ public class SpeedFragment extends CarsFragment {
 
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
-
+            float x = getCarX();
+            x += speed * (deltaTime / 1000.0f);
+            if(x > game.getWidth())
+                x = -getCarWidth();
+            setCarX(x);
         }
 
         @Override
