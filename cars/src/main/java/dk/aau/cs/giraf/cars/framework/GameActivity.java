@@ -16,7 +16,6 @@ public abstract class GameActivity extends Activity implements Game {
     Audio audio;
     FileIO fileIO;
     Screen screen;
-    WakeLock wakeLock;
     Point size;
     GameMessenger messenger;
 
@@ -37,7 +36,8 @@ public abstract class GameActivity extends Activity implements Game {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
+                        & WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         this.size = new Point();
@@ -49,15 +49,11 @@ public abstract class GameActivity extends Activity implements Game {
         audio = new Audio(this);
         screen = getInitScreen();
         setContentView(renderView);
-
-        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "MyGame");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        wakeLock.acquire();
         screen.resume();
         renderView.resume();
     }
@@ -65,7 +61,6 @@ public abstract class GameActivity extends Activity implements Game {
     @Override
     public void onPause() {
         super.onPause();
-        wakeLock.release();
         renderView.pause();
         screen.pause();
 
