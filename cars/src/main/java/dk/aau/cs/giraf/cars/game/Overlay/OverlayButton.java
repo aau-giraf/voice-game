@@ -76,7 +76,7 @@ public class OverlayButton implements GameObject {
         }
     }
 
-    protected boolean IsButtonPressed(Input.TouchEvent[] touchEvents) {
+    public boolean IsButtonPressed(Input.TouchEvent[] touchEvents) {
         for (int i = 0; i < touchEvents.length; i++) {
             Input.TouchEvent event = touchEvents[i];
             if (inBounds(event)) {
