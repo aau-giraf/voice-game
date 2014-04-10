@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import android.util.Log;
 import dk.aau.cs.giraf.cars.framework.Input;
-import dk.aau.cs.giraf.cars.game.Car;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 
 public class VolumeCarControl implements CarControl {
@@ -53,19 +52,20 @@ public class VolumeCarControl implements CarControl {
 
     @Override
     public float getMove(Input.TouchEvent[] touchEvents) {
-
         float volume = (float)mediaRecorder.getMaxAmplitude();
-        Log.d("vol",volume+"");
+        Log.d("vol",volume+"v");
         if (volume < minAmplitude)
-            return 0;
+            return height;
 
         if (volume > maxAmplitude)
-            return 1;
+            return 0;
 
         float range = maxAmplitude-minAmplitude;
-        float multiplier = height/ range;
+        float multiplier = range/ height;
 
-        return (volume - minAmplitude)*multiplier;
+        float res = (volume - minAmplitude)*multiplier;
+
+        return res;
     }
 
     public float getAmplitude()
@@ -76,7 +76,7 @@ public class VolumeCarControl implements CarControl {
     @Override
     public int getBarometerNumber(float y, float height)
     {
-        return 0;//not implemented yet
+        return 0;
     }
 
     @Override

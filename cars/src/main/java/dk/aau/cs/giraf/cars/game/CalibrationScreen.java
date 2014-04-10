@@ -18,11 +18,11 @@ public class CalibrationScreen extends SettingsScreen {
     private OverlayButton speak;
     private OverlayButton silence;
 
-    public CalibrationScreen(GameFragment game)
+    public CalibrationScreen(GameFragment game, VolumeCarControl control)
     {
         super(game);
 
-        control = new VolumeCarControl(0,500,5000, game.getHeight());
+        this.control = control;
         setCarXToCenter();
         setCarYToCenter();
 
@@ -61,6 +61,8 @@ public class CalibrationScreen extends SettingsScreen {
         silence.Draw(graphics,deltaTime);
 
     }
+
+
 
     @Override
     public void pause() {
