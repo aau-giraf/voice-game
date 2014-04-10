@@ -29,15 +29,25 @@ public class MapEditor extends CarsActivity {
         @Override
         public void paint(Graphics graphics, float deltaTime) {
             super.paint(graphics, deltaTime);
-            for(Obstacle o : obstacles)
+            for (Obstacle o : obstacles)
                 o.Draw(graphics, deltaTime);
         }
 
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
-            for(Input.TouchEvent e : touchEvents){
-                if(e.type == Input.TouchEvent.TOUCH_UP){
-                    obstacles.add(new Obstacle(e.x - OBSTACLE_SIZE / 2, e.y - OBSTACLE_SIZE / 2, OBSTACLE_SIZE, OBSTACLE_SIZE));
+            for (Input.TouchEvent e : touchEvents) {
+                if (e.type == Input.TouchEvent.TOUCH_UP) {
+                    Obstacle rem = null;
+                    for (Obstacle o : obstacles)
+                        if (o.GetBounds().contains(e.x, e.y)) {
+                            rem = o;
+                            break;
+                        }
+
+                    if(rem == null)
+                        obstacles.add(new Obstacle(e.x - OBSTACLE_SIZE / 2, e.y - OBSTACLE_SIZE / 2, OBSTACLE_SIZE, OBSTACLE_SIZE));
+                    else
+                        obstacles.remove(rem);
                 }
             }
         }
