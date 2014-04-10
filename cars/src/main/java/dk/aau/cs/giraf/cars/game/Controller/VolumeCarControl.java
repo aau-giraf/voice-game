@@ -53,7 +53,6 @@ public class VolumeCarControl implements CarControl {
 
     @Override
     public float getMove(Input.TouchEvent[] touchEvents) {
-
         float volume = (float)mediaRecorder.getMaxAmplitude();
         Log.d("vol",volume+"v");
         if (volume < minAmplitude)
