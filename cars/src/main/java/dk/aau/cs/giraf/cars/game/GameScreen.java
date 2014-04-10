@@ -22,6 +22,7 @@ public class GameScreen extends Screen {
     private final float garageSize = 250;
     private final float animationZoneSize = 100;
     private final float sampleSize = 5;
+    private final float buffer = 4;
     private final List<Float> averageMoveTo;
     private GameSettings gameSettings;
     private CarControl carControl;
@@ -194,10 +195,10 @@ public class GameScreen extends Screen {
         if (car.x + car.width >= animationZoneX)
             moveTo = getGarageTargetY() - car.height/2;
 
-        if (car.y< moveTo-4)
+        if (car.y< moveTo-buffer)
             verticalMove = pixelsPerSecond * (deltaTime / 1000.0f);
 
-        if (car.y> moveTo+4)
+        if (car.y> moveTo+buffer)
             verticalMove = -pixelsPerSecond * (deltaTime / 1000.0f);
 
         car.y += verticalMove;
