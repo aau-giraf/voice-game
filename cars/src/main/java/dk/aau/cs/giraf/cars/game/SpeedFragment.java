@@ -8,10 +8,13 @@ import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 
 public class SpeedFragment extends CarsFragment {
+    private Screen screen = null;
+    private float INITIAL_SPEED = 100;
+
     @Override
     public Screen getFirstScreen() {
-        Screen screen = new Screen(this, 10);
-        screen.speed = 100;
+        this.screen = new Screen(this, 10);
+        screen.speed = INITIAL_SPEED;
 
         return screen;
     }
@@ -19,6 +22,10 @@ public class SpeedFragment extends CarsFragment {
     private class Screen extends SettingsScreen {
         float speed;
         private Paint paint;
+        private final float MINIMUM_SPEED = 30;
+        private final float MAXIMUM_SPEED = 1000;
+        private final float SPEED_STEP = 10;
+        private final int TOUCH_MARGIN = 50;
 
         public Screen(Game game, int grassSize) {
             super(game, grassSize);
@@ -41,9 +48,23 @@ public class SpeedFragment extends CarsFragment {
 
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
+            for (int i = 0; i < touchEvents.length; i++) {
+                Input.TouchEvent event = touchEvents[i];
+                if (event.type == Input.TouchEvent.TOUCH_DRAGGED || event.type == Input.TouchEvent.TOUCH_DOWN) {
+                    if (event.x < TOUCH_MARGIN) {
+                        speed -= SPEED_STEP;
+                        if (speed < MINIMUM_SPEED) speed = MINIMUM_SPEED;
+                    }
+                    if (event.x > game.getWidth() - TOUCH_MARGIN) {
+                        speed += SPEED_STEP;
+                        if (speed > MAXIMUM_SPEED) speed = MAXIMUM_SPEED;
+                    }
+                }
+            }
+
             float x = getCarX();
             x += speed * (deltaTime / 1000.0f);
-            if(x > game.getWidth())
+            if (x > game.getWidth())
                 x = -getCarWidth();
             setCarX(x);
         }
