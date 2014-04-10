@@ -2,9 +2,7 @@ package dk.aau.cs.giraf.cars.game;
 
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.*;
 
 import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.GameActivity;
@@ -23,6 +21,7 @@ public class GameScreen extends Screen {
     private final int grassSize = 70;
     private final float garageSize = 250;
     private final float animationZoneSize = 100;
+    private final List<Float> averageMoveTo;
     private GameSettings gameSettings;
     private CarControl carControl;
     private Car car;
@@ -49,11 +48,12 @@ public class GameScreen extends Screen {
         colors = (LinkedList<Integer>) gs.GetColors().clone();
         Collections.shuffle(colors);
 
+        this.averageMoveTo = new ArrayList<Float>();
         this.car = new Car(0, 0, 200, 99);
         this.car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
 
-        this.carControl = new VolumeCarControl(200, 2000, 5000, game.getHeight());
+        this.carControl = new VolumeCarControl(200, 2000, 5000, game.getHeight() - 2*grassSize);
         this.speed = gs.GetSpeed();
 
         this.obstacles = new ArrayList<Obstacle>();
@@ -156,6 +156,16 @@ public class GameScreen extends Screen {
         return garage.y + garage.height / 2f;
     }
 
+    private float getAverageValueOfList(List<Float> list)
+    {
+        float sum= 0;
+
+        for (float i : list)
+         sum+= i;
+
+        return sum/ list.size();
+    }
+
     private void updateRunning(Input.TouchEvent[] touchEvents, float deltaTime) {
         if (allGaragesClosed()) {
             state = GameState.Won;
@@ -165,17 +175,27 @@ public class GameScreen extends Screen {
         car.Update(touchEvents, deltaTime);
         car.x += speed * (deltaTime / 1000.0f);
 
-        float pos = carControl.getMove(touchEvents);
-        Log.d("vol", pos + "p " + car.y);
+
+
+        if (averageMoveTo.size() < 5)
+            averageMoveTo.add(carControl.getMove(touchEvents));
+        else {
+            averageMoveTo.remove(0);
+            averageMoveTo.add(carControl.getMove(touchEvents));
+        }
+
+        float moveTo =getAverageValueOfList(averageMoveTo);
+
+        Log.d("vol", moveTo + "p " + car.y);
         float verticalMove = 0;
 
         if (car.x + car.width >= animationZoneX)
-            pos = getGarageTargetY();
+            moveTo = getGarageTargetY();
 
-        if (car.y < pos)
+        if (car.y < moveTo)
             verticalMove = pixelsPerSecond * (deltaTime / 1000.0f);
 
-        if (car.y > pos)
+        if (car.y > moveTo)
             verticalMove = -pixelsPerSecond * (deltaTime / 1000.0f);
 
         car.y += verticalMove;
