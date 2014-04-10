@@ -23,6 +23,7 @@ public class GameScreen extends Screen {
     private final int grassSize = 70;
     private final float garageSize = 250;
     private final float animationZoneSize = 100;
+    private final float buffer = 10;
     private GameSettings gameSettings;
     private CarControl carControl;
     private Car car;
@@ -53,7 +54,7 @@ public class GameScreen extends Screen {
         this.car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
 
-        this.carControl = new VolumeCarControl(500,2000,5000);
+        this.carControl = new VolumeCarControl(50, 2000, 5000, game.getHeight());
         this.speed = gs.GetSpeed();
 
         this.obstacles = new ArrayList<Obstacle>();
@@ -169,20 +170,28 @@ public class GameScreen extends Screen {
         boolean closeToGoal = car.x + car.width >= animationZoneX;
         float targetY = closeToGoal ? getGarageTargetY() - car.height / 2f : car.y;
 
-        float move = carControl.getMove(touchEvents, car);
-        if (closeToGoal)
-            move = targetY < car.y ? -1 : (targetY > car.y ? 1 : 0);
+        float pos = carControl.getMove(touchEvents);
+        Log.d("vol", pos + "p " + car.y);
+        float verticalMove = 0;
 
-        move = Math.min(Math.max(move, -1), 1);
-        move *= pixelsPerSecond * (deltaTime / 1000.0f);
-        car.y += move;
+        //if (closeToGoal)
+        //  move = targetY < car.y ? -1 : (targetY > car.y ? 1 : 0);
+
+        if (car.y  < pos)
+           verticalMove = pixelsPerSecond * (deltaTime / 1000.0f);
+
+        if (car.y  > pos)
+           verticalMove = -pixelsPerSecond * (deltaTime / 1000.0f);
+
+        car.y += verticalMove;
+        Log.d("vertical", verticalMove + "");
         if (car.y < grassSize) car.y = grassSize;
         if (car.y > game.getHeight() - car.height - grassSize)
             car.y = game.getHeight() - car.height - grassSize;
 
-        if (closeToGoal)
-            if ((move > 0 && car.y > targetY) || (move < 0 && car.y < targetY))
-                car.y = targetY;
+        //if (closeToGoal)
+        //  if ((move > 0 && car.y > targetY) || (move < 0 && car.y < targetY))
+        //     car.y = targetY;
 
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(touchEvents, deltaTime);
@@ -292,7 +301,7 @@ public class GameScreen extends Screen {
     @Override
     public void dispose() {
         if (carControl instanceof VolumeCarControl)
-            ((VolumeCarControl)carControl).Stop();
+            ((VolumeCarControl) carControl).Stop();
     }
 
     @Override

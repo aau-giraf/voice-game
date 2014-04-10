@@ -55,17 +55,19 @@ public class VolumeCarControl implements CarControl {
     public float getMove(Input.TouchEvent[] touchEvents) {
 
         float volume = (float)mediaRecorder.getMaxAmplitude();
-        Log.d("vol",volume+"");
+        Log.d("vol",volume+"v");
         if (volume < minAmplitude)
-            return 0;
+            return height;
 
         if (volume > maxAmplitude)
-            return 1;
+            return 0;
 
         float range = maxAmplitude-minAmplitude;
-        float multiplier = height/ range;
+        float multiplier = range/ height;
 
-        return (volume - minAmplitude)*multiplier;
+        float res = (volume - minAmplitude)*multiplier;
+
+        return res;
     }
 
     public float getAmplitude()
