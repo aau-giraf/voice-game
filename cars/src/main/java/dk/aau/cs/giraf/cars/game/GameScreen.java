@@ -52,8 +52,7 @@ public class GameScreen extends Screen {
 
         this.averageMoveTo = new ArrayList<Float>();
         this.car = new Car(0, 0, 200, 99);
-        this.car.x = -car.width;
-        this.car.y = (game.getHeight() - car.height) / 2f;
+        ResetCar();
 
         this.carControl =  new VolumeCarControl(200, 2000, 5000, game.getHeight() - 2*grassSize);//new TouchCarControl(game.getHeight());
         this.speed = gs.GetSpeed();
@@ -270,7 +269,7 @@ public class GameScreen extends Screen {
 
     private void ResetCar() {
         car.x = -car.width;
-        this.car.y = (game.getHeight() - car.height) / 2f;
+        this.car.y = game.getHeight() - grassSize - car.height/2;
     }
 
     @Override
