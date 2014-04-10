@@ -35,6 +35,10 @@
             android:label="@string/title_activity_cargame" >
         </activity>
         <activity
+            android:name="dk.aau.cs.giraf.cars.game.MapEditor"
+            android:label="@string/title_activity_mapeditor" >
+        </activity>
+        <activity
             android:name="dk.aau.cs.giraf.cars.Settings"
             android:label="@string/title_activity_settings"
             android:screenOrientation="landscape"
