@@ -32,10 +32,12 @@
         </activity>
         <activity
             android:name="dk.aau.cs.giraf.cars.game.CarGame"
+            android:screenOrientation="landscape"
             android:label="@string/title_activity_cargame" >
         </activity>
         <activity
             android:name="dk.aau.cs.giraf.cars.game.MapEditor"
+            android:screenOrientation="landscape"
             android:label="@string/title_activity_mapeditor" >
         </activity>
         <activity
