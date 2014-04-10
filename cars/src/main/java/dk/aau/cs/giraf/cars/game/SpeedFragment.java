@@ -19,6 +19,16 @@ public class SpeedFragment extends CarsFragment {
         return screen;
     }
 
+    public void setSpeed(float speed) {
+        INITIAL_SPEED = speed;
+        if (screen != null)
+            screen.speed = speed;
+    }
+
+    public float getSpeed() {
+        return screen != null ? screen.speed : INITIAL_SPEED;
+    }
+
     private class Screen extends SettingsScreen {
         float speed;
         private Paint paint;
