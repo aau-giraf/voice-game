@@ -3,15 +3,17 @@ package dk.aau.cs.giraf.cars.game;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+
 import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Screen;
+import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
 
-public class CarGame extends GameActivity {
+public class CarGame extends CarsActivity {
     GameSettings gamesettings;
 
     @Override
-    public Screen getInitScreen() {
-        return new LoadingScreen(this,gamesettings);
+    public Screen getFirstScreen() {
+        return new GameScreen(this, new TestObstacles(), gamesettings);
     }
 
     @Override
