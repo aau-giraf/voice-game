@@ -43,6 +43,13 @@ public abstract class SettingsScreen extends Screen {
         return car.y;
     }
 
+    public float getCarWidth() {
+        return car.width;
+    }
+    public float getCarHeight() {
+        return car.height;
+    }
+
     @Override
     public void paint(Graphics graphics, float deltaTime) {
         graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
