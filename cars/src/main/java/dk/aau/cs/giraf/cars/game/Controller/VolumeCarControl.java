@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import android.util.Log;
 import dk.aau.cs.giraf.cars.framework.Input;
-import dk.aau.cs.giraf.cars.game.Car;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 
 public class VolumeCarControl implements CarControl {
@@ -77,7 +76,7 @@ public class VolumeCarControl implements CarControl {
     @Override
     public int getBarometerNumber(float y, float height)
     {
-        return 0;//not implemented yet
+        return 0;
     }
 
     @Override
