@@ -14,18 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Speed"
-        android:id="@+id/textView"
-        android:layout_marginTop="40dp"
-        android:textSize="@dimen/default_text_size"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Color2"
         android:id="@+id/textView2"
         android:layout_above="@+id/spinner2"
@@ -79,17 +67,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/speed"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textSize="@dimen/default_text_size" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -100,5 +77,15 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:textSize="@dimen/default_text_size" />
+
+    <fragment
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:name="dk.aau.cs.giraf.cars.game.SpeedFragment"
+        android:id="@+id/speed"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/textView4" />
 
 </RelativeLayout>

@@ -8,37 +8,46 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import dk.aau.cs.giraf.cars.game.GameSettings;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import dk.aau.cs.giraf.cars.game.GameSettings;
+import dk.aau.cs.giraf.cars.game.SpeedFragment;
 
 
 public class Settings extends Activity {
     GameSettings gamesettings;
 
-    ArrayList<Integer> colorValues = new ArrayList<Integer>() {{add(Color.RED);add(Color.GREEN);add(Color.MAGENTA);add(Color.BLUE);add(Color.YELLOW);}};
+    ArrayList<Integer> colorValues = new ArrayList<Integer>() {{
+        add(Color.RED);
+        add(Color.GREEN);
+        add(Color.MAGENTA);
+        add(Color.BLUE);
+        add(Color.YELLOW);
+    }};
 
     Spinner spinner1;
     Spinner spinner2;
     Spinner spinner3;
 
-    TextView speed;
+    SpeedFragment speed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        if(intent.hasExtra("GameSettings"))
+        if (intent.hasExtra("GameSettings"))
             gamesettings = intent.getParcelableExtra("GameSettings");
 
         setContentView(R.layout.activity_settings);
 
-        spinner1 = (Spinner)findViewById(R.id.spinner1);
-        spinner2= (Spinner)findViewById(R.id.spinner2);
-        spinner3 = (Spinner)findViewById(R.id.spinner3);
-        speed = (TextView)findViewById(R.id.speed);
+        spinner1 = (Spinner) findViewById(R.id.spinner1);
+        spinner2 = (Spinner) findViewById(R.id.spinner2);
+        spinner3 = (Spinner) findViewById(R.id.spinner3);
+        speed = (SpeedFragment) getFragmentManager().findFragmentById(R.id.speed);
+
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.colorname_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -46,7 +55,7 @@ public class Settings extends Activity {
         spinner2.setAdapter(adapter);
         spinner3.setAdapter(adapter);
 
-        speed.setText(Integer.toString(gamesettings.GetSpeed()));
+        speed.setSpeed(gamesettings.GetSpeed());
 
         LinkedList<Integer> colors = gamesettings.GetColors();
         spinner1.setSelection(colorValues.indexOf(colors.get(0)));
@@ -54,15 +63,14 @@ public class Settings extends Activity {
         spinner3.setSelection(colorValues.indexOf(colors.get(2)));
     }
 
-    public void OkButtonClick(View view)
-    {
+    public void OkButtonClick(View view) {
         LinkedList<Integer> colors = new LinkedList<Integer>();
 
         colors.add(colorValues.get(spinner1.getSelectedItemPosition()));
         colors.add(colorValues.get(spinner2.getSelectedItemPosition()));
         colors.add(colorValues.get(spinner3.getSelectedItemPosition()));
 
-        GameSettings gs = new GameSettings(colors, Integer.parseInt(speed.getText().toString()));
+        GameSettings gs = new GameSettings(colors, (int)speed.getSpeed());
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("GameSettings", gs);
