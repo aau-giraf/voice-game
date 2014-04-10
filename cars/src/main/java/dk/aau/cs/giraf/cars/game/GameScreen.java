@@ -21,7 +21,7 @@ public class GameScreen extends Screen {
     private final int grassSize = 70;
     private final float garageSize = 250;
     private final float animationZoneSize = 100;
-    private final float sampleSize = 5;
+    private final float sampleSize = 2;
     private final float buffer = 4;
     private final List<Float> averageMoveTo;
     private GameSettings gameSettings;
@@ -55,7 +55,7 @@ public class GameScreen extends Screen {
         this.car.x = -car.width;
         this.car.y = (game.getHeight() - car.height) / 2f;
 
-        this.carControl =  new TouchCarControl(game.getHeight());//new VolumeCarControl(200, 2000, 5000, game.getHeight() - 2*grassSize);
+        this.carControl =  new VolumeCarControl(200, 2000, 5000, game.getHeight() - 2*grassSize);//new TouchCarControl(game.getHeight());
         this.speed = gs.GetSpeed();
 
         this.obstacles = new ArrayList<Obstacle>();
