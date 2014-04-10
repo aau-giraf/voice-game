@@ -1,7 +1,7 @@
 package dk.aau.cs.giraf.cars.game;
 
 public class TestObstacles implements ObstacleGenerator {
-    private final int TESTSCENARIO = 2;
+    private final int TESTSCENARIO = 3;
 
     @Override
     public Obstacle[] CreateObstacles(int width, int height) {
@@ -22,6 +22,7 @@ public class TestObstacles implements ObstacleGenerator {
                         new Obstacle((float) 0.2 * width, (float) 0.7 * height, 100, 100),
                         new Obstacle((float) 0.5 * width, (float) 0.45 * height, 100, 100)
                 };
+            case 3: return new Obstacle[]{};
         }
         return null;
     }

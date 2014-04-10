@@ -20,8 +20,8 @@ package dk.aau.cs.giraf.cars.game.Controller;
         public TouchCarControl() {
         }
 
-    public float getMove(Input.TouchEvent[] touchEvents, Car car) {
-
+    public float getMove(Input.TouchEvent[] touchEvents) {
+        Car car = null;
         int len = touchEvents.length;
         for (int i = 0; i < len; i++) {
             Input.TouchEvent event = touchEvents[i];
