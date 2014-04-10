@@ -11,7 +11,7 @@ public class GameSettings implements Parcelable {
     private LinkedList<Integer> colors;
     private int speed;
 
-    private final int DEFAULT_SPEED = 300;
+    private final int DEFAULT_SPEED = 70;
     private final Integer[] DEFAULT_COLORS = new Integer[]{Color.BLUE, Color.GREEN, Color.RED};
 
     public GameSettings() {
