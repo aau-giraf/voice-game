@@ -54,7 +54,7 @@ public class GameScreen extends Screen {
         this.car = new Car(0, 0, 200, 99);
         ResetCar();
 
-        this.carControl = new VolumeCarControl(200, 2000, 5000, game.getHeight() - 2 * grassSize);//new TouchCarControl(game.getHeight());
+        this.carControl = new VolumeCarControl(gs.GetMinVolume(),gs.GetMaxVolume(), game.getHeight() - 2 * grassSize);//new TouchCarControl(game.getHeight());
         this.speed = gs.GetSpeed();
 
         this.obstacles = new ArrayList<Obstacle>();
