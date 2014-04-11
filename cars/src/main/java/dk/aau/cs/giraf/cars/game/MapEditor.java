@@ -45,11 +45,18 @@ public class MapEditor extends CarsActivity {
                         }
 
                     if(rem == null)
-                        obstacles.add(new Obstacle(e.x - OBSTACLE_SIZE / 2, e.y - OBSTACLE_SIZE / 2, OBSTACLE_SIZE, OBSTACLE_SIZE));
+                        Add(e.x - OBSTACLE_SIZE / 2, e.y - OBSTACLE_SIZE / 2);
                     else
-                        obstacles.remove(rem);
+                        Remove(rem);
                 }
             }
+        }
+
+        private void Add(float x, float y){
+            obstacles.add(new Obstacle(x, y, OBSTACLE_SIZE, OBSTACLE_SIZE));
+        }
+        private void Remove(Obstacle obstacle){
+            obstacles.remove(obstacle);
         }
 
         @Override
