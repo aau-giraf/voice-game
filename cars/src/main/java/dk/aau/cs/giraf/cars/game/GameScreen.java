@@ -22,7 +22,7 @@ import dk.aau.cs.giraf.cars.game.Overlay.StartOverlay;
 import dk.aau.cs.giraf.cars.game.Overlay.WinningOverlay;
 
 public class GameScreen extends Screen {
-    private final boolean debug = true;
+    private final boolean debug = false;
 
     private final int pixelsPerSecond = 200;
     private final int grassSize = 70;
