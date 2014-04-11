@@ -13,6 +13,7 @@ import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
 import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
+import dk.aau.cs.giraf.cars.game.Overlay.PauseOverlay;
 import dk.aau.cs.giraf.cars.game.Overlay.StartOverlay;
 import dk.aau.cs.giraf.cars.game.Overlay.WinningOverlay;
 
@@ -40,6 +41,7 @@ public class GameScreen extends Screen {
     private WinningOverlay winningOverlay;
     private StartOverlay startOverlay;
     private CrashOverlay crashedOverlay;
+    private PauseOverlay pauseOverlay;
 
     private Garage closingGarage = null;
 
@@ -84,6 +86,7 @@ public class GameScreen extends Screen {
                 game.getResources().getString(R.string.menu_button_text));
         startOverlay = new StartOverlay(startingSeconds, game.getResources().getString(R.string.countdown_drive));
         crashedOverlay = new CrashOverlay(game);
+        pauseOverlay = new PauseOverlay(game);
     }
 
 
@@ -93,6 +96,8 @@ public class GameScreen extends Screen {
             updateStarting(touchEvents, deltaTime);
         if (state == GameState.Running)
             updateRunning(touchEvents, deltaTime);
+        if (state == GameState.Paused)
+            updatePaused(touchEvents);
         if (state == GameState.Crashed)
             updateCrashed(touchEvents, deltaTime);
         if (state == GameState.Won)
@@ -121,6 +126,12 @@ public class GameScreen extends Screen {
         }
 
 
+    }
+
+    private void updatePaused(Input.TouchEvent[] touchEvents)
+    {
+        if (crashedOverlay.ContinueButtonPressed(touchEvents))
+            state = GameState.Running;
     }
 
     private void updateWon(Input.TouchEvent[] touchEvents, float deltaTime) {
@@ -295,6 +306,8 @@ public class GameScreen extends Screen {
             startOverlay.Draw(graphics, deltaTime);
         if (state == GameState.Running)
             drawRunning(graphics, deltaTime);
+        if (state == GameState.Paused)
+            pauseOverlay.Draw(graphics,deltaTime);
         if (state == GameState.Crashed)
             crashedOverlay.Draw(graphics, deltaTime);
         if (state == GameState.Won)
