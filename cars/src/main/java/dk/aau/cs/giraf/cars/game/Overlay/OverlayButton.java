@@ -108,7 +108,6 @@ public class OverlayButton implements GameObject {
             Input.TouchEvent event = touchEvents[i];
             if (inBounds(event)) {
                 if (event.type == Input.TouchEvent.TOUCH_DOWN || event.type == Input.TouchEvent.TOUCH_DRAGGED) {
-                    Pressed = false;
                     return true;
                 }
             }
