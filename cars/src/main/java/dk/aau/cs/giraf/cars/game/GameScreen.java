@@ -1,5 +1,7 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import java.util.*;
@@ -130,7 +132,9 @@ public class GameScreen extends Screen {
 
     private void updatePaused(Input.TouchEvent[] touchEvents)
     {
-        if (crashedOverlay.ContinueButtonPressed(touchEvents))
+        if (pauseOverlay.pauseButtonPressed(touchEvents))
+            state = GameState.Paused;
+        else
             state = GameState.Running;
     }
 
@@ -284,6 +288,8 @@ public class GameScreen extends Screen {
         this.car.y = (game.getHeight() - car.height) / 2f;
     }
 
+
+
     @Override
     public void paint(Graphics graphics, float deltaTime) {
         graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
@@ -301,6 +307,8 @@ public class GameScreen extends Screen {
 
         for (Garage garage : garages)
             garage.Draw(graphics, deltaTime);
+
+        pauseOverlay.Draw(graphics,deltaTime);
 
         if (state == GameState.Starting)
             startOverlay.Draw(graphics, deltaTime);
