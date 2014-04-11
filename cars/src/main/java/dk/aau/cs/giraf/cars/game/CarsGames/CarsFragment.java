@@ -1,9 +1,10 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.game.CarsGames;
 
 import dk.aau.cs.giraf.cars.framework.GameFragment;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.Screen;
+import dk.aau.cs.giraf.cars.game.Assets;
 
 public abstract class CarsFragment extends GameFragment {
 

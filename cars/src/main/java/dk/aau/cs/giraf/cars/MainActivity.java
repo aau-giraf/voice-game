@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import dk.aau.cs.giraf.cars.game.CarGame;
 import dk.aau.cs.giraf.cars.game.GameSettings;
+import dk.aau.cs.giraf.cars.game.MapEditor;
 
 public class MainActivity extends Activity {
 
@@ -29,6 +30,11 @@ public class MainActivity extends Activity {
     {
         Intent intent =  new Intent(this, CarGame.class);
         intent.putExtra("GameSettings", gamesettings);
+        startActivity(intent);
+    }
+
+    public void startMapEditor(View view){
+        Intent intent = new Intent(this, MapEditor.class);
         startActivity(intent);
     }
 
