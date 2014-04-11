@@ -59,7 +59,7 @@ public class MapEditor extends CarsActivity {
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
             for (Input.TouchEvent e : touchEvents) {
-                if (e.type == Input.TouchEvent.TOUCH_UP) {
+                if (e.type == Input.TouchEvent.TOUCH_DOWN) {
                     Obstacle rem = null;
                     for (Obstacle o : obstacles)
                         if (o.GetBounds().contains(e.x, e.y)) {
