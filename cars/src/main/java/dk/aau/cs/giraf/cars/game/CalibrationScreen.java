@@ -76,9 +76,9 @@ public class CalibrationScreen extends SettingsScreen {
                 break;
         }
 
-        if (loud.IsButtonHeld(touchEvents))
+        if (loud.IsPressed())
             recordingState = RecordingState.Loud;
-        else if (silence.IsButtonHeld(touchEvents))
+        else if (silence.IsPressed())
             recordingState = RecordingState.Silence;
         else
             recordingState = RecordingState.None;
