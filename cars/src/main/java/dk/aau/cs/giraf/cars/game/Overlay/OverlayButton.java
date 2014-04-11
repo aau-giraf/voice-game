@@ -89,6 +89,19 @@ public class OverlayButton implements GameObject {
         return false;
     }
 
+    public boolean IsButtonHeld(Input.TouchEvent[] touchEvents) {
+        for (int i = 0; i < touchEvents.length; i++) {
+            Input.TouchEvent event = touchEvents[i];
+            if (inBounds(event)) {
+                if (event.type == Input.TouchEvent.TOUCH_DOWN || event.type == Input.TouchEvent.TOUCH_DRAGGED) {
+                    Pressed = false;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     protected boolean inBounds(Input.TouchEvent event, Rect bounds) {
         //return event.x > bounds.left && event.x < bounds.right && event.y > bounds.bottom && event.y < bounds.bottom;
         return bounds.contains(event.x, event.y);

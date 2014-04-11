@@ -3,6 +3,11 @@ package dk.aau.cs.giraf.cars.game;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.method.Touch;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import dk.aau.cs.giraf.cars.framework.*;
 import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
 import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
@@ -13,47 +18,64 @@ import dk.aau.cs.giraf.cars.game.Overlay.OverlayButton;
  */
 public class CalibrationScreen extends SettingsScreen {
 
+    enum RecordingState { Loud, Silence, None }
+
     private VolumeCarControl control;
-    private final int pixelsPerSecond =200;
     private OverlayButton loud;
-    private OverlayButton speak;
     private OverlayButton silence;
     private double currentvol = 0.0;
     private double currentvolindb = 0.0;
     private double highest_recorded_vol = 0.0;
+    private ArrayList<Float> volumes = new ArrayList<Float>();
+    private RecordingState recordingState = RecordingState.None;
 
     public CalibrationScreen(GameFragment game, VolumeCarControl control)
     {
         super(game);
 
         this.control = control;
-        setCarXToCenter();
-        setCarYToCenter();
 
         loud = new OverlayButton(20,100, Color.BLUE,Color.YELLOW,"HØJ", Paint.Align.LEFT);
-        speak = new OverlayButton(20,200, Color.BLUE,Color.YELLOW,"TALE",Paint.Align.LEFT);
         silence = new OverlayButton(20,300, Color.BLUE,Color.YELLOW,"STILLE",Paint.Align.LEFT);
     }
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime)
     {
-        loud.Update(touchEvents,deltaTime);
-        if(loud.IsButtonPressed(touchEvents))
-            control.setMaxAmplitude(control.getAmplitude());
+        if (loud.IsButtonPressed(touchEvents)) {
+            float avg = getAverageValueOfList(volumes);
+            Log.d("avgmax", avg + "");
+            control.setMaxAmplitude(avg);
+            volumes.clear();
+            recordingState = RecordingState.None;
+            return;
+        }
+        else if (silence.IsButtonPressed(touchEvents)) {
+            float avg = getAverageValueOfList(volumes);
+            Log.d("avgmin", avg + "");
+            control.setMinAmplitude(avg);
+            volumes.clear();
+            recordingState = RecordingState.None;
+            return;
+        }
 
-        speak.Update(touchEvents,deltaTime);
-        if(speak.IsButtonPressed(touchEvents))
-            control.setNormalAmplitude(control.getAmplitude());
+        switch (recordingState) {
+            case Loud:
+            case Silence:
+                if (control.getAmplitude() > 0)
+                    volumes.add(control.getAmplitude());
+                break;
+            case None:
+            default:
+                break;
+        }
 
-        silence.Update(touchEvents,deltaTime);
-        if(silence.IsButtonPressed(touchEvents))
-            control.setMinAmplitude(control.getAmplitude());
-
-        float move = control.getMove(touchEvents);
-        move *=pixelsPerSecond*(deltaTime/1000);
-        setCarY(getCarY()+move);
-
+        if (loud.IsButtonHeld(touchEvents))
+            recordingState = RecordingState.Loud;
+        else if (silence.IsButtonHeld(touchEvents))
+            recordingState = RecordingState.Silence;
+        else
+            recordingState = RecordingState.None;
     }
 
     @Override
@@ -61,7 +83,6 @@ public class CalibrationScreen extends SettingsScreen {
         super.paint(graphics,deltaTime);
 
         loud.Draw(graphics,deltaTime);
-        speak.Draw(graphics,deltaTime);
         silence.Draw(graphics,deltaTime);
 
         short volume = (short)control.getAmplitude();
@@ -82,6 +103,15 @@ public class CalibrationScreen extends SettingsScreen {
 
         graphics.drawRect(game.getWidth()/2, game.getHeight() - (int)(percentdB * (double)game.getHeight()), 20, (int)(percentdB * (double)game.getHeight()), Color.YELLOW);
         currentvolindb -= 0.01 * volmax;
+    }
+
+    private float getAverageValueOfList(List<Float> list) {
+        float sum = 0;
+
+        for (float i : list)
+            sum += i;
+
+        return sum / list.size();
     }
 
     @Override
