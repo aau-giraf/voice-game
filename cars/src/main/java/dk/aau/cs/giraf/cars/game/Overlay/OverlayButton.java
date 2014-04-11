@@ -15,6 +15,7 @@ public class OverlayButton implements GameObject {
     protected Paint pFocus;
     int x, y;
     boolean Pressed;
+
     String buttonText;
     Rect bounds;
 
@@ -57,6 +58,11 @@ public class OverlayButton implements GameObject {
         this.buttonText = buttonText;
 
         this.Pressed = false;
+    }
+
+    public boolean IsPressed()
+    {
+        return Pressed;
     }
 
     /**
