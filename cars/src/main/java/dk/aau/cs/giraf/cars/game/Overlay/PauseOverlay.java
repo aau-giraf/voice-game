@@ -10,21 +10,17 @@ import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Assets;
 
 public class PauseOverlay extends Overlay {
-    private OverlayButton continueButton;
     private boolean paused = false;
+    private Rect playButtonSize = new Rect(20, 20, 100, 100);
+    private Rect image = new Rect(0, 0, Assets.GetPlayButton().getWidth(), Assets.GetPlayButton().getHeight());
 
-    Rect button = new Rect(20, 20, 100, 100);
-    Rect image = new Rect(0, 0, Assets.GetPauseButton().getWidth(), Assets.GetPauseButton().getHeight());
-
-    public PauseOverlay(Game game) {
-        continueButton = new OverlayButton(game.getWidth() / 2, game.getHeight() / 2, game.getResources().getString(R.string.crash_button_text));
-        super.Add(continueButton);
+    public PauseOverlay() {
     }
 
     public boolean pauseButtonPressed(Input.TouchEvent[] touchEvents) {
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN)
-                if (inBounds(e, button)) {
+                if (inBounds(e, playButtonSize)) {
                     paused = !paused;
                     return paused;
                 }
@@ -33,10 +29,8 @@ public class PauseOverlay extends Overlay {
 
     @Override
     public void Draw(Graphics graphics, float deltaTime) {
-        if (paused) {
-            graphics.drawARGB(155, 0, 0, 0);
-            graphics.drawScaledImage(Assets.GetPlayButton(), button, image);
-        } else graphics.drawScaledImage(Assets.GetPauseButton(), button, image);
+        graphics.drawARGB(155, 0, 0, 0);
+        graphics.drawScaledImage(Assets.GetPlayButton(), playButtonSize, image);
     }
 
     private boolean inBounds(Input.TouchEvent event, Rect r) {

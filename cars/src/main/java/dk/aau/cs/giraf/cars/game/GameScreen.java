@@ -39,6 +39,8 @@ public class GameScreen extends Screen {
     private GameState state = GameState.Starting;
     private int amountOfGarages = 3;
     private int startingSeconds = 3;
+    private Rect pauseButtonRec = new Rect(20, 20, 100, 100);
+    private Rect pauseButtonImageRec = new Rect(0, 0, Assets.GetPlayButton().getWidth(), Assets.GetPlayButton().getHeight());
 
     private WinningOverlay winningOverlay;
     private StartOverlay startOverlay;
@@ -87,7 +89,7 @@ public class GameScreen extends Screen {
                 game.getResources().getString(R.string.menu_button_text));
         startOverlay = new StartOverlay(startingSeconds, game.getResources().getString(R.string.countdown_drive));
         crashedOverlay = new CrashOverlay(game);
-        pauseOverlay = new PauseOverlay(game);
+        pauseOverlay = new PauseOverlay();
     }
 
 
@@ -95,10 +97,9 @@ public class GameScreen extends Screen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         if (state == GameState.Starting)
             updateStarting(touchEvents, deltaTime);
-        else if (state == GameState.Running) {
+        else if (state == GameState.Running)
             updateRunning(touchEvents, deltaTime);
-            updatePaused(touchEvents);
-        } else if (state == GameState.Paused)
+        else if (state == GameState.Paused)
             updatePaused(touchEvents);
         else if (state == GameState.Crashed)
             updateCrashed(touchEvents, deltaTime);
@@ -244,6 +245,9 @@ public class GameScreen extends Screen {
                 }
             }
         }
+
+        if (pauseOverlay.pauseButtonPressed(touchEvents))
+            state = GameState.Paused;
     }
 
     private boolean allGaragesClosed() {
@@ -304,7 +308,7 @@ public class GameScreen extends Screen {
         for (Garage garage : garages)
             garage.Draw(graphics, deltaTime);
 
-        pauseOverlay.Draw(graphics, deltaTime);
+        graphics.drawScaledImage(Assets.GetPauseButton(), pauseButtonRec, pauseButtonImageRec);
 
         if (state == GameState.Starting)
             startOverlay.Draw(graphics, deltaTime);
