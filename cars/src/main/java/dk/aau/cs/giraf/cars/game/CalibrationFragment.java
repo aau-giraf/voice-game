@@ -30,7 +30,7 @@ public class CalibrationFragment extends CarsFragment {
 
     @Override
     public Screen getFirstScreen() {
-        control = new VolumeCarControl(0, 500, 5000, this.getHeight());
+        control = new VolumeCarControl(0, 5000, this.getHeight());
         return new CalibrationScreen(this, control);
     }
 }
