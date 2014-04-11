@@ -36,7 +36,7 @@ public class CalibrationScreen extends Screen {
         this.control = control;
 
         loud = new OverlayButton(20,100, Color.BLUE,Color.YELLOW,"HØJ", Paint.Align.LEFT);
-        silence = new OverlayButton(20,300, Color.BLUE,Color.YELLOW,"STILLE",Paint.Align.LEFT);
+        silence = new OverlayButton(20,260, Color.BLUE,Color.YELLOW,"LAV",Paint.Align.LEFT);
 
         if (control.GetMaxAmplitude() > highest_recorded_vol)
             highest_recorded_vol = control.GetMaxAmplitude();
@@ -105,10 +105,10 @@ public class CalibrationScreen extends Screen {
         double percentMax = control.GetMaxAmplitude() / highest_recorded_vol;
         double percentMin = control.GetMinAmplitude() / highest_recorded_vol;
 
-        graphics.drawRect(game.getWidth()/2-25, game.getHeight() - (int)(percentVol * (double)game.getHeight()), 20, (int)(percentVol * (double)game.getHeight()), Color.RED);
+        graphics.drawRect(game.getWidth()-120, game.getHeight() - (int)(percentVol * (double)game.getHeight()), 20, (int)(percentVol * (double)game.getHeight()), Color.RED);
         currentvol -= 0.01 * Short.MAX_VALUE;
 
-        graphics.drawRect(game.getWidth()/2, game.getHeight() - (int)(percentdB * (double)game.getHeight()), 20, (int)(percentdB * (double)game.getHeight()), Color.YELLOW);
+        graphics.drawRect(game.getWidth()-150, game.getHeight() - (int)(percentdB * (double)game.getHeight()), 20, (int)(percentdB * (double)game.getHeight()), Color.YELLOW);
         currentvolindb -= 0.01 * volmax;
 
         graphics.drawRect(game.getWidth()-30, game.getHeight() - (int)(percentMax * (double)game.getHeight()), 20, (int)(percentMax * (double)game.getHeight()), Color.YELLOW);

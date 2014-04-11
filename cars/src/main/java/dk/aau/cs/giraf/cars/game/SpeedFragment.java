@@ -33,10 +33,10 @@ public class SpeedFragment extends CarsFragment {
     private class Screen extends SettingsScreen {
         float speed;
         private Paint paint;
-        private final float MINIMUM_SPEED = 30;
+        private final float MINIMUM_SPEED = 10;
         private final float MAXIMUM_SPEED = 1000;
         private final float SPEED_STEP = 10;
-        private final int TOUCH_MARGIN = 50;
+        private final int TOUCH_MARGIN = 150;
 
         public Screen(Game game, int grassSize) {
             super(game, grassSize);

@@ -63,7 +63,7 @@
             android:id="@+id/calibration_fragment"
             android:layout_weight="1"
             android:layout_width="400dp"
-            android:layout_height="500dp" />
+            android:layout_height="280dp" />
 
         <dk.aau.cs.giraf.gui.GButton
             style="?android:attr/buttonStyleSmall"
