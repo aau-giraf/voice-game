@@ -8,6 +8,7 @@
     <string name="menu_button_text">Menu</string>
     <string name="title_activity_main_menu">MainMenu</string>
     <string name="title_activity_cargame">Game</string>
+    <string name="title_activity_mapeditor">MapEditor</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_settings">Settings</string>

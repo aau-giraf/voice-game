@@ -24,7 +24,7 @@ public class GameScreen extends Screen {
     private final int grassSize = 70;
     private final float garageSize = 250;
     private final float animationZoneSize = 100;
-    private final float sampleSize = 2;
+    private final float sampleSize = 5;
     private final float buffer = 4;
     private final List<Float> averageMoveTo;
     private GameSettings gameSettings;
@@ -56,10 +56,9 @@ public class GameScreen extends Screen {
 
         this.averageMoveTo = new ArrayList<Float>();
         this.car = new Car(0, 0, 200, 99);
-        this.car.x = -car.width;
-        this.car.y = (game.getHeight() - car.height) / 2f;
+        ResetCar();
 
-        this.carControl =  new VolumeCarControl(200, 2000, 5000, game.getHeight() - 2*grassSize);//new TouchCarControl(game.getHeight());
+        this.carControl = new VolumeCarControl(200, 2000, 5000, game.getHeight() - 2 * grassSize);//new TouchCarControl(game.getHeight());
         this.speed = gs.GetSpeed();
 
         this.obstacles = new ArrayList<Obstacle>();
@@ -173,14 +172,13 @@ public class GameScreen extends Screen {
         return garage.y + garage.height / 2f;
     }
 
-    private float getAverageValueOfList(List<Float> list)
-    {
-        float sum= 0;
+    private float getAverageValueOfList(List<Float> list) {
+        float sum = 0;
 
         for (float i : list)
-         sum+= i;
+            sum += i;
 
-        return sum/ list.size();
+        return sum / list.size();
     }
 
     private void updateRunning(Input.TouchEvent[] touchEvents, float deltaTime) {
@@ -193,7 +191,6 @@ public class GameScreen extends Screen {
         car.x += speed * (deltaTime / 1000.0f);
 
 
-
         if (averageMoveTo.size() < sampleSize)
             averageMoveTo.add(carControl.getMove(touchEvents));
         else {
@@ -201,19 +198,19 @@ public class GameScreen extends Screen {
             averageMoveTo.add(carControl.getMove(touchEvents));
         }
 
-        float moveTo=getAverageValueOfList(averageMoveTo) - car.height/2;
+        float moveTo = getAverageValueOfList(averageMoveTo) - car.height / 2;
 
 
         Log.d("vol", moveTo + "p " + car.y);
         float verticalMove = 0;
 
         if (car.x + car.width >= animationZoneX)
-            moveTo = getGarageTargetY() - car.height/2;
+            moveTo = getGarageTargetY() - car.height / 2;
 
-        if (car.y< moveTo-buffer)
+        if (car.y < moveTo - buffer)
             verticalMove = pixelsPerSecond * (deltaTime / 1000.0f);
 
-        if (car.y> moveTo+buffer)
+        if (car.y > moveTo + buffer)
             verticalMove = -pixelsPerSecond * (deltaTime / 1000.0f);
 
         car.y += verticalMove;
@@ -285,7 +282,7 @@ public class GameScreen extends Screen {
 
     private void ResetCar() {
         car.x = -car.width;
-        this.car.y = (game.getHeight() - car.height) / 2f;
+        this.car.y = game.getHeight() - grassSize - car.height / 2;
     }
 
 
