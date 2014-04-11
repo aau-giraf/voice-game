@@ -11,15 +11,14 @@ import dk.aau.cs.giraf.cars.game.Interfaces.GameObject;
 
 public class OverlayButton implements GameObject {
 
-    int x, y;
-
-    boolean Pressed;
-    String buttonText;
     protected Paint pButton;
     protected Paint pFocus;
+    int x, y;
+    boolean Pressed;
+    String buttonText;
     Rect bounds;
 
-    public OverlayButton(int X, int Y, int textColor, int touchColor, String buttonText,Paint.Align alignment ) {
+    public OverlayButton(int X, int Y, int textColor, int touchColor, String buttonText, Paint.Align alignment) {
         pButton = new Paint();
         pFocus = new Paint();
 
@@ -38,7 +37,22 @@ public class OverlayButton implements GameObject {
 
         bounds = new Rect();
         pButton.getTextBounds(buttonText, 0, buttonText.length(), bounds);
-        bounds.offset(x - bounds.width()/2, y);
+
+        int xoffset = 0;
+
+        switch (alignment) {
+            case CENTER:
+                xoffset = bounds.width() / 2;
+                break;
+            case LEFT:
+                xoffset = 0;
+                break;
+            case RIGHT:
+                xoffset = bounds.width();
+                break;
+        }
+        bounds.offset(x -xoffset, y);
+
 
         this.buttonText = buttonText;
 
@@ -53,7 +67,7 @@ public class OverlayButton implements GameObject {
      * @param buttonText
      */
     public OverlayButton(int x, int y, String buttonText) {
-        this(x, y, Color.WHITE, Color.YELLOW, buttonText,Paint.Align.LEFT);
+        this(x, y, Color.WHITE, Color.YELLOW, buttonText, Paint.Align.CENTER);
     }
 
 
