@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import dk.aau.cs.giraf.cars.framework.Screen;
+import dk.aau.cs.giraf.cars.game.CarsGames.CarsFragment;
 import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 
 

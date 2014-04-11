@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.cars.game.CarsGames.CarsFragment;
 
 public class SpeedFragment extends CarsFragment {
     private Screen screen = null;
