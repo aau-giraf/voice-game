@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.cars.game;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -8,15 +9,21 @@ import dk.aau.cs.giraf.cars.framework.Image;
 import dk.aau.cs.giraf.cars.framework.Input;
 
 public class Car extends GameItem {
+    private Paint paint;
+    boolean showValue = false;
     int color;
     Image image;
 
-    public Car(float width, float height)
-    {
+    public Car(float width, float height) {
         this(0, 0, width, height);
     }
+
     public Car(float x, float y, float height, float width) {
         super(x, y, height, width);
+        paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setTextSize(46);
+        paint.setTextAlign(Paint.Align.CENTER);
 
         this.color = Color.WHITE;
         this.image = Assets.GetCar();
@@ -34,6 +41,13 @@ public class Car extends GameItem {
         graphics.drawScaledImage(image,
                 bounds.left, bounds.top, bounds.right - bounds.left, bounds.bottom - bounds.top,
                 0, 0, image.getWidth(), image.getHeight());
+        if (showValue)
+            graphics.drawString(String.valueOf(getBarometerNumber(bounds.centerY() - 100, 600)),
+                    bounds.centerX() - 20, bounds.centerY() + 17, paint);
+    }
+
+    private int getBarometerNumber(float y, float height) {
+        return Math.round(10 - (y / (height / 10)));
     }
 
     @Override

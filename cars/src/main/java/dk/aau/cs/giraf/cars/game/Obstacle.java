@@ -18,7 +18,7 @@ public class Obstacle extends GameItem {
         paint.setTextAlign(Paint.Align.CENTER);
 
         // The magic value below is the height of the game 800 minus the total height of the grass 2x70
-        value = getBarometerNumber(GetBounds().centerY() - 70, 660);
+        value = getBarometerNumber(GetBounds().centerY() - 100, 600);
     }
 
     @Override

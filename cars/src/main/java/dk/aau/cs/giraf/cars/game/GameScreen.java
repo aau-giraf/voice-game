@@ -62,6 +62,7 @@ public class GameScreen extends Screen {
 
         this.averageMoveTo = new ArrayList<Float>();
         this.car = new Car(0, 0, 200, 99);
+        this.car.showValue = true;
         ResetCar();
 
         this.carControl = new VolumeCarControl(gs.GetMinVolume(),gs.GetMaxVolume(), game.getHeight() - 2 * grassSize);//new TouchCarControl(game.getHeight());
