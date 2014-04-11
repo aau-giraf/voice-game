@@ -18,9 +18,6 @@ public class VolumeCarControl implements CarControl {
         this.minAmplitude = minAmplitude;
     }
 
-    public void setNormalAmplitude(float normalAmplitude) {
-        this.normalAmplitude = normalAmplitude;
-    }
 
     public void setMaxAmplitude(float maxAmplitude) {
         this.maxAmplitude = maxAmplitude;
@@ -31,7 +28,6 @@ public class VolumeCarControl implements CarControl {
     public float GetMaxAmplitude(){return maxAmplitude;}
 
     private float minAmplitude;
-    private float normalAmplitude;
     private float maxAmplitude;
     private float height;
 

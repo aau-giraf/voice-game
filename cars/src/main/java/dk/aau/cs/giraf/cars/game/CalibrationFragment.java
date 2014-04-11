@@ -11,6 +11,10 @@ import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 
 public class CalibrationFragment extends CarsFragment {
     VolumeCarControl control;
+    private CalibrationScreen screen = null;
+    float minVolume;
+    float maxVolume;
+
 
     public CalibrationFragment() {
         super();
@@ -28,9 +32,30 @@ public class CalibrationFragment extends CarsFragment {
         super.onDestroyView();
     }
 
+    public void SetMinVolume(float minVolume) {
+        this.minVolume = minVolume;
+        if (screen != null)
+            screen.control.setMinAmplitude(minVolume);
+    }
+
+    public float GetMinVolume() {
+        return screen.control.GetMinAmplitude();
+    }
+
+    public void SetMaxVolume(float maxVolume) {
+        this.maxVolume = maxVolume;
+        if(screen!=null)
+            screen.control.setMaxAmplitude(maxVolume);
+    }
+
+    public float GetMaxVolume() {
+        return screen.control.GetMaxAmplitude();
+    }
+
     @Override
     public Screen getFirstScreen() {
-        control = new VolumeCarControl(0, 500, 5000, this.getHeight());
-        return new CalibrationScreen(this, control);
+        control = new VolumeCarControl(0, 5000, this.getHeight());
+        screen = new CalibrationScreen(this, control);
+        return screen;
     }
 }

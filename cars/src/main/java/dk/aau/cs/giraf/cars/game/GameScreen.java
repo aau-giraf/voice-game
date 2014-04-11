@@ -1,5 +1,7 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 
 import java.util.*;
@@ -17,6 +19,8 @@ import dk.aau.cs.giraf.cars.game.Overlay.StartOverlay;
 import dk.aau.cs.giraf.cars.game.Overlay.WinningOverlay;
 
 public class GameScreen extends Screen {
+    private final boolean debug = true;
+
     private final int pixelsPerSecond = 200;
     private final int grassSize = 70;
     private final float garageSize = 250;
@@ -278,6 +282,18 @@ public class GameScreen extends Screen {
         for (int i = 0; i < game.getWidth(); i += 10) {
             graphics.drawImage(Assets.getBorder(), i, grassSize - 19, 0, 0, 10, 25);
             graphics.drawImage(Assets.getBorder(), i, game.getHeight() - grassSize - 6, 0, 25, 10, 25);
+        }
+
+
+        if(debug) {
+            Paint debug = new Paint();
+            debug.setTextSize(50);
+            debug.setTextAlign(Paint.Align.LEFT);
+            debug.setAntiAlias(true);
+            debug.setColor(Color.RED);
+
+            graphics.drawString(((VolumeCarControl) carControl).GetMinAmplitude() + "", 100, 100, debug);
+            graphics.drawString(((VolumeCarControl) carControl).GetMaxAmplitude() + "", 100, 200, debug);
         }
 
         car.Draw(graphics, deltaTime);

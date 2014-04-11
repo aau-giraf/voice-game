@@ -20,7 +20,7 @@ public class CalibrationScreen extends SettingsScreen {
 
     enum RecordingState { Loud, Silence, None }
 
-    private VolumeCarControl control;
+    public VolumeCarControl control;
     private OverlayButton loud;
     private OverlayButton silence;
     private double currentvol = 0.0;
