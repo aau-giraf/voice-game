@@ -70,7 +70,7 @@ public class Settings extends Activity {
         colors.add(colorValues.get(spinner2.getSelectedItemPosition()));
         colors.add(colorValues.get(spinner3.getSelectedItemPosition()));
 
-        GameSettings gs = new GameSettings(colors, (int)speed.getSpeed());
+        GameSettings gs = new GameSettings(colors, (int)speed.getSpeed(),0,0);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("GameSettings", gs);
