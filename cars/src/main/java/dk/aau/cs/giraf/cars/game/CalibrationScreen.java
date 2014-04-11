@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.cars.game;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.text.method.Touch;
 import dk.aau.cs.giraf.cars.framework.*;
 import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
@@ -26,9 +27,9 @@ public class CalibrationScreen extends SettingsScreen {
         setCarXToCenter();
         setCarYToCenter();
 
-        loud = new OverlayButton(20,100, Color.BLUE,Color.YELLOW,"HØJ");
-        speak = new OverlayButton(20,200, Color.BLUE,Color.YELLOW,"TALE");
-        silence = new OverlayButton(20,300, Color.BLUE,Color.YELLOW,"STILLE");
+        loud = new OverlayButton(20,100, Color.BLUE,Color.YELLOW,"HØJ", Paint.Align.LEFT);
+        speak = new OverlayButton(20,200, Color.BLUE,Color.YELLOW,"TALE",Paint.Align.LEFT);
+        silence = new OverlayButton(20,300, Color.BLUE,Color.YELLOW,"STILLE",Paint.Align.LEFT);
     }
 
     @Override
