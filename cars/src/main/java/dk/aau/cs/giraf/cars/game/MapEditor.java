@@ -1,5 +1,8 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.content.SharedPreferences;
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import dk.aau.cs.giraf.cars.framework.Game;
@@ -16,6 +19,7 @@ public class MapEditor extends CarsActivity {
 
     private class MapScreen extends SettingsScreen {
         private final int OBSTACLE_SIZE = 100;
+        private SharedPreferences mapPreferences;
 
         private ArrayList<Obstacle> obstacles;
 
@@ -24,6 +28,13 @@ public class MapEditor extends CarsActivity {
             setCarX(-getCarWidth());
 
             obstacles = new ArrayList<Obstacle>();
+            mapPreferences = getSharedPreferences("map", 0);
+            int count = mapPreferences.getInt("count", 0);
+            for (int i = 0; i < count; i++) {
+                float x = mapPreferences.getFloat("x" + i, 0);
+                float y = mapPreferences.getFloat("y" + i, 0);
+                obstacles.add(new Obstacle(x, y, OBSTACLE_SIZE, OBSTACLE_SIZE));
+            }
         }
 
         @Override
@@ -44,7 +55,7 @@ public class MapEditor extends CarsActivity {
                             break;
                         }
 
-                    if(rem == null)
+                    if (rem == null)
                         Add(e.x - OBSTACLE_SIZE / 2, e.y - OBSTACLE_SIZE / 2);
                     else
                         Remove(rem);
@@ -52,10 +63,25 @@ public class MapEditor extends CarsActivity {
             }
         }
 
-        private void Add(float x, float y){
+        private void Add(float x, float y) {
+            int index = obstacles.size();
             obstacles.add(new Obstacle(x, y, OBSTACLE_SIZE, OBSTACLE_SIZE));
+            mapPreferences.edit().putFloat("x" + index, x).putFloat("y" + index, y).putInt("count", index + 1).commit();
         }
-        private void Remove(Obstacle obstacle){
+
+        private void Remove(Obstacle obstacle) {
+            int index = obstacles.indexOf(obstacle);
+            int size = obstacles.size();
+
+            SharedPreferences.Editor editor = mapPreferences.edit();
+
+            for (int i = index; i < size - 1; i++) {
+                Obstacle o = obstacles.get(i + 1);
+                editor.putFloat("x" + i, o.x).putFloat("y" + i, o.y);
+            }
+            editor.remove("x" + (size - 1)).remove("y" + (size - 1));
+            editor.putInt("count", size - 1);
+            editor.commit();
             obstacles.remove(obstacle);
         }
 
