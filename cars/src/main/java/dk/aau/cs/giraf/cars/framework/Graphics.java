@@ -82,6 +82,9 @@ public class Graphics {
 
     public static Image recolorImage(Image image, int newColor) {
         int oldColor = Color.WHITE;
+        float newR = (newColor >> 16) & 0xff;
+        float newG = (newColor >> 8) & 0xff;
+        float newB = (newColor) & 0xff;
 
         int[] pixels = new int[image.bitmap.getWidth() * image.bitmap.getHeight()];
 
@@ -95,9 +98,13 @@ public class Graphics {
                 image.bitmap.getHeight()
         );
 
-        for (int i = 0; i < image.bitmap.getWidth() * image.bitmap.getHeight(); i++)
-            if (pixels[i] == oldColor)
-                pixels[i] = newColor;
+        for (int i = 0; i < image.bitmap.getWidth() * image.bitmap.getHeight(); i++){
+            float gr = (pixels[i] & 0xff) / 255f;
+            int r = (int)(gr * newR) << 16;
+            int g = (int)(gr * newG) << 8;
+            int b = (int)(gr * newB);
+            pixels[i] = (pixels[i] & (0xff << 24)) | r | g | b;
+        }
 
         Bitmap recoloredBitmap = Bitmap.createBitmap(
                 pixels,
