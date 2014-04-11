@@ -95,15 +95,16 @@ public class GameScreen extends Screen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         if (state == GameState.Starting)
             updateStarting(touchEvents, deltaTime);
-        if (state == GameState.Running)
+        else if (state == GameState.Running) {
             updateRunning(touchEvents, deltaTime);
-        if (state == GameState.Paused)
             updatePaused(touchEvents);
-        if (state == GameState.Crashed)
+        } else if (state == GameState.Paused)
+            updatePaused(touchEvents);
+        else if (state == GameState.Crashed)
             updateCrashed(touchEvents, deltaTime);
-        if (state == GameState.Won)
+        else if (state == GameState.Won)
             updateWon(touchEvents, deltaTime);
-        if (state == GameState.Closing) {
+        else if (state == GameState.Closing) {
             updateClosing(touchEvents, deltaTime);
             updateRunning(touchEvents, deltaTime);
         }
@@ -129,8 +130,7 @@ public class GameScreen extends Screen {
 
     }
 
-    private void updatePaused(Input.TouchEvent[] touchEvents)
-    {
+    private void updatePaused(Input.TouchEvent[] touchEvents) {
         if (pauseOverlay.pauseButtonPressed(touchEvents))
             state = GameState.Paused;
         else
@@ -286,7 +286,6 @@ public class GameScreen extends Screen {
     }
 
 
-
     @Override
     public void paint(Graphics graphics, float deltaTime) {
         graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
@@ -305,14 +304,14 @@ public class GameScreen extends Screen {
         for (Garage garage : garages)
             garage.Draw(graphics, deltaTime);
 
-        pauseOverlay.Draw(graphics,deltaTime);
+        pauseOverlay.Draw(graphics, deltaTime);
 
         if (state == GameState.Starting)
             startOverlay.Draw(graphics, deltaTime);
         if (state == GameState.Running)
             drawRunning(graphics, deltaTime);
         if (state == GameState.Paused)
-            pauseOverlay.Draw(graphics,deltaTime);
+            pauseOverlay.Draw(graphics, deltaTime);
         if (state == GameState.Crashed)
             crashedOverlay.Draw(graphics, deltaTime);
         if (state == GameState.Won)
