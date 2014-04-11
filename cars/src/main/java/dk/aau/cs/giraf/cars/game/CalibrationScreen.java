@@ -42,6 +42,8 @@ public class CalibrationScreen extends SettingsScreen {
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime)
     {
+        loud.Update(touchEvents, deltaTime);
+        silence.Update(touchEvents, deltaTime);
         if (loud.IsButtonPressed(touchEvents)) {
             float avg = getAverageValueOfList(volumes);
             Log.d("avgmax", avg + "");
@@ -62,8 +64,9 @@ public class CalibrationScreen extends SettingsScreen {
         switch (recordingState) {
             case Loud:
             case Silence:
-                if (control.getAmplitude() > 0)
-                    volumes.add(control.getAmplitude());
+                float vol = control.getAmplitude();
+                if (vol > 0.0)
+                    volumes.add(vol);
                 break;
             case None:
             default:
