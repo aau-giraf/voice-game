@@ -14,7 +14,7 @@ public class Assets {
         tarmac = graphics.newImage("tarmac.jpg", Graphics.ImageFormat.RGB565);
         border = graphics.newImage("border.png", Graphics.ImageFormat.ARGB8888);
         car = graphics.newImage("car.png", Graphics.ImageFormat.ARGB8888);
-        obstacle = graphics.newImage("obstacle.jpg", Graphics.ImageFormat.RGB565);
+        obstacle = graphics.newImage("obstacle.png", Graphics.ImageFormat.ARGB8888);
         trophy = graphics.newImage("trophy.png", Graphics.ImageFormat.ARGB8888);
         garage = graphics.newImage("garage.png", Graphics.ImageFormat.ARGB8888);
         explosion = graphics.newImage("explosion.png", Graphics.ImageFormat.ARGB8888);
