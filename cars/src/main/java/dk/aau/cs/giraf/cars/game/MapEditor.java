@@ -1,7 +1,6 @@
 package dk.aau.cs.giraf.cars.game;
 
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -18,10 +17,14 @@ public class MapEditor extends CarsActivity {
     }
 
     private class MapScreen extends SettingsScreen {
+        private final int grassSize = 70;
+        private final float garageSize = 250;
+        private final int amountOfGarages = 3;
         private final int OBSTACLE_SIZE = 100;
         private SharedPreferences mapPreferences;
 
         private ArrayList<Obstacle> obstacles;
+        private ArrayList<Garage> garages;
 
         public MapScreen(Game game) {
             super(game);
@@ -35,6 +38,13 @@ public class MapEditor extends CarsActivity {
                 float y = mapPreferences.getFloat("y" + i, 0);
                 obstacles.add(new Obstacle(x, y, OBSTACLE_SIZE, OBSTACLE_SIZE));
             }
+
+            this.garages = new ArrayList<Garage>();
+            float garageSpace = (game.getHeight() - 2 * grassSize - 3 * garageSize) / 4f;
+            for (int i = 0; i < amountOfGarages; i++) {
+                Garage g = new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize + garageSize / 4, garageSize, garageSize / 2);
+                garages.add(g);
+            }
         }
 
         @Override
@@ -42,6 +52,8 @@ public class MapEditor extends CarsActivity {
             super.paint(graphics, deltaTime);
             for (Obstacle o : obstacles)
                 o.Draw(graphics, deltaTime);
+            for (Garage g : garages)
+                g.Draw(graphics, deltaTime);
         }
 
         @Override
