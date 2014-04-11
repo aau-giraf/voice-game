@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import dk.aau.cs.giraf.cars.game.CalibrationFragment;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.SpeedFragment;
 
@@ -32,6 +33,7 @@ public class Settings extends Activity {
     Spinner spinner3;
 
     SpeedFragment speed;
+    CalibrationFragment calibration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class Settings extends Activity {
         spinner2 = (Spinner) findViewById(R.id.spinner2);
         spinner3 = (Spinner) findViewById(R.id.spinner3);
         speed = (SpeedFragment) getFragmentManager().findFragmentById(R.id.speed);
-
+        calibration = (CalibrationFragment)getFragmentManager().findFragmentById(R.id.calibration_fragment);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.colorname_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -56,6 +58,8 @@ public class Settings extends Activity {
         spinner3.setAdapter(adapter);
 
         speed.setSpeed(gamesettings.GetSpeed());
+        calibration.SetMinVolume(gamesettings.GetMinVolume());
+        calibration.SetMaxVolume(gamesettings.GetMaxVolume());
 
         LinkedList<Integer> colors = gamesettings.GetColors();
         spinner1.setSelection(colorValues.indexOf(colors.get(0)));
@@ -70,7 +74,7 @@ public class Settings extends Activity {
         colors.add(colorValues.get(spinner2.getSelectedItemPosition()));
         colors.add(colorValues.get(spinner3.getSelectedItemPosition()));
 
-        GameSettings gs = new GameSettings(colors, (int)speed.getSpeed());
+        GameSettings gs = new GameSettings(colors, (int)speed.getSpeed(), calibration.GetMinVolume(),calibration.GetMaxVolume());
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("GameSettings", gs);

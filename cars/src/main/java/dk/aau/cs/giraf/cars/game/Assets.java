@@ -18,6 +18,8 @@ public class Assets {
         trophy = graphics.newImage("trophy.png", Graphics.ImageFormat.ARGB8888);
         garage = graphics.newImage("garage.png", Graphics.ImageFormat.ARGB8888);
         explosion = graphics.newImage("explosion.png", Graphics.ImageFormat.ARGB8888);
+        pauseButton = graphics.newImage("pauseButton.png", Graphics.ImageFormat.ARGB8888);
+        playButton = graphics.newImage("playButton.png", Graphics.ImageFormat.ARGB8888);
 
         loaded = true;
     }
@@ -34,6 +36,8 @@ public class Assets {
     private static Image trophy;
     private static Image garage;
     private static Image explosion;
+    private static Image pauseButton;
+    private static Image playButton;
 
     public static Image GetGrass() {
         return grass;
@@ -65,5 +69,13 @@ public class Assets {
 
     public static Image GetExplosion() {
         return explosion;
+    }
+
+    public static Image GetPauseButton() {
+        return pauseButton;
+    }
+
+    public static Image GetPlayButton() {
+        return playButton;
     }
 }
