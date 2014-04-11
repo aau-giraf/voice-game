@@ -22,7 +22,7 @@ public class GameSettings implements Parcelable {
         this.colors = new LinkedList<Integer>(Arrays.asList(DEFAULT_COLORS));
         this.speed = DEFAULT_SPEED;
         this.minVolume = DEFAULT_MIN;
-        this.minVolume = DEFAULT_MAX;
+        this.maxVolume = DEFAULT_MAX;
     }
 
     public GameSettings(LinkedList<Integer> colors, int speed, float minVolume, float maxVolume) {
@@ -51,6 +51,10 @@ public class GameSettings implements Parcelable {
     public int GetSpeed() {
         return speed;
     }
+
+    public float GetMinVolume(){return minVolume;}
+
+    public float GetMaxVolume(){return maxVolume;}
 
     @Override
     public int describeContents() {
