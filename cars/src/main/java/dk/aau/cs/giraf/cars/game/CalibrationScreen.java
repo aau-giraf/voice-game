@@ -16,7 +16,7 @@ import dk.aau.cs.giraf.cars.game.Overlay.OverlayButton;
 /**
  * Created by Stefan on 08-04-2014.
  */
-public class CalibrationScreen extends SettingsScreen {
+public class CalibrationScreen extends Screen {
 
     enum RecordingState { Loud, Silence, None }
 
@@ -86,8 +86,7 @@ public class CalibrationScreen extends SettingsScreen {
 
     @Override
     public void paint(Graphics graphics, float deltaTime) {
-        super.paint(graphics,deltaTime);
-
+        graphics.drawARGB(255,0,0,0);
         loud.Draw(graphics,deltaTime);
         silence.Draw(graphics,deltaTime);
 
