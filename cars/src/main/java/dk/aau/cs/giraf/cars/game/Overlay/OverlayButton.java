@@ -121,14 +121,8 @@ public class OverlayButton implements GameObject {
         return false;
     }
 
-    protected boolean inBounds(Input.TouchEvent event, Rect bounds) {
-        //return event.x > bounds.left && event.x < bounds.right && event.y > bounds.bottom && event.y < bounds.bottom;
-        return bounds.contains(event.x, event.y);
-
-    }
-
     protected boolean inBounds(Input.TouchEvent event) {
-        return inBounds(event, bounds);
+        return event.inBounds( bounds);
     }
 
     @Override

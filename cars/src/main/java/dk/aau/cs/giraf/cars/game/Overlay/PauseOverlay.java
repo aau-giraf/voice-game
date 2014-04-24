@@ -29,7 +29,7 @@ public class PauseOverlay extends Overlay {
         this.x = carX;
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN)
-                if (inBounds(e, playButtonSize)) {
+                if (e.inBounds( playButtonSize)) {
                     paused = !paused;
                     return paused;
                 }
@@ -62,9 +62,5 @@ public class PauseOverlay extends Overlay {
             if (i != 0)
                 graphics.drawString(scaleSize - i + "", x + (scaleWidth / 2), tmp-10, paint);
         }
-    }
-
-    private boolean inBounds(Input.TouchEvent event, Rect r) {
-        return event.x > r.left && event.x < r.left + r.right - 1 && event.y > r.top && event.y < r.top + r.bottom - 1;
     }
 }

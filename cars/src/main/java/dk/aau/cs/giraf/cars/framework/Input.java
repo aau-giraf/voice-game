@@ -3,6 +3,7 @@ package dk.aau.cs.giraf.cars.framework;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Build.VERSION;
 import android.view.View;
 
@@ -16,6 +17,10 @@ public class Input {
         public int type;
         public int x, y;
         public int pointer;
+
+        public boolean inBounds(Rect bounds) {
+            return bounds.contains(this.x, this.y);
+        }
     }
 
     TouchHandler touchHandler;
