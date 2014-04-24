@@ -47,23 +47,21 @@ public class PauseOverlay extends Overlay {
         graphics.drawScaledImage(Assets.GetPlayButton(), playButtonSize, image);
         Log.d("X", x + "");
         if (x > 200) {
-            graphics.drawRect((int) x - scaleWidth, y, scaleWidth, height, Color.WHITE);
-            for (int i = 0; i <= scaleSize; i++) {
-                int tmp = 70 + (height / scaleSize * i);
-                graphics.drawLine((int) x - scaleWidth, tmp, (int) x, tmp, Color.BLACK, 5);
-                if (i != 0)
-                    graphics.drawString(scaleSize - i + "", (int)x-scaleWidth + (scaleWidth / 2), tmp-10, paint);
-            }
+            drawGauge(graphics, paint, (int) x - scaleWidth);
         } else if (x < width - 300) {
-            graphics.drawRect(100, y, scaleWidth, height, Color.WHITE);
-            for (int i = 0; i <= scaleSize; i++) {
-                int tmp = 70 + (height / scaleSize * i);
-                graphics.drawLine(100, tmp, 100 + scaleWidth, tmp, Color.BLACK, 5);
-                if (i != 0)
-                    graphics.drawString(scaleSize - i + "", 100 + (scaleWidth / 2), tmp-10, paint);
-            }
+            drawGauge(graphics, paint, 100);
         }
 
+    }
+
+    private void drawGauge(Graphics graphics, Paint paint, int x) {
+        graphics.drawRect(x, y, scaleWidth, height, Color.WHITE);
+        for (int i = 0; i <= scaleSize; i++) {
+            int tmp = 70 + (height / scaleSize * i);
+            graphics.drawLine(x, tmp, x + scaleWidth, tmp, Color.BLACK, 5);
+            if (i != 0)
+                graphics.drawString(scaleSize - i + "", x + (scaleWidth / 2), tmp-10, paint);
+        }
     }
 
     private boolean inBounds(Input.TouchEvent event, Rect r) {
