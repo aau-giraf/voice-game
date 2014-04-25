@@ -21,7 +21,9 @@ public class MapEditor extends CarsActivity {
         private final float garageSize = 250;
         private final int amountOfGarages = 3;
         private final int OBSTACLE_SIZE = 100;
+        private final float animationZoneSize = 100;
         private SharedPreferences mapPreferences;
+        private float animationZoneX;
 
         private ArrayList<Obstacle> obstacles;
         private ArrayList<Garage> garages;
@@ -45,6 +47,8 @@ public class MapEditor extends CarsActivity {
                 Garage g = new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize + garageSize / 4, garageSize, garageSize / 2);
                 garages.add(g);
             }
+
+            this.animationZoneX = garages.get(0).x - animationZoneSize;
         }
 
         @Override
@@ -59,7 +63,7 @@ public class MapEditor extends CarsActivity {
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
             for (Input.TouchEvent e : touchEvents) {
-                if (e.type == Input.TouchEvent.TOUCH_DOWN) {
+                if (e.type == Input.TouchEvent.TOUCH_DOWN && e.x < animationZoneX && e.y > grassSize && e.y < game.getHeight()-grassSize) {
                     Obstacle rem = null;
                     for (Obstacle o : obstacles)
                         if (o.GetBounds().contains(e.x, e.y)) {
