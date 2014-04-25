@@ -19,16 +19,16 @@ public class OverlayButton implements GameObject {
     String buttonText;
     Rect bounds;
 
-    public OverlayButton(int X, int Y, int textColor, int touchColor, String buttonText, Paint.Align alignment) {
+    public OverlayButton(int X, int Y, int textColor, int touchColor, String buttonText, Paint.Align alignment, float textSize) {
         pButton = new Paint();
         pFocus = new Paint();
 
-        pButton.setTextSize(100);
+        pButton.setTextSize(textSize);
         pButton.setTextAlign(alignment);
         pButton.setAntiAlias(true);
         pButton.setColor(textColor);
 
-        pFocus.setTextSize(100);
+        pFocus.setTextSize(textSize);
         pFocus.setTextAlign(alignment);
         pFocus.setAntiAlias(true);
         pFocus.setColor(touchColor);
@@ -73,7 +73,15 @@ public class OverlayButton implements GameObject {
      * @param buttonText
      */
     public OverlayButton(int x, int y, String buttonText) {
-        this(x, y, Color.WHITE, Color.YELLOW, buttonText, Paint.Align.CENTER);
+        this(x, y, Color.WHITE, Color.YELLOW, buttonText, Paint.Align.CENTER, 100);
+    }
+
+    public OverlayButton(int x, int y, String buttonText, float textSize){
+        this(x, y, Color.WHITE, Color.YELLOW, buttonText, Paint.Align.CENTER, textSize);
+    }
+
+    public OverlayButton(int x, int y, int textColor, int touchColor, String buttonText, Paint.Align alignment){
+        this(x, y, textColor, touchColor, buttonText, alignment, 100);
     }
 
 
