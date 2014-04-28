@@ -65,7 +65,7 @@ public class GameScreen extends Screen {
         this.car.showValue = true;
         ResetCar();
 
-        this.carControl = new VolumeCarControl(gs.GetMinVolume(),gs.GetMaxVolume(), game.getHeight() - 2 * grassSize);//new TouchCarControl(game.getHeight());
+        this.carControl = new VolumeCarControl(gs.GetMinVolume(), gs.GetMaxVolume(), game.getHeight() - 2 * grassSize);//new TouchCarControl(game.getHeight());
         this.speed = gs.GetSpeed();
 
         this.obstacles = new ArrayList<Obstacle>();
@@ -94,7 +94,7 @@ public class GameScreen extends Screen {
                 game.getResources().getString(R.string.menu_button_text));
         startOverlay = new StartOverlay(startingSeconds, game.getResources().getString(R.string.countdown_drive));
         crashedOverlay = new CrashOverlay(game);
-        pauseOverlay = new PauseOverlay((int)car.x,grassSize,game.getHeight()-2*grassSize,game.getWidth());
+        pauseOverlay = new PauseOverlay((int) car.x, grassSize, game.getHeight() - 2 * grassSize, game.getWidth());
     }
 
 
@@ -137,7 +137,7 @@ public class GameScreen extends Screen {
     }
 
     private void updatePaused(Input.TouchEvent[] touchEvents) {
-        if (pauseOverlay.pauseButtonPressed(touchEvents,car.x))
+        if (pauseOverlay.pauseButtonPressed(touchEvents, car.x))
             state = GameState.Paused;
         else
             state = GameState.Running;
@@ -196,13 +196,9 @@ public class GameScreen extends Screen {
         car.Update(touchEvents, deltaTime);
         car.x += speed * (deltaTime / 1000.0f);
 
-
-        if (averageMoveTo.size() < sampleSize)
-            averageMoveTo.add(carControl.getMove(touchEvents));
-        else {
+        averageMoveTo.add(carControl.getMove(touchEvents));
+        if (averageMoveTo.size() > sampleSize)
             averageMoveTo.remove(0);
-            averageMoveTo.add(carControl.getMove(touchEvents));
-        }
 
         float moveTo = getAverageValueOfList(averageMoveTo) - car.height / 2;
 
@@ -251,7 +247,7 @@ public class GameScreen extends Screen {
             }
         }
 
-        if (pauseOverlay.pauseButtonPressed(touchEvents,car.x))
+        if (pauseOverlay.pauseButtonPressed(touchEvents, car.x))
             state = GameState.Paused;
     }
 
@@ -306,7 +302,7 @@ public class GameScreen extends Screen {
         }
 
 
-        if(debug) {
+        if (debug) {
             Paint debug = new Paint();
             debug.setTextSize(50);
             debug.setTextAlign(Paint.Align.LEFT);
