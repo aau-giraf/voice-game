@@ -195,13 +195,14 @@ public class GameScreen extends Screen {
         if (car.x + car.width >= animationZoneX)
             moveTo = getGarageTargetY() - car.height / 2;
 
-        if (car.y < moveTo - buffer)
+        if (car.y < moveTo) {
             verticalMove = pixelsPerSecond * (deltaTime / 1000.0f);
-
-        if (car.y > moveTo + buffer)
+            car.y = car.y + verticalMove > moveTo ? moveTo : car.y + verticalMove;
+        } else if (car.y > moveTo) {
             verticalMove = -pixelsPerSecond * (deltaTime / 1000.0f);
+            car.y = car.y - verticalMove < moveTo ? moveTo : car.y - verticalMove;
+        }
 
-        car.y += verticalMove;
         Log.d("vertical", verticalMove + "");
         if (car.y < grassSize) car.y = grassSize;
         if (car.y > game.getHeight() - car.height - grassSize)
