@@ -28,9 +28,8 @@ public class GameScreen extends Screen {
     private final int grassSize = 70;
     private final float garageSize = 250;
     private final float animationZoneSize = 100;
-    private final float sampleSize = 5;
     private final float buffer = 4;
-    private final List<Float> averageMoveTo;
+    private final AverageList averageMoveTo;
     private GameSettings gameSettings;
     private CarControl carControl;
     private Car car;
@@ -60,7 +59,7 @@ public class GameScreen extends Screen {
         colors = (LinkedList<Integer>) gs.GetColors().clone();
         Collections.shuffle(colors);
 
-        this.averageMoveTo = new ArrayList<Float>();
+        this.averageMoveTo = new AverageList(5);
         this.car = new Car(0, 0, 200, 99);
         this.car.showValue = true;
         ResetCar();
@@ -178,15 +177,6 @@ public class GameScreen extends Screen {
         return garage.y + garage.height / 2f;
     }
 
-    private float getAverageValueOfList(List<Float> list) {
-        float sum = 0;
-
-        for (float i : list)
-            sum += i;
-
-        return sum / list.size();
-    }
-
     private void updateRunning(Input.TouchEvent[] touchEvents, float deltaTime) {
         if (allGaragesClosed()) {
             state = GameState.Won;
@@ -196,14 +186,10 @@ public class GameScreen extends Screen {
         car.Update(touchEvents, deltaTime);
         car.x += speed * (deltaTime / 1000.0f);
 
-        averageMoveTo.add(carControl.getMove(touchEvents));
-        if (averageMoveTo.size() > sampleSize)
-            averageMoveTo.remove(0);
+        averageMoveTo.Add(carControl.getMove(touchEvents));
+        float moveTo = averageMoveTo.GetAverage() - car.height / 2;
 
-        float moveTo = getAverageValueOfList(averageMoveTo) - car.height / 2;
-
-
-        Log.d("vol", moveTo + "p " + car.y);
+        Log.d("position", moveTo + "p " + car.y);
         float verticalMove = 0;
 
         if (car.x + car.width >= animationZoneX)
