@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -78,16 +79,14 @@ public class Settings extends Activity {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
+    public void onBackPressed() {
         LinkedList<Integer> colors = new LinkedList<Integer>();
 
         colors.add(colorPickButton1.GetColor());
         colors.add(colorPickButton2.GetColor());
         colors.add(colorPickButton3.GetColor());
 
-        GameSettings gs = new GameSettings(colors, (int)speed.getSpeed(), calibration.GetMinVolume(),calibration.GetMaxVolume());
+        GameSettings gs = new GameSettings(colors, (int) speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume());
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("GameSettings", gs);
