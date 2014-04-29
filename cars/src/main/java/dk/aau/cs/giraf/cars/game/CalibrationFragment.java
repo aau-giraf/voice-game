@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.game.CarsGames.CarsFragment;
 import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
@@ -44,7 +45,7 @@ public class CalibrationFragment extends CarsFragment {
 
     public void SetMaxVolume(float maxVolume) {
         this.maxVolume = maxVolume;
-        if(screen!=null)
+        if (screen != null)
             screen.control.setMaxAmplitude(maxVolume);
     }
 
@@ -54,7 +55,7 @@ public class CalibrationFragment extends CarsFragment {
 
     @Override
     public Screen getFirstScreen() {
-        control = new VolumeCarControl(minVolume, maxVolume, this.getHeight());
+        control = new VolumeCarControl(minVolume, maxVolume);
         screen = new CalibrationScreen(this, control);
         return screen;
     }
