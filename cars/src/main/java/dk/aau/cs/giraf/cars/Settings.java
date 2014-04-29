@@ -1,17 +1,10 @@
 package dk.aau.cs.giraf.cars;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -20,7 +13,7 @@ import dk.aau.cs.giraf.cars.game.CalibrationFragment;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.SpeedFragment;
 import dk.aau.cs.giraf.gui.GColorPicker;
-
+import dk.aau.cs.giraf.oasis.lib.models.Setting;
 
 public class Settings extends Activity {
     GameSettings gamesettings;
@@ -93,4 +86,8 @@ public class Settings extends Activity {
         setResult(Activity.RESULT_OK, intent);
         this.finish();
     }
+
+
+
+
 }

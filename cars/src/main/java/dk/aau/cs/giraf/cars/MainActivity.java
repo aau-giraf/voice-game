@@ -7,24 +7,42 @@ import android.view.View;
 import dk.aau.cs.giraf.cars.game.CarGame;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.MapEditor;
+import dk.aau.cs.giraf.oasis.lib.controllers.ApplicationController;
+import dk.aau.cs.giraf.oasis.lib.controllers.ProfileApplicationController;
+import dk.aau.cs.giraf.oasis.lib.controllers.ProfileController;
+import dk.aau.cs.giraf.oasis.lib.models.Application;
+import dk.aau.cs.giraf.oasis.lib.models.Profile;
+import dk.aau.cs.giraf.oasis.lib.models.ProfileApplication;
+import dk.aau.cs.giraf.oasis.lib.models.Setting;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 public class MainActivity extends Activity {
 
     private final static int SETTINGS_IDENTIFIER = 0;
+    public static final String CHILD_ID = "currentChildID";
 
     GameSettings gamesettings;
+    int child_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        if(intent.hasExtra("GameSettings"))
-            gamesettings = intent.getParcelableExtra("GameSettings");
-        else gamesettings = new GameSettings();
+
+        if(intent.hasExtra(CHILD_ID))
+            child_id = intent.getIntExtra(CHILD_ID,0);
+
+        DatabaseHelper database = new DatabaseHelper(this,child_id);
+        gamesettings = database.ParseSettings(database.GetSettings());
 
         setContentView(R.layout.activity_main_menu);
     }
+
+
 
     public void startGame(View view)
     {
@@ -41,7 +59,7 @@ public class MainActivity extends Activity {
     public void showSettings(View view)
     {
         Intent intent =  new Intent(this, Settings.class);
-        intent.putExtra("GameSettings",gamesettings);
+        intent.putExtra("gamesettings",gamesettings);
         startActivityForResult(intent, SETTINGS_IDENTIFIER);
     }
 
@@ -57,4 +75,6 @@ public class MainActivity extends Activity {
             }
         }
     }
+
+
 }
