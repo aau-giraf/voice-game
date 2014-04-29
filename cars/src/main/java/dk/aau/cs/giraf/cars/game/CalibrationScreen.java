@@ -2,20 +2,15 @@ package dk.aau.cs.giraf.cars.game;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.text.method.Touch;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import dk.aau.cs.giraf.cars.framework.*;
-import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
 import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.OverlayButton;
 
-/**
- * Created by Stefan on 08-04-2014.
- */
 public class CalibrationScreen extends Screen {
 
     enum RecordingState {Loud, Silence, None}
