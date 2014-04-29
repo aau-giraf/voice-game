@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="colorname_array">
-        <item>Red</item>
-        <item>Green</item>
-        <item>Magenta</item>
-        <item>Blue</item>
-        <item>Yellow</item>
-    </string-array>
-
+    <color name="colorPickButtonBase">#FFFFFFFF</color>
+    <color name="colorPickButtonStroke">#FF777777</color>
 </resources>

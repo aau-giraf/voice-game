@@ -1,11 +1,15 @@
 package dk.aau.cs.giraf.cars;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -15,6 +19,7 @@ import java.util.LinkedList;
 import dk.aau.cs.giraf.cars.game.CalibrationFragment;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.SpeedFragment;
+import dk.aau.cs.giraf.gui.GColorPicker;
 
 
 public class Settings extends Activity {
@@ -28,9 +33,9 @@ public class Settings extends Activity {
         add(Color.YELLOW);
     }};
 
-    Spinner spinner1;
-    Spinner spinner2;
-    Spinner spinner3;
+    ColorButton colorPickButton1;
+    ColorButton colorPickButton2;
+    ColorButton colorPickButton3;
 
     SpeedFragment speed;
     CalibrationFragment calibration;
@@ -45,36 +50,43 @@ public class Settings extends Activity {
 
         setContentView(R.layout.activity_settings);
 
-        spinner1 = (Spinner) findViewById(R.id.spinner1);
-        spinner2 = (Spinner) findViewById(R.id.spinner2);
-        spinner3 = (Spinner) findViewById(R.id.spinner3);
+        colorPickButton1 = (ColorButton) findViewById(R.id.colorPick1);
+        colorPickButton2 = (ColorButton) findViewById(R.id.colorPick2);
+        colorPickButton3 = (ColorButton) findViewById(R.id.colorPick3);
         speed = (SpeedFragment) getFragmentManager().findFragmentById(R.id.speed);
         calibration = (CalibrationFragment)getFragmentManager().findFragmentById(R.id.calibration_fragment);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.colorname_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner1.setAdapter(adapter);
-        spinner2.setAdapter(adapter);
-        spinner3.setAdapter(adapter);
 
         speed.setSpeed(gamesettings.GetSpeed());
         calibration.SetMinVolume(gamesettings.GetMinVolume());
         calibration.SetMaxVolume(gamesettings.GetMaxVolume());
 
         LinkedList<Integer> colors = gamesettings.GetColors();
-        spinner1.setSelection(colorValues.indexOf(colors.get(0)));
-        spinner2.setSelection(colorValues.indexOf(colors.get(1)));
-        spinner3.setSelection(colorValues.indexOf(colors.get(2)));
+        colorPickButton1.SetColor(colors.get(0));
+        colorPickButton2.SetColor(colors.get(1));
+        colorPickButton3.SetColor(colors.get(2));
     }
 
-    public void OkButtonClick(View view) {
+    public void ColorPickClick(View view) {
+        final ColorButton button = (ColorButton)view;
+        GColorPicker diag = new GColorPicker(view.getContext(), new GColorPicker.OnOkListener() {
+            @Override
+            public void OnOkClick(GColorPicker diag, int color) {
+                button.SetColor(color);
+            }
+        });
+        diag.SetCurrColor(button.GetColor());
+        diag.show();
+    }
+
+    @Override
+    public void onBackPressed() {
         LinkedList<Integer> colors = new LinkedList<Integer>();
 
-        colors.add(colorValues.get(spinner1.getSelectedItemPosition()));
-        colors.add(colorValues.get(spinner2.getSelectedItemPosition()));
-        colors.add(colorValues.get(spinner3.getSelectedItemPosition()));
+        colors.add(colorPickButton1.GetColor());
+        colors.add(colorPickButton2.GetColor());
+        colors.add(colorPickButton3.GetColor());
 
-        GameSettings gs = new GameSettings(colors, (int)speed.getSpeed(), calibration.GetMinVolume(),calibration.GetMaxVolume());
+        GameSettings gs = new GameSettings(colors, (int) speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume());
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("GameSettings", gs);
