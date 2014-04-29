@@ -187,7 +187,7 @@ public class GameScreen extends Screen {
         car.Update(touchEvents, deltaTime);
         car.x += speed * (deltaTime / 1000.0f);
 
-        averageMoveTo.Add(carControl.getMove(touchEvents));
+        averageMoveTo.Add(1 - carControl.getMove(touchEvents));
         float moveTo = averageMoveTo.GetAverage() * (game.getHeight() - grassSize * 2) - car.height / 2 + grassSize;
 
         Log.d("position", moveTo + "p " + car.y);
