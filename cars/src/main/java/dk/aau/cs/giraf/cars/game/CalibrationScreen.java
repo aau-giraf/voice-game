@@ -12,9 +12,6 @@ import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.OverlayButton;
 
 public class CalibrationScreen extends Screen {
-
-    enum RecordingState {Loud, Silence, None}
-
     public VolumeCarControl control;
     private OverlayButton loud;
     private OverlayButton silence;
@@ -22,7 +19,6 @@ public class CalibrationScreen extends Screen {
 
     private double highest_recorded_vol = 0.0;
     private ArrayList<Float> volumes = new ArrayList<Float>();
-    private RecordingState recordingState = RecordingState.None;
 
     public CalibrationScreen(GameFragment game, VolumeCarControl control) {
         super(game);
@@ -40,40 +36,21 @@ public class CalibrationScreen extends Screen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         loud.Update(touchEvents, deltaTime);
         silence.Update(touchEvents, deltaTime);
+
         if (loud.IsButtonPressed(touchEvents)) {
             float avg = getAverageValueOfList(volumes);
-            Log.d("avgmax", avg + "");
             control.setMaxAmplitude(avg);
             volumes.clear();
-            recordingState = RecordingState.None;
             return;
         } else if (silence.IsButtonPressed(touchEvents)) {
             float avg = getAverageValueOfList(volumes);
-            Log.d("avgmin", avg + "");
             control.setMinAmplitude(avg);
             volumes.clear();
-            recordingState = RecordingState.None;
             return;
         }
-
-        switch (recordingState) {
-            case Loud:
-            case Silence:
-                float vol = control.getAmplitude();
-                if (vol > 0.0)
-                    volumes.add(vol);
-                break;
-            case None:
-            default:
-                break;
-        }
-
-        if (loud.IsPressed())
-            recordingState = RecordingState.Loud;
-        else if (silence.IsPressed())
-            recordingState = RecordingState.Silence;
-        else
-            recordingState = RecordingState.None;
+        float vol = control.getAmplitude();
+        if (vol > 0.0)
+            volumes.add(vol);
     }
 
     @Override
