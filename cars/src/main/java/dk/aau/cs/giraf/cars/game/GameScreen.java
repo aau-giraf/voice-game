@@ -64,7 +64,8 @@ public class GameScreen extends Screen {
         this.car.showValue = true;
         ResetCar();
 
-        this.carControl = new VolumeCarControl(gs.GetMinVolume(), gs.GetMaxVolume(), game.getHeight() - 2 * grassSize);//new TouchCarControl(game.getHeight());
+        this.carControl = new VolumeCarControl(gs.GetMinVolume(), gs.GetMaxVolume());
+        //this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize);
         this.speed = gs.GetSpeed();
 
         this.obstacles = new ArrayList<Obstacle>();
@@ -187,7 +188,7 @@ public class GameScreen extends Screen {
         car.x += speed * (deltaTime / 1000.0f);
 
         averageMoveTo.Add(carControl.getMove(touchEvents));
-        float moveTo = averageMoveTo.GetAverage() - car.height / 2;
+        float moveTo = averageMoveTo.GetAverage() * (game.getHeight() - grassSize * 2) - car.height / 2 + grassSize;
 
         Log.d("position", moveTo + "p " + car.y);
         float verticalMove = 0;
@@ -197,10 +198,10 @@ public class GameScreen extends Screen {
 
         if (car.y < moveTo) {
             verticalMove = pixelsPerSecond * (deltaTime / 1000.0f);
-            car.y = car.y + verticalMove > moveTo ? moveTo : car.y + verticalMove;
+            car.y = (car.y + verticalMove) > moveTo ? moveTo : (car.y + verticalMove);
         } else if (car.y > moveTo) {
             verticalMove = -pixelsPerSecond * (deltaTime / 1000.0f);
-            car.y = car.y - verticalMove < moveTo ? moveTo : car.y - verticalMove;
+            car.y = (car.y + verticalMove) < moveTo ? moveTo : (car.y + verticalMove);
         }
 
         Log.d("vertical", verticalMove + "");
