@@ -204,11 +204,9 @@ public class GameScreen extends Screen {
             car.y = (car.y + verticalMove) < moveTo ? moveTo : (car.y + verticalMove);
         }
 
-        Log.d("vertical", verticalMove + "");
         if (car.y < grassSize) car.y = grassSize;
         if (car.y > game.getHeight() - car.height - grassSize)
             car.y = game.getHeight() - car.height - grassSize;
-
 
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(touchEvents, deltaTime);
@@ -219,7 +217,6 @@ public class GameScreen extends Screen {
             }
         }
 
-
         for (Garage garage : garages) {
             garage.Update(touchEvents, deltaTime);
             if (garage.CollidesWith(car) && garage.color != car.color) {
@@ -228,7 +225,6 @@ public class GameScreen extends Screen {
                 return;
             } else {
                 if (car.color == garage.color && car.GetBounds().left > garage.GetBounds().left) {
-                    Log.d("garage", "close");
                     garage.Close();
                     state = GameState.Closing;
                 }
