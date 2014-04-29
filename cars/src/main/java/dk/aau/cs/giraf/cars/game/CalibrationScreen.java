@@ -20,10 +20,16 @@ public class CalibrationScreen extends Screen {
     private double highest_recorded_vol = 0.0;
     private ArrayList<Float> volumes = new ArrayList<Float>();
 
+    private int readstate;
+    private final int NOT_READING = 0;
+    private final int READING_LOW = 1;
+    private final int READING_HIGH = 2;
+
     public CalibrationScreen(GameFragment game, VolumeCarControl control) {
         super(game);
 
         this.control = control;
+        this.readstate = NOT_READING;
 
         loud = new OverlayButton(20, 100, Color.BLUE, Color.YELLOW, "HØJ", Paint.Align.LEFT);
         silence = new OverlayButton(20, 260, Color.BLUE, Color.YELLOW, "LAV", Paint.Align.LEFT);
@@ -37,20 +43,22 @@ public class CalibrationScreen extends Screen {
         loud.Update(touchEvents, deltaTime);
         silence.Update(touchEvents, deltaTime);
 
-        if (loud.IsButtonPressed(touchEvents)) {
+        int newstate = loud.IsPressed() ? READING_HIGH : silence.IsPressed() ? READING_LOW : NOT_READING;
+        if(newstate == 0 && readstate > 0){
+            //Store average
             float avg = getAverageValueOfList(volumes);
-            control.setMaxAmplitude(avg);
             volumes.clear();
-            return;
-        } else if (silence.IsButtonPressed(touchEvents)) {
-            float avg = getAverageValueOfList(volumes);
-            control.setMinAmplitude(avg);
-            volumes.clear();
-            return;
+            if(readstate == READING_HIGH)
+                control.setMaxAmplitude(avg);
+            else
+                control.setMinAmplitude(avg);
         }
-        float vol = control.getAmplitude();
-        if (vol > 0.0)
-            volumes.add(vol);
+        else if(newstate > 0 && newstate == readstate){
+            float vol = control.getAmplitude();
+            if (vol > 0.0)
+                volumes.add(vol);
+        }
+        readstate = newstate;
     }
 
     @Override
