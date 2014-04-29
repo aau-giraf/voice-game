@@ -59,7 +59,7 @@ public class GameScreen extends Screen {
         colors = (LinkedList<Integer>) gs.GetColors().clone();
         Collections.shuffle(colors);
 
-        this.averageMoveTo = new AverageList(5);
+        this.averageMoveTo = new AverageList(10);
         this.car = new Car(0, 0, 200, 99);
         this.car.showValue = true;
         ResetCar();
