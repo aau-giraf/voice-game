@@ -13,10 +13,10 @@ import dk.aau.cs.giraf.cars.game.CalibrationFragment;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.SpeedFragment;
 import dk.aau.cs.giraf.gui.GColorPicker;
-import dk.aau.cs.giraf.oasis.lib.models.Setting;
 
 public class Settings extends Activity {
     GameSettings gamesettings;
+    int child_id;
 
     ArrayList<Integer> colorValues = new ArrayList<Integer>() {{
         add(Color.RED);
@@ -38,8 +38,11 @@ public class Settings extends Activity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        if (intent.hasExtra("GameSettings"))
-            gamesettings = intent.getParcelableExtra("GameSettings");
+        if (intent.hasExtra(DatabaseHelper.SETTINGS))
+            gamesettings = intent.getParcelableExtra(DatabaseHelper.SETTINGS);
+
+        if(intent.hasExtra(DatabaseHelper.CHILD_ID))
+            child_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, 0);
 
         setContentView(R.layout.activity_settings);
 
@@ -80,6 +83,10 @@ public class Settings extends Activity {
         colors.add(colorPickButton3.GetColor());
 
         GameSettings gs = new GameSettings(colors, (int) speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume());
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        databaseHelper.Initialize(child_id);
+        databaseHelper.SaveSettings(gs);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("GameSettings", gs);

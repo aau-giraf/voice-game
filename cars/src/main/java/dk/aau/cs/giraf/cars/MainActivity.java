@@ -3,10 +3,12 @@ package dk.aau.cs.giraf.cars;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import dk.aau.cs.giraf.cars.game.CarGame;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.MapEditor;
+import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.controllers.ApplicationController;
 import dk.aau.cs.giraf.oasis.lib.controllers.ProfileApplicationController;
 import dk.aau.cs.giraf.oasis.lib.controllers.ProfileController;
@@ -22,7 +24,7 @@ import java.util.Map;
 public class MainActivity extends Activity {
 
     private final static int SETTINGS_IDENTIFIER = 0;
-    public static final String CHILD_ID = "currentChildID";
+
 
     GameSettings gamesettings;
     int child_id;
@@ -33,33 +35,41 @@ public class MainActivity extends Activity {
 
         Intent intent = getIntent();
 
-        if(intent.hasExtra(CHILD_ID))
-            child_id = intent.getIntExtra(CHILD_ID,0);
+        Helper h = new Helper(this);
+        h.CreateDummyData();
 
-        DatabaseHelper database = new DatabaseHelper(this,child_id);
-        gamesettings = database.ParseSettings(database.GetSettings());
+        DatabaseHelper database = new DatabaseHelper(this.getApplication());
+
+        child_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, database.GetDefaultChild());
+
+
+
+        Log.d("database", Integer.toString(child_id));
+
+        database.Initialize(child_id);
+
+        gamesettings = database.GetGameSettings();
 
         setContentView(R.layout.activity_main_menu);
     }
 
 
-
-    public void startGame(View view)
-    {
-        Intent intent =  new Intent(this, CarGame.class);
+    public void startGame(View view) {
+        Intent intent = new Intent(this, CarGame.class);
         intent.putExtra("GameSettings", gamesettings);
         startActivity(intent);
     }
 
-    public void startMapEditor(View view){
+    public void startMapEditor(View view) {
         Intent intent = new Intent(this, MapEditor.class);
         startActivity(intent);
     }
 
-    public void showSettings(View view)
-    {
-        Intent intent =  new Intent(this, Settings.class);
-        intent.putExtra("gamesettings",gamesettings);
+    public void showSettings(View view) {
+        Intent intent = new Intent(this, Settings.class);
+        intent.putExtra(DatabaseHelper.SETTINGS, gamesettings);
+        intent.putExtra(DatabaseHelper.CHILD_ID, child_id);
+
         startActivityForResult(intent, SETTINGS_IDENTIFIER);
     }
 
@@ -68,7 +78,7 @@ public class MainActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
-            case (SETTINGS_IDENTIFIER) : {
+            case (SETTINGS_IDENTIFIER): {
                 if (resultCode == Activity.RESULT_OK)
                     gamesettings = data.getParcelableExtra("GameSettings");
                 break;
