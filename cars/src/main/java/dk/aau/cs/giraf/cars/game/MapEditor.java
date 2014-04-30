@@ -1,19 +1,49 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
+import dk.aau.cs.giraf.cars.framework.FastRenderView;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
+import dk.aau.cs.giraf.gui.GButtonTrash;
 
-public class MapEditor extends CarsActivity {
+public class MapEditor extends CarsActivity implements View.OnClickListener{
+    private boolean delete = false;
     @Override
     public Screen getFirstScreen() {
         return new MapScreen(this);
+    }
+
+    @Override
+    public View getContentView(FastRenderView renderview) {
+        FrameLayout frameLayout = new FrameLayout(this);
+        LinearLayout linearLayout = new LinearLayout(this);
+
+        GButtonTrash trashButton = new GButtonTrash(this);
+        trashButton.setY(5);
+        trashButton.setX(5);
+        trashButton.setOnClickListener(this);
+
+        linearLayout.addView(trashButton);
+
+        frameLayout.addView(renderview);
+        frameLayout.addView(linearLayout);
+
+        return frameLayout;
+    }
+
+    public void onClick(View v)
+    {
+        delete=true;
     }
 
     private class MapScreen extends SettingsScreen {
@@ -62,6 +92,10 @@ public class MapEditor extends CarsActivity {
 
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
+            if (delete) {
+                obstacles.clear();
+                delete=false;
+            }
             for (Input.TouchEvent e : touchEvents) {
                 if (e.type == Input.TouchEvent.TOUCH_DOWN && e.x < animationZoneX && e.y > grassSize && e.y < game.getHeight()-grassSize) {
                     Obstacle rem = null;
