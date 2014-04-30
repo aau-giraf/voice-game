@@ -1,20 +1,49 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
+import dk.aau.cs.giraf.cars.framework.FastRenderView;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
-import dk.aau.cs.giraf.cars.game.Overlay.OverlayButton;
+import dk.aau.cs.giraf.gui.GButtonTrash;
 
-public class MapEditor extends CarsActivity {
+public class MapEditor extends CarsActivity implements View.OnClickListener{
+    private boolean delete = false;
     @Override
     public Screen getFirstScreen() {
         return new MapScreen(this);
+    }
+
+    @Override
+    public View getContentView(FastRenderView renderview) {
+        FrameLayout frameLayout = new FrameLayout(this);
+        LinearLayout linearLayout = new LinearLayout(this);
+
+        GButtonTrash trashButton = new GButtonTrash(this);
+        trashButton.setY(5);
+        trashButton.setX(5);
+        trashButton.setOnClickListener(this);
+
+        linearLayout.addView(trashButton);
+
+        frameLayout.addView(renderview);
+        frameLayout.addView(linearLayout);
+
+        return frameLayout;
+    }
+
+    public void onClick(View v)
+    {
+        delete=true;
     }
 
     private class MapScreen extends SettingsScreen {
@@ -23,10 +52,8 @@ public class MapEditor extends CarsActivity {
         private final int amountOfGarages = 3;
         private final int OBSTACLE_SIZE = 100;
         private final float animationZoneSize = 100;
-        private final float clearButtonTextSize = 40;
         private SharedPreferences mapPreferences;
         private float animationZoneX;
-        private OverlayButton clearButton;
 
         private ArrayList<Obstacle> obstacles;
         private ArrayList<Garage> garages;
@@ -52,13 +79,11 @@ public class MapEditor extends CarsActivity {
             }
 
             this.animationZoneX = garages.get(0).x - animationZoneSize;
-            this.clearButton = new OverlayButton(game.getWidth()/2,game.getHeight()-grassSize/2,"Fjern alle",clearButtonTextSize);
         }
 
         @Override
         public void paint(Graphics graphics, float deltaTime) {
             super.paint(graphics, deltaTime);
-            clearButton.Draw(graphics,deltaTime);
             for (Obstacle o : obstacles)
                 o.Draw(graphics, deltaTime);
             for (Garage g : garages)
@@ -67,9 +92,13 @@ public class MapEditor extends CarsActivity {
 
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
-            clearButton.Update(touchEvents,deltaTime);
-            if (clearButton.IsButtonPressed(touchEvents))
+            if (delete) {
                 obstacles.clear();
+                SharedPreferences.Editor editor = mapPreferences.edit();
+                editor.clear();
+                editor.commit();
+                delete=false;
+            }
             for (Input.TouchEvent e : touchEvents) {
                 if (e.type == Input.TouchEvent.TOUCH_DOWN && e.x < animationZoneX && e.y > grassSize && e.y < game.getHeight()-grassSize) {
                     Obstacle rem = null;
@@ -126,7 +155,6 @@ public class MapEditor extends CarsActivity {
 
         @Override
         public void backButton() {
-
         }
     }
 }
