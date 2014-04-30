@@ -1,32 +1,26 @@
 package dk.aau.cs.giraf.cars.game.Controller;
 
-import android.util.Log;
-
-import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Input;
-import dk.aau.cs.giraf.cars.game.Car;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 
 
 public class TouchCarControl implements CarControl {
     private int lastMove;
-    private int height;
+    private final int height;
+    private final int offset;
 
-
-    public TouchCarControl(int height) {
-
+    public TouchCarControl(int height, int offset) {
         this.height = height;
+        this.offset = offset;
         lastMove = height;
     }
 
-
     public float getMove(Input.TouchEvent[] touchEvents) {
-
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN || e.type == Input.TouchEvent.TOUCH_DRAGGED)
-                lastMove = e.y;
+                lastMove = 1 - ((e.y - offset) / height);
             else if (e.type == Input.TouchEvent.TOUCH_UP)
-                lastMove = height;
+                lastMove = 0;
 
         return lastMove;
     }
@@ -39,9 +33,5 @@ public class TouchCarControl implements CarControl {
     @Override
     public int getBarometerNumber(float y, float height) {
         return Math.round(10 - (y / (height / 10)));
-    }
-
-    private boolean inBounds(Input.TouchEvent event, int x, int y, int width, int height) {
-        return event.x > x && event.x < x + width - 1 && event.y > y && event.y < y + height - 1;
     }
 }

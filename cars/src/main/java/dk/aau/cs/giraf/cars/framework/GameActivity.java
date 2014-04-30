@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -55,7 +56,11 @@ public abstract class GameActivity extends Activity implements Game {
         fileIO = new FileIO(this);
         audio = new Audio(this);
         screen = getInitScreen();
-        setContentView(renderView);
+        setContentView(getContentView(renderView));
+    }
+
+    public View getContentView(FastRenderView renderview){
+        return renderview;
     }
 
     @Override
