@@ -35,9 +35,6 @@ public class MainActivity extends Activity {
 
         Intent intent = getIntent();
 
-        Helper h = new Helper(this);
-        h.CreateDummyData();
-
         DatabaseHelper database = new DatabaseHelper(this.getApplication());
 
         child_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, database.GetDefaultChild());
