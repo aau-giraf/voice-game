@@ -94,6 +94,9 @@ public class MapEditor extends CarsActivity implements View.OnClickListener{
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
             if (delete) {
                 obstacles.clear();
+                SharedPreferences.Editor editor = mapPreferences.edit();
+                editor.clear();
+                editor.commit();
                 delete=false;
             }
             for (Input.TouchEvent e : touchEvents) {
@@ -152,7 +155,6 @@ public class MapEditor extends CarsActivity implements View.OnClickListener{
 
         @Override
         public void backButton() {
-
         }
     }
 }
