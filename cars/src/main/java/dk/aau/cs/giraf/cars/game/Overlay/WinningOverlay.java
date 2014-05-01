@@ -58,10 +58,10 @@ public class WinningOverlay extends Overlay {
     public GameState Update(Input.TouchEvent[] touchEvents, float deltaTime) {
         carControl.Reset();
         super.Update(touchEvents, deltaTime);
-        if (ResetButtonPressed(touchEvents)) {
+        if (ResetButtonPressed()) {
             game.setScreen(new GameScreen((GameActivity) game, new TestObstacles(), gameSettings));
             return GameState.Running;
-        } else if (MenuButtonPressed(touchEvents)) {
+        } else if (MenuButtonPressed()) {
             ((GameActivity) game).finish();
         }
         return GameState.Won;

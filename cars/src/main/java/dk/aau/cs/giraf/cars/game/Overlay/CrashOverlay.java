@@ -7,6 +7,7 @@ import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.cars.framework.mFloat;
 import dk.aau.cs.giraf.cars.game.Assets;
 import dk.aau.cs.giraf.cars.game.Car;
 import dk.aau.cs.giraf.cars.game.GameState;
@@ -20,13 +21,15 @@ public class CrashOverlay extends Overlay {
     private Car car;
     private Game game;
     private float grassSize;
+    private mFloat verticalMover;
 
     public void setLastCrash(Point p) {
         lastCrash.offsetTo(p.x, p.y);
         lastCrash.offset(-lastCrash.width() / 2, -lastCrash.height() / 2);
     }
 
-    public CrashOverlay(Game game, CarControl carControl, Car car, float grassSize) {
+    public CrashOverlay(Game game, CarControl carControl, Car car, float grassSize, mFloat verticalMover) {
+        this.verticalMover = verticalMover;
         this.grassSize = grassSize;
         this.game = game;
         this.car = car;
@@ -38,7 +41,7 @@ public class CrashOverlay extends Overlay {
         this.explosionRect = new Rect(0, 0, Assets.GetExplosion().getWidth(), Assets.GetExplosion().getHeight());
     }
 
-    public boolean ContinueButtonPressed() {
+    private boolean continueButtonPressed() {
         return continueButton.IsPressed();
     }
 
@@ -54,8 +57,8 @@ public class CrashOverlay extends Overlay {
         //carControl.Reset();
         super.Update(touchEvents,deltaTime);
 
-        if (continueButtonPressed(touchEvents)) {
-            car.ResetCar(game.getHeight(),grassSize);
+        if (continueButtonPressed()) {
+            car.ResetCar(game.getHeight(),grassSize,verticalMover);
             return GameState.Running;
         }
         return GameState.Crashed;

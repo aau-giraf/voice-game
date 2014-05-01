@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Image;
 import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.cars.framework.mFloat;
 
 public class Car extends GameItem {
     private Paint paint;
@@ -55,10 +56,11 @@ public class Car extends GameItem {
 
     }
 
-    public Car ResetCar(float gameHeight, float grassSize)
+    public Car ResetCar(float gameHeight, float grassSize, mFloat verticalMover)
     {
         x=-width;
         y=gameHeight - grassSize - height / 2;
+        verticalMover.setCurrentValue(y);
         return this;
     }
 }

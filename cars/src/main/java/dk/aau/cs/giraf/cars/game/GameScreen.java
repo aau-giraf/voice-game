@@ -29,7 +29,6 @@ public class GameScreen extends Screen {
     private final int grassSize = 70;
     private final float garageSize = 250;
     private final float animationZoneSize = 100;
-    private final AverageList averageMoveTo;
     private GameSettings gameSettings;
     private CarControl carControl;
     private Car car;
@@ -61,8 +60,8 @@ public class GameScreen extends Screen {
 
         this.car = new Car(0, 0, 200, 99);
         this.car.showValue = true;
-        crashedOverlay = new CrashOverlay(game,carControl,car,grassSize);
-        car.ResetCar(game.getHeight(),grassSize);
+        crashedOverlay = new CrashOverlay(game,carControl,car,grassSize,verticalMover);
+        car.ResetCar(game.getHeight(),grassSize,verticalMover);
 
         //this.carControl = new VolumeCarControl(gs.GetMinVolume(), gs.GetMaxVolume());
         this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize - (int)car.height, grassSize + (int)car.height / 2);
@@ -217,7 +216,7 @@ public class GameScreen extends Screen {
         boolean newColor = ResetCarColor();
 
         if (newColor)
-            car.ResetCar(game.getHeight(),grassSize);
+            car.ResetCar(game.getHeight(),grassSize,verticalMover);
     }
 
     private boolean ResetCarColor() {
