@@ -3,7 +3,6 @@ package dk.aau.cs.giraf.cars.game;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import java.util.*;
@@ -13,7 +12,6 @@ import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.Screen;
-import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
 import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
@@ -28,7 +26,6 @@ public class GameScreen extends Screen {
     private final int grassSize = 70;
     private final float garageSize = 250;
     private final float animationZoneSize = 100;
-    private final float buffer = 4;
     private final AverageList averageMoveTo;
     private GameSettings gameSettings;
     private CarControl carControl;
@@ -50,8 +47,6 @@ public class GameScreen extends Screen {
     private CrashOverlay crashedOverlay;
     private PauseOverlay pauseOverlay;
 
-    private Garage closingGarage = null;
-
     public GameScreen(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
 
@@ -62,7 +57,8 @@ public class GameScreen extends Screen {
         this.averageMoveTo = new AverageList(10);
         this.car = new Car(0, 0, 200, 99);
         this.car.showValue = true;
-        ResetCar();
+        crashedOverlay = new CrashOverlay(game,carControl,car,grassSize);
+        car = crashedOverlay.ResetCar();
 
         this.carControl = new VolumeCarControl(gs.GetMinVolume(), gs.GetMaxVolume());
         //this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize);
@@ -93,7 +89,7 @@ public class GameScreen extends Screen {
                 game.getResources().getString(R.string.play_again_button_text),
                 game.getResources().getString(R.string.menu_button_text));
         startOverlay = new StartOverlay(startingSeconds, game.getResources().getString(R.string.countdown_drive));
-        crashedOverlay = new CrashOverlay(game);
+
         pauseOverlay = new PauseOverlay((int) car.x, grassSize, game.getHeight() - 2 * grassSize, game.getWidth());
     }
 
@@ -107,7 +103,7 @@ public class GameScreen extends Screen {
         else if (state == GameState.Paused)
             updatePaused(touchEvents);
         else if (state == GameState.Crashed)
-            updateCrashed(touchEvents, deltaTime);
+            state = crashedOverlay.Update(touchEvents,deltaTime);
         else if (state == GameState.Won)
             updateWon(touchEvents, deltaTime);
         else if (state == GameState.Closing) {
@@ -146,15 +142,6 @@ public class GameScreen extends Screen {
             state = GameState.Running;
         } else if (winningOverlay.MenuButtonPressed(touchEvents)) {
             ((GameActivity) game).finish();
-        }
-    }
-
-    private void updateCrashed(Input.TouchEvent[] touchEvents, float deltaTime) {
-        carControl.Reset();
-        crashedOverlay.Update(touchEvents, deltaTime);
-        if (crashedOverlay.ContinueButtonPressed(touchEvents)) {
-            ResetCar();
-            state = GameState.Running;
         }
     }
 
@@ -247,7 +234,7 @@ public class GameScreen extends Screen {
         boolean newColor = ResetCarColor();
 
         if (newColor)
-            ResetCar();
+            car = crashedOverlay.ResetCar();
     }
 
     private boolean ResetCarColor() {
