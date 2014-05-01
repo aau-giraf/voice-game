@@ -51,6 +51,7 @@ public class CrashOverlay extends Overlay {
 
     @Override
     public GameState Update(Input.TouchEvent[] touchEvents, float deltaTime) {
+        //carControl.Reset();
         super.Update(touchEvents,deltaTime);
 
         if (continueButtonPressed(touchEvents)) {
