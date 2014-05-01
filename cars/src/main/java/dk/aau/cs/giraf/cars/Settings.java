@@ -1,17 +1,10 @@
 package dk.aau.cs.giraf.cars;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -21,17 +14,9 @@ import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.SpeedFragment;
 import dk.aau.cs.giraf.gui.GColorPicker;
 
-
 public class Settings extends Activity {
     GameSettings gamesettings;
-
-    ArrayList<Integer> colorValues = new ArrayList<Integer>() {{
-        add(Color.RED);
-        add(Color.GREEN);
-        add(Color.MAGENTA);
-        add(Color.BLUE);
-        add(Color.YELLOW);
-    }};
+    int child_id;
 
     ColorButton colorPickButton1;
     ColorButton colorPickButton2;
@@ -45,8 +30,11 @@ public class Settings extends Activity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        if (intent.hasExtra("GameSettings"))
-            gamesettings = intent.getParcelableExtra("GameSettings");
+        if (intent.hasExtra(DatabaseHelper.SETTINGS))
+            gamesettings = intent.getParcelableExtra(DatabaseHelper.SETTINGS);
+
+        if(intent.hasExtra(DatabaseHelper.CHILD_ID))
+            child_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, 0);
 
         setContentView(R.layout.activity_settings);
 
@@ -86,11 +74,19 @@ public class Settings extends Activity {
         colors.add(colorPickButton2.GetColor());
         colors.add(colorPickButton3.GetColor());
 
-        GameSettings gs = new GameSettings(colors, (int) speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume());
+        GameSettings gs = new GameSettings(colors, speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume());
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        databaseHelper.Initialize(child_id);
+        databaseHelper.SaveSettings(gs);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("GameSettings", gs);
         setResult(Activity.RESULT_OK, intent);
         this.finish();
     }
+
+
+
+
 }

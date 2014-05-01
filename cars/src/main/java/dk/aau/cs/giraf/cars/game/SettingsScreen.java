@@ -7,15 +7,23 @@ import dk.aau.cs.giraf.cars.framework.Screen;
 public abstract class SettingsScreen extends Screen {
     private Car car;
     private int grassSize;
+    private int gameWidth;
+    private int gameHeight;
 
     public SettingsScreen(Game game) {
         this(game, 70);
     }
 
     public SettingsScreen(Game game, int grassSize) {
+        this(game, grassSize, game.getWidth(), game.getHeight());
+    }
+
+    public SettingsScreen(Game game, int grassSize, int gameWidth, int gameHeight) {
         super(game);
         this.car = new Car(0, 0, 200, 99);
         this.grassSize = grassSize;
+        this.gameWidth = gameWidth;
+        this.gameHeight = gameHeight;
     }
 
     public void setCarPosition(float x, float y) {
@@ -30,10 +38,10 @@ public abstract class SettingsScreen extends Screen {
     }
 
     public void setCarXToCenter(){
-        car.x = (game.getWidth() - car.width) / 2f;
+        car.x = (gameWidth - car.width) / 2f;
     }
     public void setCarYToCenter(){
-        car.y = (game.getHeight() - car.height) / 2f;
+        car.y = (gameHeight - car.height) / 2f;
     }
 
     public float getCarX() {
@@ -52,12 +60,12 @@ public abstract class SettingsScreen extends Screen {
 
     @Override
     public void paint(Graphics graphics, float deltaTime) {
-        graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
-        graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, game.getWidth(), game.getHeight() - grassSize * 2);
+        graphics.fillImageTexture(Assets.GetGrass(), 0, 0, gameWidth, gameHeight);
+        graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, gameWidth, gameHeight - grassSize * 2);
 
-        for (int i = 0; i < game.getWidth(); i += 10) {
+        for (int i = 0; i < gameWidth; i += 10) {
             graphics.drawImage(Assets.getBorder(), i, grassSize - 19, 0, 0, 10, 25);
-            graphics.drawImage(Assets.getBorder(), i, game.getHeight() - grassSize - 6, 0, 25, 10, 25);
+            graphics.drawImage(Assets.getBorder(), i, gameHeight - grassSize - 6, 0, 25, 10, 25);
         }
 
         car.Draw(graphics, deltaTime);
