@@ -8,6 +8,7 @@ import android.util.Log;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Assets;
+import dk.aau.cs.giraf.cars.game.Car;
 import dk.aau.cs.giraf.cars.game.GameState;
 
 public class PauseOverlay extends Overlay {
@@ -16,20 +17,20 @@ public class PauseOverlay extends Overlay {
     private Rect image = new Rect(0, 0, Assets.GetPlayButton().getWidth(), Assets.GetPlayButton().getHeight());
     private int y, height, width;
     private float x;
+    private Car car;
     private final int scaleWidth = 100;
     private final int scaleSize = 11;
-    private float carX;
 
-    public PauseOverlay(float x, int y, int height, int width, float carX) {
+    public PauseOverlay(float x, int y, int height, int width, Car car) {
+        this.car = car;
         this.x = x;
         this.y = y;
         this.height = height;
         this.width = width;
-        this.carX = carX;
     }
 
-    public boolean pauseButtonPressed(Input.TouchEvent[] touchEvents, float carX) {
-        this.x = carX;
+    private boolean pauseButtonPressed(Input.TouchEvent[] touchEvents) {
+        this.x = car.getX();
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN)
                 if (e.inBounds( playButtonSize)) {
@@ -69,7 +70,7 @@ public class PauseOverlay extends Overlay {
 
     @Override
     public GameState Update(Input.TouchEvent[] touchEvents, float deltaTime) {
-        if (pauseButtonPressed(touchEvents, carX))
+        if (pauseButtonPressed(touchEvents))
             return GameState.Paused;
         return GameState.Running;
     }
