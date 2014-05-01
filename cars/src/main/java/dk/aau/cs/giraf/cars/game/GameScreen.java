@@ -66,7 +66,7 @@ public class GameScreen extends Screen {
         ResetCar();
 
         //this.carControl = new VolumeCarControl(gs.GetMinVolume(), gs.GetMaxVolume());
-        this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize, grassSize);
+        this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize - (int)car.height, grassSize + (int)car.height / 2);
         this.speed = gs.GetSpeed();
 
         this.obstacles = new ArrayList<Obstacle>();
@@ -189,8 +189,7 @@ public class GameScreen extends Screen {
         car.x += speed * (deltaTime / 1000.0f);
 
         float moveTo = 1f - carControl.getMove(touchEvents);
-        moveTo *= (game.getHeight() - grassSize * 2);
-        moveTo -= car.height / 2f;
+        moveTo *= (game.getHeight() - grassSize * 2 - car.height);
         moveTo += grassSize;
 
         if (car.x + car.width >= animationZoneX)
