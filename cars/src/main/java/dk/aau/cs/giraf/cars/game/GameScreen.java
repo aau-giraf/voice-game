@@ -90,7 +90,7 @@ public class GameScreen extends Screen {
                 game.getResources().getString(R.string.menu_button_text));
         startOverlay = new StartOverlay(startingSeconds, game.getResources().getString(R.string.countdown_drive));
 
-        pauseOverlay = new PauseOverlay((int) car.x, grassSize, game.getHeight() - 2 * grassSize, game.getWidth());
+        pauseOverlay = new PauseOverlay((int) car.x, grassSize, game.getHeight() - 2 * grassSize, game.getWidth(),car.x);
     }
 
 
@@ -101,7 +101,7 @@ public class GameScreen extends Screen {
         else if (state == GameState.Running)
             updateRunning(touchEvents, deltaTime);
         else if (state == GameState.Paused)
-            updatePaused(touchEvents);
+            state = pauseOverlay.Update(touchEvents,deltaTime);
         else if (state == GameState.Crashed)
             state = crashedOverlay.Update(touchEvents,deltaTime);
         else if (state == GameState.Won)
@@ -127,12 +127,6 @@ public class GameScreen extends Screen {
 
     }
 
-    private void updatePaused(Input.TouchEvent[] touchEvents) {
-        if (pauseOverlay.pauseButtonPressed(touchEvents, car.x))
-            state = GameState.Paused;
-        else
-            state = GameState.Running;
-    }
 
     private void updateWon(Input.TouchEvent[] touchEvents, float deltaTime) {
         carControl.Reset();
