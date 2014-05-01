@@ -18,14 +18,6 @@ public class Settings extends Activity {
     GameSettings gamesettings;
     int child_id;
 
-    ArrayList<Integer> colorValues = new ArrayList<Integer>() {{
-        add(Color.RED);
-        add(Color.GREEN);
-        add(Color.MAGENTA);
-        add(Color.BLUE);
-        add(Color.YELLOW);
-    }};
-
     ColorButton colorPickButton1;
     ColorButton colorPickButton2;
     ColorButton colorPickButton3;
@@ -82,7 +74,7 @@ public class Settings extends Activity {
         colors.add(colorPickButton2.GetColor());
         colors.add(colorPickButton3.GetColor());
 
-        GameSettings gs = new GameSettings(colors, (int) speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume());
+        GameSettings gs = new GameSettings(colors, speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume());
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         databaseHelper.Initialize(child_id);

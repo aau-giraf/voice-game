@@ -1,8 +1,5 @@
 package dk.aau.cs.giraf.cars.game;
 
-import android.graphics.Color;
-import android.graphics.Paint;
-
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
@@ -10,7 +7,7 @@ import dk.aau.cs.giraf.cars.game.CarsGames.CarsFragment;
 
 public class SpeedFragment extends CarsFragment {
     private Screen screen = null;
-    private float INITIAL_SPEED = 100;
+    private float INITIAL_SPEED = 2.0f;
 
     @Override
     public Screen getFirstScreen() {
@@ -21,9 +18,11 @@ public class SpeedFragment extends CarsFragment {
     }
 
     public void setSpeed(float speed) {
+
         INITIAL_SPEED = speed;
-        if (screen != null)
+        if (screen != null) {
             screen.speed = speed;
+        }
     }
 
     public float getSpeed() {
@@ -32,49 +31,36 @@ public class SpeedFragment extends CarsFragment {
 
     private class Screen extends SettingsScreen {
         float speed;
-        private Paint paint;
-        private final float MINIMUM_SPEED = 10;
-        private final float MAXIMUM_SPEED = 1000;
-        private final float SPEED_STEP = 10;
-        private final int TOUCH_MARGIN = 150;
+        private final float MAX_SPEED = 10.0f;
+        private final int MAX_SPEED_PPS = 1000;
+        private final int GAUGE_MARGIN = 10;
+        private final int GAUGE_HEIGHT = 70;
+        private SpeedGauge gauge;
 
         public Screen(Game game, int grassSize) {
-            super(game, grassSize);
+            super(game, grassSize, game.getWidth(), 2 * grassSize + Assets.GetCar().getHeight());
+            int gameHeight = 2 * grassSize + Assets.GetCar().getHeight();
+            gauge = new SpeedGauge(GAUGE_MARGIN, gameHeight + GAUGE_MARGIN, game.getWidth() - 2 * GAUGE_MARGIN, GAUGE_HEIGHT);
+            gauge.SetSpeed(INITIAL_SPEED);
 
             setCarYToCenter();
             setCarX(-getCarWidth());
-
-            paint = new Paint();
-            paint.setTextSize(100);
-            paint.setTextAlign(Paint.Align.RIGHT);
-            paint.setAntiAlias(true);
-            paint.setColor(Color.WHITE);
         }
 
         @Override
         public void paint(Graphics graphics, float deltaTime) {
             super.paint(graphics, deltaTime);
-            graphics.drawString(String.valueOf(speed), graphics.getWidth(), graphics.getHeight(), paint);
+            gauge.Draw(graphics, deltaTime);
         }
 
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
-            for (int i = 0; i < touchEvents.length; i++) {
-                Input.TouchEvent event = touchEvents[i];
-                if (event.type == Input.TouchEvent.TOUCH_DRAGGED || event.type == Input.TouchEvent.TOUCH_DOWN) {
-                    if (event.x < TOUCH_MARGIN) {
-                        speed -= SPEED_STEP;
-                        if (speed < MINIMUM_SPEED) speed = MINIMUM_SPEED;
-                    }
-                    if (event.x > game.getWidth() - TOUCH_MARGIN) {
-                        speed += SPEED_STEP;
-                        if (speed > MAXIMUM_SPEED) speed = MAXIMUM_SPEED;
-                    }
-                }
-            }
+            gauge.Update(touchEvents, deltaTime);
 
+            speed = gauge.GetSpeed();
+            int speedInPPS = (int)((gauge.GetSpeed() / MAX_SPEED) * MAX_SPEED_PPS);
             float x = getCarX();
-            x += speed * (deltaTime / 1000.0f);
+            x += speedInPPS * (deltaTime / 1000.0f);
             if (x > game.getWidth())
                 x = -getCarWidth();
             setCarX(x);
