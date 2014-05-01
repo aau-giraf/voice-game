@@ -58,7 +58,7 @@ public class GameScreen extends Screen {
         this.car = new Car(0, 0, 200, 99);
         this.car.showValue = true;
         crashedOverlay = new CrashOverlay(game,carControl,car,grassSize);
-        car = crashedOverlay.ResetCar();
+        car.ResetCar(game.getHeight(),grassSize);
 
         this.carControl = new VolumeCarControl(gs.GetMinVolume(), gs.GetMaxVolume());
         //this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize);
@@ -234,7 +234,7 @@ public class GameScreen extends Screen {
         boolean newColor = ResetCarColor();
 
         if (newColor)
-            car = crashedOverlay.ResetCar();
+            car.ResetCar(game.getHeight(),grassSize);
     }
 
     private boolean ResetCarColor() {
