@@ -101,7 +101,7 @@ public class GameScreen extends Screen {
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         if (state == GameState.Starting)
-            updateStarting(touchEvents, deltaTime);
+            state = startOverlay.Update(touchEvents,deltaTime);
         else if (state == GameState.Running)
             updateRunning(touchEvents, deltaTime);
         else if (state == GameState.Paused)
@@ -114,11 +114,6 @@ public class GameScreen extends Screen {
             updateClosing(touchEvents, deltaTime);
             updateRunning(touchEvents, deltaTime);
         }
-    }
-
-    private void updateStarting(Input.TouchEvent[] touchEvents, float deltaTime) {
-        if (startOverlay.IsTimerDone(deltaTime))
-            state = GameState.Running;
     }
 
     private void updateClosing(Input.TouchEvent[] touchEvents, float deltaTime) {
@@ -269,10 +264,6 @@ public class GameScreen extends Screen {
             this.obstacles.add(o);
     }
 
-    private void ResetCar() {
-        car.x = -car.width;
-        this.car.y = game.getHeight() - grassSize - car.height / 2;
-    }
 
 
     @Override
