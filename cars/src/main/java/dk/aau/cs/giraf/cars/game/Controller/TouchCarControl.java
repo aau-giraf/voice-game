@@ -12,7 +12,7 @@ public class TouchCarControl implements CarControl {
     public TouchCarControl(int height, int offset) {
         this.height = height;
         this.offset = offset;
-        lastMove = height;
+        lastMove = 0;
     }
 
     public float getMove(Input.TouchEvent[] touchEvents) {
