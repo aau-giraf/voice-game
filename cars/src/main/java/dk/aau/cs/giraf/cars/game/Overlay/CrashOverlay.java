@@ -55,7 +55,7 @@ public class CrashOverlay extends Overlay {
 
         if (continueButtonPressed(touchEvents)) {
             car.ResetCar(game.getHeight(),grassSize);
-            return GameState.Starting;
+            return GameState.Running;
         }
         return GameState.Crashed;
     }
