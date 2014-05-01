@@ -9,6 +9,9 @@ import dk.aau.cs.giraf.cars.framework.Image;
 import dk.aau.cs.giraf.cars.framework.Input;
 
 public class Car extends GameItem {
+    public static final float MAX_PIXELSPERSECOND = 300f;
+    public static final float MAX_SCALE = 10f;
+
     private Paint paint;
     boolean showValue = false;
     int color;
