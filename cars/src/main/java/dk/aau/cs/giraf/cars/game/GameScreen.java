@@ -147,10 +147,10 @@ public class GameScreen extends Screen {
     private void updateWon(Input.TouchEvent[] touchEvents, float deltaTime) {
         carControl.Reset();
         winningOverlay.Update(touchEvents, deltaTime);
-        if (winningOverlay.ResetButtonPressed(touchEvents)) {
+        if (winningOverlay.ResetButtonPressed()) {
             game.setScreen(new GameScreen((GameActivity) game, new TestObstacles(), gameSettings));
             state = GameState.Running;
-        } else if (winningOverlay.MenuButtonPressed(touchEvents)) {
+        } else if (winningOverlay.MenuButtonPressed()) {
             ((GameActivity) game).finish();
         }
     }
@@ -158,7 +158,7 @@ public class GameScreen extends Screen {
     private void updateCrashed(Input.TouchEvent[] touchEvents, float deltaTime) {
         carControl.Reset();
         crashedOverlay.Update(touchEvents, deltaTime);
-        if (crashedOverlay.ContinueButtonPressed(touchEvents)) {
+        if (crashedOverlay.ContinueButtonPressed()) {
             ResetCar();
             state = GameState.Running;
         }

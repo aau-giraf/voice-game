@@ -22,12 +22,12 @@ public class WinningOverlay extends Overlay {
         Add(menuButton);
     }
 
-    public boolean ResetButtonPressed(Input.TouchEvent[] events) {
-        return resetButton.IsButtonPressed(events);
+    public boolean ResetButtonPressed() {
+        return resetButton.IsPressed();
     }
 
-    public boolean MenuButtonPressed(Input.TouchEvent[] events) {
-        return menuButton.IsButtonPressed(events);
+    public boolean MenuButtonPressed() {
+        return menuButton.IsPressed();
     }
 
     @Override
