@@ -51,19 +51,12 @@ public class CrashOverlay extends Overlay {
 
     @Override
     public GameState Update(Input.TouchEvent[] touchEvents, float deltaTime) {
-        //carControl.Reset();
         super.Update(touchEvents,deltaTime);
 
         if (continueButtonPressed(touchEvents)) {
-            ResetCar();
+            car.ResetCar(game.getHeight(),grassSize);
             return GameState.Starting;
         }
         return GameState.Crashed;
     }
-    public Car ResetCar() {
-        car.setX(-car.getWidth());
-        car.setY(game.getHeight() - grassSize - car.getHeight() / 2);
-        return car;
-    }
-
 }
