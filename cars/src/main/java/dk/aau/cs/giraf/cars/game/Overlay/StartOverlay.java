@@ -10,10 +10,12 @@ import dk.aau.cs.giraf.cars.game.GameState;
 public class StartOverlay extends Overlay {
     private float counterInMS;
     private float visualCounter;
+    private int seconds;
     private String driveMessage;
     private Paint pButton;
 
     public StartOverlay(int seconds, String driveMessage) {
+        this.seconds = seconds;
         pButton = new Paint();
 
         pButton.setTextSize(100);
@@ -22,7 +24,11 @@ public class StartOverlay extends Overlay {
         pButton.setColor(Color.WHITE);
 
         this.driveMessage = driveMessage;
+        resetCounters();
+    }
 
+    private void resetCounters()
+    {
         counterInMS = (seconds + 1) * 1000;
         visualCounter = seconds;
     }
@@ -30,8 +36,10 @@ public class StartOverlay extends Overlay {
     private boolean isTimerDone(float deltaTime) {
         counterInMS -= deltaTime;
 
-        if (counterInMS <= 0)
+        if (counterInMS <= 0) {
+            resetCounters();
             return true;
+        }
 
         if (counterInMS < visualCounter * 1000)
             visualCounter--;
