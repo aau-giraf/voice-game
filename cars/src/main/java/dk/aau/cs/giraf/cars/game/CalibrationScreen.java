@@ -44,7 +44,7 @@ public class CalibrationScreen extends Screen {
         silence.Update(touchEvents, deltaTime);
 
         int newstate = loud.IsPressed() ? READING_HIGH : silence.IsPressed() ? READING_LOW : NOT_READING;
-        if(newstate == 0 && readstate > 0){
+        if(newstate == NOT_READING && readstate != NOT_READING){
             //Store average
             float avg = getAverageValueOfList(volumes);
             volumes.clear();
@@ -53,7 +53,7 @@ public class CalibrationScreen extends Screen {
             else
                 control.setMinAmplitude(avg);
         }
-        else if(newstate > 0 && newstate == readstate){
+        else if(newstate != NOT_READING && newstate == readstate){
             float vol = control.getAmplitude();
             if (vol > 0.0)
                 volumes.add(vol);
