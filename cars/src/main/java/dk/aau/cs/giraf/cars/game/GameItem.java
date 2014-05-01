@@ -58,15 +58,6 @@ public abstract class GameItem implements GameObject {
         return height;
     }
 
-    public void setX(float x)
-    {
-        this.x=x;
-    }
-    public void setY(float y)
-    {
-        this.y=y;
-    }
-
 
     public abstract void Update(Input.TouchEvent[] touchEvents, float deltaTime);
 }
