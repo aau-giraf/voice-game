@@ -59,6 +59,8 @@ public class MainActivity extends Activity {
 
     public void startMapEditor(View view) {
         Intent intent = new Intent(this, MapEditor.class);
+        intent.putExtra(DatabaseHelper.SETTINGS, gamesettings);
+        intent.putExtra(DatabaseHelper.CHILD_ID, child_id);
         startActivity(intent);
     }
 

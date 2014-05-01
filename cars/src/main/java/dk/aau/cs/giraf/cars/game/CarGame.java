@@ -13,7 +13,7 @@ public class CarGame extends CarsActivity {
 
     @Override
     public Screen getFirstScreen() {
-        return new GameScreen(this, new PreferencesObstacles(this), gamesettings);
+        return new GameScreen(this, new PreferencesObstacles(gamesettings), gamesettings);
     }
 
     @Override

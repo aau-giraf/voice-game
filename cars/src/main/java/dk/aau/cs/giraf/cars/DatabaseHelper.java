@@ -67,7 +67,13 @@ public class DatabaseHelper {
         float min = Float.parseFloat(settings.get("calibration").get("min"));
         float max = Float.parseFloat(settings.get("calibration").get("max"));
 
-        return new GameSettings(colorlist, speed, min, max);
+        HashMap<String,String> mapsettings = settings.get("map");
+
+        HashMap<String,Float> map = new HashMap<String, Float>();
+        for(Map.Entry<String,String> entry : mapsettings.entrySet())
+            map.put(entry.getKey(),Float.valueOf(entry.getValue()));
+
+        return new GameSettings(colorlist, speed, min, max,map);
     }
 
     public int GetDefaultChild() {
@@ -88,9 +94,17 @@ public class DatabaseHelper {
         s.addValue("calibration", "min", Float.toString(gs.GetMinVolume()));
         s.addValue("calibration", "max", Float.toString(gs.GetMaxVolume()));
 
+        SaveMapToSettings(gs.GetMap(),s);
+
         profileApplication.setSettings(s);
 
         profileApplicationController.modifyProfileApplication(profileApplication);
+    }
+
+    private void SaveMapToSettings(HashMap<String,Float> map, Setting<String,String,String> s)
+    {
+        for (Map.Entry<String,Float> e: map.entrySet())
+            s.addValue("map",e.getKey(),Float.toString(e.getValue()));
     }
 
     private ProfileApplication LoadProfileApplication(int child_id) {
@@ -103,23 +117,7 @@ public class DatabaseHelper {
         return profileApplication;
     }
 
-    public ArrayList<Obstacle> LoadObstacles(Context context) {
-        SharedPreferences mapPreferences = context.getSharedPreferences("map", 0);
-        ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 
-        int count = mapPreferences.getInt("count", 0);
-        for (int i = 0; i < count; i++) {
-            float x = mapPreferences.getFloat("x" + i, 0);
-            float y = mapPreferences.getFloat("y" + i, 0);
-            obstacles.add(new Obstacle(x, y, OBSTACLE_SIZE, OBSTACLE_SIZE));
-        }
-        return obstacles;
-    }
 
-    public void AddObstacle(HashMap<String,Float> map, float x, float y, int index) {
-        map.put("x" + index, x);
-        map.put("y" + index, y);
-        map.put("count", (float)index + 1);
 
-    }
 }
