@@ -56,7 +56,7 @@ public class DatabaseHelper {
         for (Map.Entry<String, String> entry : colors.entrySet())
             colorlist.add(Integer.parseInt(entry.getValue()));
 
-        int speed = Integer.parseInt(settings.get("speed").get("default"));
+        float speed = Float.parseFloat(settings.get("speed").get("default"));
 
         float min = Float.parseFloat(settings.get("calibration").get("min"));
         float max = Float.parseFloat(settings.get("calibration").get("max"));
@@ -76,7 +76,7 @@ public class DatabaseHelper {
 
     public void SaveSettings(GameSettings gs) {
         Setting<String, String, String> s = new Setting<String, String, String>();
-        s.addValue("speed", "default", Integer.toString(gs.GetSpeed()));
+        s.addValue("speed", "default", Float.toString(gs.GetSpeed()));
         s.addValue("colors", "1", Integer.toString(gs.GetColors().get(0)));
         s.addValue("colors", "2", Integer.toString(gs.GetColors().get(0)));
         s.addValue("colors", "3", Integer.toString(gs.GetColors().get(0)));
