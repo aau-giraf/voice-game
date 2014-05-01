@@ -9,11 +9,11 @@ import java.util.LinkedList;
 
 public class GameSettings implements Parcelable {
     private LinkedList<Integer> colors;
-    private int speed;
+    private float speed;
     private float minVolume;
     private float maxVolume;
 
-    private final int DEFAULT_SPEED = 30;
+    private final float DEFAULT_SPEED = 2.0f;
     private final float DEFAULT_MIN = 0;
     private final float DEFAULT_MAX = 5000;
     private final Integer[] DEFAULT_COLORS = new Integer[]{Color.BLUE, Color.GREEN, Color.RED};
@@ -25,7 +25,7 @@ public class GameSettings implements Parcelable {
         this.maxVolume = DEFAULT_MAX;
     }
 
-    public GameSettings(LinkedList<Integer> colors, int speed, float minVolume, float maxVolume) {
+    public GameSettings(LinkedList<Integer> colors, float speed, float minVolume, float maxVolume) {
         this.colors = colors;
         this.speed = speed;
         this.minVolume = minVolume;
@@ -39,7 +39,7 @@ public class GameSettings implements Parcelable {
         for (int i = 0; i < 3; i++)
             colors.add(in.readInt());
 
-        speed = in.readInt();
+        speed = in.readFloat();
         minVolume = in.readFloat();
         maxVolume = in.readFloat();
     }
@@ -48,7 +48,7 @@ public class GameSettings implements Parcelable {
         return colors;
     }
 
-    public int GetSpeed() {
+    public float GetSpeed() {
         return speed;
     }
 
@@ -66,7 +66,7 @@ public class GameSettings implements Parcelable {
         for (int i : colors)
             dest.writeInt(i);
 
-        dest.writeInt(speed);
+        dest.writeFloat(speed);
         dest.writeFloat(minVolume);
         dest.writeFloat(maxVolume);
     }
