@@ -54,4 +54,11 @@ public class Car extends GameItem {
     public void Update(Input.TouchEvent[] touchEvents, float deltaTime) {
 
     }
+
+    public Car ResetCar(float gameHeight, float grassSize)
+    {
+        x=-width;
+        y=gameHeight - grassSize - height / 2;
+        return this;
+    }
 }
