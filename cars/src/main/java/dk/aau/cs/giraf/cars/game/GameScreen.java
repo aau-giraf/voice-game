@@ -12,6 +12,7 @@ import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.Screen;
+import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
 import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
@@ -85,12 +86,12 @@ public class GameScreen extends Screen {
         Collections.shuffle(colors);
         car.setColor(colors.removeFirst());
 
-        winningOverlay = new WinningOverlay(game.getWidth(), game.getHeight(),
+        winningOverlay = new WinningOverlay(game,
                 game.getResources().getString(R.string.play_again_button_text),
-                game.getResources().getString(R.string.menu_button_text));
+                game.getResources().getString(R.string.menu_button_text),carControl,gameSettings);
         startOverlay = new StartOverlay(startingSeconds, game.getResources().getString(R.string.countdown_drive));
 
-        pauseOverlay = new PauseOverlay((int) car.x, grassSize, game.getHeight() - 2 * grassSize, game.getWidth(),car.x);
+        pauseOverlay = new PauseOverlay((int) car.x, grassSize, game.getHeight() - 2 * grassSize, game.getWidth(),car);
     }
 
 
@@ -105,7 +106,7 @@ public class GameScreen extends Screen {
         else if (state == GameState.Crashed)
             state = crashedOverlay.Update(touchEvents,deltaTime);
         else if (state == GameState.Won)
-            updateWon(touchEvents, deltaTime);
+            state = winningOverlay.Update(touchEvents, deltaTime);
         else if (state == GameState.Closing) {
             updateClosing(touchEvents, deltaTime);
             updateRunning(touchEvents, deltaTime);
@@ -125,18 +126,6 @@ public class GameScreen extends Screen {
         }
 
 
-    }
-
-
-    private void updateWon(Input.TouchEvent[] touchEvents, float deltaTime) {
-        carControl.Reset();
-        winningOverlay.Update(touchEvents, deltaTime);
-        if (winningOverlay.ResetButtonPressed(touchEvents)) {
-            game.setScreen(new GameScreen((GameActivity) game, new TestObstacles(), gameSettings));
-            state = GameState.Running;
-        } else if (winningOverlay.MenuButtonPressed(touchEvents)) {
-            ((GameActivity) game).finish();
-        }
     }
 
     private float getGarageTargetY() {
@@ -207,8 +196,8 @@ public class GameScreen extends Screen {
             }
         }
 
-        if (pauseOverlay.pauseButtonPressed(touchEvents, car.x))
-            state = GameState.Paused;
+        if (car.x+car.width<animationZoneX)
+            state = pauseOverlay.Update(touchEvents,deltaTime);
     }
 
     private boolean allGaragesClosed() {
