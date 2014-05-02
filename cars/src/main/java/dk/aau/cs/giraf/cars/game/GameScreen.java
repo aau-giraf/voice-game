@@ -213,6 +213,22 @@ public class GameScreen extends Screen {
 
 
     public void startNewGame() {
+        colors = (LinkedList<Integer>) gameSettings.GetColors().clone();
+        Collections.shuffle(colors);
+
+        car.ResetCar(game.getHeight(), grassSize, verticalMover);
+
+        this.garages = new ArrayList<Garage>();
+        float garageSpace = (game.getHeight() - 2 * grassSize - 3 * garageSize) / 4f;
+        for (int i = 0; i < amountOfGarages; i++) {
+            Garage g = new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize + garageSize / 4, garageSize, garageSize / 2);
+            Log.d("Settings", colors.toString());
+            g.setColor(colors.get(i));
+            garages.add(g);
+        }
+
+        Collections.shuffle(colors);
+        car.setColor(colors.removeFirst());
     }
 
     private void resetRound() {
