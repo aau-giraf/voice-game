@@ -1,10 +1,12 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import dk.aau.cs.giraf.cars.DatabaseHelper;
+import dk.aau.cs.giraf.cars.MainActivity;
 import dk.aau.cs.giraf.cars.framework.FastRenderView;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -33,9 +36,11 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
         Intent intent = getIntent();
         if (intent.hasExtra(DatabaseHelper.SETTINGS))
             gamesettings = intent.getParcelableExtra(DatabaseHelper.SETTINGS);
+        else throw new IllegalArgumentException("no gamesettings");
 
         if(intent.hasExtra(DatabaseHelper.CHILD_ID))
             child_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, 0);
+        else throw new IllegalArgumentException("no child id");
     }
 
     @Override
@@ -141,17 +146,12 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
         }
 
-        public void SaveObstacles(GameSettings gs, HashMap<String,Float> map)
-        {
-            gs.SetMap(map);
-        }
-
         private void Add(float x, float y) {
             int index = obstacles.size();
             obstacles.add(new Obstacle(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE));
             AddObstacle(map, x, y, index);
-
-            SaveObstacles(gamesettings,map);
+            Log.d("database",map.toString());
+            gamesettings.SetMap(map);
         }
 
         private void Remove(Obstacle obstacle) {
@@ -170,7 +170,8 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
             map.put("count", (float) size - 1);
             obstacles.remove(obstacle);
-            SaveObstacles(gamesettings,map);
+
+            gamesettings.SetMap(map);
         }
 
         @Override
@@ -190,10 +191,22 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
         @Override
         public void backButton() {
-            DatabaseHelper databaseHelper = new DatabaseHelper(getApplication());
-            databaseHelper.Initialize(child_id);
 
-            databaseHelper.SaveSettings(gamesettings);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(getApplication());
+        databaseHelper.Initialize(child_id);
+
+        databaseHelper.SaveSettings(gamesettings);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("GameSettings", gamesettings);
+        setResult(Activity.RESULT_OK, intent);
+        this.finish();
     }
 }

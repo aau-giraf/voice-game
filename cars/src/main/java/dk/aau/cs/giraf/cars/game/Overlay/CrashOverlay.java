@@ -27,8 +27,8 @@ public class CrashOverlay extends Overlay {
         this.explosionRect = new Rect(0, 0, Assets.GetExplosion().getWidth(), Assets.GetExplosion().getHeight());
     }
 
-    public boolean ContinueButtonPressed(Input.TouchEvent[] touchEvents) {
-        return continueButton.IsButtonPressed(touchEvents);
+    public boolean ContinueButtonPressed() {
+        return continueButton.IsPressed();
     }
 
     @Override

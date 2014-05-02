@@ -5,22 +5,22 @@ import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 
 
 public class TouchCarControl implements CarControl {
-    private int lastMove;
-    private final int height;
-    private final int offset;
+    private float lastMove;
+    private final float height;
+    private final float offset;
 
     public TouchCarControl(int height, int offset) {
         this.height = height;
         this.offset = offset;
-        lastMove = height;
+        lastMove = 0;
     }
 
     public float getMove(Input.TouchEvent[] touchEvents) {
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN || e.type == Input.TouchEvent.TOUCH_DRAGGED)
-                lastMove = 1 - ((e.y - offset) / height);
+                lastMove = 1f - ((e.y - offset) / height);
             else if (e.type == Input.TouchEvent.TOUCH_UP)
-                lastMove = 0;
+                lastMove = 0f;
 
         return lastMove;
     }

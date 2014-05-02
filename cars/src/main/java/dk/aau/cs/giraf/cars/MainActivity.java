@@ -24,7 +24,7 @@ import java.util.Map;
 public class MainActivity extends Activity {
 
     private final static int SETTINGS_IDENTIFIER = 0;
-
+    private final static int MAPEDITOR_IDENTIFIER = 1;
 
     GameSettings gamesettings;
     int child_id;
@@ -34,6 +34,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
+
+        //Helper h= new Helper(this);
+        //h.CreateDummyData();
 
         DatabaseHelper database = new DatabaseHelper(this.getApplication());
 
@@ -46,6 +49,7 @@ public class MainActivity extends Activity {
         database.Initialize(child_id);
 
         gamesettings = database.GetGameSettings();
+        Log.d("database","map er null: " + Boolean.toString(gamesettings==null));
 
         setContentView(R.layout.activity_main_menu);
     }
@@ -61,7 +65,8 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, MapEditor.class);
         intent.putExtra(DatabaseHelper.SETTINGS, gamesettings);
         intent.putExtra(DatabaseHelper.CHILD_ID, child_id);
-        startActivity(intent);
+        Log.d("database","i main menu er gamesettings.map" + gamesettings.GetMap().size());
+        startActivityForResult(intent,MAPEDITOR_IDENTIFIER);
     }
 
     public void showSettings(View view) {
@@ -77,11 +82,19 @@ public class MainActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
-            case (SETTINGS_IDENTIFIER): {
+            case (SETTINGS_IDENTIFIER):
                 if (resultCode == Activity.RESULT_OK)
                     gamesettings = data.getParcelableExtra("GameSettings");
                 break;
-            }
+
+            case (MAPEDITOR_IDENTIFIER):
+                if(resultCode == Activity.RESULT_OK)
+                    gamesettings = data.getParcelableExtra("GameSettings");
+
+                Log.d("database","mapsize efter mapeditor result " + Integer.toString(gamesettings.GetMap().size()));
+                Log.d("database","mapsize efter mapeditor result " + Float.toString(gamesettings.GetMaxVolume()));
+                break;
+
         }
     }
 

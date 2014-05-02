@@ -4,6 +4,8 @@ import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import dk.aau.cs.giraf.cars.DatabaseHelper;
 
+import java.util.ArrayList;
+
 public class PreferencesObstacles implements ObstacleGenerator {
     private GameSettings gs;
 
@@ -14,7 +16,10 @@ public class PreferencesObstacles implements ObstacleGenerator {
     @Override
     public Obstacle[] CreateObstacles(int width, int height) {
 
-        return (Obstacle[])gs.LoadObstacles().toArray();
+        ArrayList<Obstacle> obstacleList =  gs.LoadObstacles();
+        Obstacle[] obstacles = new Obstacle[obstacleList.size()];
+
+        return obstacleList.toArray(obstacles);
 
     }
 }

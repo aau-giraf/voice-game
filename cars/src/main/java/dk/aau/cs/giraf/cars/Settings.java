@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -18,17 +19,10 @@ public class Settings extends Activity {
     GameSettings gamesettings;
     int child_id;
 
-    ArrayList<Integer> colorValues = new ArrayList<Integer>() {{
-        add(Color.RED);
-        add(Color.GREEN);
-        add(Color.MAGENTA);
-        add(Color.BLUE);
-        add(Color.YELLOW);
-    }};
-
     ColorButton colorPickButton1;
     ColorButton colorPickButton2;
     ColorButton colorPickButton3;
+
 
     SpeedFragment speed;
     CalibrationFragment calibration;
@@ -82,7 +76,8 @@ public class Settings extends Activity {
         colors.add(colorPickButton2.GetColor());
         colors.add(colorPickButton3.GetColor());
 
-        GameSettings gs = new GameSettings(colors, (int) speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume());
+        Log.d("database","map " + Boolean.toString(gamesettings.GetMap() == null));
+        GameSettings gs = new GameSettings(colors, speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume(),gamesettings.GetMap());
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         databaseHelper.Initialize(child_id);

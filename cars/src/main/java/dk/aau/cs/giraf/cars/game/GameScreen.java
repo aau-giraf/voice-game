@@ -12,7 +12,9 @@ import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.cars.framework.MoveSineLine;
 import dk.aau.cs.giraf.cars.framework.Screen;
+import dk.aau.cs.giraf.cars.framework.mFloat;
 import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
 import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
@@ -24,12 +26,10 @@ import dk.aau.cs.giraf.cars.game.Overlay.WinningOverlay;
 public class GameScreen extends Screen {
     private final boolean debug = false;
 
-    private final int pixelsPerSecond = 200;
+    private final mFloat verticalMover;
     private final int grassSize = 70;
     private final float garageSize = 250;
     private final float animationZoneSize = 100;
-    private final float buffer = 4;
-    private final AverageList averageMoveTo;
     private GameSettings gameSettings;
     private CarControl carControl;
     private Car car;
@@ -55,17 +55,18 @@ public class GameScreen extends Screen {
     public GameScreen(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
 
+        verticalMover = new mFloat(0, new MoveSineLine(0.5f, 200));
+
         gameSettings = gs;
         colors = (LinkedList<Integer>) gs.GetColors().clone();
         Collections.shuffle(colors);
 
-        this.averageMoveTo = new AverageList(10);
         this.car = new Car(0, 0, 200, 99);
         this.car.showValue = true;
         ResetCar();
 
-        this.carControl = new VolumeCarControl(gs.GetMinVolume(), gs.GetMaxVolume());
-        //this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize);
+        //this.carControl = new VolumeCarControl(gs.GetMinVolume(), gs.GetMaxVolume());
+        this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize - (int)car.height, grassSize + (int)car.height / 2);
         this.speed = gs.GetSpeed();
 
         this.obstacles = new ArrayList<Obstacle>();
@@ -146,10 +147,10 @@ public class GameScreen extends Screen {
     private void updateWon(Input.TouchEvent[] touchEvents, float deltaTime) {
         carControl.Reset();
         winningOverlay.Update(touchEvents, deltaTime);
-        if (winningOverlay.ResetButtonPressed(touchEvents)) {
+        if (winningOverlay.ResetButtonPressed()) {
             game.setScreen(new GameScreen((GameActivity) game, new TestObstacles(), gameSettings));
             state = GameState.Running;
-        } else if (winningOverlay.MenuButtonPressed(touchEvents)) {
+        } else if (winningOverlay.MenuButtonPressed()) {
             ((GameActivity) game).finish();
         }
     }
@@ -157,7 +158,7 @@ public class GameScreen extends Screen {
     private void updateCrashed(Input.TouchEvent[] touchEvents, float deltaTime) {
         carControl.Reset();
         crashedOverlay.Update(touchEvents, deltaTime);
-        if (crashedOverlay.ContinueButtonPressed(touchEvents)) {
+        if (crashedOverlay.ContinueButtonPressed()) {
             ResetCar();
             state = GameState.Running;
         }
@@ -187,22 +188,19 @@ public class GameScreen extends Screen {
         car.Update(touchEvents, deltaTime);
         car.x += speed * (deltaTime / 1000.0f);
 
-        averageMoveTo.Add(1 - carControl.getMove(touchEvents));
-        float moveTo = averageMoveTo.GetAverage() * (game.getHeight() - grassSize * 2) - car.height / 2 + grassSize;
-
-        Log.d("position", moveTo + "p " + car.y);
-        float verticalMove = 0;
+        float moveTo = 1f - carControl.getMove(touchEvents);
+        moveTo *= (game.getHeight() - grassSize * 2 - car.height);
+        moveTo += grassSize;
 
         if (car.x + car.width >= animationZoneX)
             moveTo = getGarageTargetY() - car.height / 2;
 
-        if (car.y < moveTo) {
-            verticalMove = pixelsPerSecond * (deltaTime / 1000.0f);
-            car.y = (car.y + verticalMove) > moveTo ? moveTo : (car.y + verticalMove);
-        } else if (car.y > moveTo) {
-            verticalMove = -pixelsPerSecond * (deltaTime / 1000.0f);
-            car.y = (car.y + verticalMove) < moveTo ? moveTo : (car.y + verticalMove);
-        }
+        if (moveTo != verticalMover.getTargetValue())
+            verticalMover.setTargetValue(moveTo);
+
+        verticalMover.Update();
+        car.y = verticalMover.getCurrentValue();
+        Log.d("position", moveTo + "p " + car.y);
 
         if (car.y < grassSize) car.y = grassSize;
         if (car.y > game.getHeight() - car.height - grassSize)
@@ -272,6 +270,7 @@ public class GameScreen extends Screen {
     private void ResetCar() {
         car.x = -car.width;
         this.car.y = game.getHeight() - grassSize - car.height / 2;
+        this.verticalMover.setCurrentValue(car.y);
     }
 
 
