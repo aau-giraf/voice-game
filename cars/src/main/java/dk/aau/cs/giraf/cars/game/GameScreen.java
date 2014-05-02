@@ -3,7 +3,6 @@ package dk.aau.cs.giraf.cars.game;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import java.util.*;
@@ -50,8 +49,6 @@ public class GameScreen extends Screen {
     private CrashOverlay crashedOverlay;
     private PauseOverlay pauseOverlay;
 
-    private Garage closingGarage = null;
-
     public GameScreen(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
 
@@ -63,7 +60,8 @@ public class GameScreen extends Screen {
 
         this.car = new Car(0, 0, 200, 99);
         this.car.showValue = true;
-        ResetCar();
+        crashedOverlay = new CrashOverlay(game,carControl,car,grassSize,verticalMover);
+        car.ResetCar(game.getHeight(),grassSize,verticalMover);
 
         //this.carControl = new VolumeCarControl(gs.GetMinVolume(), gs.GetMaxVolume());
         this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize - (int)car.height, grassSize + (int)car.height / 2);
@@ -90,36 +88,31 @@ public class GameScreen extends Screen {
         Collections.shuffle(colors);
         car.setColor(colors.removeFirst());
 
-        winningOverlay = new WinningOverlay(game.getWidth(), game.getHeight(),
+        winningOverlay = new WinningOverlay(game,
                 game.getResources().getString(R.string.play_again_button_text),
-                game.getResources().getString(R.string.menu_button_text));
+                game.getResources().getString(R.string.menu_button_text),carControl,gameSettings);
         startOverlay = new StartOverlay(startingSeconds, game.getResources().getString(R.string.countdown_drive));
-        crashedOverlay = new CrashOverlay(game);
-        pauseOverlay = new PauseOverlay((int) car.x, grassSize, game.getHeight() - 2 * grassSize, game.getWidth());
+
+        pauseOverlay = new PauseOverlay((int) car.x, grassSize, game.getHeight() - 2 * grassSize, game.getWidth(),car);
     }
 
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         if (state == GameState.Starting)
-            updateStarting(touchEvents, deltaTime);
+            state = startOverlay.Update(touchEvents,deltaTime);
         else if (state == GameState.Running)
             updateRunning(touchEvents, deltaTime);
         else if (state == GameState.Paused)
-            updatePaused(touchEvents);
+            state = pauseOverlay.Update(touchEvents,deltaTime);
         else if (state == GameState.Crashed)
-            updateCrashed(touchEvents, deltaTime);
+            state = crashedOverlay.Update(touchEvents,deltaTime);
         else if (state == GameState.Won)
-            updateWon(touchEvents, deltaTime);
+            state = winningOverlay.Update(touchEvents, deltaTime);
         else if (state == GameState.Closing) {
             updateClosing(touchEvents, deltaTime);
             updateRunning(touchEvents, deltaTime);
         }
-    }
-
-    private void updateStarting(Input.TouchEvent[] touchEvents, float deltaTime) {
-        if (startOverlay.IsTimerDone(deltaTime))
-            state = GameState.Running;
     }
 
     private void updateClosing(Input.TouchEvent[] touchEvents, float deltaTime) {
@@ -135,33 +128,6 @@ public class GameScreen extends Screen {
         }
 
 
-    }
-
-    private void updatePaused(Input.TouchEvent[] touchEvents) {
-        if (pauseOverlay.pauseButtonPressed(touchEvents, car.x))
-            state = GameState.Paused;
-        else
-            state = GameState.Running;
-    }
-
-    private void updateWon(Input.TouchEvent[] touchEvents, float deltaTime) {
-        carControl.Reset();
-        winningOverlay.Update(touchEvents, deltaTime);
-        if (winningOverlay.ResetButtonPressed()) {
-            game.setScreen(new GameScreen((GameActivity) game, new TestObstacles(), gameSettings));
-            state = GameState.Running;
-        } else if (winningOverlay.MenuButtonPressed()) {
-            ((GameActivity) game).finish();
-        }
-    }
-
-    private void updateCrashed(Input.TouchEvent[] touchEvents, float deltaTime) {
-        carControl.Reset();
-        crashedOverlay.Update(touchEvents, deltaTime);
-        if (crashedOverlay.ContinueButtonPressed()) {
-            ResetCar();
-            state = GameState.Running;
-        }
     }
 
     private float getGarageTargetY() {
@@ -229,8 +195,8 @@ public class GameScreen extends Screen {
             }
         }
 
-        if (pauseOverlay.pauseButtonPressed(touchEvents, car.x))
-            state = GameState.Paused;
+        if (car.x+car.width<animationZoneX)
+            state = pauseOverlay.Update(touchEvents,deltaTime);
     }
 
     private boolean allGaragesClosed() {
@@ -250,7 +216,7 @@ public class GameScreen extends Screen {
         boolean newColor = ResetCarColor();
 
         if (newColor)
-            ResetCar();
+            car.ResetCar(game.getHeight(),grassSize,verticalMover);
     }
 
     private boolean ResetCarColor() {

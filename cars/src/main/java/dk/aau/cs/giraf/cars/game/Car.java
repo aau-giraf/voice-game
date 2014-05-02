@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Image;
 import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.cars.framework.mFloat;
 
 public class Car extends GameItem {
     public static final float MAX_PIXELSPERSECOND = 300f;
@@ -56,5 +57,13 @@ public class Car extends GameItem {
     @Override
     public void Update(Input.TouchEvent[] touchEvents, float deltaTime) {
 
+    }
+
+    public Car ResetCar(float gameHeight, float grassSize, mFloat verticalMover)
+    {
+        x=-width;
+        y=gameHeight - grassSize - height / 2;
+        verticalMover.setCurrentValue(y);
+        return this;
     }
 }
