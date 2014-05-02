@@ -40,7 +40,6 @@ public abstract class GameScreen extends Screen {
     private float animationZoneX;
     private GameState state = GameState.Starting;
     private int amountOfGarages = 3;
-    private int startingSeconds = 3;
     private Rect pauseButtonRec = new Rect(20, 20, 100, 100);
     private Rect pauseButtonImageRec = new Rect(0, 0, Assets.GetPlayButton().getWidth(), Assets.GetPlayButton().getHeight());
 
@@ -48,6 +47,20 @@ public abstract class GameScreen extends Screen {
     private StartOverlay startOverlay;
     private CrashOverlay crashedOverlay;
     private PauseOverlay pauseOverlay;
+
+    private GameActivity gameActivity;
+    public GameActivity GetGameActivity()
+    {
+        return gameActivity;
+    }
+    public ObstacleGenerator GetObstacleGenerator()
+    {
+        return obstacleGenerator;
+    }
+    public GameSettings GetGameSettings()
+    {
+        return gameSettings;
+    }
 
     public GameScreen(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
