@@ -44,15 +44,13 @@ public class MainActivity extends Activity {
         //h.CreateDummyData();
         child_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, database.GetDefaultChild());
 
-
-<<<<<<< HEAD
         Log.d("childid", "chilid ved main create" + child_id);
         setContentView(R.layout.activity_main_menu);
-=======
+
         View v = LayoutInflater.from(this).inflate(R.layout.activity_main_menu, null);
         v.setBackgroundColor(GComponent.GetBackgroundColor());
         setContentView(v);
->>>>>>> bedf78ccad25c3d4352b01c7311eaf2c1c17bf2a
+
     }
 
 
