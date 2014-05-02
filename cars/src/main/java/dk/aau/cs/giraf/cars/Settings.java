@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import dk.aau.cs.giraf.cars.game.CalibrationFragment;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.SpeedFragment;
 import dk.aau.cs.giraf.gui.GColorPicker;
+import dk.aau.cs.giraf.gui.GComponent;
 
 public class Settings extends Activity {
     GameSettings gamesettings;
@@ -22,6 +25,7 @@ public class Settings extends Activity {
     ColorButton colorPickButton2;
     ColorButton colorPickButton3;
 
+
     SpeedFragment speed;
     CalibrationFragment calibration;
 
@@ -30,13 +34,18 @@ public class Settings extends Activity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        if (intent.hasExtra(DatabaseHelper.SETTINGS))
-            gamesettings = intent.getParcelableExtra(DatabaseHelper.SETTINGS);
 
         if(intent.hasExtra(DatabaseHelper.CHILD_ID))
             child_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, 0);
 
-        setContentView(R.layout.activity_settings);
+        Log.d("childid","Childid ved Settings create: "+ child_id);
+
+        DatabaseHelper database = new DatabaseHelper(this);
+        database.Initialize(child_id);
+        gamesettings = database.GetGameSettings();
+        View v = LayoutInflater.from(this).inflate(R.layout.activity_settings, null);
+        v.setBackgroundColor(GComponent.GetBackgroundColor());
+        setContentView(v);
 
         colorPickButton1 = (ColorButton) findViewById(R.id.colorPick1);
         colorPickButton2 = (ColorButton) findViewById(R.id.colorPick2);
@@ -74,7 +83,8 @@ public class Settings extends Activity {
         colors.add(colorPickButton2.GetColor());
         colors.add(colorPickButton3.GetColor());
 
-        GameSettings gs = new GameSettings(colors, speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume());
+        Log.d("database","map " + Boolean.toString(gamesettings.GetMap() == null));
+        GameSettings gs = new GameSettings(colors, speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume(),gamesettings.GetMap());
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         databaseHelper.Initialize(child_id);
@@ -85,8 +95,5 @@ public class Settings extends Activity {
         setResult(Activity.RESULT_OK, intent);
         this.finish();
     }
-
-
-
 
 }

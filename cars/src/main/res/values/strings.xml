@@ -12,5 +12,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="settings_header_speed">Vælg hastighed</string>
+    <string name="settings_header_color">Vælg bil/garage farver</string>
+    <string name="settings_header_calibration">Kalibrer mikrofon</string>
 
 </resources>

@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import dk.aau.cs.giraf.cars.game.CarGame;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.MapEditor;
+import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.controllers.ApplicationController;
 import dk.aau.cs.giraf.oasis.lib.controllers.ProfileApplicationController;
@@ -23,10 +25,9 @@ import java.util.Map;
 
 public class MainActivity extends Activity {
 
-    private final static int SETTINGS_IDENTIFIER = 0;
+    private static final int SETTINGS_IDENTIFIER = 0;
+    private static final int MAPEDITOR_IDENTIFIER = 1;
 
-
-    GameSettings gamesettings;
     int child_id;
 
     @Override
@@ -35,36 +36,40 @@ public class MainActivity extends Activity {
 
         Intent intent = getIntent();
 
+
         DatabaseHelper database = new DatabaseHelper(this.getApplication());
 
+
+        //Helper h = new Helper(this);
+        //h.CreateDummyData();
         child_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, database.GetDefaultChild());
 
-
-
-        Log.d("database", Integer.toString(child_id));
-
-        database.Initialize(child_id);
-
-        gamesettings = database.GetGameSettings();
-
+        Log.d("childid", "chilid ved main create" + child_id);
         setContentView(R.layout.activity_main_menu);
+
+        View v = LayoutInflater.from(this).inflate(R.layout.activity_main_menu, null);
+        v.setBackgroundColor(GComponent.GetBackgroundColor());
+        setContentView(v);
+
     }
 
 
     public void startGame(View view) {
         Intent intent = new Intent(this, CarGame.class);
-        intent.putExtra("GameSettings", gamesettings);
+        intent.putExtra(DatabaseHelper.CHILD_ID, child_id);
         startActivity(intent);
     }
 
     public void startMapEditor(View view) {
         Intent intent = new Intent(this, MapEditor.class);
-        startActivity(intent);
+        intent.putExtra(DatabaseHelper.CHILD_ID, child_id);
+
+        startActivityForResult(intent, MAPEDITOR_IDENTIFIER);
     }
 
     public void showSettings(View view) {
         Intent intent = new Intent(this, Settings.class);
-        intent.putExtra(DatabaseHelper.SETTINGS, gamesettings);
+
         intent.putExtra(DatabaseHelper.CHILD_ID, child_id);
 
         startActivityForResult(intent, SETTINGS_IDENTIFIER);
@@ -74,12 +79,19 @@ public class MainActivity extends Activity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Log.d("childid", "Childid ved retur: " + child_id);
+
         switch (requestCode) {
-            case (SETTINGS_IDENTIFIER): {
+            case (SETTINGS_IDENTIFIER):
                 if (resultCode == Activity.RESULT_OK)
-                    gamesettings = data.getParcelableExtra("GameSettings");
-                break;
-            }
+
+                    break;
+
+            case (MAPEDITOR_IDENTIFIER):
+                if (resultCode == Activity.RESULT_OK)
+
+                    break;
+
         }
     }
 
