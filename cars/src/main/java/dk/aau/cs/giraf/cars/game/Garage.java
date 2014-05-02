@@ -10,7 +10,9 @@ import dk.aau.cs.giraf.cars.framework.Input;
 
 public class Garage extends GameItem {
 
-    private enum GarageState { Open, Closing, Closed };
+    private enum GarageState {Open, Closing, Closed}
+
+    ;
 
     private GarageState currentState;
     private final float closingTimeInMs = 3000;
@@ -30,14 +32,18 @@ public class Garage extends GameItem {
         this.color = Color.WHITE;
         this.image = Assets.GetGarage();
 
-        this.x = this.x + this.width/2;
+        this.x = this.x + this.width / 2;
 
-        this.doorLength = (int)height/2 - HINGE_SIZE;
+        this.doorLength = (int) height / 2 - HINGE_SIZE;
     }
 
     public void setColor(int color) {
         this.color = color;
         image = Graphics.recolorImage(Assets.GetGarage(), color);
+    }
+
+    public int getColor() {
+        return this.color;
     }
 
     @Override
@@ -57,8 +63,7 @@ public class Garage extends GameItem {
         if (currentState == GarageState.Closing) {
             topAngle -= closingWait / closingTimeInMs * (90 + START_ANGLE);
             bottomAngle += closingWait / closingTimeInMs * (90 + START_ANGLE);
-        }
-        else if (currentState == GarageState.Closed) {
+        } else if (currentState == GarageState.Closed) {
             topAngle -= 90 + START_ANGLE;
             bottomAngle += 90 + START_ANGLE;
         }
@@ -86,15 +91,17 @@ public class Garage extends GameItem {
     }
 
     public void Close() {
-        if(currentState == GarageState.Open) {
+        if (currentState == GarageState.Open) {
             currentState = GarageState.Closing;
             closingWait = 0;
         }
     }
 
-    public boolean getIsClosing() { return currentState == GarageState.Closing; }
+    public boolean getIsClosing() {
+        return currentState == GarageState.Closing;
+    }
 
-    public boolean getIsClosed(){
+    public boolean getIsClosed() {
         return currentState == GarageState.Closed;
     }
 
@@ -108,8 +115,8 @@ public class Garage extends GameItem {
     }
 
     private Point GetCircumferencePoint(Point center, int radius, int angle) {
-        int x = (int)(center.x + radius * Math.cos(Math.toRadians(angle)));
-        int y = (int)(center.y + radius * Math.sin(Math.toRadians(angle)));
+        int x = (int) (center.x + radius * Math.cos(Math.toRadians(angle)));
+        int y = (int) (center.y + radius * Math.sin(Math.toRadians(angle)));
 
         return new Point(x, y);
     }
