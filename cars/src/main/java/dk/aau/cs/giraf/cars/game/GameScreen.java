@@ -22,7 +22,7 @@ import dk.aau.cs.giraf.cars.game.Overlay.PauseOverlay;
 import dk.aau.cs.giraf.cars.game.Overlay.StartOverlay;
 import dk.aau.cs.giraf.cars.game.Overlay.WinningOverlay;
 
-public class GameScreen extends Screen {
+public abstract class GameScreen extends Screen {
     private final boolean debug = false;
 
     private final mFloat verticalMover;
@@ -91,7 +91,6 @@ public class GameScreen extends Screen {
         winningOverlay = new WinningOverlay(game,
                 game.getResources().getString(R.string.play_again_button_text),
                 game.getResources().getString(R.string.menu_button_text),carControl,gameSettings);
-        startOverlay = new StartOverlay(startingSeconds, game.getResources().getString(R.string.countdown_drive));
 
         pauseOverlay = new PauseOverlay((int) car.x, grassSize, game.getHeight() - 2 * grassSize, game.getWidth(),car);
     }
@@ -99,53 +98,6 @@ public class GameScreen extends Screen {
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
-        if (state == GameState.Starting)
-            state = startOverlay.Update(touchEvents,deltaTime);
-        else if (state == GameState.Running)
-            updateRunning(touchEvents, deltaTime);
-        else if (state == GameState.Paused)
-            state = pauseOverlay.Update(touchEvents,deltaTime);
-        else if (state == GameState.Crashed)
-            state = crashedOverlay.Update(touchEvents,deltaTime);
-        else if (state == GameState.Won)
-            state = winningOverlay.Update(touchEvents, deltaTime);
-        else if (state == GameState.Closing) {
-            updateClosing(touchEvents, deltaTime);
-            updateRunning(touchEvents, deltaTime);
-        }
-    }
-
-    private void updateClosing(Input.TouchEvent[] touchEvents, float deltaTime) {
-        for (Garage g : garages) {
-            Log.d("garage", String.format("Car: %S Garage: %S CarLeft: %S GarageLeft: %S", car.color, g.color, car.GetBounds().left, g.GetBounds().left));
-            g.Update(touchEvents, deltaTime);
-
-            if (car.color == g.color && car.GetBounds().left > g.GetBounds().left && g.getIsClosed()) {
-                resetRound();
-                Log.d("garage", "reseT?");
-                state = GameState.Running;
-            }
-        }
-
-
-    }
-
-    private float getGarageTargetY() {
-        float minDist = Float.MAX_VALUE;
-        Garage garage = null;
-
-        for (Garage g : garages) {
-            float dist = Math.abs(car.y - g.y);
-            if (dist < minDist) {
-                minDist = dist;
-                garage = g;
-            }
-        }
-
-        return garage.y + garage.height / 2f;
-    }
-
-    private void updateRunning(Input.TouchEvent[] touchEvents, float deltaTime) {
         if (allGaragesClosed()) {
             state = GameState.Won;
             return;
@@ -197,6 +149,36 @@ public class GameScreen extends Screen {
 
         if (car.x+car.width<animationZoneX)
             state = pauseOverlay.Update(touchEvents,deltaTime);
+    }
+
+    private void updateClosing(Input.TouchEvent[] touchEvents, float deltaTime) {
+        for (Garage g : garages) {
+            Log.d("garage", String.format("Car: %S Garage: %S CarLeft: %S GarageLeft: %S", car.color, g.color, car.GetBounds().left, g.GetBounds().left));
+            g.Update(touchEvents, deltaTime);
+
+            if (car.color == g.color && car.GetBounds().left > g.GetBounds().left && g.getIsClosed()) {
+                resetRound();
+                Log.d("garage", "reseT?");
+                state = GameState.Running;
+            }
+        }
+
+
+    }
+
+    private float getGarageTargetY() {
+        float minDist = Float.MAX_VALUE;
+        Garage garage = null;
+
+        for (Garage g : garages) {
+            float dist = Math.abs(car.y - g.y);
+            if (dist < minDist) {
+                minDist = dist;
+                garage = g;
+            }
+        }
+
+        return garage.y + garage.height / 2f;
     }
 
     private boolean allGaragesClosed() {
@@ -271,17 +253,6 @@ public class GameScreen extends Screen {
             garage.Draw(graphics, deltaTime);
 
         graphics.drawScaledImage(Assets.GetPauseButton(), pauseButtonRec, pauseButtonImageRec);
-
-        if (state == GameState.Starting)
-            startOverlay.Draw(graphics, deltaTime);
-        if (state == GameState.Running)
-            drawRunning(graphics, deltaTime);
-        if (state == GameState.Paused)
-            pauseOverlay.Draw(graphics, deltaTime);
-        if (state == GameState.Crashed)
-            crashedOverlay.Draw(graphics, deltaTime);
-        if (state == GameState.Won)
-            winningOverlay.Draw(graphics, deltaTime);
     }
 
     private void drawRunning(Graphics graphics, float deltaTime) {
