@@ -7,13 +7,14 @@ import android.os.Bundle;
 import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
+import dk.aau.cs.giraf.cars.game.Overlay.StartOverlay;
 
 public class CarGame extends CarsActivity {
     GameSettings gamesettings;
 
     @Override
     public Screen getFirstScreen() {
-        return new GameScreen(this, new PreferencesObstacles(this), gamesettings);
+        return new StartOverlay(this, new PreferencesObstacles(this), gamesettings);
     }
 
     @Override
