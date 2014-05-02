@@ -34,13 +34,17 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        if (intent.hasExtra(DatabaseHelper.SETTINGS))
-            gamesettings = intent.getParcelableExtra(DatabaseHelper.SETTINGS);
-        else throw new IllegalArgumentException("no gamesettings");
 
         if(intent.hasExtra(DatabaseHelper.CHILD_ID))
             child_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, 0);
         else throw new IllegalArgumentException("no child id");
+
+        Log.d("childid","Childid ved Map create: "+ child_id);
+
+        DatabaseHelper database = new DatabaseHelper(this);
+        database.Initialize(child_id);
+
+        gamesettings = database.GetGameSettings();
     }
 
     @Override
@@ -94,6 +98,7 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
             databaseHelper.Initialize(child_id);
 
             obstacles = gamesettings.LoadObstacles();
+            map = gamesettings.GetMap();
 
             this.garages = new ArrayList<Garage>();
             float garageSpace = (game.getHeight() - 2 * grassSize - 3 * garageSize) / 4f;
@@ -118,8 +123,7 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
             if (delete) {
-                obstacles.clear();
-                //gamesettings clear
+                Clear();
                 delete = false;
             }
             for (Input.TouchEvent e : touchEvents) {
@@ -137,6 +141,12 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
                         Remove(rem);
                 }
             }
+        }
+
+        private void Clear() {
+            obstacles.clear();
+            map = new HashMap<String, Float>();
+            gamesettings.SetMap(map);
         }
 
         public void AddObstacle(HashMap<String, Float> map, float x, float y, int index) {
@@ -204,9 +214,6 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
         databaseHelper.SaveSettings(gamesettings);
 
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("GameSettings", gamesettings);
-        setResult(Activity.RESULT_OK, intent);
         this.finish();
     }
 }

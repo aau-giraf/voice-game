@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -8,6 +9,7 @@ import android.util.Log;
 
 import java.util.*;
 
+import dk.aau.cs.giraf.cars.DatabaseHelper;
 import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Graphics;

@@ -78,7 +78,7 @@ public class DatabaseHelper {
             for (Map.Entry<String, String> entry : mapsettings.entrySet())
                 map.put(entry.getKey(), Float.valueOf(entry.getValue()));
         }
-        Log.d("database",Integer.toString(settings.get("map").size()));
+
 
         return new GameSettings(colorlist, speed, min, max,map);
     }

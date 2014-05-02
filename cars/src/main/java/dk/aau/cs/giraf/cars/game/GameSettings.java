@@ -47,12 +47,16 @@ public class GameSettings implements Parcelable {
     private GameSettings(Parcel in) {
         colors = new LinkedList<Integer>();
 
-        for (int i = 0; i < 3; i++)
-            colors.add(in.readInt());
-
+        for (int i = 0; i < 3; i++) {
+            int k = in.readInt();
+            colors.add(k);
+            Log.d("database","jeg læste lige "+Integer.toString(k));
+        }
         speed = in.readFloat();
         minVolume = in.readFloat();
         maxVolume = in.readFloat();
+
+        Log.d("database", Integer.toString(in.readInt()));
 
         map = readHashMap(in);
         Log.d("database","map read  " + map.toString());
@@ -93,7 +97,7 @@ public class GameSettings implements Parcelable {
         Log.d("database", map.toString());
 
         int count = map.get("count").intValue();
-
+        Log.d("database","count" + count);
         for (int i = 0; i < count; i++) {
             float x = map.get("x" + i);
             float y = map.get("y" + i);
@@ -109,23 +113,29 @@ public class GameSettings implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        for (int i : colors)
+        for (int i : colors) {
             dest.writeInt(i);
+            Log.d("database","jeg skrev lige " + Integer.toString(i));
+        }
 
         dest.writeFloat(speed);
         dest.writeFloat(minVolume);
         dest.writeFloat(maxVolume);
 
+        dest.writeInt(5);
         writeHashMap(dest,map);
     }
 
     public void writeHashMap(Parcel dest, HashMap<String,Float> map)
     {
         dest.writeInt(map.size());
+        Log.d("database","skriv map size" + map.size());
+
         for(Map.Entry<String,Float> entry: map.entrySet())
         {
             dest.writeString(entry.getKey());
             dest.writeFloat(entry.getValue());
+            Log.d("database","skriv værdi");
         }
     }
 
@@ -133,12 +143,13 @@ public class GameSettings implements Parcelable {
     {
         HashMap<String,Float> map = new HashMap<String, Float>();
         int n = in.readInt();
-
+        Log.d("database","n: "+Integer.toString(n));
         for(int i = 0; i < n; i++)
         {
             String key = in.readString();
             Float val = in.readFloat();
             map.put(key,val);
+            Log.d("database","Key: " + key + " Val: " + val);
         }
         return  map;
     }
