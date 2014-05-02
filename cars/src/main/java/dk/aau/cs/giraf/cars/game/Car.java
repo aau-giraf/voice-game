@@ -15,6 +15,11 @@ public class Car extends GameItem {
 
     private Paint paint;
     boolean showValue = false;
+
+    public void SetShowValue(boolean showValue) {
+        this.showValue = showValue;
+    }
+
     int color;
     Image image;
 
@@ -38,6 +43,10 @@ public class Car extends GameItem {
         this.image = Graphics.recolorImage(Assets.GetCar(), color);
     }
 
+    public int getColor() {
+        return this.color;
+    }
+
     @Override
     public void Draw(Graphics graphics, float deltaTime) {
         Rect bounds = this.GetBounds();
@@ -59,10 +68,9 @@ public class Car extends GameItem {
 
     }
 
-    public Car ResetCar(float gameHeight, float grassSize, mFloat verticalMover)
-    {
-        x=-width;
-        y=gameHeight - grassSize - height / 2;
+    public Car ResetCar(float gameHeight, float grassSize, mFloat verticalMover) {
+        x = -width;
+        y = gameHeight - grassSize - height / 2;
         verticalMover.setCurrentValue(y);
         return this;
     }
