@@ -9,20 +9,21 @@ import dk.aau.cs.giraf.cars.game.GameScreen;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.GameState;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
-import dk.aau.cs.giraf.cars.game.TestObstacles;
 
 public class WinningOverlay extends Overlay {
     private OverlayButton resetButton;
     private OverlayButton menuButton;
     private Game game;
+    private GameScreen gameScreen;
     private CarControl carControl;
     private GameSettings gameSettings;
 
     private int trophyX;
     private int trophyY;
 
-    public WinningOverlay(Game game, String restartMessage, String showmenuMessage, CarControl carControl, GameSettings gameSettings) {
+    public WinningOverlay(Game game, GameScreen gameScreen, String restartMessage, String showmenuMessage, CarControl carControl, GameSettings gameSettings) {
         this.game = game;
+        this.gameScreen = gameScreen;
         this.carControl = carControl;
         this.gameSettings = gameSettings;
 
@@ -59,7 +60,7 @@ public class WinningOverlay extends Overlay {
         carControl.Reset();
         super.Update(touchEvents, deltaTime);
         if (ResetButtonPressed()) {
-            game.setScreen(new GameScreen((GameActivity) game, new TestObstacles(), gameSettings));
+            gameScreen.startNewGame();
             return GameState.Running;
         } else if (MenuButtonPressed()) {
             ((GameActivity) game).finish();

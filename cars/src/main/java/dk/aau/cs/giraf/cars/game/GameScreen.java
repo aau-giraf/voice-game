@@ -60,11 +60,11 @@ public class GameScreen extends Screen {
 
         this.car = new Car(0, 0, 200, 99);
         this.car.showValue = true;
-        crashedOverlay = new CrashOverlay(game,carControl,car,grassSize,verticalMover);
-        car.ResetCar(game.getHeight(),grassSize,verticalMover);
+        crashedOverlay = new CrashOverlay(game, carControl, car, grassSize, verticalMover);
+        car.ResetCar(game.getHeight(), grassSize, verticalMover);
 
         //this.carControl = new VolumeCarControl(gs.GetMinVolume(), gs.GetMaxVolume());
-        this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize - (int)car.height, grassSize + (int)car.height / 2);
+        this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize - (int) car.height, grassSize + (int) car.height / 2);
         this.speed = gs.GetSpeed() * (Car.MAX_PIXELSPERSECOND / Car.MAX_SCALE);
 
         this.obstacles = new ArrayList<Obstacle>();
@@ -88,25 +88,25 @@ public class GameScreen extends Screen {
         Collections.shuffle(colors);
         car.setColor(colors.removeFirst());
 
-        winningOverlay = new WinningOverlay(game,
+        winningOverlay = new WinningOverlay(game, this,
                 game.getResources().getString(R.string.play_again_button_text),
-                game.getResources().getString(R.string.menu_button_text),carControl,gameSettings);
+                game.getResources().getString(R.string.menu_button_text), carControl, gameSettings);
         startOverlay = new StartOverlay(startingSeconds, game.getResources().getString(R.string.countdown_drive));
 
-        pauseOverlay = new PauseOverlay((int) car.x, grassSize, game.getHeight() - 2 * grassSize, game.getWidth(),car);
+        pauseOverlay = new PauseOverlay((int) car.x, grassSize, game.getHeight() - 2 * grassSize, game.getWidth(), car);
     }
 
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         if (state == GameState.Starting)
-            state = startOverlay.Update(touchEvents,deltaTime);
+            state = startOverlay.Update(touchEvents, deltaTime);
         else if (state == GameState.Running)
             updateRunning(touchEvents, deltaTime);
         else if (state == GameState.Paused)
-            state = pauseOverlay.Update(touchEvents,deltaTime);
+            state = pauseOverlay.Update(touchEvents, deltaTime);
         else if (state == GameState.Crashed)
-            state = crashedOverlay.Update(touchEvents,deltaTime);
+            state = crashedOverlay.Update(touchEvents, deltaTime);
         else if (state == GameState.Won)
             state = winningOverlay.Update(touchEvents, deltaTime);
         else if (state == GameState.Closing) {
@@ -195,8 +195,8 @@ public class GameScreen extends Screen {
             }
         }
 
-        if (car.x+car.width<animationZoneX)
-            state = pauseOverlay.Update(touchEvents,deltaTime);
+        if (car.x + car.width < animationZoneX)
+            state = pauseOverlay.Update(touchEvents, deltaTime);
     }
 
     private boolean allGaragesClosed() {
@@ -212,11 +212,14 @@ public class GameScreen extends Screen {
     }
 
 
+    public void startNewGame() {
+    }
+
     private void resetRound() {
         boolean newColor = ResetCarColor();
 
         if (newColor)
-            car.ResetCar(game.getHeight(),grassSize,verticalMover);
+            car.ResetCar(game.getHeight(), grassSize, verticalMover);
     }
 
     private boolean ResetCarColor() {
