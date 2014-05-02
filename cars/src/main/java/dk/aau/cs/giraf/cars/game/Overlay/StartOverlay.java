@@ -65,7 +65,7 @@ public class StartOverlay extends GameScreen {
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
-        //if (isTimerDone(deltaTime))
-            //call next screen
+        if (isTimerDone(deltaTime))
+            game.setScreen(new RunningScreen(GetGameActivity(),GetObstacleGenerator(),GetGameSettings()));
     }
 }
