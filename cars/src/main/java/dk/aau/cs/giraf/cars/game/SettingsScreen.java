@@ -3,6 +3,7 @@ package dk.aau.cs.giraf.cars.game;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Screen;
+import dk.aau.cs.giraf.gui.GComponent;
 
 public abstract class SettingsScreen extends Screen {
     private Car car;
@@ -60,6 +61,7 @@ public abstract class SettingsScreen extends Screen {
 
     @Override
     public void paint(Graphics graphics, float deltaTime) {
+        graphics.drawColor(GComponent.GetBackgroundColor());
         graphics.fillImageTexture(Assets.GetGrass(), 0, 0, gameWidth, gameHeight);
         graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, gameWidth, gameHeight - grassSize * 2);
 

@@ -148,6 +148,11 @@ public class Graphics {
         canvas.drawARGB(a, r, g, b);
     }
 
+    public void drawColor(int color) {
+        paint.setStyle(Style.FILL);
+        canvas.drawColor(color);
+    }
+
     public void drawString(String text, int x, int y, Paint paint) {
         canvas.drawText(text, x, y, paint);
     }
