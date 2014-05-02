@@ -20,6 +20,10 @@ public class Assets {
         explosion = graphics.newImage("explosion.png", Graphics.ImageFormat.ARGB8888);
         pauseButton = graphics.newImage("pauseButton.png", Graphics.ImageFormat.ARGB8888);
         playButton = graphics.newImage("playButton.png", Graphics.ImageFormat.ARGB8888);
+        rabbit_picto = graphics.newImage("rabbit_picto.png", Graphics.ImageFormat.ARGB8888);
+        snail_picto = graphics.newImage("snail_picto.png", Graphics.ImageFormat.ARGB8888);
+        tiger_picto = graphics.newImage("tiger_picto.png", Graphics.ImageFormat.ARGB8888);
+
 
         loaded = true;
     }
@@ -38,6 +42,9 @@ public class Assets {
     private static Image explosion;
     private static Image pauseButton;
     private static Image playButton;
+    private static Image rabbit_picto;
+    private static Image snail_picto;
+    private static Image tiger_picto;
 
     public static Image GetGrass() {
         return grass;
@@ -78,4 +85,17 @@ public class Assets {
     public static Image GetPlayButton() {
         return playButton;
     }
+
+    public static Image GetRabbitPicto() {
+        return rabbit_picto;
+    }
+
+    public static Image GetSnailPicto() {
+        return snail_picto;
+    }
+
+    public static Image GetTigerPicto() {
+        return tiger_picto;
+    }
+
 }

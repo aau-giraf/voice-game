@@ -1,17 +1,33 @@
 package dk.aau.cs.giraf.cars.game.Overlay;
 
+import dk.aau.cs.giraf.cars.framework.Game;
+import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Assets;
+import dk.aau.cs.giraf.cars.game.GameScreen;
+import dk.aau.cs.giraf.cars.game.GameSettings;
+import dk.aau.cs.giraf.cars.game.GameState;
+import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
+import dk.aau.cs.giraf.cars.game.TestObstacles;
 
 public class WinningOverlay extends Overlay {
     private OverlayButton resetButton;
     private OverlayButton menuButton;
+    private Game game;
+    private CarControl carControl;
+    private GameSettings gameSettings;
 
     private int trophyX;
     private int trophyY;
 
-    public WinningOverlay(int gameWidth, int gameHeight, String restartMessage, String showmenuMessage) {
+    public WinningOverlay(Game game, String restartMessage, String showmenuMessage, CarControl carControl, GameSettings gameSettings) {
+        this.game = game;
+        this.carControl = carControl;
+        this.gameSettings = gameSettings;
+
+        int gameWidth = game.getWidth();
+        int gameHeight = game.getHeight();
         this.trophyX = (gameWidth - Assets.GetTrophy().getWidth()) / 2;
         this.trophyY = (gameHeight - Assets.GetTrophy().getHeight()) / 2;
 
@@ -36,5 +52,18 @@ public class WinningOverlay extends Overlay {
         graphics.drawARGB(155, 0, 0, 0);
         graphics.drawImage(Assets.GetTrophy(), trophyX, trophyY);
         super.Draw(graphics, deltaTime);
+    }
+
+    @Override
+    public GameState Update(Input.TouchEvent[] touchEvents, float deltaTime) {
+        carControl.Reset();
+        super.Update(touchEvents, deltaTime);
+        if (ResetButtonPressed()) {
+            game.setScreen(new GameScreen((GameActivity) game, new TestObstacles(), gameSettings));
+            return GameState.Running;
+        } else if (MenuButtonPressed()) {
+            ((GameActivity) game).finish();
+        }
+        return GameState.Won;
     }
 }

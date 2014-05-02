@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import dk.aau.cs.giraf.cars.game.CarGame;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.MapEditor;
+import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.controllers.ApplicationController;
 import dk.aau.cs.giraf.oasis.lib.controllers.ProfileApplicationController;
@@ -43,8 +45,14 @@ public class MainActivity extends Activity {
         child_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, database.GetDefaultChild());
 
 
+<<<<<<< HEAD
         Log.d("childid", "chilid ved main create" + child_id);
         setContentView(R.layout.activity_main_menu);
+=======
+        View v = LayoutInflater.from(this).inflate(R.layout.activity_main_menu, null);
+        v.setBackgroundColor(GComponent.GetBackgroundColor());
+        setContentView(v);
+>>>>>>> bedf78ccad25c3d4352b01c7311eaf2c1c17bf2a
     }
 
 

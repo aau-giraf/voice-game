@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import dk.aau.cs.giraf.cars.game.CalibrationFragment;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.SpeedFragment;
 import dk.aau.cs.giraf.gui.GColorPicker;
+import dk.aau.cs.giraf.gui.GComponent;
 
 public class Settings extends Activity {
     GameSettings gamesettings;
@@ -41,8 +43,9 @@ public class Settings extends Activity {
         DatabaseHelper database = new DatabaseHelper(this);
         database.Initialize(child_id);
         gamesettings = database.GetGameSettings();
-
-        setContentView(R.layout.activity_settings);
+        View v = LayoutInflater.from(this).inflate(R.layout.activity_settings, null);
+        v.setBackgroundColor(GComponent.GetBackgroundColor());
+        setContentView(v);
 
         colorPickButton1 = (ColorButton) findViewById(R.id.colorPick1);
         colorPickButton2 = (ColorButton) findViewById(R.id.colorPick2);
