@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import dk.aau.cs.giraf.cars.game.CarGame;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.MapEditor;
+import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.controllers.ApplicationController;
 import dk.aau.cs.giraf.oasis.lib.controllers.ProfileApplicationController;
@@ -47,7 +49,9 @@ public class MainActivity extends Activity {
 
         gamesettings = database.GetGameSettings();
 
-        setContentView(R.layout.activity_main_menu);
+        View v = LayoutInflater.from(this).inflate(R.layout.activity_main_menu, null);
+        v.setBackgroundColor(GComponent.GetBackgroundColor());
+        setContentView(v);
     }
 
 
