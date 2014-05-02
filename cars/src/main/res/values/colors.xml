@@ -2,4 +2,5 @@
 <resources>
     <color name="colorPickButtonBase">#FFFFFFFF</color>
     <color name="colorPickButtonStroke">#FF777777</color>
+    <color name="settingsTextColor">#FF000000</color>
 </resources>
