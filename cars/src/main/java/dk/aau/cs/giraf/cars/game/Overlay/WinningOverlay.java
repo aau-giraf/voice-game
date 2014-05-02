@@ -5,6 +5,7 @@ import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Assets;
+import dk.aau.cs.giraf.cars.game.CarGame;
 import dk.aau.cs.giraf.cars.game.GameScreen;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.GameState;
@@ -59,7 +60,8 @@ public class WinningOverlay extends Overlay {
         carControl.Reset();
         super.Update(touchEvents, deltaTime);
         if (ResetButtonPressed()) {
-            game.setScreen(new GameScreen((GameActivity) game, new TestObstacles(), gameSettings));
+            CarGame newGame = new CarGame();
+            game.setScreen(newGame.getFirstScreen());
             return GameState.Running;
         } else if (MenuButtonPressed()) {
             ((GameActivity) game).finish();
