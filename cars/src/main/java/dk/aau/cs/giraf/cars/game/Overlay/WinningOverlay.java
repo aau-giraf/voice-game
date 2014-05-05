@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.cars.game.Overlay;
 
+import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -10,33 +11,26 @@ import dk.aau.cs.giraf.cars.game.GameScreen;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.GameState;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
+import dk.aau.cs.giraf.cars.game.ObstacleGenerator;
 import dk.aau.cs.giraf.cars.game.TestObstacles;
 
-public class WinningOverlay extends Overlay {
+public class WinningOverlay extends GameScreen {
     private OverlayButton resetButton;
     private OverlayButton menuButton;
-    private Game game;
-    private CarControl carControl;
-    private GameSettings gameSettings;
 
     private int trophyX;
     private int trophyY;
 
-    public WinningOverlay(Game game, String restartMessage, String showmenuMessage, CarControl carControl, GameSettings gameSettings) {
-        this.game = game;
-        this.carControl = carControl;
-        this.gameSettings = gameSettings;
+    public WinningOverlay(GameActivity gameActivity, ObstacleGenerator obstacleGenerator, GameSettings gameSettings) {
+        super(gameActivity,obstacleGenerator,gameSettings);
 
         int gameWidth = game.getWidth();
         int gameHeight = game.getHeight();
         this.trophyX = (gameWidth - Assets.GetTrophy().getWidth()) / 2;
         this.trophyY = (gameHeight - Assets.GetTrophy().getHeight()) / 2;
 
-        resetButton = new OverlayButton((int) (gameWidth * 0.25), (int) (gameHeight * 0.65), restartMessage);
-        menuButton = new OverlayButton((int) (gameWidth * 0.75), (int) (gameHeight * 0.65), showmenuMessage);
-
-        Add(resetButton);
-        Add(menuButton);
+        resetButton = new OverlayButton((int) (gameWidth * 0.25), (int) (gameHeight * 0.65), ""+R.string.play_again_button_text);
+        menuButton = new OverlayButton((int) (gameWidth * 0.75), (int) (gameHeight * 0.65), ""+R.string.menu_button_text);
     }
 
     public boolean ResetButtonPressed() {
@@ -48,24 +42,24 @@ public class WinningOverlay extends Overlay {
     }
 
     @Override
-
-    public void Draw(Graphics graphics, float deltaTime) {
+    public void paint(Graphics graphics, float deltaTime) {
         graphics.drawARGB(155, 0, 0, 0);
         graphics.drawImage(Assets.GetTrophy(), trophyX, trophyY);
-        super.Draw(graphics, deltaTime);
+        resetButton.Draw(graphics,deltaTime);
+        menuButton.Draw(graphics,deltaTime);
     }
 
     @Override
-    public GameState Update(Input.TouchEvent[] touchEvents, float deltaTime) {
+    public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         carControl.Reset();
-        super.Update(touchEvents, deltaTime);
+        resetButton.Update(touchEvents,deltaTime);
+        menuButton.Update(touchEvents,deltaTime);
         if (ResetButtonPressed()) {
             CarGame newGame = new CarGame();
             game.setScreen(newGame.getFirstScreen());
-            return GameState.Running;
+            game.setScreen(new RunningScreen(GetGameActivity(),GetObstacleGenerator(),GetGameSettings()));
         } else if (MenuButtonPressed()) {
             ((GameActivity) game).finish();
         }
-        return GameState.Won;
     }
 }
