@@ -5,28 +5,31 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
+import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Assets;
 import dk.aau.cs.giraf.cars.game.Car;
+import dk.aau.cs.giraf.cars.game.GameScreen;
+import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.GameState;
+import dk.aau.cs.giraf.cars.game.ObstacleGenerator;
 
-public class PauseOverlay extends Overlay {
+public class PauseOverlay extends GameScreen {
     private boolean paused = false;
     private Rect playButtonSize = new Rect(20, 20, 100, 100);
     private Rect image = new Rect(0, 0, Assets.GetPlayButton().getWidth(), Assets.GetPlayButton().getHeight());
     private int y, height, width;
     private float x;
-    private Car car;
     private final int scaleWidth = 100;
     private final int scaleSize = 11;
 
-    public PauseOverlay(float x, int y, int height, int width, Car car) {
-        this.car = car;
-        this.x = x;
-        this.y = y;
-        this.height = height;
-        this.width = width;
+    public PauseOverlay(GameActivity game,ObstacleGenerator obstacleGenerator, GameSettings gameSettings) {
+        super(game,obstacleGenerator,gameSettings);
+        this.x = car.getX();
+        this.y = grassSize;
+        this.height = game.getHeight()-2*grassSize;
+        this.width = game.getWidth();
     }
 
     private boolean pauseButtonPressed(Input.TouchEvent[] touchEvents) {
@@ -41,7 +44,7 @@ public class PauseOverlay extends Overlay {
     }
 
     @Override
-    public void Draw(Graphics graphics, float deltaTime) {
+    public void paint(Graphics graphics, float deltaTime) {
         Paint paint = new Paint();
         paint.setTextSize(30);
         paint.setTextAlign(Paint.Align.CENTER);
@@ -69,9 +72,8 @@ public class PauseOverlay extends Overlay {
     }
 
     @Override
-    public GameState Update(Input.TouchEvent[] touchEvents, float deltaTime) {
+    public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         if (pauseButtonPressed(touchEvents))
-            return GameState.Paused;
-        return GameState.Running;
+            game.setScreen(new RunningScreen(GetGameActivity(),GetObstacleGenerator(),GetGameSettings()));
     }
 }
