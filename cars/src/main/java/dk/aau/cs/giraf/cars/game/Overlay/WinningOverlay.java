@@ -43,6 +43,7 @@ public class WinningOverlay extends GameScreen {
 
     @Override
     public void paint(Graphics graphics, float deltaTime) {
+        super.paint(graphics,deltaTime);
         graphics.drawARGB(155, 0, 0, 0);
         graphics.drawImage(Assets.GetTrophy(), trophyX, trophyY);
         resetButton.Draw(graphics,deltaTime);
@@ -51,6 +52,7 @@ public class WinningOverlay extends GameScreen {
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
+        super.update(touchEvents,deltaTime);
         carControl.Reset();
         resetButton.Update(touchEvents,deltaTime);
         menuButton.Update(touchEvents,deltaTime);
