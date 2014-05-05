@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
+
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
@@ -52,7 +53,7 @@ public class OverlayButton implements GameObject {
                 xoffset = bounds.width();
                 break;
         }
-        bounds.offset(x -xoffset, y);
+        bounds.offset(x - xoffset, y);
 
 
         this.buttonText = buttonText;
@@ -60,8 +61,7 @@ public class OverlayButton implements GameObject {
         this.Pressed = false;
     }
 
-    public boolean IsPressed()
-    {
+    public boolean IsPressed() {
         return Pressed;
     }
 
@@ -76,11 +76,11 @@ public class OverlayButton implements GameObject {
         this(x, y, Color.WHITE, Color.YELLOW, buttonText, Paint.Align.CENTER, 100);
     }
 
-    public OverlayButton(int x, int y, String buttonText, float textSize){
+    public OverlayButton(int x, int y, String buttonText, float textSize) {
         this(x, y, Color.WHITE, Color.YELLOW, buttonText, Paint.Align.CENTER, textSize);
     }
 
-    public OverlayButton(int x, int y, int textColor, int touchColor, String buttonText, Paint.Align alignment){
+    public OverlayButton(int x, int y, int textColor, int touchColor, String buttonText, Paint.Align alignment) {
         this(x, y, textColor, touchColor, buttonText, alignment, 100);
     }
 
@@ -105,7 +105,7 @@ public class OverlayButton implements GameObject {
     }
 
     protected boolean inBounds(Input.TouchEvent event) {
-        return event.inBounds( bounds);
+        return event.inBounds(bounds);
     }
 
     @Override

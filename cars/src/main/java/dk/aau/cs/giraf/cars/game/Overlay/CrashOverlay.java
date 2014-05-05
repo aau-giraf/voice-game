@@ -28,7 +28,7 @@ public class CrashOverlay extends GameScreen {
     }
 
     public CrashOverlay(GameActivity gameActivity, ObstacleGenerator obstacleGenerator, GameSettings gameSettings) {
-        super(gameActivity,obstacleGenerator,gameSettings);
+        super(gameActivity, obstacleGenerator, gameSettings);
 
         continueButton = new OverlayButton(game.getWidth() / 2, game.getHeight() / 2, game.getResources().getString(R.string.crash_button_text));
 
@@ -44,15 +44,15 @@ public class CrashOverlay extends GameScreen {
     public void paint(Graphics graphics, float deltaTime) {
         graphics.drawScaledImage(Assets.GetExplosion(), lastCrash, explosionRect);
         graphics.drawARGB(155, 0, 0, 0);
-        continueButton.Draw(graphics,deltaTime);
+        continueButton.Draw(graphics, deltaTime);
     }
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
-        continueButton.Update(touchEvents,deltaTime);
+        continueButton.Update(touchEvents, deltaTime);
         if (continueButtonPressed()) {
-            car.ResetCar(game.getHeight(),grassSize,verticalMover);
-            game.setScreen(new RunningScreen(GetGameActivity(),GetObstacleGenerator(),GetGameSettings()));
+            car.ResetCar(game.getHeight(), grassSize, verticalMover);
+            game.setScreen(new RunningScreen(GetGameActivity(), GetObstacleGenerator(), GetGameSettings()));
         }
     }
 }

@@ -19,8 +19,8 @@ public class StartOverlay extends GameScreen {
     private String driveMessage;
     private Paint pButton;
 
-    public StartOverlay(GameActivity game,ObstacleGenerator obstacleGenerator, GameSettings gs) {
-        super(game,obstacleGenerator,gs);
+    public StartOverlay(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
+        super(game, obstacleGenerator, gs);
         this.seconds = COUNTDOWN_IN_SECONDS;
         pButton = new Paint();
 
@@ -33,8 +33,7 @@ public class StartOverlay extends GameScreen {
         resetCounters();
     }
 
-    private void resetCounters()
-    {
+    private void resetCounters() {
         counterInMS = (seconds + 1) * 1000;
         visualCounter = seconds;
     }
@@ -55,7 +54,7 @@ public class StartOverlay extends GameScreen {
 
     @Override
     public void paint(Graphics graphics, float deltaTime) {
-        super.paint(graphics,deltaTime);
+        super.paint(graphics, deltaTime);
         int width = graphics.getWidth();
         int height = graphics.getHeight();
         graphics.drawARGB(155, 0, 0, 0);
@@ -66,8 +65,8 @@ public class StartOverlay extends GameScreen {
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
-        super.update(touchEvents,deltaTime);
+        super.update(touchEvents, deltaTime);
         if (isTimerDone(deltaTime))
-            game.setScreen(new RunningScreen(GetGameActivity(),GetObstacleGenerator(),GetGameSettings()));
+            game.setScreen(new RunningScreen(GetGameActivity(), GetObstacleGenerator(), GetGameSettings()));
     }
 }

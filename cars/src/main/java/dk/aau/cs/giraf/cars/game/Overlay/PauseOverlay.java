@@ -24,11 +24,11 @@ public class PauseOverlay extends GameScreen {
     private final int scaleWidth = 100;
     private final int scaleSize = 11;
 
-    public PauseOverlay(GameActivity game,ObstacleGenerator obstacleGenerator, GameSettings gameSettings) {
-        super(game,obstacleGenerator,gameSettings);
+    public PauseOverlay(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gameSettings) {
+        super(game, obstacleGenerator, gameSettings);
         this.x = car.getX();
         this.y = grassSize;
-        this.height = game.getHeight()-2*grassSize;
+        this.height = game.getHeight() - 2 * grassSize;
         this.width = game.getWidth();
     }
 
@@ -36,7 +36,7 @@ public class PauseOverlay extends GameScreen {
         this.x = car.getX();
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN)
-                if (e.inBounds( playButtonSize)) {
+                if (e.inBounds(playButtonSize)) {
                     paused = !paused;
                     return paused;
                 }
@@ -67,13 +67,13 @@ public class PauseOverlay extends GameScreen {
             int tmp = 70 + (height / scaleSize * i);
             graphics.drawLine(x, tmp, x + scaleWidth, tmp, Color.BLACK, 5);
             if (i != 0)
-                graphics.drawString(scaleSize - i + "", x + (scaleWidth / 2), tmp-10, paint);
+                graphics.drawString(scaleSize - i + "", x + (scaleWidth / 2), tmp - 10, paint);
         }
     }
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         if (pauseButtonPressed(touchEvents))
-            game.setScreen(new RunningScreen(GetGameActivity(),GetObstacleGenerator(),GetGameSettings()));
+            game.setScreen(new RunningScreen(GetGameActivity(), GetObstacleGenerator(), GetGameSettings()));
     }
 }

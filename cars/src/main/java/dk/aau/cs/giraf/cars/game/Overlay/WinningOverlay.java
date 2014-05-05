@@ -22,15 +22,15 @@ public class WinningOverlay extends GameScreen {
     private int trophyY;
 
     public WinningOverlay(GameActivity gameActivity, ObstacleGenerator obstacleGenerator, GameSettings gameSettings) {
-        super(gameActivity,obstacleGenerator,gameSettings);
+        super(gameActivity, obstacleGenerator, gameSettings);
 
         int gameWidth = game.getWidth();
         int gameHeight = game.getHeight();
         this.trophyX = (gameWidth - Assets.GetTrophy().getWidth()) / 2;
         this.trophyY = (gameHeight - Assets.GetTrophy().getHeight()) / 2;
 
-        resetButton = new OverlayButton((int) (gameWidth * 0.25), (int) (gameHeight * 0.65), ""+R.string.play_again_button_text);
-        menuButton = new OverlayButton((int) (gameWidth * 0.75), (int) (gameHeight * 0.65), ""+R.string.menu_button_text);
+        resetButton = new OverlayButton((int) (gameWidth * 0.25), (int) (gameHeight * 0.65), "" + R.string.play_again_button_text);
+        menuButton = new OverlayButton((int) (gameWidth * 0.75), (int) (gameHeight * 0.65), "" + R.string.menu_button_text);
     }
 
     public boolean ResetButtonPressed() {
@@ -43,19 +43,19 @@ public class WinningOverlay extends GameScreen {
 
     @Override
     public void paint(Graphics graphics, float deltaTime) {
-        super.paint(graphics,deltaTime);
+        super.paint(graphics, deltaTime);
         graphics.drawARGB(155, 0, 0, 0);
         graphics.drawImage(Assets.GetTrophy(), trophyX, trophyY);
-        resetButton.Draw(graphics,deltaTime);
-        menuButton.Draw(graphics,deltaTime);
+        resetButton.Draw(graphics, deltaTime);
+        menuButton.Draw(graphics, deltaTime);
     }
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
-        super.update(touchEvents,deltaTime);
+        super.update(touchEvents, deltaTime);
         carControl.Reset();
-        resetButton.Update(touchEvents,deltaTime);
-        menuButton.Update(touchEvents,deltaTime);
+        resetButton.Update(touchEvents, deltaTime);
+        menuButton.Update(touchEvents, deltaTime);
         if (ResetButtonPressed()) {
             CarGame newGame = new CarGame();
             game.setScreen(newGame.getFirstScreen());
