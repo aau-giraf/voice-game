@@ -1,5 +1,7 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
@@ -20,12 +22,14 @@ import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
 import dk.aau.cs.giraf.cars.game.Overlay.RunningScreen;
 
 public abstract class GameScreen extends Screen {
+    private final boolean debug = false;
     protected Car car;
     protected final mFloat verticalMover;
     protected final int grassSize = 70;
     protected CarControl carControl;
     protected float animationZoneX;
     private final float animationZoneSize = 100;
+    private float speed; //Pixels per second
 
     private ArrayList<Garage> garages;
     private int amountOfGarages = 3;
@@ -60,11 +64,15 @@ public abstract class GameScreen extends Screen {
         this.obstacleGenerator = obstacleGenerator;
         this.gameSettings = gs;
         this.verticalMover = new mFloat(0, new MoveSineLine(0.5f, 200));
-        this.animationZoneX = garages.get(0).x - animationZoneSize;
+        this.car.SetShowValue(true);
+        car.ResetCar(game.getHeight(),grassSize,verticalMover);
+        this.speed = gs.GetSpeed() * (Car.MAX_PIXELSPERSECOND / Car.MAX_SCALE);
 
         this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize - (int)car.getHeight(), grassSize + (int)car.getHeight() / 2);
         //this.carControl = new VolumeCarControl(gs.GetMinVolume(), gs.GetMaxVolume());
 
+        colors = (LinkedList<Integer>) gs.GetColors().clone();
+        Collections.shuffle(colors);
         this.garages = new ArrayList<Garage>();
         float garageSpace = (game.getHeight() - 2 * grassSize - 3 * garageSize) / 4f;
         for (int i = 0; i < amountOfGarages; i++) {
@@ -74,8 +82,7 @@ public abstract class GameScreen extends Screen {
             garages.add(g);
         }
 
-        colors = (LinkedList<Integer>) gs.GetColors().clone();
-        Collections.shuffle(colors);
+        this.animationZoneX = garages.get(0).x - animationZoneSize;
 
         Collections.shuffle(colors);
         car.setColor(colors.removeFirst());
@@ -88,6 +95,31 @@ public abstract class GameScreen extends Screen {
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
+        if (allGaragesClosed()) {
+            //game.setScreen(new WinningOverlay());
+        }
+
+        car.Update(touchEvents, deltaTime);
+        car.x += speed * (deltaTime / 1000.0f);
+
+        float moveTo = 1f - carControl.getMove(touchEvents);
+        moveTo *= (game.getHeight() - grassSize * 2 - car.height);
+        moveTo += grassSize;
+
+        if (car.x + car.width >= animationZoneX)
+            moveTo = getGarageTargetY() - car.height / 2;
+
+        if (moveTo != verticalMover.getTargetValue())
+            verticalMover.setTargetValue(moveTo);
+
+        verticalMover.Update();
+        car.y = verticalMover.getCurrentValue();
+        Log.d("position", moveTo + "p " + car.y);
+
+        if (car.y < grassSize) car.y = grassSize;
+        if (car.y > game.getHeight() - car.height - grassSize)
+            car.y = game.getHeight() - car.height - grassSize;
+
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(touchEvents, deltaTime);
             if (obstacles.get(i).CollidesWith(car)) {
@@ -116,8 +148,29 @@ public abstract class GameScreen extends Screen {
 
     @Override
     public void paint(Graphics graphics, float deltaTime) {
+        if (debug) {
+            Paint debug = new Paint();
+            debug.setTextSize(50);
+            debug.setTextAlign(Paint.Align.LEFT);
+            debug.setAntiAlias(true);
+            debug.setColor(Color.RED);
+
+            graphics.drawString(((VolumeCarControl) carControl).GetMinAmplitude() + "", 100, 100, debug);
+            graphics.drawString(((VolumeCarControl) carControl).GetMaxAmplitude() + "", 100, 200, debug);
+        }
+
+        graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
+        graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, game.getWidth(), game.getHeight() - grassSize * 2);
+
+        for (int i = 0; i < game.getWidth(); i += 10) {
+            graphics.drawImage(Assets.getBorder(), i, grassSize - 19, 0, 0, 10, 25);
+            graphics.drawImage(Assets.getBorder(), i, game.getHeight() - grassSize - 6, 0, 25, 10, 25);
+        }
+
         for (Obstacle obstacle : obstacles)
             obstacle.Draw(graphics, deltaTime);
+
+        car.Draw(graphics, deltaTime);
 
         for (Garage garage : garages)
             garage.Draw(graphics, deltaTime);
