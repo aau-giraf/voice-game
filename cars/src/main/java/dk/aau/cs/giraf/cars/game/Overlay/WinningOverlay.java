@@ -39,16 +39,7 @@ public class WinningOverlay extends Overlay {
         Add(menuButton);
     }
 
-    public boolean ResetButtonPressed() {
-        return resetButton.IsPressed();
-    }
-
-    public boolean MenuButtonPressed() {
-        return menuButton.IsPressed();
-    }
-
     @Override
-
     public void Draw(Graphics graphics, float deltaTime) {
         graphics.drawARGB(155, 0, 0, 0);
         graphics.drawImage(Assets.GetTrophy(), trophyX, trophyY);
@@ -59,10 +50,10 @@ public class WinningOverlay extends Overlay {
     public GameState Update(Input.TouchEvent[] touchEvents, float deltaTime) {
         carControl.Reset();
         super.Update(touchEvents, deltaTime);
-        if (ResetButtonPressed()) {
+        if (resetButton.IsClicked()) {
             gameScreen.startNewGame();
             return GameState.Running;
-        } else if (MenuButtonPressed()) {
+        } else if (menuButton.IsClicked()) {
             ((GameActivity) game).finish();
         }
         return GameState.Won;

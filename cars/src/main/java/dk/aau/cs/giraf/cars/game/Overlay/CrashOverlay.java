@@ -41,10 +41,6 @@ public class CrashOverlay extends Overlay {
         this.explosionRect = new Rect(0, 0, Assets.GetExplosion().getWidth(), Assets.GetExplosion().getHeight());
     }
 
-    private boolean continueButtonPressed() {
-        return continueButton.IsPressed();
-    }
-
     @Override
     public void Draw(Graphics graphics, float deltaTime) {
         graphics.drawScaledImage(Assets.GetExplosion(), lastCrash, explosionRect);
@@ -57,7 +53,7 @@ public class CrashOverlay extends Overlay {
         //carControl.Reset();
         super.Update(touchEvents,deltaTime);
 
-        if (continueButtonPressed()) {
+        if (continueButton.IsClicked()) {
             car.ResetCar(game.getHeight(),grassSize,verticalMover);
             return GameState.Running;
         }
