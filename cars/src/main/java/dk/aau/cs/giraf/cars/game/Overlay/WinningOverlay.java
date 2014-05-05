@@ -57,7 +57,6 @@ public class WinningOverlay extends GameScreen {
         if (ResetButtonPressed()) {
             CarGame newGame = new CarGame();
             game.setScreen(newGame.getFirstScreen());
-            game.setScreen(new RunningScreen(GetGameActivity(),GetObstacleGenerator(),GetGameSettings()));
         } else if (MenuButtonPressed()) {
             ((GameActivity) game).finish();
         }
