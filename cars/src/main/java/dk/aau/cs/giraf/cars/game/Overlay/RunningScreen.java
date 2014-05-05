@@ -29,22 +29,8 @@ import dk.aau.cs.giraf.cars.game.ObstacleGenerator;
 public class RunningScreen extends GameScreen {
 
 
-
-
-
-
-
-
-
-
     public RunningScreen(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game, obstacleGenerator, gs);
-
-
-
-
-
-
 
 
     }
@@ -54,21 +40,14 @@ public class RunningScreen extends GameScreen {
         super.update(touchEvents, deltaTime);
 
 
-
-
     }
 
     @Override
     public void paint(Graphics graphics, float deltaTime) {
-        super.paint(graphics,deltaTime);
-
-
-
+        super.paint(graphics, deltaTime);
 
 
     }
-
-
 
 
 }
