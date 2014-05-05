@@ -13,6 +13,7 @@ public class OverlayButton implements GameObject {
     private Paint pFocus;
     private int x, y;
     private boolean pressed;
+    private boolean clicked;
 
     private String buttonText;
     private Rect bounds;
@@ -50,17 +51,21 @@ public class OverlayButton implements GameObject {
                 xoffset = bounds.width();
                 break;
         }
-        bounds.offset(x -xoffset, y);
+        bounds.offset(x - xoffset, y);
 
 
         this.buttonText = buttonText;
 
         this.pressed = false;
+        this.clicked = false;
     }
 
-    public boolean IsPressed()
-    {
+    public boolean IsPressed() {
         return pressed;
+    }
+
+    public boolean IsClicked() {
+        return clicked;
     }
 
     /**
@@ -74,11 +79,11 @@ public class OverlayButton implements GameObject {
         this(x, y, Color.WHITE, Color.YELLOW, buttonText, Paint.Align.CENTER, 100);
     }
 
-    public OverlayButton(int x, int y, String buttonText, float textSize){
+    public OverlayButton(int x, int y, String buttonText, float textSize) {
         this(x, y, Color.WHITE, Color.YELLOW, buttonText, Paint.Align.CENTER, textSize);
     }
 
-    public OverlayButton(int x, int y, int textColor, int touchColor, String buttonText, Paint.Align alignment){
+    public OverlayButton(int x, int y, int textColor, int touchColor, String buttonText, Paint.Align alignment) {
         this(x, y, textColor, touchColor, buttonText, alignment, 100);
     }
 
@@ -88,10 +93,13 @@ public class OverlayButton implements GameObject {
      */
     @Override
     public void Update(Input.TouchEvent[] touchEvents, float deltaTime) {
+        boolean clickedset = false;
         for (int i = 0; i < touchEvents.length; i++) {
             Input.TouchEvent event = touchEvents[i];
             if (inBounds(event)) {
                 if (event.type == Input.TouchEvent.TOUCH_UP) {
+                    clickedset = true;
+                    clicked = pressed;
                     pressed = false;
                 } else if (event.type == Input.TouchEvent.TOUCH_DOWN || event.type == Input.TouchEvent.TOUCH_DRAGGED)
                     pressed = true;
@@ -100,10 +108,12 @@ public class OverlayButton implements GameObject {
             } else
                 pressed = false;
         }
+        if (!clickedset)
+            clicked = false;
     }
 
     protected boolean inBounds(Input.TouchEvent event) {
-        return event.inBounds( bounds);
+        return event.inBounds(bounds);
     }
 
     @Override
