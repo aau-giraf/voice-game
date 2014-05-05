@@ -29,7 +29,7 @@ public class StartOverlay extends GameScreen {
         pButton.setAntiAlias(true);
         pButton.setColor(Color.WHITE);
 
-        this.driveMessage = ""+R.string.countdown_drive;
+        this.driveMessage = game.getResources().getString(R.string.countdown_drive);
         resetCounters();
     }
 
@@ -55,6 +55,7 @@ public class StartOverlay extends GameScreen {
 
     @Override
     public void paint(Graphics graphics, float deltaTime) {
+        super.paint(graphics,deltaTime);
         int width = graphics.getWidth();
         int height = graphics.getHeight();
         graphics.drawARGB(155, 0, 0, 0);
@@ -65,6 +66,7 @@ public class StartOverlay extends GameScreen {
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
+        super.update(touchEvents,deltaTime);
         if (isTimerDone(deltaTime))
             game.setScreen(new RunningScreen(GetGameActivity(),GetObstacleGenerator(),GetGameSettings()));
     }
