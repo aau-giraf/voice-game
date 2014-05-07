@@ -65,8 +65,8 @@ public class GameScreen extends Screen {
         crashedOverlay = new CrashOverlay(game, carControl, car, grassSize, verticalMover);
         car.ResetCar(game.getHeight(), grassSize, verticalMover);
 
-        //this.carControl = new VolumeCarControl(gs.GetMinVolume(), gs.GetMaxVolume());
-        this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize - (int) car.height, grassSize + (int) car.height / 2);
+        this.carControl = new VolumeCarControl(gs.GetMinVolume(), gs.GetMaxVolume());
+        //this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize - (int) car.height, grassSize + (int) car.height / 2);
         this.speed = gs.GetSpeed() * (Car.MAX_PIXELSPERSECOND / Car.MAX_SCALE);
 
         this.obstacles = new ArrayList<Obstacle>();
