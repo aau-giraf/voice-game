@@ -54,7 +54,7 @@ public class GameScreen extends Screen {
     public GameScreen(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
 
-        verticalMover = new mFloat(0, new MoveSineLine(0.5f, 200));
+        verticalMover = new mFloat(0, new MoveSineLine(0.2f, 300));
 
         gameSettings = gs;
         colors = (LinkedList<Integer>) gs.GetColors().clone();
