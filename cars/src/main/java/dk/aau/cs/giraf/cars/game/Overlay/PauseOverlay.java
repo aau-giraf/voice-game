@@ -45,6 +45,7 @@ public class PauseOverlay extends GameScreen {
 
     @Override
     public void paint(Graphics graphics, float deltaTime) {
+        super.paint(graphics,deltaTime);
         Paint paint = new Paint();
         paint.setTextSize(30);
         paint.setTextAlign(Paint.Align.CENTER);
@@ -73,6 +74,7 @@ public class PauseOverlay extends GameScreen {
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
+        super.update(touchEvents,deltaTime);
         if (pauseButtonPressed(touchEvents))
             game.setScreen(new RunningScreen(GetGameActivity(), GetObstacleGenerator(), GetGameSettings()));
     }
