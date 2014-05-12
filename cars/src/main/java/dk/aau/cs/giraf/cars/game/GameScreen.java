@@ -40,18 +40,6 @@ public abstract class GameScreen extends Screen {
     private ObstacleGenerator obstacleGenerator;
     private GameActivity gameActivity;
 
-    public GameActivity GetGameActivity() {
-        return gameActivity;
-    }
-
-    public ObstacleGenerator GetObstacleGenerator() {
-        return obstacleGenerator;
-    }
-
-    public GameSettings GetGameSettings() {
-        return gameSettings;
-    }
-
     public GameScreen(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
         this.car = new Car(0, 0, 200, 99);
