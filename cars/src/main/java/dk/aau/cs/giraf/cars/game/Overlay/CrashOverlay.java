@@ -40,10 +40,6 @@ public class CrashOverlay extends GameScreen {
         this.explosionRect = new Rect(0, 0, Assets.GetExplosion().getWidth(), Assets.GetExplosion().getHeight());
     }
 
-    private boolean continueButtonPressed() {
-        return continueButton.IsPressed();
-    }
-
     @Override
     public void paint(Graphics graphics, float deltaTime) {
         super.paint(graphics,deltaTime);
@@ -56,7 +52,7 @@ public class CrashOverlay extends GameScreen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents,deltaTime);
         continueButton.Update(touchEvents, deltaTime);
-        if (continueButtonPressed()) {
+        if (continueButton.IsClicked()) {
             game.setScreen(new RunningScreen(GetGameActivity(), GetObstacleGenerator(), GetGameSettings()));
         }
     }

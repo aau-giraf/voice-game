@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
+import android.provider.ContactsContract;
+import dk.aau.cs.giraf.cars.DatabaseHelper;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
 import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
@@ -40,7 +42,13 @@ public class CarGame extends CarsActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Intent i = getIntent();
-        gamesettings = i.getParcelableExtra("GameSettings");
+        int child_id = i.getIntExtra(DatabaseHelper.CHILD_ID,0);
+
+        DatabaseHelper database = new DatabaseHelper(this);
+        database.Initialize(child_id);
+
+        gamesettings = database.GetGameSettings();
+
         super.onCreate(savedInstanceState);
 
 

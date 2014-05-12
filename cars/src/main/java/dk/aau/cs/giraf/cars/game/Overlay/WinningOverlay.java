@@ -12,17 +12,18 @@ import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.GameState;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 import dk.aau.cs.giraf.cars.game.ObstacleGenerator;
-import dk.aau.cs.giraf.cars.game.TestObstacles;
 
 public class WinningOverlay extends GameScreen {
     private OverlayButton resetButton;
     private OverlayButton menuButton;
+    private GameScreen gameScreen;
 
     private int trophyX;
     private int trophyY;
 
     public WinningOverlay(GameActivity gameActivity, ObstacleGenerator obstacleGenerator, GameSettings gameSettings) {
         super(gameActivity, obstacleGenerator, gameSettings);
+        this.gameScreen = gameScreen;
 
         int gameWidth = game.getWidth();
         int gameHeight = game.getHeight();
@@ -31,14 +32,6 @@ public class WinningOverlay extends GameScreen {
 
         resetButton = new OverlayButton((int) (gameWidth * 0.25), (int) (gameHeight * 0.65), "" + R.string.play_again_button_text);
         menuButton = new OverlayButton((int) (gameWidth * 0.75), (int) (gameHeight * 0.65), "" + R.string.menu_button_text);
-    }
-
-    public boolean ResetButtonPressed() {
-        return resetButton.IsPressed();
-    }
-
-    public boolean MenuButtonPressed() {
-        return menuButton.IsPressed();
     }
 
     @Override
@@ -60,6 +53,8 @@ public class WinningOverlay extends GameScreen {
             CarGame newGame = new CarGame();
             game.setScreen(newGame.getFirstScreen());
         } else if (MenuButtonPressed()) {
+            ((GameActivity) game).finish();
+        }
             ((GameActivity) game).finish();
         }
     }

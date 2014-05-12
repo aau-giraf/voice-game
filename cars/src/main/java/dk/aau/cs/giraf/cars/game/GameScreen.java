@@ -1,5 +1,7 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.content.Intent;
+import dk.aau.cs.giraf.cars.DatabaseHelper;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.Screen;

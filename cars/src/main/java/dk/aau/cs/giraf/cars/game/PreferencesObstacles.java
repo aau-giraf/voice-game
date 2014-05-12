@@ -2,26 +2,24 @@ package dk.aau.cs.giraf.cars.game;
 
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
+import dk.aau.cs.giraf.cars.DatabaseHelper;
+
+import java.util.ArrayList;
 
 public class PreferencesObstacles implements ObstacleGenerator {
-    private ContextWrapper contextWrapper;
+    private GameSettings gs;
 
-    public PreferencesObstacles(ContextWrapper contextWrapper) {
-        this.contextWrapper = contextWrapper;
+    public PreferencesObstacles(GameSettings gs) {
+        this.gs = gs;
     }
 
     @Override
     public Obstacle[] CreateObstacles(int width, int height) {
-        SharedPreferences mapPreferences = contextWrapper.getSharedPreferences("map", 0);
-        int count = mapPreferences.getInt("count", 0);
-        Obstacle[] obstacles = new Obstacle[count];
 
-        for (int i = 0; i < count; i++) {
-            float x = mapPreferences.getFloat("x" + i, 0);
-            float y = mapPreferences.getFloat("y" + i, 0);
-            obstacles[i] = new Obstacle(x, y, 100, 100);
-        }
+        ArrayList<Obstacle> obstacleList =  gs.LoadObstacles();
+        Obstacle[] obstacles = new Obstacle[obstacleList.size()];
 
-        return obstacles;
+        return obstacleList.toArray(obstacles);
+
     }
 }
