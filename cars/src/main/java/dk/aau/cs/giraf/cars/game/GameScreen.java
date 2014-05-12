@@ -20,11 +20,11 @@ import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
 
 public abstract class GameScreen extends Screen {
     private final boolean debug = false;
-    protected Car car;
-    protected boolean driving = false;
-    protected final int grassSize = 70;
-    protected CarControl carControl;
-    protected float animationZoneX;
+    private Car car;
+    private boolean driving = false;
+    private final int grassSize = 70;
+    private CarControl carControl;
+    private float animationZoneX;
     private final float animationZoneSize = 100;
     private float speed; //Pixels per second
 
