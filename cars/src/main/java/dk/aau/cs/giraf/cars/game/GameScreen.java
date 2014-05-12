@@ -68,6 +68,10 @@ public abstract class GameScreen extends Screen {
             this.obstacles.add(o);
     }
 
+    public Car getCar() {
+        return car;
+    }
+
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         if (allGaragesClosed()) {
