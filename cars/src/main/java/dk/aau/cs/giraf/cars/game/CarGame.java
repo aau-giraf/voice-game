@@ -52,7 +52,8 @@ public class CarGame extends CarsActivity {
         setScreen(startOverlay);
     }
 
-    public void showCrashScreen() {
+    public void showCrashScreen(GameItem gameItem) {
+        crashOverlay.setCrashPoint(gameItem);
         setScreen(crashOverlay);
     }
 

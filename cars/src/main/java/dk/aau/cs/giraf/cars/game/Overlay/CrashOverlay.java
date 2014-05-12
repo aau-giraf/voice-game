@@ -11,6 +11,7 @@ import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.mFloat;
 import dk.aau.cs.giraf.cars.game.Assets;
 import dk.aau.cs.giraf.cars.game.Car;
+import dk.aau.cs.giraf.cars.game.GameItem;
 import dk.aau.cs.giraf.cars.game.GameScreen;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.GameState;
@@ -22,6 +23,9 @@ public class CrashOverlay extends GameScreen {
     private Rect lastCrash;
     private Rect explosionRect;
 
+    public void setCrashPoint(GameItem gameItem){
+        setLastCrash(gameItem.GetCollisionCenter(getCar()));
+    }
     public void setLastCrash(Point p) {
         lastCrash.offsetTo(p.x, p.y);
         lastCrash.offset(-lastCrash.width() / 2, -lastCrash.height() / 2);

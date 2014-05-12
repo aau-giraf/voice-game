@@ -137,7 +137,7 @@ public abstract class GameScreen extends Screen {
             garage.Draw(graphics, deltaTime);
     }
 
-    public boolean isCarInAnimaitonZone(){
+    public boolean isCarInAnimaitonZone() {
         return car.x + car.width < animationZoneX;
     }
 
@@ -217,8 +217,8 @@ public abstract class GameScreen extends Screen {
         gameActivity.showStartScreen();
     }
 
-    public void showCrashScreen() {
-        gameActivity.showCrashScreen();
+    public void showCrashScreen(GameItem gameItem) {
+        gameActivity.showCrashScreen(gameItem);
     }
 
     public void showPauseScreen() {
