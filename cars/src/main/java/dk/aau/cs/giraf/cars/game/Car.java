@@ -15,8 +15,9 @@ public class Car extends GameItem {
     private static final float MAX_SCALE = 10f;
 
     private Paint paint;
-    private boolean driving = true;
     private mFloat verticalMover;
+    private float scaleSpeed;
+    private float pixelSpeed;
     private boolean showValue = false;
 
     private final float initialX, initialY;
@@ -28,7 +29,7 @@ public class Car extends GameItem {
     private int color;
     private Image image;
 
-    public Car(float x, float y, float speed) {
+    public Car(float x, float y) {
         super(x, y, 200, 99);
         paint = new Paint();
         paint.setAntiAlias(true);
@@ -42,6 +43,17 @@ public class Car extends GameItem {
 
         this.initialX = x;
         this.initialY = y;
+
+        this.setSpeed(0);
+    }
+
+    public void setSpeed(float speed) {
+        this.scaleSpeed = speed;
+        this.pixelSpeed = speed * MAX_PIXELSPERSECOND / MAX_SCALE;
+    }
+
+    public float getSpeed() {
+        return scaleSpeed;
     }
 
     public void setColor(int color) {
@@ -55,16 +67,15 @@ public class Car extends GameItem {
 
     @Override
     public void Draw(Graphics graphics, float deltaTime) {
-        if (driving) {
-            Rect bounds = this.GetBounds();
+        Rect bounds = this.GetBounds();
 
-            graphics.drawScaledImage(image,
-                    bounds.left, bounds.top, bounds.right - bounds.left, bounds.bottom - bounds.top,
-                    0, 0, image.getWidth(), image.getHeight());
-            if (showValue)
-                graphics.drawString(String.valueOf(getBarometerNumber(bounds.centerY() - 100, 600)),
-                        bounds.centerX() - 20, bounds.centerY() + 17, paint);
-        }
+        graphics.drawScaledImage(image,
+                bounds.left, bounds.top, bounds.right - bounds.left, bounds.bottom - bounds.top,
+                0, 0, image.getWidth(), image.getHeight());
+        
+        if (showValue)
+            graphics.drawString(String.valueOf(getBarometerNumber(bounds.centerY() - 100, 600)),
+                    bounds.centerX() - 20, bounds.centerY() + 17, paint);
     }
 
     private int getBarometerNumber(float y, float height) {
@@ -78,10 +89,9 @@ public class Car extends GameItem {
 
     @Override
     public void Update(Input.TouchEvent[] touchEvents, float deltaTime) {
-        if (driving) {
-            verticalMover.Update();
-            super.y = verticalMover.getCurrentValue();
-        }
+        verticalMover.Update();
+        super.y = verticalMover.getCurrentValue();
+        super.x += pixelSpeed * (deltaTime / 1000.0f);
     }
 
     public Car ResetCar() {
@@ -89,13 +99,5 @@ public class Car extends GameItem {
         super.y = initialY;
         verticalMover.setCurrentValue(initialY);
         return this;
-    }
-
-    public void Stop() {
-        driving = false;
-    }
-
-    public void Start() {
-        driving = true;
     }
 }
