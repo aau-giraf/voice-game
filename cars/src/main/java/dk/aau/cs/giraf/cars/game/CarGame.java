@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
-import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
 import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
@@ -49,11 +48,23 @@ public class CarGame extends CarsActivity {
 
     }
 
-    public void ShowStartOverlay() {
+    public void showStartScreen() {
         setScreen(startOverlay);
     }
 
-    public void ShowRunningScreen() {
+    public void showCrashScreen() {
+        setScreen(crashOverlay);
+    }
+
+    public void showPauseScreen() {
+        setScreen(pauseOverlay);
+    }
+
+    public void showWinningScreen() {
+        setScreen(winningOverlay);
+    }
+
+    public void showRunningScreen() {
         setScreen(runningScreen);
     }
 }
