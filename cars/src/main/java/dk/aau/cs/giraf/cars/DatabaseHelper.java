@@ -24,6 +24,7 @@ import java.util.Map;
  */
 public class DatabaseHelper {
     public static final String CHILD_ID = "currentChildID";
+    public static final String GUARDIAN_ID = "currentGuardianID";
     public static final String SETTINGS = "settings";
 
     private static final int OBSTACLE_SIZE = 100;
@@ -85,6 +86,12 @@ public class DatabaseHelper {
 
     public int GetDefaultChild() {
         return profileController.getChildren().get(0).getId();
+    }
+
+    public int GetChildDefaultGuardian(int childId) { return profileController.getGuardiansByChild(profileController.getProfileById(childId)).get(0).getId(); }
+
+    public Profile GetProfileById(int id) {
+        return profileController.getProfileById(id);
     }
 
     public GameSettings GetGameSettings() {
