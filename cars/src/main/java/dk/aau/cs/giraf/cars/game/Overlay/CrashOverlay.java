@@ -42,6 +42,7 @@ public class CrashOverlay extends GameScreen {
 
     @Override
     public void paint(Graphics graphics, float deltaTime) {
+        super.paint(graphics,deltaTime);
         graphics.drawScaledImage(Assets.GetExplosion(), lastCrash, explosionRect);
         graphics.drawARGB(155, 0, 0, 0);
         continueButton.Draw(graphics, deltaTime);
@@ -49,9 +50,9 @@ public class CrashOverlay extends GameScreen {
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
+        super.update(touchEvents,deltaTime);
         continueButton.Update(touchEvents, deltaTime);
         if (continueButtonPressed()) {
-            car.ResetCar(game.getHeight(), grassSize, verticalMover);
             game.setScreen(new RunningScreen(GetGameActivity(), GetObstacleGenerator(), GetGameSettings()));
         }
     }
