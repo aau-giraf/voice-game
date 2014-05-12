@@ -93,10 +93,7 @@ public abstract class GameScreen extends Screen {
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(touchEvents, deltaTime);
             if (obstacles.get(i).CollidesWith(car)) {
-                CrashOverlay crashedOverlay = new CrashOverlay(gameActivity, obstacleGenerator, gameSettings);
-                crashedOverlay.setLastCrash(obstacles.get(i).GetCollisionCenter(car));
-
-                game.setScreen(crashedOverlay);
+                showCrashScreen(obstacles.get(i));
                 return;
             }
         }
@@ -104,9 +101,7 @@ public abstract class GameScreen extends Screen {
         for (Garage garage : garages) {
             garage.Update(touchEvents, deltaTime);
             if (garage.CollidesWith(car) && garage.color != car.getColor()) {
-                CrashOverlay crashedOverlay = new CrashOverlay(gameActivity, obstacleGenerator, gameSettings);
-                crashedOverlay.setLastCrash(garage.GetCollisionCenter(car));
-                game.setScreen(crashedOverlay);
+                showCrashScreen(garage);
                 return;
             } else {
                 if (car.getColor() == garage.getColor() && car.GetBounds().left > garage.GetBounds().left) {
