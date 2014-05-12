@@ -23,15 +23,18 @@ public class CarGame extends CarsActivity {
 
     public CarGame() {
         super();
-        startOverlay = new StartOverlay(this, new PreferencesObstacles(this), gamesettings);
-        crashOverlay = new CrashOverlay(this, new PreferencesObstacles(this), gamesettings);
-        pauseOverlay = new PauseOverlay(this, new PreferencesObstacles(this), gamesettings);
-        winningOverlay = new WinningOverlay(this, new PreferencesObstacles(this), gamesettings);
-        runningScreen = new RunningScreen(this, new PreferencesObstacles(this), gamesettings);
     }
 
     @Override
     public Screen getFirstScreen() {
+        PreferencesObstacles obstacles = new PreferencesObstacles(this);
+
+        startOverlay = new StartOverlay(this, obstacles, gamesettings);
+        crashOverlay = new CrashOverlay(this, obstacles, gamesettings);
+        pauseOverlay = new PauseOverlay(this, obstacles, gamesettings);
+        winningOverlay = new WinningOverlay(this, obstacles, gamesettings);
+        runningScreen = new RunningScreen(this, obstacles, gamesettings);
+
         return startOverlay;
     }
 
