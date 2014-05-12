@@ -170,7 +170,7 @@ public abstract class GameScreen extends Screen {
             if (car.getColor() == g.getColor() && car.GetBounds().left > g.GetBounds().left && g.getIsClosed()) {
                 resetRound();
                 Log.d("garage", "reseT?");
-                ShowRunningScreen();
+                showRunningScreen();
             }
         }
     }
@@ -209,7 +209,23 @@ public abstract class GameScreen extends Screen {
 
     }
 
-    public void ShowRunningScreen() {
-        ((CarGame) gameActivity).ShowRunningScreen();
+    public void showStartScreen() {
+        gameActivity.showStartScreen();
+    }
+
+    public void showCrashScreen() {
+        gameActivity.showCrashScreen();
+    }
+
+    public void showPauseScreen() {
+        gameActivity.showPauseScreen();
+    }
+
+    public void showWinningScreen() {
+        gameActivity.showWinningScreen();
+    }
+
+    public void showRunningScreen() {
+        gameActivity.showRunningScreen();
     }
 }

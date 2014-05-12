@@ -69,6 +69,6 @@ public class StartOverlay extends GameScreen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
         if (isTimerDone(deltaTime))
-            ShowRunningScreen();
+            showRunningScreen();
     }
 }
