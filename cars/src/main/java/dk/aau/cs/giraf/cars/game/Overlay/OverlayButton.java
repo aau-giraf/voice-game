@@ -3,37 +3,30 @@ package dk.aau.cs.giraf.cars.game.Overlay;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
-import dk.aau.cs.giraf.cars.game.Interfaces.GameObject;
 
-public class OverlayButton implements GameObject {
-    private Paint pButton;
+/**
+ * Created by Stefan on 12-05-2014.
+ */
+public class OverlayButton extends OverlayText {
+
     private Paint pFocus;
-    private int x, y;
+
     private boolean pressed;
     private boolean clicked;
 
-    private String buttonText;
     private Rect bounds;
 
     public OverlayButton(int X, int Y, int textColor, int touchColor, String buttonText, Paint.Align alignment, float textSize) {
-        pButton = new Paint();
+        super(X, Y, textColor, buttonText, alignment, textSize);
+
         pFocus = new Paint();
-
-        pButton.setTextSize(textSize);
-        pButton.setTextAlign(alignment);
-        pButton.setAntiAlias(true);
-        pButton.setColor(textColor);
-
         pFocus.setTextSize(textSize);
         pFocus.setTextAlign(alignment);
         pFocus.setAntiAlias(true);
         pFocus.setColor(touchColor);
 
-        this.x = X;
-        this.y = Y;
 
         bounds = new Rect();
         pButton.getTextBounds(buttonText, 0, buttonText.length(), bounds);
@@ -54,19 +47,10 @@ public class OverlayButton implements GameObject {
         bounds.offset(x - xoffset, y);
 
 
-        this.buttonText = buttonText;
-
         this.pressed = false;
         this.clicked = false;
     }
 
-    public boolean IsPressed() {
-        return pressed;
-    }
-
-    public boolean IsClicked() {
-        return clicked;
-    }
 
     /**
      * Create a Overlaybutton with the default colors and alignment(White text, yellow when touched)
@@ -87,6 +71,13 @@ public class OverlayButton implements GameObject {
         this(x, y, textColor, touchColor, buttonText, alignment, 100);
     }
 
+    public boolean IsPressed() {
+        return pressed;
+    }
+
+    public boolean IsClicked() {
+        return clicked;
+    }
 
     /**
      * Updates the value of the pressed variable so it is true when the button is touched
@@ -121,4 +112,5 @@ public class OverlayButton implements GameObject {
         g.drawString(buttonText, x, y, pressed ? pFocus : pButton);
 
     }
+
 }
