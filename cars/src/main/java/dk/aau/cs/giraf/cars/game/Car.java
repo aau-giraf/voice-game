@@ -14,6 +14,7 @@ public class Car extends GameItem {
     public static final float MAX_SCALE = 10f;
 
     private Paint paint;
+    private boolean driving = true;
     boolean showValue = false;
 
     public void SetShowValue(boolean showValue) {
@@ -49,14 +50,16 @@ public class Car extends GameItem {
 
     @Override
     public void Draw(Graphics graphics, float deltaTime) {
-        Rect bounds = this.GetBounds();
+        if (driving) {
+            Rect bounds = this.GetBounds();
 
-        graphics.drawScaledImage(image,
-                bounds.left, bounds.top, bounds.right - bounds.left, bounds.bottom - bounds.top,
-                0, 0, image.getWidth(), image.getHeight());
-        if (showValue)
-            graphics.drawString(String.valueOf(getBarometerNumber(bounds.centerY() - 100, 600)),
-                    bounds.centerX() - 20, bounds.centerY() + 17, paint);
+            graphics.drawScaledImage(image,
+                    bounds.left, bounds.top, bounds.right - bounds.left, bounds.bottom - bounds.top,
+                    0, 0, image.getWidth(), image.getHeight());
+            if (showValue)
+                graphics.drawString(String.valueOf(getBarometerNumber(bounds.centerY() - 100, 600)),
+                        bounds.centerX() - 20, bounds.centerY() + 17, paint);
+        }
     }
 
     private int getBarometerNumber(float y, float height) {
@@ -65,7 +68,9 @@ public class Car extends GameItem {
 
     @Override
     public void Update(Input.TouchEvent[] touchEvents, float deltaTime) {
+        if (driving) {
 
+        }
     }
 
     public Car ResetCar(float gameHeight, float grassSize, mFloat verticalMover) {
@@ -73,5 +78,13 @@ public class Car extends GameItem {
         y = gameHeight - grassSize - height / 2;
         verticalMover.setCurrentValue(y);
         return this;
+    }
+
+    public void Stop() {
+        driving = false;
+    }
+
+    public void Start() {
+        driving = true;
     }
 }
