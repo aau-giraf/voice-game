@@ -11,8 +11,8 @@ import dk.aau.cs.giraf.cars.framework.MoveSineLine;
 import dk.aau.cs.giraf.cars.framework.mFloat;
 
 public class Car extends GameItem {
-    public static final float MAX_PIXELSPERSECOND = 300f;
-    public static final float MAX_SCALE = 10f;
+    private static final float MAX_PIXELSPERSECOND = 300f;
+    private static final float MAX_SCALE = 10f;
 
     private Paint paint;
     private boolean driving = true;
@@ -28,8 +28,8 @@ public class Car extends GameItem {
     private int color;
     private Image image;
 
-    public Car(float x, float y, float height, float width) {
-        super(x, y, height, width);
+    public Car(float x, float y, float speed) {
+        super(x, y, 200, 99);
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setTextSize(46);
