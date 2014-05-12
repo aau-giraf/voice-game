@@ -24,12 +24,12 @@ public abstract class GameScreen extends Screen {
 
     private GameSettings gameSettings;
     private ObstacleGenerator obstacleGenerator;
-    private CarGame gameActivity;
+    private CarGame carGame;
 
-    public GameScreen(CarGame game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
-        super(game);
+    public GameScreen(CarGame carGame, ObstacleGenerator obstacleGenerator, GameSettings gs) {
+        super(carGame);
         this.car = new Car(0, 0, 200, 99);
-        this.gameActivity = game;
+        this.carGame = carGame;
         this.obstacleGenerator = obstacleGenerator;
         this.gameSettings = gs;
         this.car.setShowValue(true);
@@ -43,7 +43,7 @@ public abstract class GameScreen extends Screen {
 
         this.obstacles = new ArrayList<Obstacle>();
 
-        for (Obstacle o : obstacleGenerator.CreateObstacles(game.getWidth(), game.getHeight()))
+        for (Obstacle o : obstacleGenerator.CreateObstacles(carGame.getWidth(), carGame.getHeight()))
             this.obstacles.add(o);
     }
 
@@ -113,22 +113,22 @@ public abstract class GameScreen extends Screen {
     }
 
     public void showStartScreen() {
-        gameActivity.showStartScreen();
+        carGame.showStartScreen();
     }
 
     public void showCrashScreen(GameItem gameItem) {
-        gameActivity.showCrashScreen(gameItem);
+        carGame.showCrashScreen(gameItem);
     }
 
     public void showPauseScreen() {
-        gameActivity.showPauseScreen();
+        carGame.showPauseScreen();
     }
 
     public void showWinningScreen() {
-        gameActivity.showWinningScreen();
+        carGame.showWinningScreen();
     }
 
     public void showRunningScreen() {
-        gameActivity.showRunningScreen();
+        carGame.showRunningScreen();
     }
 }
