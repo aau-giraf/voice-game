@@ -19,6 +19,14 @@ public abstract class GameScreen extends Screen {
         this.obstacles = obstacles;
     }
 
+    public void resetObstacles() {
+        this.obstacles.resetObstacles();
+    }
+
+    public Obstacle findCollision() {
+        return obstacles.findCollision(car);
+    }
+
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         obstacles.Update(touchEvents, deltaTime);
@@ -55,23 +63,23 @@ public abstract class GameScreen extends Screen {
     public void backButton() {
     }
 
-    public void showStartScreen() {
+    protected void showStartScreen() {
         carGame.showStartScreen();
     }
 
-    public void showCrashScreen(GameItem gameItem) {
+    protected void showCrashScreen(GameItem gameItem) {
         carGame.showCrashScreen(gameItem);
     }
 
-    public void showPauseScreen() {
+    protected void showPauseScreen() {
         carGame.showPauseScreen();
     }
 
-    public void showWinningScreen() {
+    protected void showWinningScreen() {
         carGame.showWinningScreen();
     }
 
-    public void showRunningScreen() {
+    protected void showRunningScreen() {
         carGame.showRunningScreen();
     }
 }
