@@ -19,12 +19,19 @@ public abstract class GameScreen extends Screen {
         this.obstacles = obstacles;
     }
 
-    public void resetObstacles() {
+    protected void resetObstacles() {
         this.obstacles.resetObstacles();
     }
 
-    public Obstacle findCollision() {
+    protected Obstacle findCollision() {
         return obstacles.findCollision(car);
+    }
+
+    protected void moveCarTo(float y){
+        y *= (game.getHeight() - grassSize * 2 - car.height);
+        y += grassSize;
+
+        car.setVerticalTarget(y);
     }
 
     @Override
