@@ -143,6 +143,12 @@ public class Graphics {
         canvas.drawRect(x, y, x + width - 1, y + height - 1, paint);
     }
 
+    public void drawBorder(int x, int y, int width, int height, int color) {
+        paint.setColor(color);
+        paint.setStyle(Style.STROKE);
+        canvas.drawRect(x, y, x + width - 1, y + height - 1, paint);
+    }
+
     public void drawARGB(int a, int r, int g, int b) {
         paint.setStyle(Style.FILL);
         canvas.drawARGB(a, r, g, b);
