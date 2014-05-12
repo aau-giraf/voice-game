@@ -31,6 +31,8 @@ public class StartOverlay extends GameScreen {
 
         this.driveMessage = game.getResources().getString(R.string.countdown_drive);
         resetCounters();
+
+        car.Stop();
     }
 
     private void resetCounters() {
@@ -67,6 +69,6 @@ public class StartOverlay extends GameScreen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
         if (isTimerDone(deltaTime))
-            game.setScreen(new RunningScreen(GetGameActivity(), GetObstacleGenerator(), GetGameSettings()));
+            ShowRunningScreen();
     }
 }

@@ -31,8 +31,8 @@ public class RunningScreen extends GameScreen {
 
     public RunningScreen(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game, obstacleGenerator, gs);
-
-
+        driving=true;
+        car.ResetCar(game.getHeight(), grassSize, verticalMover);
     }
 
     @Override
