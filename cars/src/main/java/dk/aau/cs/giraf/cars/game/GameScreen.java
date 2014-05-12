@@ -1,74 +1,28 @@
 package dk.aau.cs.giraf.cars.game;
 
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.Screen;
-import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
-import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
-import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
-import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
 
 public abstract class GameScreen extends Screen {
-    private Car car;
     private final int grassSize = 70;
-    private CarControl carControl;
-    private float speed; //Pixels per second
 
-    private ArrayList<Obstacle> obstacles;
-
-    private GameSettings gameSettings;
-    private ObstacleGenerator obstacleGenerator;
+    private ObstacleCollection obstacles;
+    private Car car;
     private CarGame carGame;
 
-    public GameScreen(CarGame carGame, ObstacleGenerator obstacleGenerator, GameSettings gs) {
+    public GameScreen(CarGame carGame, Car car, ObstacleCollection obstacles) {
         super(carGame);
-        this.car = new Car(0, 0, 200, 99);
         this.carGame = carGame;
-        this.obstacleGenerator = obstacleGenerator;
-        this.gameSettings = gs;
-        this.car.setShowValue(true);
-        car.ResetCar();
-        this.speed = gs.GetSpeed() * (Car.MAX_PIXELSPERSECOND / Car.MAX_SCALE);
 
-        this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize - (int) car.getHeight(), grassSize + (int) car.getHeight() / 2);
-        //this.carControl = new VolumeCarControl(gs.GetMinVolume(), gs.GetMaxVolume());
-
-        car.setColor(gs.GetColors().getFirst());
-
-        this.obstacles = new ArrayList<Obstacle>();
-
-        for (Obstacle o : obstacleGenerator.CreateObstacles(carGame.getWidth(), carGame.getHeight()))
-            this.obstacles.add(o);
-    }
-
-    public Car getCar() {
-        return car;
+        this.car = car;
+        this.obstacles = obstacles;
     }
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
+        obstacles.Update(touchEvents, deltaTime);
         car.Update(touchEvents, deltaTime);
-        car.x += speed * (deltaTime / 1000.0f);
-
-        float moveTo = 1f - carControl.getMove(touchEvents);
-        moveTo *= (game.getHeight() - grassSize * 2 - car.height);
-        moveTo += grassSize;
-
-        car.setVerticalTarget(moveTo);
-
-        for (int i = 0; i < obstacles.size(); i++) {
-            obstacles.get(i).Update(touchEvents, deltaTime);
-            if (obstacles.get(i).CollidesWith(car)) {
-                showCrashScreen(obstacles.get(i));
-                return;
-            }
-        }
     }
 
     @Override
@@ -81,16 +35,8 @@ public abstract class GameScreen extends Screen {
             graphics.drawImage(Assets.getBorder(), i, game.getHeight() - grassSize - 6, 0, 25, 10, 25);
         }
 
-        for (Obstacle obstacle : obstacles)
-            obstacle.Draw(graphics, deltaTime);
-
-        //if (driving)
-        Log.d("car", car + "");
+        obstacles.Draw(graphics, deltaTime);
         car.Draw(graphics, deltaTime);
-    }
-
-    public void resetRound() {
-        car.ResetCar();
     }
 
     @Override
@@ -103,13 +49,10 @@ public abstract class GameScreen extends Screen {
 
     @Override
     public void dispose() {
-        if (carControl instanceof VolumeCarControl)
-            ((VolumeCarControl) carControl).Stop();
     }
 
     @Override
     public void backButton() {
-
     }
 
     public void showStartScreen() {
