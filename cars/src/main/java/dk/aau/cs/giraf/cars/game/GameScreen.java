@@ -12,9 +12,7 @@ import java.util.LinkedList;
 import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
-import dk.aau.cs.giraf.cars.framework.MoveSineLine;
 import dk.aau.cs.giraf.cars.framework.Screen;
-import dk.aau.cs.giraf.cars.framework.mFloat;
 import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
 import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
@@ -24,7 +22,6 @@ public abstract class GameScreen extends Screen {
     private final boolean debug = false;
     protected Car car;
     protected boolean driving = false;
-    protected final mFloat verticalMover;
     protected final int grassSize = 70;
     protected CarControl carControl;
     protected float animationZoneX;
@@ -63,9 +60,8 @@ public abstract class GameScreen extends Screen {
         this.gameActivity = game;
         this.obstacleGenerator = obstacleGenerator;
         this.gameSettings = gs;
-        this.verticalMover = new mFloat(0, new MoveSineLine(0.5f, 200));
         this.car.setShowValue(true);
-        car.ResetCar(game.getHeight(), grassSize, verticalMover);
+        car.ResetCar();
         this.speed = gs.GetSpeed() * (Car.MAX_PIXELSPERSECOND / Car.MAX_SCALE);
 
         this.carControl = new TouchCarControl(game.getHeight() - 2 * grassSize - (int) car.getHeight(), grassSize + (int) car.getHeight() / 2);
@@ -111,16 +107,7 @@ public abstract class GameScreen extends Screen {
             if (car.x + car.width >= animationZoneX)
                 moveTo = getGarageTargetY() - car.height / 2;
 
-            if (moveTo != verticalMover.getTargetValue())
-                verticalMover.setTargetValue(moveTo);
-
-            verticalMover.Update();
-            car.y = verticalMover.getCurrentValue();
-            Log.d("position", moveTo + "p " + car.y);
-
-            if (car.y < grassSize) car.y = grassSize;
-            if (car.y > game.getHeight() - car.height - grassSize)
-                car.y = game.getHeight() - car.height - grassSize;
+            car.setVerticalTarget(moveTo);
         }
 
         for (int i = 0; i < obstacles.size(); i++) {
@@ -227,7 +214,7 @@ public abstract class GameScreen extends Screen {
         boolean newColor = ResetCarColor();
 
         if (newColor)
-            car.ResetCar(game.getHeight(), grassSize, verticalMover);
+            car.ResetCar();
     }
 
     private boolean ResetCarColor() {
