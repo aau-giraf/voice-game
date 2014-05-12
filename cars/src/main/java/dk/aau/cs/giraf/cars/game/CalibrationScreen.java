@@ -2,7 +2,6 @@ package dk.aau.cs.giraf.cars.game;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,7 @@ import java.util.List;
 import dk.aau.cs.giraf.cars.framework.*;
 import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.OverlayButton;
+import dk.aau.cs.giraf.cars.game.Overlay.OverlayText;
 
 public class CalibrationScreen extends Screen {
     public VolumeCarControl control;
@@ -31,8 +31,8 @@ public class CalibrationScreen extends Screen {
         this.control = control;
         this.readstate = NOT_READING;
 
-        loud = new OverlayButton(20, 100, Color.BLUE, Color.YELLOW, "HØJ", Paint.Align.LEFT);
-        silence = new OverlayButton(20, 260, Color.BLUE, Color.YELLOW, "LAV", Paint.Align.LEFT);
+        loud = new OverlayButton(20, 100, Color.BLUE, "HØJ", Paint.Align.LEFT);
+        silence = new OverlayButton(20, 260, Color.BLUE, "LAV", Paint.Align.LEFT);
 
         if (control.GetMaxAmplitude() > highest_recorded_vol)
             highest_recorded_vol = control.GetMaxAmplitude();
