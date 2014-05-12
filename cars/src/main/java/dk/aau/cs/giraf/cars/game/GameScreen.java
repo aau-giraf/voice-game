@@ -19,7 +19,6 @@ import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
 
 public abstract class GameScreen extends Screen {
-    private final boolean debug = false;
     private Car car;
     private boolean driving = false;
     private final int grassSize = 70;
@@ -140,17 +139,6 @@ public abstract class GameScreen extends Screen {
 
     @Override
     public void paint(Graphics graphics, float deltaTime) {
-        if (debug) {
-            Paint debug = new Paint();
-            debug.setTextSize(50);
-            debug.setTextAlign(Paint.Align.LEFT);
-            debug.setAntiAlias(true);
-            debug.setColor(Color.RED);
-
-            graphics.drawString(((VolumeCarControl) carControl).GetMinAmplitude() + "", 100, 100, debug);
-            graphics.drawString(((VolumeCarControl) carControl).GetMaxAmplitude() + "", 100, 200, debug);
-        }
-
         graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
         graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, game.getWidth(), game.getHeight() - grassSize * 2);
 
