@@ -137,7 +137,7 @@ public abstract class GameScreen extends Screen {
 
         for (Garage garage : garages) {
             garage.Update(touchEvents, deltaTime);
-            if (garage.CollidesWith(car) && garage.color != car.color) {
+            if (garage.CollidesWith(car) && garage.color != car.getColor()) {
                 driving = false;
                 CrashOverlay crashedOverlay = new CrashOverlay(gameActivity, obstacleGenerator, gameSettings);
                 crashedOverlay.setLastCrash(garage.GetCollisionCenter(car));

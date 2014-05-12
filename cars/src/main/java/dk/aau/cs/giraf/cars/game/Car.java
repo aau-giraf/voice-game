@@ -21,12 +21,8 @@ public class Car extends GameItem {
         this.showValue = showValue;
     }
 
-    int color;
-    Image image;
-
-    public Car(float width, float height) {
-        this(0, 0, width, height);
-    }
+    private int color;
+    private Image image;
 
     public Car(float x, float y, float height, float width) {
         super(x, y, height, width);
