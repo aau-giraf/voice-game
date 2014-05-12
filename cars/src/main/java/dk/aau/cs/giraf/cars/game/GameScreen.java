@@ -33,9 +33,6 @@ public abstract class GameScreen extends Screen {
     private LinkedList<Integer> colors;
     private ArrayList<Obstacle> obstacles;
 
-    private Rect pauseButtonRec = new Rect(20, 20, 100, 100);
-    private Rect pauseButtonImageRec = new Rect(0, 0, Assets.GetPlayButton().getWidth(), Assets.GetPlayButton().getHeight());
-
     private GameSettings gameSettings;
     private ObstacleGenerator obstacleGenerator;
     private GameActivity gameActivity;
@@ -138,8 +135,10 @@ public abstract class GameScreen extends Screen {
 
         for (Garage garage : garages)
             garage.Draw(graphics, deltaTime);
-        if (car.x + car.width < animationZoneX)
-            graphics.drawScaledImage(Assets.GetPauseButton(), pauseButtonRec, pauseButtonImageRec);
+    }
+
+    public boolean isCarInAnimaitonZone(){
+        return car.x + car.width < animationZoneX;
     }
 
     public boolean allGaragesClosed() {
