@@ -20,7 +20,6 @@ import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
 
 public abstract class GameScreen extends Screen {
     private Car car;
-    private boolean driving = false;
     private final int grassSize = 70;
     private CarControl carControl;
     private float animationZoneX;
@@ -91,28 +90,24 @@ public abstract class GameScreen extends Screen {
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         if (allGaragesClosed()) {
-            driving = false;
             //game.setScreen(new WinningOverlay());
         }
 
-        if (driving) {
-            car.Update(touchEvents, deltaTime);
-            car.x += speed * (deltaTime / 1000.0f);
+        car.Update(touchEvents, deltaTime);
+        car.x += speed * (deltaTime / 1000.0f);
 
-            float moveTo = 1f - carControl.getMove(touchEvents);
-            moveTo *= (game.getHeight() - grassSize * 2 - car.height);
-            moveTo += grassSize;
+        float moveTo = 1f - carControl.getMove(touchEvents);
+        moveTo *= (game.getHeight() - grassSize * 2 - car.height);
+        moveTo += grassSize;
 
-            if (car.x + car.width >= animationZoneX)
-                moveTo = getGarageTargetY() - car.height / 2;
+        if (car.x + car.width >= animationZoneX)
+            moveTo = getGarageTargetY() - car.height / 2;
 
-            car.setVerticalTarget(moveTo);
-        }
+        car.setVerticalTarget(moveTo);
 
         for (int i = 0; i < obstacles.size(); i++) {
             obstacles.get(i).Update(touchEvents, deltaTime);
             if (obstacles.get(i).CollidesWith(car)) {
-                driving = false;
                 CrashOverlay crashedOverlay = new CrashOverlay(gameActivity, obstacleGenerator, gameSettings);
                 crashedOverlay.setLastCrash(obstacles.get(i).GetCollisionCenter(car));
 
@@ -124,7 +119,6 @@ public abstract class GameScreen extends Screen {
         for (Garage garage : garages) {
             garage.Update(touchEvents, deltaTime);
             if (garage.CollidesWith(car) && garage.color != car.getColor()) {
-                driving = false;
                 CrashOverlay crashedOverlay = new CrashOverlay(gameActivity, obstacleGenerator, gameSettings);
                 crashedOverlay.setLastCrash(garage.GetCollisionCenter(car));
                 game.setScreen(crashedOverlay);
