@@ -19,7 +19,6 @@ import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
 import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
-import dk.aau.cs.giraf.cars.game.Overlay.RunningScreen;
 
 public abstract class GameScreen extends Screen {
     private final boolean debug = false;
@@ -65,7 +64,7 @@ public abstract class GameScreen extends Screen {
         this.obstacleGenerator = obstacleGenerator;
         this.gameSettings = gs;
         this.verticalMover = new mFloat(0, new MoveSineLine(0.5f, 200));
-        this.car.SetShowValue(true);
+        this.car.setShowValue(true);
         car.ResetCar(game.getHeight(), grassSize, verticalMover);
         this.speed = gs.GetSpeed() * (Car.MAX_PIXELSPERSECOND / Car.MAX_SCALE);
 

@@ -17,7 +17,7 @@ public class Car extends GameItem {
     private boolean driving = true;
     boolean showValue = false;
 
-    public void SetShowValue(boolean showValue) {
+    public void setShowValue(boolean showValue) {
         this.showValue = showValue;
     }
 
