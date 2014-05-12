@@ -1,15 +1,11 @@
 package dk.aau.cs.giraf.cars.game;
 
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.Screen;
@@ -35,9 +31,9 @@ public abstract class GameScreen extends Screen {
 
     private GameSettings gameSettings;
     private ObstacleGenerator obstacleGenerator;
-    private GameActivity gameActivity;
+    private CarGame gameActivity;
 
-    public GameScreen(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
+    public GameScreen(CarGame game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game);
         this.car = new Car(0, 0, 200, 99);
         this.gameActivity = game;
