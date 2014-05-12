@@ -16,7 +16,6 @@ public class Assets {
         car = graphics.newImage("car.png", Graphics.ImageFormat.ARGB8888);
         obstacle = graphics.newImage("obstacle.png", Graphics.ImageFormat.ARGB8888);
         trophy = graphics.newImage("trophy.png", Graphics.ImageFormat.ARGB8888);
-        garage = graphics.newImage("garage.png", Graphics.ImageFormat.ARGB8888);
         explosion = graphics.newImage("explosion.png", Graphics.ImageFormat.ARGB8888);
         pauseButton = graphics.newImage("pauseButton.png", Graphics.ImageFormat.ARGB8888);
         playButton = graphics.newImage("playButton.png", Graphics.ImageFormat.ARGB8888);
@@ -38,7 +37,6 @@ public class Assets {
     private static Image car;
     private static Image obstacle;
     private static Image trophy;
-    private static Image garage;
     private static Image explosion;
     private static Image pauseButton;
     private static Image playButton;
@@ -64,10 +62,6 @@ public class Assets {
 
     public static Image GetObstacle() {
         return obstacle;
-    }
-
-    public static Image GetGarage() {
-        return garage;
     }
 
     public static Image GetTrophy() {
