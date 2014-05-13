@@ -66,6 +66,10 @@ public abstract class GameScreen extends Screen {
         car.reset();
     }
 
+    protected float getCarLocation(){
+        return car.x;
+    }
+
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         obstacles.Update(touchEvents, deltaTime);

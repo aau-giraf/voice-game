@@ -27,7 +27,6 @@ public class PauseScreen extends GameScreen {
 
     public PauseScreen(CarGame game, Car car, ObstacleCollection obstacles, int grassSize) {
         super(game, car, obstacles);
-        this.x = car.getX();
         this.y = grassSize;
         this.height = game.getHeight() - 2 * grassSize;
         this.width = game.getWidth();
@@ -38,6 +37,11 @@ public class PauseScreen extends GameScreen {
             if (e.type == Input.TouchEvent.TOUCH_DOWN && e.inBounds(playButtonSize))
                 return true;
         return false;
+    }
+
+    @Override
+    public void showScreen() {
+        this.x = getCarLocation();
     }
 
     @Override
