@@ -16,7 +16,7 @@
 
     <fragment
         android:layout_width="fill_parent"
-        android:layout_height="300dp"
+        android:layout_height="360dp"
         android:name="dk.aau.cs.giraf.cars.game.SpeedFragment"
         android:id="@+id/speed" />
 
