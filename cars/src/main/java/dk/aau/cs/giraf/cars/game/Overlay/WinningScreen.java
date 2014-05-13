@@ -41,15 +41,11 @@ public class WinningScreen extends GameScreen {
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
-        carControl.Reset();
         resetButton.Update(touchEvents, deltaTime);
         menuButton.Update(touchEvents, deltaTime);
-        if (ResetButtonPressed()) {
-            CarGame newGame = new CarGame();
-            game.setScreen(newGame.getFirstScreen());
-        } else if (MenuButtonPressed()) {
-            ((GameActivity) game).finish();
-        }
+        if (resetButton.IsClicked()) {
+            showStartScreen();
+        } else if (menuButton.IsClicked()) {
             ((GameActivity) game).finish();
         }
     }
