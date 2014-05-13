@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.graphics.Color;
 import android.graphics.Point;
 
 import java.util.ArrayList;
@@ -13,6 +14,8 @@ import dk.aau.cs.giraf.cars.game.Interfaces.Updatable;
 
 public abstract class GameScreen extends Screen {
     private final int grassSize = 70;
+    private final int finishLineScale = 15;
+    private int finishLineX;
 
     private ObstacleCollection obstacles;
     private Car car;
@@ -30,6 +33,8 @@ public abstract class GameScreen extends Screen {
 
         drawables = new ArrayList<Drawable>();
         updatables = new ArrayList<Updatable>();
+
+        this.finishLineX = game.getWidth()-80;
     }
 
     protected void Add(Drawable d) {
@@ -94,6 +99,8 @@ public abstract class GameScreen extends Screen {
         graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
         graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, game.getWidth(), game.getHeight() - grassSize * 2);
 
+        drawFinishLine(graphics);
+
         for (int i = 0; i < game.getWidth(); i += 10) {
             graphics.drawImage(Assets.getBorder(), i, grassSize - 19, 0, 0, 10, 25);
             graphics.drawImage(Assets.getBorder(), i, game.getHeight() - grassSize - 6, 0, 25, 10, 25);
@@ -104,6 +111,16 @@ public abstract class GameScreen extends Screen {
 
         for (Drawable drawable : drawables)
             drawable.Draw(graphics, deltaTime);
+    }
+
+    private void drawFinishLine(Graphics graphics)
+    {
+        int height = game.getHeight()-2*grassSize, squareHeight = height/finishLineScale, squareWidth = 40, width = 120;
+        graphics.drawRect(finishLineX,grassSize,width,height, Color.WHITE);
+        for (int i=squareHeight;i<height;i+=2*squareHeight)
+            graphics.drawRect(finishLineX,grassSize+i,41,squareHeight+1,Color.BLACK);
+        for (int i=0;i<height;i+=2*squareHeight)
+            graphics.drawRect(finishLineX+squareWidth,grassSize+i,41,squareHeight+1,Color.BLACK);
     }
 
     @Override

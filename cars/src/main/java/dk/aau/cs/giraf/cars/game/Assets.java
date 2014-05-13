@@ -17,6 +17,7 @@ public class Assets {
         border = graphics.newImage("border.png", Graphics.ImageFormat.ARGB8888);
         car = graphics.newImage("car.png", Graphics.ImageFormat.ARGB8888);
         obstacle = graphics.newImage("obstacle.png", Graphics.ImageFormat.ARGB8888);
+        star = graphics.newImage("star.jpg", Graphics.ImageFormat.ARGB8888);
         trophy = graphics.newImage("trophy.png", Graphics.ImageFormat.ARGB8888);
         explosion = graphics.newImage("explosion.png", Graphics.ImageFormat.ARGB8888);
         pauseButton = graphics.newImage("pauseButton.png", Graphics.ImageFormat.ARGB8888);
@@ -40,7 +41,7 @@ public class Assets {
     }
 
     private static Image grass, tarmac, border, car, obstacle, trophy, garage, explosion,
-            pauseButton, playButton, rabbit_picto, snail_picto, tiger_picto;
+            pauseButton, playButton, rabbit_picto, snail_picto, tiger_picto, star;
 
     public static Image GetGrass() {
         return grass;
@@ -90,17 +91,33 @@ public class Assets {
         return tiger_picto;
     }
 
+    public static Image GetStar() {
+        return star;
+    }
+
     private static Sound carStart, pickup, done, wellDone, newTurn, playAgain;
 
-    public static Sound GetCarStart() { return carStart; }
+    public static Sound GetCarStart() {
+        return carStart;
+    }
 
-    public static Sound GetPickup() { return pickup; }
+    public static Sound GetPickup() {
+        return pickup;
+    }
 
-    public static Sound GetDone() { return done; }
+    public static Sound GetDone() {
+        return done;
+    }
 
-    public static Sound GetWellDone() { return wellDone; }
+    public static Sound GetWellDone() {
+        return wellDone;
+    }
 
-    public static Sound GetNewTurn() { return newTurn; }
+    public static Sound GetNewTurn() {
+        return newTurn;
+    }
 
-    public static Sound GetPlayAgain() { return playAgain; }
+    public static Sound GetPlayAgain() {
+        return playAgain;
+    }
 }
