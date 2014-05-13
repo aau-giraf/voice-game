@@ -4,12 +4,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import dk.aau.cs.giraf.cars.R;
-import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.cars.game.Car;
+import dk.aau.cs.giraf.cars.game.CarGame;
 import dk.aau.cs.giraf.cars.game.GameScreen;
-import dk.aau.cs.giraf.cars.game.GameSettings;
-import dk.aau.cs.giraf.cars.game.ObstacleGenerator;
+import dk.aau.cs.giraf.cars.game.ObstacleCollection;
 
 public class StartScreen extends GameScreen {
     private final int COUNTDOWN_IN_SECONDS = 3;
@@ -19,8 +19,8 @@ public class StartScreen extends GameScreen {
     private String driveMessage;
     private Paint pButton;
 
-    public StartScreen(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
-        super(game, obstacleGenerator, gs);
+    public StartScreen(CarGame game, Car car, ObstacleCollection obstacles) {
+        super(game, car, obstacles);
         this.seconds = COUNTDOWN_IN_SECONDS;
         pButton = new Paint();
 
@@ -31,8 +31,6 @@ public class StartScreen extends GameScreen {
 
         this.driveMessage = game.getResources().getString(R.string.countdown_drive);
         resetCounters();
-
-        car.Stop();
     }
 
     private void resetCounters() {
@@ -52,6 +50,13 @@ public class StartScreen extends GameScreen {
             visualCounter--;
 
         return false;
+    }
+
+    @Override
+    public void showScreen() {
+        resetObstacles();
+        setCarSpeed(0);
+        resetCar();
     }
 
     @Override
