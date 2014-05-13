@@ -29,6 +29,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter><action android:name="dk.aau.cs.giraf.cars.SETTINGSACTIVITY"></action> </intent-filter>
         </activity>
         <activity
             android:name="dk.aau.cs.giraf.cars.game.CarGame"
