@@ -41,7 +41,7 @@ public class CarGame extends CarsActivity {
         crashScreen = new CrashScreen(this, car, obstacles);
         pauseScreen = new PauseScreen(this, car, obstacles, GRASS_HEIGHT);
         winningScreen = new WinningScreen(this, car, obstacles);
-        runningScreen = new RunningScreen(this, car, obstacles, carControl);
+        runningScreen = new RunningScreen(this, car, obstacles, carControl, gamesettings.GetSpeed());
 
         return startScreen;
     }

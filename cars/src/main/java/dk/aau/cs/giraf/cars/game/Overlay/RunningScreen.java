@@ -17,10 +17,12 @@ public class RunningScreen extends GameScreen {
     private Rect pauseButtonImageRec = new Rect(0, 0, Assets.GetPlayButton().getWidth(), Assets.GetPlayButton().getHeight());
 
     private CarControl carControl;
+    private float carSpeed;
 
-    public RunningScreen(CarGame game, Car car, ObstacleCollection obstacles, CarControl carControl) {
+    public RunningScreen(CarGame game, Car car, ObstacleCollection obstacles, CarControl carControl, float carSpeed) {
         super(game, car, obstacles);
         this.carControl = carControl;
+        this.carSpeed = carSpeed;
     }
 
     @Override
