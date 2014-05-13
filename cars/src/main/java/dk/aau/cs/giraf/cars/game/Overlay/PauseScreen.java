@@ -18,7 +18,6 @@ import dk.aau.cs.giraf.cars.game.ObstacleCollection;
 import dk.aau.cs.giraf.cars.game.ObstacleGenerator;
 
 public class PauseScreen extends GameScreen {
-    private boolean paused = false;
     private Rect playButtonSize = new Rect(20, 20, 100, 100);
     private Rect image = new Rect(0, 0, Assets.GetPlayButton().getWidth(), Assets.GetPlayButton().getHeight());
     private int y, height, width;
@@ -35,14 +34,10 @@ public class PauseScreen extends GameScreen {
     }
 
     private boolean pauseButtonPressed(Input.TouchEvent[] touchEvents) {
-        this.x = car.getX();
         for (Input.TouchEvent e : touchEvents)
-            if (e.type == Input.TouchEvent.TOUCH_DOWN)
-                if (e.inBounds(playButtonSize)) {
-                    paused = !paused;
-                    return paused;
-                }
-        return paused;
+            if (e.type == Input.TouchEvent.TOUCH_DOWN && e.inBounds(playButtonSize))
+                return true;
+        return false;
     }
 
     @Override
@@ -78,6 +73,6 @@ public class PauseScreen extends GameScreen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents,deltaTime);
         if (pauseButtonPressed(touchEvents))
-            game.setScreen(new RunningScreen(GetGameActivity(), GetObstacleGenerator(), GetGameSettings()));
+            showRunningScreen();
     }
 }
