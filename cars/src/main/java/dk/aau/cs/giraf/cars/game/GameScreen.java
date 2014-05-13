@@ -32,6 +32,7 @@ public class GameScreen extends Screen {
     private final float garageSize = 250;
     private final float animationZoneSize = 100;
     private final int finishLineScale = 15;
+    private int finishLineX;
     private GameSettings gameSettings;
     private CarControl carControl;
     private Car car;
@@ -87,6 +88,7 @@ public class GameScreen extends Screen {
 
 
         this.animationZoneX = garages.get(0).x - animationZoneSize;
+        this.finishLineX = game.getWidth()-100;
 
         Collections.shuffle(colors);
         car.setColor(colors.removeFirst());
@@ -312,13 +314,12 @@ public class GameScreen extends Screen {
 
     private void drawFinishLine(Graphics graphics, float deltaTime)
     {
-        int height = game.getHeight()-2*grassSize;
-        int squareHeight = height/finishLineScale;
-        graphics.drawRect(400,grassSize,80,height,Color.WHITE);
-        for (int i=0;i<height;i+=2*squareHeight)
-            graphics.drawRect(400,grassSize+i,41,squareHeight+1,Color.BLACK);
+        int height = game.getHeight()-2*grassSize, squareHeight = height/finishLineScale, squareWidth = 40, width = 80;
+        graphics.drawRect(finishLineX,grassSize,width,height,Color.WHITE);
         for (int i=squareHeight;i<height;i+=2*squareHeight)
-            graphics.drawRect(440,grassSize+i,41,squareHeight+1,Color.BLACK);
+            graphics.drawRect(finishLineX,grassSize+i,41,squareHeight+1,Color.BLACK);
+        for (int i=0;i<height;i+=2*squareHeight)
+            graphics.drawRect(finishLineX+squareWidth,grassSize+i,41,squareHeight+1,Color.BLACK);
     }
 
     private void drawRunning(Graphics graphics, float deltaTime) {
