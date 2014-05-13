@@ -28,8 +28,10 @@ public class RunningScreen extends GameScreen {
         moveCarTo(moveTo);
 
         Obstacle obstacle = getCollisionObstacle();
-        if (obstacle != null)
+        if (obstacle != null) {
+            Assets.GetCrash().play(1.0f);
             showCrashScreen(obstacle);
+        }
 
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN && e.inBounds(pauseButtonRec))
