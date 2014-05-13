@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.cars.game.Assets;
 import dk.aau.cs.giraf.cars.game.Car;
 import dk.aau.cs.giraf.cars.game.CarGame;
 import dk.aau.cs.giraf.cars.game.GameScreen;
@@ -17,6 +18,7 @@ public class StartScreen extends GameScreen {
     private int seconds;
     private String driveMessage;
     private Paint pButton;
+    private boolean startSoundPlayed;
 
     public StartScreen(CarGame game, Car car, ObstacleCollection obstacles) {
         super(game, car, obstacles);
@@ -29,6 +31,9 @@ public class StartScreen extends GameScreen {
         pButton.setColor(Color.WHITE);
 
         this.driveMessage = game.getResources().getString(R.string.countdown_drive);
+
+        startSoundPlayed = false;
+
         resetCounters();
     }
 
@@ -72,7 +77,15 @@ public class StartScreen extends GameScreen {
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
-        if (isTimerDone(deltaTime))
+
+        if (!startSoundPlayed && visualCounter == 1) {
+            Assets.GetCarStart().play(1.0f);
+            startSoundPlayed = true;
+        }
+
+        if (isTimerDone(deltaTime)) {
+            startSoundPlayed = false;
             showRunningScreen();
+        }
     }
 }
