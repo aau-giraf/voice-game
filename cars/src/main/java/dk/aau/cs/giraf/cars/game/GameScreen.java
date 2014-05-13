@@ -47,7 +47,7 @@ public abstract class GameScreen extends Screen {
         this.obstacles.resetObstacles();
     }
 
-    protected Obstacle findCollision() {
+    protected Obstacle getCollisionObstacle() {
         return obstacles.findCollision(car);
     }
 

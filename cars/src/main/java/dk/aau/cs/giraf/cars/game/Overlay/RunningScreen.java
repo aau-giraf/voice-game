@@ -29,7 +29,7 @@ public class RunningScreen extends GameScreen {
 
         moveCarTo(1f - carControl.getMove(touchEvents));
 
-        Obstacle obstacle = findCollision();
+        Obstacle obstacle = getCollisionObstacle();
         if (obstacle != null)
             showCrashScreen(obstacle);
 
