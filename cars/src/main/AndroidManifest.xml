@@ -29,15 +29,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <activity
-                android:name="dk.aau.cs.giraf.cars.Settings"
-                android:label="@string/title_activity_settings"
-                android:screenOrientation="landscape"
-                android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
-                <intent-filter>
-                    <action android:name="dk.aau.cs.giraf.cars.SETTINGSACTIVITY"/>
-                </intent-filter>
-            </activity>
         </activity>
         <activity
             android:name="dk.aau.cs.giraf.cars.game.CarGame"
