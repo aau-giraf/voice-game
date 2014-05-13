@@ -34,7 +34,7 @@ public abstract class GameScreen extends Screen {
         drawables = new ArrayList<Drawable>();
         updatables = new ArrayList<Updatable>();
 
-        this.finishLineX = game.getWidth()-100;
+        this.finishLineX = game.getWidth()-80;
     }
 
     protected void Add(Drawable d) {
@@ -99,7 +99,7 @@ public abstract class GameScreen extends Screen {
         graphics.fillImageTexture(Assets.GetGrass(), 0, 0, game.getWidth(), game.getHeight());
         graphics.fillImageTexture(Assets.GetTarmac(), 0, grassSize, game.getWidth(), game.getHeight() - grassSize * 2);
 
-        drawFinishLine(graphics,deltaTime);
+        drawFinishLine(graphics);
 
         for (int i = 0; i < game.getWidth(); i += 10) {
             graphics.drawImage(Assets.getBorder(), i, grassSize - 19, 0, 0, 10, 25);
@@ -113,9 +113,9 @@ public abstract class GameScreen extends Screen {
             drawable.Draw(graphics, deltaTime);
     }
 
-    private void drawFinishLine(Graphics graphics, float deltaTime)
+    private void drawFinishLine(Graphics graphics)
     {
-        int height = game.getHeight()-2*grassSize, squareHeight = height/finishLineScale, squareWidth = 40, width = 80;
+        int height = game.getHeight()-2*grassSize, squareHeight = height/finishLineScale, squareWidth = 40, width = 120;
         graphics.drawRect(finishLineX,grassSize,width,height, Color.WHITE);
         for (int i=squareHeight;i<height;i+=2*squareHeight)
             graphics.drawRect(finishLineX,grassSize+i,41,squareHeight+1,Color.BLACK);
