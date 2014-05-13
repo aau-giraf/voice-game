@@ -39,7 +39,7 @@ public class CarGame extends CarsActivity {
 
         startScreen = new StartScreen(this, car, obstacles);
         crashScreen = new CrashScreen(this, car, obstacles);
-        pauseScreen = new PauseScreen(this, car, obstacles);
+        pauseScreen = new PauseScreen(this, car, obstacles, GRASS_HEIGHT);
         winningScreen = new WinningScreen(this, car, obstacles);
         runningScreen = new RunningScreen(this, car, obstacles, carControl);
 

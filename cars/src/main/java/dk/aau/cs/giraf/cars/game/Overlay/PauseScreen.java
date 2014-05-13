@@ -25,7 +25,7 @@ public class PauseScreen extends GameScreen {
     private final int scaleWidth = 100;
     private final int scaleSize = 11;
 
-    public PauseScreen(CarGame game, Car car, ObstacleCollection obstacles) {
+    public PauseScreen(CarGame game, Car car, ObstacleCollection obstacles, int grassSize) {
         super(game, car, obstacles);
         this.x = car.getX();
         this.y = grassSize;
