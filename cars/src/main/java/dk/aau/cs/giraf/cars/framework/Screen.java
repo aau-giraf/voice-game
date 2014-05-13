@@ -18,4 +18,9 @@ public abstract class Screen {
     public abstract void dispose();
 
     public abstract void backButton();
+
+    public void showScreen(){
+    }
+    public void hideScreen(){
+    }
 }

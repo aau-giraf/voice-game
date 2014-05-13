@@ -71,11 +71,15 @@ public abstract class GameFragment extends Fragment implements Game {
         if (screen == null)
             throw new IllegalArgumentException("Screen must not be null");
 
+        this.screen.hideScreen();
+
         this.screen.pause();
         this.screen.dispose();
         screen.resume();
         screen.update(new Input.TouchEvent[0], 0);
         this.screen = screen;
+
+        this.screen.showScreen();
     }
 
     public Screen getCurrentScreen() {

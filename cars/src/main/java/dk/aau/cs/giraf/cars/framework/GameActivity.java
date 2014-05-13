@@ -1,13 +1,10 @@
 package dk.aau.cs.giraf.cars.framework;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -92,11 +89,15 @@ public abstract class GameActivity extends Activity implements Game {
         if (screen == null)
             throw new IllegalArgumentException("Screen must not be null");
 
+        this.screen.hideScreen();
+
         this.screen.pause();
         this.screen.dispose();
         screen.resume();
         screen.update(new Input.TouchEvent[0], 0);
         this.screen = screen;
+
+        this.screen.showScreen();
     }
 
     public Screen getCurrentScreen() {
