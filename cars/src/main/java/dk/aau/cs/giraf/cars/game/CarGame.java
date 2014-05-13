@@ -37,9 +37,9 @@ public class CarGame extends CarsActivity {
         //CarControl carControl = new VolumeCarControl(gamesettings.GetMinVolume(), gamesettings.GetMaxVolume());
         CarControl carControl = new TouchCarControl(getHeight() - 2 * GRASS_HEIGHT - (int) car.height, GRASS_HEIGHT + (int) car.height / 2);
 
-        startScreen = new StartScreen(this, obstacles, gamesettings);
-        crashScreen = new CrashScreen(this, obstacles, gamesettings);
-        pauseScreen = new PauseScreen(this, obstacles, gamesettings);
+        startScreen = new StartScreen(this, car, obstacles);
+        crashScreen = new CrashScreen(this, car, obstacles);
+        pauseScreen = new PauseScreen(this, car, obstacles);
         winningScreen = new WinningScreen(this, car, obstacles);
         runningScreen = new RunningScreen(this, car, obstacles, carControl);
 

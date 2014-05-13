@@ -11,11 +11,13 @@ import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.mFloat;
 import dk.aau.cs.giraf.cars.game.Assets;
 import dk.aau.cs.giraf.cars.game.Car;
+import dk.aau.cs.giraf.cars.game.CarGame;
 import dk.aau.cs.giraf.cars.game.GameItem;
 import dk.aau.cs.giraf.cars.game.GameScreen;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.GameState;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
+import dk.aau.cs.giraf.cars.game.ObstacleCollection;
 import dk.aau.cs.giraf.cars.game.ObstacleGenerator;
 
 public class CrashScreen extends GameScreen {
@@ -31,8 +33,8 @@ public class CrashScreen extends GameScreen {
         lastCrash.offset(-lastCrash.width() / 2, -lastCrash.height() / 2);
     }
 
-    public CrashScreen(GameActivity gameActivity, ObstacleGenerator obstacleGenerator, GameSettings gameSettings) {
-        super(gameActivity, obstacleGenerator, gameSettings);
+    public CrashScreen(CarGame game, Car car, ObstacleCollection obstacles) {
+        super(game, car, obstacles);
 
         continueButton = new OverlayButton(game.getWidth() / 2, game.getHeight() / 2, game.getResources().getString(R.string.crash_button_text));
 

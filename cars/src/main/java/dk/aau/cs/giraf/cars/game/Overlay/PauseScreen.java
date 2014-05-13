@@ -10,9 +10,11 @@ import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Assets;
 import dk.aau.cs.giraf.cars.game.Car;
+import dk.aau.cs.giraf.cars.game.CarGame;
 import dk.aau.cs.giraf.cars.game.GameScreen;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.GameState;
+import dk.aau.cs.giraf.cars.game.ObstacleCollection;
 import dk.aau.cs.giraf.cars.game.ObstacleGenerator;
 
 public class PauseScreen extends GameScreen {
@@ -24,8 +26,8 @@ public class PauseScreen extends GameScreen {
     private final int scaleWidth = 100;
     private final int scaleSize = 11;
 
-    public PauseScreen(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gameSettings) {
-        super(game, obstacleGenerator, gameSettings);
+    public PauseScreen(CarGame game, Car car, ObstacleCollection obstacles) {
+        super(game, car, obstacles);
         this.x = car.getX();
         this.y = grassSize;
         this.height = game.getHeight() - 2 * grassSize;
