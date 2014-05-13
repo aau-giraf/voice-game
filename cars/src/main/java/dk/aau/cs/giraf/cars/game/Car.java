@@ -94,7 +94,7 @@ public class Car extends GameItem {
         super.x += pixelSpeed * (deltaTime / 1000.0f);
     }
 
-    public Car ResetCar() {
+    public Car resetCar() {
         super.x = initialX;
         super.y = initialY;
         verticalMover.setCurrentValue(initialY);
