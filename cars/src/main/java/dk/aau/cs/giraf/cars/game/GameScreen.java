@@ -64,6 +64,10 @@ public abstract class GameScreen extends Screen {
         car.setVerticalTarget(y);
     }
 
+    protected void freezeCar(){
+        car.setVerticalPosition(car.getY());
+    }
+
     protected void setCarSpeed(float speed) {
         car.setSpeed(speed);
     }

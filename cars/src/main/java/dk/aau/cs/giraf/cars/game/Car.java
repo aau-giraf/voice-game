@@ -86,6 +86,9 @@ public class Car extends GameItem {
         if (target != verticalMover.getTargetValue())
             verticalMover.setTargetValue(target);
     }
+    public void setVerticalPosition(float position){
+        verticalMover.setCurrentValue(position);
+    }
 
     @Override
     public void Update(Input.TouchEvent[] touchEvents, float deltaTime) {
