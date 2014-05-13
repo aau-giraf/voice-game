@@ -42,6 +42,8 @@ public class PauseScreen extends GameScreen {
     @Override
     public void showScreen() {
         this.x = getCarLocation();
+        setCarSpeed(0);
+        freezeCar();
     }
 
     @Override

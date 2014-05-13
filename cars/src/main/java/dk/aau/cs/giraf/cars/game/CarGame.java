@@ -33,7 +33,7 @@ public class CarGame extends CarsActivity {
     @Override
     public Screen getFirstScreen() {
         ObstacleCollection obstacles = new ObstacleCollection(new PreferencesObstacles(this.gamesettings));
-        Car car = new Car(-Assets.GetCar().getWidth(), getHeight() - GRASS_HEIGHT);
+        Car car = new Car(-Assets.GetCar().getWidth(), getHeight() - GRASS_HEIGHT - Assets.GetCar().getHeight());
         //CarControl carControl = new VolumeCarControl(gamesettings.GetMinVolume(), gamesettings.GetMaxVolume());
         CarControl carControl = new TouchCarControl(getHeight() - 2 * GRASS_HEIGHT - (int) car.height, GRASS_HEIGHT + (int) car.height / 2);
 

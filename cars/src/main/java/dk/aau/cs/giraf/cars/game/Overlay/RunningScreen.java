@@ -46,4 +46,9 @@ public class RunningScreen extends GameScreen {
 
         graphics.drawScaledImage(Assets.GetPauseButton(), pauseButtonRec, pauseButtonImageRec);
     }
+
+    @Override
+    public void showScreen() {
+        setCarSpeed(carSpeed);
+    }
 }
