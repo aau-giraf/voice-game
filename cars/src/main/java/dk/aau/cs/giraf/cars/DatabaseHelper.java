@@ -62,9 +62,7 @@ public class DatabaseHelper {
 
         HashMap<String, String> colors = settings.get("colors");
 
-        LinkedList<Integer> colorlist = new LinkedList<Integer>();
-        for (Map.Entry<String, String> entry : colors.entrySet())
-            colorlist.add(Integer.parseInt(entry.getValue()));
+        int color = Integer.parseInt(settings.get("color").get("default"));
 
         float speed = Float.parseFloat(settings.get("speed").get("default"));
 
@@ -81,7 +79,7 @@ public class DatabaseHelper {
         }
 
 
-        return new GameSettings(colorlist, speed, min, max,map);
+        return new GameSettings(color, speed, min, max,map);
     }
 
     public int GetDefaultChild() {
@@ -102,9 +100,7 @@ public class DatabaseHelper {
     public void SaveSettings(GameSettings gs) {
         Setting<String, String, String> s = new Setting<String, String, String>();
         s.addValue("speed", "default", Float.toString(gs.GetSpeed()));
-        s.addValue("colors", "0", Integer.toString(gs.GetColors().get(0)));
-        s.addValue("colors", "1", Integer.toString(gs.GetColors().get(1)));
-        s.addValue("colors", "2", Integer.toString(gs.GetColors().get(2)));
+        s.addValue("color", "default", Integer.toString(gs.GetColor()));
         s.addValue("calibration", "min", Float.toString(gs.GetMinVolume()));
         s.addValue("calibration", "max", Float.toString(gs.GetMaxVolume()));
 
@@ -127,8 +123,8 @@ public class DatabaseHelper {
 
     }
 
-    private ProfileApplication LoadProfileApplication(int child_id) {
-        Profile profile = profileController.getProfileById(child_id);
+    private ProfileApplication LoadProfileApplication(int id) {
+        Profile profile = profileController.getProfileById(id);
 
         ProfileApplication profileApplication = profileApplicationController.getProfileApplicationByProfileIdAndApplicationId(application, profile);
 
