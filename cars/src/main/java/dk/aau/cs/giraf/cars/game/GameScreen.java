@@ -1,10 +1,13 @@
 package dk.aau.cs.giraf.cars.game;
 
-import android.content.Intent;
-import dk.aau.cs.giraf.cars.DatabaseHelper;
+import java.util.ArrayList;
+
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.framework.Screen;
+import dk.aau.cs.giraf.cars.game.Interfaces.Drawable;
+import dk.aau.cs.giraf.cars.game.Interfaces.GameObject;
+import dk.aau.cs.giraf.cars.game.Interfaces.Updatable;
 
 public abstract class GameScreen extends Screen {
     private final int grassSize = 70;
@@ -13,12 +16,31 @@ public abstract class GameScreen extends Screen {
     private Car car;
     private CarGame carGame;
 
+    private ArrayList<Drawable> drawables;
+    private ArrayList<Updatable> updatables;
+
     public GameScreen(CarGame carGame, Car car, ObstacleCollection obstacles) {
         super(carGame);
         this.carGame = carGame;
 
         this.car = car;
         this.obstacles = obstacles;
+
+        drawables = new ArrayList<Drawable>();
+        updatables = new ArrayList<Updatable>();
+    }
+
+    protected void Add(Drawable d) {
+        drawables.add(d);
+    }
+
+    protected void Add(Updatable u) {
+        updatables.add(u);
+    }
+
+    protected void Add(GameObject g) {
+        drawables.add(g);
+        updatables.add(g);
     }
 
     protected void resetObstacles() {
@@ -40,6 +62,9 @@ public abstract class GameScreen extends Screen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         obstacles.Update(touchEvents, deltaTime);
         car.Update(touchEvents, deltaTime);
+
+        for (Updatable updatable : updatables)
+            updatable.Update(touchEvents, deltaTime);
     }
 
     @Override
@@ -54,6 +79,9 @@ public abstract class GameScreen extends Screen {
 
         obstacles.Draw(graphics, deltaTime);
         car.Draw(graphics, deltaTime);
+
+        for (Drawable drawable : drawables)
+            drawable.Draw(graphics, deltaTime);
     }
 
     @Override
