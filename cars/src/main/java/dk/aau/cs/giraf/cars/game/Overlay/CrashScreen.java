@@ -40,6 +40,12 @@ public class CrashScreen extends GameScreen {
     }
 
     @Override
+    public void showScreen() {
+        setCarSpeed(0);
+        freezeCar();
+    }
+
+    @Override
     public void paint(Graphics graphics, float deltaTime) {
         super.paint(graphics,deltaTime);
         graphics.drawScaledImage(Assets.GetExplosion(), lastCrash, explosionRect);
@@ -52,6 +58,7 @@ public class CrashScreen extends GameScreen {
         super.update(touchEvents,deltaTime);
         continueButton.Update(touchEvents, deltaTime);
         if (continueButton.IsClicked()) {
+            resetCar();
             showRunningScreen();
         }
     }
