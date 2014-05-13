@@ -8,8 +8,8 @@ import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Interfaces.GameObject;
 
 public abstract class GameItem implements GameObject {
-    float x, y;
-    final float width, height;
+    public float x, y;
+    public final float width, height;
 
     public GameItem(float x, float y, float width, float height) {
         this.x = x;

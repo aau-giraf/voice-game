@@ -5,43 +5,50 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
 
+import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Assets;
 import dk.aau.cs.giraf.cars.game.Car;
+import dk.aau.cs.giraf.cars.game.CarGame;
+import dk.aau.cs.giraf.cars.game.GameScreen;
+import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.GameState;
+import dk.aau.cs.giraf.cars.game.ObstacleCollection;
+import dk.aau.cs.giraf.cars.game.ObstacleGenerator;
 
-public class PauseOverlay extends Overlay {
-    private boolean paused = false;
+public class PauseScreen extends GameScreen {
     private Rect playButtonSize = new Rect(20, 20, 100, 100);
     private Rect image = new Rect(0, 0, Assets.GetPlayButton().getWidth(), Assets.GetPlayButton().getHeight());
     private int y, height, width;
     private float x;
-    private Car car;
     private final int scaleWidth = 100;
     private final int scaleSize = 11;
 
-    public PauseOverlay(float x, int y, int height, int width, Car car) {
-        this.car = car;
-        this.x = x;
-        this.y = y;
-        this.height = height;
-        this.width = width;
+    public PauseScreen(CarGame game, Car car, ObstacleCollection obstacles, int grassSize) {
+        super(game, car, obstacles);
+        this.y = grassSize;
+        this.height = game.getHeight() - 2 * grassSize;
+        this.width = game.getWidth();
     }
 
     private boolean pauseButtonPressed(Input.TouchEvent[] touchEvents) {
-        this.x = car.getX();
         for (Input.TouchEvent e : touchEvents)
-            if (e.type == Input.TouchEvent.TOUCH_DOWN)
-                if (e.inBounds( playButtonSize)) {
-                    paused = !paused;
-                    return paused;
-                }
-        return paused;
+            if (e.type == Input.TouchEvent.TOUCH_DOWN && e.inBounds(playButtonSize))
+                return true;
+        return false;
     }
 
     @Override
-    public void Draw(Graphics graphics, float deltaTime) {
+    public void showScreen() {
+        this.x = getCarLocation();
+        setCarSpeed(0);
+        freezeCar();
+    }
+
+    @Override
+    public void paint(Graphics graphics, float deltaTime) {
+        super.paint(graphics,deltaTime);
         Paint paint = new Paint();
         paint.setTextSize(30);
         paint.setTextAlign(Paint.Align.CENTER);
@@ -64,14 +71,14 @@ public class PauseOverlay extends Overlay {
             int tmp = 70 + (height / scaleSize * i);
             graphics.drawLine(x, tmp, x + scaleWidth, tmp, Color.BLACK, 5);
             if (i != 0)
-                graphics.drawString(scaleSize - i + "", x + (scaleWidth / 2), tmp-10, paint);
+                graphics.drawString(scaleSize - i + "", x + (scaleWidth / 2), tmp - 10, paint);
         }
     }
 
     @Override
-    public GameState Update(Input.TouchEvent[] touchEvents, float deltaTime) {
+    public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
+        super.update(touchEvents,deltaTime);
         if (pauseButtonPressed(touchEvents))
-            return GameState.Paused;
-        return GameState.Running;
+            showRunningScreen();
     }
 }

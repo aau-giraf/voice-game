@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
     private static final int SETTINGS_IDENTIFIER = 0;
     private static final int MAPEDITOR_IDENTIFIER = 1;
 
-    int child_id, guardian_id;
+    int currentId, guardianId;
     GTextView profile_text;
     GButtonProfileSelect gButtonProfileSelect;
 
@@ -32,13 +32,17 @@ public class MainActivity extends Activity {
 
         DatabaseHelper database = new DatabaseHelper(this);
 
-        //Helper h = new Helper(this);
+        //dk.aau.cs.giraf.oasis.lib.Helper h = new dk.aau.cs.giraf.oasis.lib.Helper(this);
         //h.CreateDummyData();
-        child_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, database.GetDefaultChild());
-        guardian_id = intent.getIntExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian(child_id));
+        currentId = intent.getIntExtra(DatabaseHelper.CHILD_ID, database.GetDefaultChild());
+        guardianId = intent.getIntExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian(currentId));
 
-        Profile curChild = database.GetProfileById(child_id);
-        Profile curGuardian = database.GetProfileById(guardian_id);
+        Profile curGuardian = database.GetProfileById(guardianId);
+        Profile curProfile;
+        if (currentId == -1)
+            curProfile = null;
+        else
+            curProfile = database.GetProfileById(currentId);
 
         setContentView(R.layout.activity_main_menu);
 
@@ -49,26 +53,36 @@ public class MainActivity extends Activity {
         profile_text = (GTextView) findViewById(R.id.profile_text);
         gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.profile_button);
 
-        profile_text.setText(curChild.getName());
-        gButtonProfileSelect.GuardianSelectableInList(false);
-        gButtonProfileSelect.setup(curGuardian, curChild, new GButtonProfileSelect.onCloseListener() {
+        if (curProfile == null)
+            profile_text.setText(curGuardian.getName());
+        else
+            profile_text.setText(curProfile.getName());
+
+        gButtonProfileSelect.setup(curGuardian, curProfile, new GButtonProfileSelect.onCloseListener() {
             @Override
             public void onClose(Profile guardianProfile, Profile currentProfile) {
-                child_id = currentProfile.getId();
+            if(currentProfile == null) {
+                currentId = guardianProfile.getId();
+                profile_text.setText(guardianProfile.getName());
+            }
+            else
+            {
+                currentId = currentProfile.getId();
                 profile_text.setText(currentProfile.getName());
+            }
             }
         });
     }
 
     public void startGame(View view) {
         Intent intent = new Intent(this, CarGame.class);
-        intent.putExtra(DatabaseHelper.CHILD_ID, child_id);
+        intent.putExtra(DatabaseHelper.CHILD_ID, currentId);
         startActivity(intent);
     }
 
     public void startMapEditor(View view) {
         Intent intent = new Intent(this, MapEditor.class);
-        intent.putExtra(DatabaseHelper.CHILD_ID, child_id);
+        intent.putExtra(DatabaseHelper.CHILD_ID, currentId);
 
         startActivityForResult(intent, MAPEDITOR_IDENTIFIER);
     }
@@ -76,7 +90,7 @@ public class MainActivity extends Activity {
     public void showSettings(View view) {
         Intent intent = new Intent(this, Settings.class);
 
-        intent.putExtra(DatabaseHelper.CHILD_ID, child_id);
+        intent.putExtra(DatabaseHelper.CHILD_ID, currentId);
 
         startActivityForResult(intent, SETTINGS_IDENTIFIER);
     }
@@ -85,7 +99,7 @@ public class MainActivity extends Activity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.d("childid", "Childid ved retur: " + child_id);
+        Log.d("childid", "Childid ved retur: " + currentId);
 
         switch (requestCode) {
             case (SETTINGS_IDENTIFIER):

@@ -21,7 +21,7 @@ public abstract class SettingsScreen extends Screen {
 
     public SettingsScreen(Game game, int grassSize, int gameWidth, int gameHeight) {
         super(game);
-        this.car = new Car(0, 0, 200, 99);
+        this.car = new Car(0, 0);
         this.grassSize = grassSize;
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;

@@ -91,15 +91,8 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
     private class MapScreen extends SettingsScreen {
         private final int grassSize = 70;
-        private final float garageSize = 250;
-        private final int amountOfGarages = 3;
-        private final float animationZoneSize = 100;
-
-
-        private float animationZoneX;
 
         private ArrayList<Obstacle> obstacles;
-        private ArrayList<Garage> garages;
         private HashMap<String, Float> map;
 
         public MapScreen(Game game) {
@@ -114,15 +107,6 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
             obstacles = gamesettings.LoadObstacles();
             map = gamesettings.GetMap();
-
-            this.garages = new ArrayList<Garage>();
-            float garageSpace = (game.getHeight() - 2 * grassSize - 3 * garageSize) / 4f;
-            for (int i = 0; i < amountOfGarages; i++) {
-                Garage g = new Garage(game.getWidth() - garageSize, grassSize + (i + 1) * garageSpace + i * garageSize + garageSize / 4, garageSize, garageSize / 2);
-                garages.add(g);
-            }
-
-            this.animationZoneX = garages.get(0).x - animationZoneSize;
         }
 
 
@@ -131,8 +115,6 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
             super.paint(graphics, deltaTime);
             for (Obstacle o : obstacles)
                 o.Draw(graphics, deltaTime);
-            for (Garage g : garages)
-                g.Draw(graphics, deltaTime);
         }
 
         @Override
