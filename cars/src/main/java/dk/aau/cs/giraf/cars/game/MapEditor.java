@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -91,6 +92,8 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
     private class MapScreen extends SettingsScreen {
         private final int grassSize = 70;
+        private final int finishLineScale = 15;
+        private int finishLineX;
 
         private ArrayList<Obstacle> obstacles;
         private HashMap<String, Float> map;
@@ -107,14 +110,26 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
             obstacles = gamesettings.LoadObstacles();
             map = gamesettings.GetMap();
+
+            this.finishLineX = game.getWidth()-80;
         }
 
 
         @Override
         public void paint(Graphics graphics, float deltaTime) {
             super.paint(graphics, deltaTime);
+            drawFinishLine(graphics);
             for (Obstacle o : obstacles)
                 o.Draw(graphics, deltaTime);
+        }
+
+        private void drawFinishLine(Graphics graphics) {
+            int height = game.getHeight() - 2 * grassSize, squareHeight = height / finishLineScale, squareWidth = 40, width = 120;
+            graphics.drawRect(finishLineX, grassSize, width, height, Color.WHITE);
+            for (int i = squareHeight; i < height; i += 2 * squareHeight)
+                graphics.drawRect(finishLineX, grassSize + i, 41, squareHeight + 1, Color.BLACK);
+            for (int i = 0; i < height; i += 2 * squareHeight)
+                graphics.drawRect(finishLineX + squareWidth, grassSize + i, 41, squareHeight + 1, Color.BLACK);
         }
 
         @Override
@@ -127,10 +142,10 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
             for (Input.TouchEvent e : touchEvents) {
                 if (e.y > grassSize && e.y < game.getHeight() - grassSize) {
-                    if(e.type == Input.TouchEvent.TOUCH_DRAGGED)
+                    if (e.type == Input.TouchEvent.TOUCH_DRAGGED)
                         if (dragging != null) {
                             Remove(dragging);
-                            dragging =  Add(e.x- gamesettings.OBSTACLE_SIZE / 2, e.y- gamesettings.OBSTACLE_SIZE / 2);
+                            dragging = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
                         }
                     if (e.type == Input.TouchEvent.TOUCH_DOWN) {
                         Obstacle rem = getObstacleAt(e.x, e.y);
@@ -141,7 +156,7 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
                             startDrag = rem;
                         }
                     } else if (e.type == Input.TouchEvent.TOUCH_UP) {
-                        if(startDrag == dragging)
+                        if (startDrag == dragging)
                             Remove(startDrag);
                         dragging = null;
 
