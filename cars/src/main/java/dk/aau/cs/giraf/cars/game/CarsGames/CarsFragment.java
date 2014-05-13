@@ -27,7 +27,7 @@ public abstract class CarsFragment extends GameFragment {
 
         @Override
         public void paint(Graphics graphics, float deltaTime) {
-            Assets.LoadAssets(graphics);
+            Assets.LoadAssets(graphics, game.getAudio());
             game.setScreen(((CarsFragment)game).getFirstScreen());
         }
 

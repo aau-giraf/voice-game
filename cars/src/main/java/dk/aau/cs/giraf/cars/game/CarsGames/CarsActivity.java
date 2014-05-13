@@ -26,7 +26,7 @@ public abstract class CarsActivity extends GameActivity {
 
         @Override
         public void paint(Graphics graphics, float deltaTime) {
-            Assets.LoadAssets(graphics);
+            Assets.LoadAssets(graphics, game.getAudio());
             game.setScreen(((CarsActivity)game).getFirstScreen());
         }
 
