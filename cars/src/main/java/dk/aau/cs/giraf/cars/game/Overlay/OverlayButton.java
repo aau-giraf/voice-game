@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
-
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 
@@ -47,7 +46,7 @@ public class OverlayButton extends OverlayText {
                 break;
         }
 
-        bounds = new Rect(bounds.left - buttonMargin, bounds.top - buttonMargin, bounds.right + buttonMargin, bounds.top + 3*buttonMargin);
+        bounds = new Rect(bounds.left - buttonMargin, bounds.top - buttonMargin, bounds.right + buttonMargin, bounds.top + 3 * buttonMargin);
         bounds.offset(x - xoffset, y);
         this.pressed = false;
         this.clicked = false;

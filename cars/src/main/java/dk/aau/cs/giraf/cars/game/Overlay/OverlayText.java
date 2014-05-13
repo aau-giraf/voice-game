@@ -2,8 +2,6 @@ package dk.aau.cs.giraf.cars.game.Overlay;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
-
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Interfaces.GameObject;

@@ -1,16 +1,10 @@
 package dk.aau.cs.giraf.cars.game.Overlay;
 
 import android.graphics.Rect;
-
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
-import dk.aau.cs.giraf.cars.game.Assets;
-import dk.aau.cs.giraf.cars.game.Car;
-import dk.aau.cs.giraf.cars.game.CarGame;
-import dk.aau.cs.giraf.cars.game.GameScreen;
+import dk.aau.cs.giraf.cars.game.*;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
-import dk.aau.cs.giraf.cars.game.Obstacle;
-import dk.aau.cs.giraf.cars.game.ObstacleCollection;
 
 public class RunningScreen extends GameScreen {
     private Rect pauseButtonRec = new Rect(20, 20, 100, 100);
