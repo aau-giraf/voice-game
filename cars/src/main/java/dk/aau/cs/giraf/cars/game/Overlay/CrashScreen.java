@@ -52,7 +52,7 @@ public class CrashScreen extends GameScreen {
         super.update(touchEvents,deltaTime);
         continueButton.Update(touchEvents, deltaTime);
         if (continueButton.IsClicked()) {
-            game.setScreen(new RunningScreen(GetGameActivity(), GetObstacleGenerator(), GetGameSettings()));
+            showRunningScreen();
         }
     }
 }
