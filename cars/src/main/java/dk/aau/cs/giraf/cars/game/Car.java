@@ -11,8 +11,8 @@ import dk.aau.cs.giraf.cars.framework.MoveSineLine;
 import dk.aau.cs.giraf.cars.framework.mFloat;
 
 public class Car extends GameItem {
-    private static final float MAX_PIXELSPERSECOND = 300f;
-    private static final float MAX_SCALE = 10f;
+    public static final float MAX_PIXELSPERSECOND = 300f;
+    public static final float MAX_SCALE = 10f;
 
     private Paint paint;
     private mFloat verticalMover;
