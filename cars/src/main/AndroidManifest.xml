@@ -1,50 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dk.aau.cs.giraf.cars"
-    android:versionCode="1"
-    android:versionName="0.1">
+          package="dk.aau.cs.giraf.cars"
+          android:versionCode="1"
+          android:versionName="0.1">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <uses-sdk
         android:minSdkVersion="15"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="19"/>
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
-            android:name="dk.aau.cs.giraf.cars.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:label="Cars"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name="dk.aau.cs.giraf.cars.game.CarGame"
+            android:name=".game.CarGame"
             android:screenOrientation="landscape"
-            android:label="@string/title_activity_cargame" >
+            android:label="@string/title_activity_cargame">
         </activity>
         <activity
-            android:name="dk.aau.cs.giraf.cars.game.MapEditor"
+            android:name=".game.MapEditor"
             android:screenOrientation="landscape"
-            android:label="@string/title_activity_mapeditor" >
+            android:label="@string/title_activity_mapeditor">
         </activity>
         <activity
-            android:name="dk.aau.cs.giraf.cars.Settings"
+            android:name=".Settings"
             android:label="@string/title_activity_settings"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="dk.aau.cs.giraf.cars.SETTINGSACTIVITY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
     </application>
 
