@@ -7,6 +7,9 @@ import android.os.Bundle;
 import dk.aau.cs.giraf.cars.DatabaseHelper;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
+import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
+import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
+import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.CrashScreen;
 import dk.aau.cs.giraf.cars.game.Overlay.PauseScreen;
 import dk.aau.cs.giraf.cars.game.Overlay.RunningScreen;
@@ -14,6 +17,8 @@ import dk.aau.cs.giraf.cars.game.Overlay.StartScreen;
 import dk.aau.cs.giraf.cars.game.Overlay.WinningScreen;
 
 public class CarGame extends CarsActivity {
+    private final int GRASS_HEIGHT = 70;
+
     GameSettings gamesettings;
     StartScreen startScreen;
     CrashScreen crashScreen;
@@ -27,13 +32,16 @@ public class CarGame extends CarsActivity {
 
     @Override
     public Screen getFirstScreen() {
-        PreferencesObstacles obstacles = new PreferencesObstacles(this);
+        ObstacleCollection obstacles = new ObstacleCollection(new PreferencesObstacles(this.gamesettings));
+        Car car = new Car(-Assets.GetCar().getWidth(), getHeight() - GRASS_HEIGHT);
+        //CarControl carControl = new VolumeCarControl(gamesettings.GetMinVolume(), gamesettings.GetMaxVolume());
+        CarControl carControl = new TouchCarControl(getHeight() - 2 * GRASS_HEIGHT - (int) car.height, GRASS_HEIGHT + (int) car.height / 2);
 
         startScreen = new StartScreen(this, obstacles, gamesettings);
         crashScreen = new CrashScreen(this, obstacles, gamesettings);
         pauseScreen = new PauseScreen(this, obstacles, gamesettings);
-        winningScreen = new WinningScreen(this, obstacles, gamesettings);
-        runningScreen = new RunningScreen(this, obstacles, gamesettings);
+        winningScreen = new WinningScreen(this, car, obstacles);
+        runningScreen = new RunningScreen(this, car, obstacles, carControl);
 
         return startScreen;
     }
@@ -41,7 +49,7 @@ public class CarGame extends CarsActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Intent i = getIntent();
-        int child_id = i.getIntExtra(DatabaseHelper.CHILD_ID,0);
+        int child_id = i.getIntExtra(DatabaseHelper.CHILD_ID, 0);
 
         DatabaseHelper database = new DatabaseHelper(this);
         database.Initialize(child_id);
