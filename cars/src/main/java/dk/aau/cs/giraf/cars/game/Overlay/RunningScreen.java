@@ -29,7 +29,9 @@ public class RunningScreen extends GameScreen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
 
-        moveCarTo(1f - carControl.getMove(touchEvents));
+        float moveTo = 1f - carControl.getMove(touchEvents);
+        moveTo = Math.max(0, Math.min(1, moveTo));
+        moveCarTo(moveTo);
 
         Obstacle obstacle = getCollisionObstacle();
         if (obstacle != null)
