@@ -1,29 +1,24 @@
 package dk.aau.cs.giraf.cars.game.Overlay;
 
 import dk.aau.cs.giraf.cars.R;
-import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.GameActivity;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Assets;
+import dk.aau.cs.giraf.cars.game.Car;
 import dk.aau.cs.giraf.cars.game.CarGame;
 import dk.aau.cs.giraf.cars.game.GameScreen;
-import dk.aau.cs.giraf.cars.game.GameSettings;
-import dk.aau.cs.giraf.cars.game.GameState;
-import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
-import dk.aau.cs.giraf.cars.game.ObstacleGenerator;
+import dk.aau.cs.giraf.cars.game.ObstacleCollection;
 
 public class WinningScreen extends GameScreen {
     private OverlayButton resetButton;
     private OverlayButton menuButton;
-    private GameScreen gameScreen;
 
     private int trophyX;
     private int trophyY;
 
-    public WinningScreen(GameActivity gameActivity, ObstacleGenerator obstacleGenerator, GameSettings gameSettings) {
-        super(gameActivity, obstacleGenerator, gameSettings);
-        this.gameScreen = gameScreen;
+    public WinningScreen(CarGame game, Car car, ObstacleCollection obstacles) {
+        super(game, car, obstacles);
 
         int gameWidth = game.getWidth();
         int gameHeight = game.getHeight();
