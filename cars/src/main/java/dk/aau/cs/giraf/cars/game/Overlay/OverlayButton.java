@@ -13,7 +13,6 @@ import dk.aau.cs.giraf.cars.framework.Input;
 public class OverlayButton extends OverlayText {
 
 
-
     private boolean pressed;
     private boolean clicked;
 
@@ -26,9 +25,13 @@ public class OverlayButton extends OverlayText {
 
 
         bounds = new Rect();
+
+        //Calculates the margin from an M in order to have consistent margins on all text
+        pButton.getTextBounds("S", 0, 1, bounds);
+        buttonMargin = bounds.height() / 2;
+
         pButton.getTextBounds(buttonText, 0, buttonText.length(), bounds);
 
-        buttonMargin = bounds.height()/2;
         int xoffset = 0;
 
         switch (alignment) {
@@ -43,7 +46,7 @@ public class OverlayButton extends OverlayText {
                 break;
         }
 
-        bounds = new Rect(bounds.left - buttonMargin, bounds.top -buttonMargin,bounds.right+buttonMargin,bounds.bottom+buttonMargin);
+        bounds = new Rect(bounds.left - buttonMargin, bounds.top - buttonMargin, bounds.right + buttonMargin, bounds.top + 3*buttonMargin);
         bounds.offset(x - xoffset, y);
         this.pressed = false;
         this.clicked = false;
@@ -51,18 +54,18 @@ public class OverlayButton extends OverlayText {
 
 
     /**
-     * Create a Overlaybutton with the default colors and alignment(White text, yellow when touched)
+     * Create a Overlaybutton with the default colors and alignment
      *
      * @param x
      * @param y
      * @param buttonText
      */
     public OverlayButton(int x, int y, String buttonText) {
-        this(x, y, Color.WHITE, buttonText, Paint.Align.CENTER, 100);
+        this(x, y, Color.WHITE, buttonText, Paint.Align.CENTER, 75);
     }
 
     public OverlayButton(int x, int y, String buttonText, float textSize) {
-        this(x, y, Color.WHITE,buttonText, Paint.Align.CENTER, textSize);
+        this(x, y, Color.WHITE, buttonText, Paint.Align.CENTER, textSize);
     }
 
     public OverlayButton(int x, int y, int textColor, String buttonText, Paint.Align alignment) {
@@ -107,8 +110,8 @@ public class OverlayButton extends OverlayText {
 
     @Override
     public void Draw(Graphics g, float deltaTime) {
-        g.drawRect(bounds.left , bounds.top, bounds.width(), bounds.height(), pressed ? Color.GRAY : Color.DKGRAY);
-        g.drawBorder(bounds.left, bounds.top , bounds.width(), bounds.height() , Color.WHITE);
+        g.drawBorder(bounds.left, bounds.top, bounds.width(), bounds.height(), Color.WHITE);
+        g.drawRect(bounds.left, bounds.top, bounds.width(), bounds.height(), pressed ? Color.GRAY : Color.DKGRAY);
         g.drawString(buttonText, x, y, pButton);
         Log.d("button", bounds.toString());
 
