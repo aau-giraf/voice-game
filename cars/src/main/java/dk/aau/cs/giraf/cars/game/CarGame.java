@@ -4,22 +4,21 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
-import android.provider.ContactsContract;
 import dk.aau.cs.giraf.cars.DatabaseHelper;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
-import dk.aau.cs.giraf.cars.game.Overlay.CrashOverlay;
-import dk.aau.cs.giraf.cars.game.Overlay.PauseOverlay;
+import dk.aau.cs.giraf.cars.game.Overlay.CrashScreen;
+import dk.aau.cs.giraf.cars.game.Overlay.PauseScreen;
 import dk.aau.cs.giraf.cars.game.Overlay.RunningScreen;
-import dk.aau.cs.giraf.cars.game.Overlay.StartOverlay;
-import dk.aau.cs.giraf.cars.game.Overlay.WinningOverlay;
+import dk.aau.cs.giraf.cars.game.Overlay.StartScreen;
+import dk.aau.cs.giraf.cars.game.Overlay.WinningScreen;
 
 public class CarGame extends CarsActivity {
     GameSettings gamesettings;
-    StartOverlay startOverlay;
-    CrashOverlay crashOverlay;
-    PauseOverlay pauseOverlay;
-    WinningOverlay winningOverlay;
+    StartScreen startScreen;
+    CrashScreen crashScreen;
+    PauseScreen pauseScreen;
+    WinningScreen winningScreen;
     RunningScreen runningScreen;
 
     public CarGame() {
@@ -30,13 +29,13 @@ public class CarGame extends CarsActivity {
     public Screen getFirstScreen() {
         PreferencesObstacles obstacles = new PreferencesObstacles(this);
 
-        startOverlay = new StartOverlay(this, obstacles, gamesettings);
-        crashOverlay = new CrashOverlay(this, obstacles, gamesettings);
-        pauseOverlay = new PauseOverlay(this, obstacles, gamesettings);
-        winningOverlay = new WinningOverlay(this, obstacles, gamesettings);
+        startScreen = new StartScreen(this, obstacles, gamesettings);
+        crashScreen = new CrashScreen(this, obstacles, gamesettings);
+        pauseScreen = new PauseScreen(this, obstacles, gamesettings);
+        winningScreen = new WinningScreen(this, obstacles, gamesettings);
         runningScreen = new RunningScreen(this, obstacles, gamesettings);
 
-        return startOverlay;
+        return startScreen;
     }
 
     @Override
@@ -57,20 +56,20 @@ public class CarGame extends CarsActivity {
     }
 
     public void showStartScreen() {
-        setScreen(startOverlay);
+        setScreen(startScreen);
     }
 
     public void showCrashScreen(GameItem gameItem) {
-        crashOverlay.setCrashPoint(gameItem);
-        setScreen(crashOverlay);
+        crashScreen.setCrashPoint(gameItem);
+        setScreen(crashScreen);
     }
 
     public void showPauseScreen() {
-        setScreen(pauseOverlay);
+        setScreen(pauseScreen);
     }
 
     public void showWinningScreen() {
-        setScreen(winningOverlay);
+        setScreen(winningScreen);
     }
 
     public void showRunningScreen() {

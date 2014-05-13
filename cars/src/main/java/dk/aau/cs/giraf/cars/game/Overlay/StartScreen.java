@@ -11,7 +11,7 @@ import dk.aau.cs.giraf.cars.game.GameScreen;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.ObstacleGenerator;
 
-public class StartOverlay extends GameScreen {
+public class StartScreen extends GameScreen {
     private final int COUNTDOWN_IN_SECONDS = 3;
     private float counterInMS;
     private float visualCounter;
@@ -19,7 +19,7 @@ public class StartOverlay extends GameScreen {
     private String driveMessage;
     private Paint pButton;
 
-    public StartOverlay(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
+    public StartScreen(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gs) {
         super(game, obstacleGenerator, gs);
         this.seconds = COUNTDOWN_IN_SECONDS;
         pButton = new Paint();

@@ -13,7 +13,7 @@ import dk.aau.cs.giraf.cars.game.GameState;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 import dk.aau.cs.giraf.cars.game.ObstacleGenerator;
 
-public class WinningOverlay extends GameScreen {
+public class WinningScreen extends GameScreen {
     private OverlayButton resetButton;
     private OverlayButton menuButton;
     private GameScreen gameScreen;
@@ -21,7 +21,7 @@ public class WinningOverlay extends GameScreen {
     private int trophyX;
     private int trophyY;
 
-    public WinningOverlay(GameActivity gameActivity, ObstacleGenerator obstacleGenerator, GameSettings gameSettings) {
+    public WinningScreen(GameActivity gameActivity, ObstacleGenerator obstacleGenerator, GameSettings gameSettings) {
         super(gameActivity, obstacleGenerator, gameSettings);
         this.gameScreen = gameScreen;
 

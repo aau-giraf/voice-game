@@ -15,7 +15,7 @@ import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.GameState;
 import dk.aau.cs.giraf.cars.game.ObstacleGenerator;
 
-public class PauseOverlay extends GameScreen {
+public class PauseScreen extends GameScreen {
     private boolean paused = false;
     private Rect playButtonSize = new Rect(20, 20, 100, 100);
     private Rect image = new Rect(0, 0, Assets.GetPlayButton().getWidth(), Assets.GetPlayButton().getHeight());
@@ -24,7 +24,7 @@ public class PauseOverlay extends GameScreen {
     private final int scaleWidth = 100;
     private final int scaleSize = 11;
 
-    public PauseOverlay(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gameSettings) {
+    public PauseScreen(GameActivity game, ObstacleGenerator obstacleGenerator, GameSettings gameSettings) {
         super(game, obstacleGenerator, gameSettings);
         this.x = car.getX();
         this.y = grassSize;
