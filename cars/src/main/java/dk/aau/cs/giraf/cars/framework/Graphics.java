@@ -146,6 +146,7 @@ public class Graphics {
     public void drawBorder(int x, int y, int width, int height, int color) {
         paint.setColor(color);
         paint.setStyle(Style.STROKE);
+        paint.setStrokeWidth(6);
         canvas.drawRect(x, y, x + width - 1, y + height - 1, paint);
     }
 
