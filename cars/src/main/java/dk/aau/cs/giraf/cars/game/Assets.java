@@ -1,12 +1,14 @@
 package dk.aau.cs.giraf.cars.game;
 
+import dk.aau.cs.giraf.cars.framework.Audio;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Image;
+import dk.aau.cs.giraf.cars.framework.Sound;
 
 public class Assets {
     private static boolean loaded = false;
 
-    public static void LoadAssets(Graphics graphics) {
+    public static void LoadAssets(Graphics graphics, Audio audio) {
         if (loaded)
             return;
 
@@ -23,6 +25,12 @@ public class Assets {
         snail_picto = graphics.newImage("snail_picto.png", Graphics.ImageFormat.ARGB8888);
         tiger_picto = graphics.newImage("tiger_picto.png", Graphics.ImageFormat.ARGB8888);
 
+        carStart = audio.createSound("sounds/car_start.mp3");
+        pickup = audio.createSound("sounds/double_honk.mp3");
+        done = audio.createSound("sounds/faerdig.mp3");
+        wellDone = audio.createSound("sounds/godt_gaaet.mp3");
+        newTurn = audio.createSound("sounds/ny_tur.mp3");
+        playAgain = audio.createSound("sounds/spil_igen.mp3");
 
         loaded = true;
     }
@@ -31,18 +39,8 @@ public class Assets {
         return loaded;
     }
 
-    private static Image grass;
-    private static Image tarmac;
-    private static Image border;
-    private static Image car;
-    private static Image obstacle;
-    private static Image trophy;
-    private static Image explosion;
-    private static Image pauseButton;
-    private static Image playButton;
-    private static Image rabbit_picto;
-    private static Image snail_picto;
-    private static Image tiger_picto;
+    private static Image grass, tarmac, border, car, obstacle, trophy, garage, explosion,
+            pauseButton, playButton, rabbit_picto, snail_picto, tiger_picto;
 
     public static Image GetGrass() {
         return grass;
@@ -92,4 +90,17 @@ public class Assets {
         return tiger_picto;
     }
 
+    private static Sound carStart, pickup, done, wellDone, newTurn, playAgain;
+
+    public static Sound GetCarStart() { return carStart; }
+
+    public static Sound GetPickup() { return pickup; }
+
+    public static Sound GetDone() { return done; }
+
+    public static Sound GetWellDone() { return wellDone; }
+
+    public static Sound GetNewTurn() { return newTurn; }
+
+    public static Sound GetPlayAgain() { return playAgain; }
 }

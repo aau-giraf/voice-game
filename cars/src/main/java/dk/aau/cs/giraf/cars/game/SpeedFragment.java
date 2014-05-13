@@ -35,6 +35,7 @@ public class SpeedFragment extends CarsFragment {
         private final float MAX_SPEED_PPS = Car.MAX_PIXELSPERSECOND;
         private final int GAUGE_MARGIN = 10;
         private final int GAUGE_HEIGHT = 70;
+        private final int PICTO_SIZE = 120;
         private SpeedGauge gauge;
         private PictoButton snailPicto, rabbitPicto, tigerPicto;
 
@@ -45,11 +46,10 @@ public class SpeedFragment extends CarsFragment {
             gauge = new SpeedGauge(GAUGE_MARGIN, gaugeY, game.getWidth() - 2 * GAUGE_MARGIN, GAUGE_HEIGHT);
             gauge.SetSpeed(INITIAL_SPEED);
 
-            int pictoSize = GAUGE_HEIGHT;
             int pictoY = gaugeY + GAUGE_HEIGHT + GAUGE_MARGIN;
-            snailPicto = new PictoButton(gauge.GetValueX(1) - pictoSize/2, pictoY, pictoSize, pictoSize, Assets.GetSnailPicto());
-            rabbitPicto = new PictoButton(gauge.GetValueX(5) - pictoSize/2, pictoY, pictoSize, pictoSize, Assets.GetRabbitPicto());
-            tigerPicto = new PictoButton(gauge.GetValueX(9) - pictoSize/2, pictoY, pictoSize, pictoSize, Assets.GetTigerPicto());
+            snailPicto = new PictoButton(gauge.GetValueX(1) - PICTO_SIZE/2, pictoY, PICTO_SIZE, PICTO_SIZE, Assets.GetSnailPicto());
+            rabbitPicto = new PictoButton(gauge.GetValueX(5) - PICTO_SIZE/2, pictoY, PICTO_SIZE, PICTO_SIZE, Assets.GetRabbitPicto());
+            tigerPicto = new PictoButton(gauge.GetValueX(9) - PICTO_SIZE/2, pictoY, PICTO_SIZE, PICTO_SIZE, Assets.GetTigerPicto());
 
             setCarYToCenter();
             setCarX(-getCarWidth());

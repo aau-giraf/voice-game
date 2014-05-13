@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.provider.ContactsContract;
 
@@ -13,6 +14,7 @@ public class PictoButton implements Drawable {
     public int x, y, width, height;
     private Rect bounds;
     private Image image;
+    private final int BORDER_SIZE = 2;
 
     public PictoButton(int x, int y, int width, int height, Image image) {
         this.x = x;
@@ -25,7 +27,10 @@ public class PictoButton implements Drawable {
 
     @Override
     public void Draw(Graphics graphics, float deltaTime) {
-        graphics.drawScaledImage(image, x, y, width, height, 0, 0, image.getWidth(), image.getHeight());
+        graphics.drawRect(x, y, width, height, Color.BLACK);
+        graphics.drawScaledImage(image, x + BORDER_SIZE, y + BORDER_SIZE,
+                width - 1 - 2 * BORDER_SIZE, height - 1 - 2 * BORDER_SIZE,
+                0, 0, image.getWidth(), image.getHeight());
     }
 
     public boolean IsPressed(Input.TouchEvent touchEvents[], float deltaTime) {
