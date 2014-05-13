@@ -1,5 +1,7 @@
 package dk.aau.cs.giraf.cars.game;
 
+import android.graphics.Point;
+
 import java.util.ArrayList;
 
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -51,6 +53,10 @@ public abstract class GameScreen extends Screen {
         return obstacles.findCollision(car);
     }
 
+    protected Point getCollisionPoint(GameItem obstacle) {
+        return obstacle.GetCollisionCenter(car);
+    }
+
     protected void moveCarTo(float y) {
         y *= (game.getHeight() - grassSize * 2 - car.height);
         y += grassSize;
@@ -62,11 +68,11 @@ public abstract class GameScreen extends Screen {
         car.setSpeed(speed);
     }
 
-    protected void resetCar(){
+    protected void resetCar() {
         car.reset();
     }
 
-    protected float getCarLocation(){
+    protected float getCarLocation() {
         return car.x;
     }
 

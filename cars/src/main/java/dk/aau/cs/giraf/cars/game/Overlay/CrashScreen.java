@@ -25,9 +25,6 @@ public class CrashScreen extends GameScreen {
     private Rect lastCrash;
     private Rect explosionRect;
 
-    public void setCrashPoint(GameItem gameItem){
-        setLastCrash(gameItem.GetCollisionCenter(getCar()));
-    }
     public void setLastCrash(Point p) {
         lastCrash.offsetTo(p.x, p.y);
         lastCrash.offset(-lastCrash.width() / 2, -lastCrash.height() / 2);

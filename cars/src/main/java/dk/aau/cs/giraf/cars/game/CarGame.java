@@ -68,7 +68,7 @@ public class CarGame extends CarsActivity {
     }
 
     public void showCrashScreen(GameItem gameItem) {
-        crashScreen.setCrashPoint(gameItem);
+        crashScreen.setLastCrash(crashScreen.getCollisionPoint(gameItem));
         setScreen(crashScreen);
     }
 
