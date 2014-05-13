@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 import dk.aau.cs.giraf.cars.DatabaseHelper;
 import dk.aau.cs.giraf.cars.MainActivity;
+import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.FastRenderView;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -26,6 +27,8 @@ import dk.aau.cs.giraf.gui.GButtonTrash;
 
 public class MapEditor extends CarsActivity implements View.OnClickListener {
     private boolean delete = false;
+    private Obstacle dragging = null;
+    private Obstacle startDrag = null;
     private GameSettings gamesettings;
     private int child_id;
 
@@ -35,11 +38,11 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
         Intent intent = getIntent();
 
-        if(intent.hasExtra(DatabaseHelper.CHILD_ID))
+        if (intent.hasExtra(DatabaseHelper.CHILD_ID))
             child_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, 0);
         else throw new IllegalArgumentException("no child id");
 
-        Log.d("childid","Childid ved Map create: "+ child_id);
+        Log.d("childid", "Childid ved Map create: " + child_id);
 
         DatabaseHelper database = new DatabaseHelper(this);
         database.Initialize(child_id);
@@ -72,6 +75,18 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
     public void onClick(View v) {
         delete = true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(getApplication());
+        databaseHelper.Initialize(child_id);
+
+        databaseHelper.SaveSettings(gamesettings);
+
+        this.finish();
     }
 
     private class MapScreen extends SettingsScreen {
@@ -108,21 +123,39 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
                 Clear();
                 delete = false;
             }
-            for (Input.TouchEvent e : touchEvents) {
-                if (e.type == Input.TouchEvent.TOUCH_DOWN && e.y > grassSize && e.y < game.getHeight() - grassSize) {
-                    Obstacle rem = null;
-                    for (Obstacle o : obstacles)
-                        if (o.GetBounds().contains(e.x, e.y)) {
-                            rem = o;
-                            break;
-                        }
 
-                    if (rem == null)
-                        Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
-                    else
-                        Remove(rem);
+
+            for (Input.TouchEvent e : touchEvents) {
+                if (e.y > grassSize && e.y < game.getHeight() - grassSize) {
+                    if(e.type == Input.TouchEvent.TOUCH_DRAGGED)
+                        if (dragging != null) {
+                            Remove(dragging);
+                            dragging =  Add(e.x- gamesettings.OBSTACLE_SIZE / 2, e.y- gamesettings.OBSTACLE_SIZE / 2);
+                        }
+                    if (e.type == Input.TouchEvent.TOUCH_DOWN) {
+                        Obstacle rem = getObstacleAt(e.x, e.y);
+                        if (rem == null) {
+                            dragging = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
+                        } else {
+                            dragging = rem;
+                            startDrag = rem;
+                        }
+                    } else if (e.type == Input.TouchEvent.TOUCH_UP) {
+                        if(startDrag == dragging)
+                            Remove(startDrag);
+                        dragging = null;
+
+                    }
                 }
             }
+        }
+
+        private Obstacle getObstacleAt(int x, int y) {
+            for (Obstacle o : obstacles)
+                if (o.GetBounds().contains(x, y)) {
+                    return o;
+                }
+            return null;
         }
 
         private void Clear() {
@@ -138,19 +171,21 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
         }
 
-        private void Add(float x, float y) {
+        private Obstacle Add(float x, float y) {
             int index = obstacles.size();
-            obstacles.add(new Obstacle(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE));
+            Obstacle o = new Obstacle(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE);
+            obstacles.add(o);
             AddObstacle(map, x, y, index);
-            Log.d("database",map.toString());
+            Log.d("database", map.toString());
             gamesettings.SetMap(map);
+            return o;
         }
 
         private void Remove(Obstacle obstacle) {
             int index = obstacles.indexOf(obstacle);
             int size = obstacles.size();
 
-           HashMap<String,Float> map = gamesettings.GetMap();
+            HashMap<String, Float> map = gamesettings.GetMap();
 
             for (int i = index; i < size - 1; i++) {
                 Obstacle o = obstacles.get(i + 1);
@@ -186,16 +221,5 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
         }
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        DatabaseHelper databaseHelper = new DatabaseHelper(getApplication());
-        databaseHelper.Initialize(child_id);
-
-        databaseHelper.SaveSettings(gamesettings);
-
-        this.finish();
-    }
 }
+
