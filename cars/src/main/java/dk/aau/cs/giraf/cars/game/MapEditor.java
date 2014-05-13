@@ -76,12 +76,6 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
     private class MapScreen extends SettingsScreen {
         private final int grassSize = 70;
-        private final float garageSize = 250;
-        private final int amountOfGarages = 3;
-        private final float animationZoneSize = 100;
-
-
-        private float animationZoneX;
 
         private ArrayList<Obstacle> obstacles;
         private HashMap<String, Float> map;
@@ -115,7 +109,7 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
                 delete = false;
             }
             for (Input.TouchEvent e : touchEvents) {
-                if (e.type == Input.TouchEvent.TOUCH_DOWN && e.x < animationZoneX && e.y > grassSize && e.y < game.getHeight() - grassSize) {
+                if (e.type == Input.TouchEvent.TOUCH_DOWN && e.y > grassSize && e.y < game.getHeight() - grassSize) {
                     Obstacle rem = null;
                     for (Obstacle o : obstacles)
                         if (o.GetBounds().contains(e.x, e.y)) {
