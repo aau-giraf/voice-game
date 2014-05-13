@@ -11,7 +11,6 @@ import dk.aau.cs.giraf.cars.game.MapEditor;
 import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GTextView;
-import dk.aau.cs.giraf.oasis.lib.controllers.ProfileController;
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 
 public class MainActivity extends Activity {
@@ -31,7 +30,7 @@ public class MainActivity extends Activity {
 
         DatabaseHelper database = new DatabaseHelper(this);
 
-        //Helper h = new Helper(this);
+        //dk.aau.cs.giraf.oasis.lib.Helper h = new dk.aau.cs.giraf.oasis.lib.Helper(this);
         //h.CreateDummyData();
         child_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, database.GetDefaultChild());
         guardian_id = intent.getIntExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian(child_id));
