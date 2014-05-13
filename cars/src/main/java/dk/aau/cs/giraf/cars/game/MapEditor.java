@@ -144,11 +144,7 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
 
             for (Input.TouchEvent e : touchEvents) {
-                Log.d("events", Integer.toString(e.type));
-
-
-
-                if (e.x < animationZoneX && e.y > grassSize && e.y < game.getHeight() - grassSize) {
+                if (e.y > grassSize && e.y < game.getHeight() - grassSize) {
                     if(e.type == Input.TouchEvent.TOUCH_DRAGGED)
                         if (dragging != null) {
                             Remove(dragging);
@@ -168,15 +164,6 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
                         dragging = null;
 
                     }
-                    /*else if (e.type == Input.TouchEvent.TOUCH_DRAGGED) {
-                        {
-                            Obstacle drag = getObstacleAt(e.x, e.y);
-                            if (drag != null) {
-                                dragging = drag;
-                                Add(e.x, e.y);
-                            }
-                        }
-                        */
                 }
             }
         }
