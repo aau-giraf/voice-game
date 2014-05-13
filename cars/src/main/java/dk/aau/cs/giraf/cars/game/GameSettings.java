@@ -21,23 +21,23 @@ public class GameSettings implements Parcelable {
     private final float DEFAULT_SPEED = 2.0f;
     private final float DEFAULT_MIN = 0;
     private final float DEFAULT_MAX = 5000;
-    private final Integer[] DEFAULT_COLORS = new Integer[]{Color.BLUE, Color.GREEN, Color.RED};
-    private LinkedList<Integer> colors;
+    private final int DEFAULT_COLOR = Color.BLUE;
+    private int color;
     private float speed;
     private float minVolume;
     private float maxVolume;
     private HashMap<String, Float> map;
 
     public GameSettings() {
-        this.colors = new LinkedList<Integer>(Arrays.asList(DEFAULT_COLORS));
+        this.color = DEFAULT_COLOR;
         this.speed = DEFAULT_SPEED;
         this.minVolume = DEFAULT_MIN;
         this.maxVolume = DEFAULT_MAX;
         this.map = new HashMap<String, Float>();
     }
 
-    public GameSettings(LinkedList<Integer> colors, float speed, float minVolume, float maxVolume, HashMap<String, Float> map) {
-        this.colors = colors;
+    public GameSettings(int color, float speed, float minVolume, float maxVolume, HashMap<String, Float> map) {
+        this.color = color;
         this.speed = speed;
         this.minVolume = minVolume;
         this.maxVolume = maxVolume;
@@ -45,13 +45,7 @@ public class GameSettings implements Parcelable {
     }
 
     private GameSettings(Parcel in) {
-        colors = new LinkedList<Integer>();
-
-        for (int i = 0; i < 3; i++) {
-            int k = in.readInt();
-            colors.add(k);
-            Log.d("database","jeg læste lige "+Integer.toString(k));
-        }
+        color = in.readInt();
         speed = in.readFloat();
         minVolume = in.readFloat();
         maxVolume = in.readFloat();
@@ -63,8 +57,8 @@ public class GameSettings implements Parcelable {
 
     }
 
-    public LinkedList<Integer> GetColors() {
-        return colors;
+    public int GetColor() {
+        return color;
     }
 
     public float GetSpeed() {
@@ -113,11 +107,7 @@ public class GameSettings implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        for (int i : colors) {
-            dest.writeInt(i);
-            Log.d("database","jeg skrev lige " + Integer.toString(i));
-        }
-
+        dest.writeInt(color);
         dest.writeFloat(speed);
         dest.writeFloat(minVolume);
         dest.writeFloat(maxVolume);

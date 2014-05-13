@@ -21,9 +21,7 @@ public class Settings extends Activity {
     GameSettings gamesettings;
     int child_id;
 
-    ColorButton colorPickButton1;
-    ColorButton colorPickButton2;
-    ColorButton colorPickButton3;
+    ColorButton colorPickButton;
 
 
     SpeedFragment speed;
@@ -47,20 +45,14 @@ public class Settings extends Activity {
         v.setBackgroundColor(GComponent.GetBackgroundColor());
         setContentView(v);
 
-        colorPickButton1 = (ColorButton) findViewById(R.id.colorPick1);
-        colorPickButton2 = (ColorButton) findViewById(R.id.colorPick2);
-        colorPickButton3 = (ColorButton) findViewById(R.id.colorPick3);
+        colorPickButton = (ColorButton) findViewById(R.id.colorPick);
         speed = (SpeedFragment) getFragmentManager().findFragmentById(R.id.speed);
         calibration = (CalibrationFragment)getFragmentManager().findFragmentById(R.id.calibration_fragment);
 
         speed.setSpeed(gamesettings.GetSpeed());
         calibration.SetMinVolume(gamesettings.GetMinVolume());
         calibration.SetMaxVolume(gamesettings.GetMaxVolume());
-
-        LinkedList<Integer> colors = gamesettings.GetColors();
-        colorPickButton1.SetColor(colors.get(0));
-        colorPickButton2.SetColor(colors.get(1));
-        colorPickButton3.SetColor(colors.get(2));
+        colorPickButton.SetColor(gamesettings.GetColor());
     }
 
     public void ColorPickClick(View view) {
@@ -79,12 +71,8 @@ public class Settings extends Activity {
     public void onBackPressed() {
         LinkedList<Integer> colors = new LinkedList<Integer>();
 
-        colors.add(colorPickButton1.GetColor());
-        colors.add(colorPickButton2.GetColor());
-        colors.add(colorPickButton3.GetColor());
-
         Log.d("database","map " + Boolean.toString(gamesettings.GetMap() == null));
-        GameSettings gs = new GameSettings(colors, speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume(),gamesettings.GetMap());
+        GameSettings gs = new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume(),gamesettings.GetMap());
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         databaseHelper.Initialize(child_id);

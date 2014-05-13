@@ -1,36 +1,39 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
     tools:context="dk.aau.cs.giraf.cars.Settings">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/settings_header_speed"
-        android:textSize="@dimen/default_text_size"
-        android:textColor="@color/settingsTextColor"
-        android:layout_marginTop="@dimen/settings_default_margin"
-        android:layout_marginLeft="@dimen/settings_default_margin"/>
-
-    <fragment
-        android:layout_width="fill_parent"
-        android:layout_height="360dp"
-        android:name="dk.aau.cs.giraf.cars.game.SpeedFragment"
-        android:id="@+id/speed" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="10dp"
-        android:layout_marginTop="@dimen/settings_default_margin">
+        android:orientation="vertical"
+        android:id="@+id/speedContainer">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_header_speed"
+            android:textSize="@dimen/default_text_size"
+            android:textColor="@color/settingsTextColor"
+            android:layout_marginTop="@dimen/settings_default_margin"
+            android:layout_marginLeft="@dimen/settings_default_margin"/>
+
+        <fragment
+            android:layout_width="fill_parent"
+            android:layout_height="360dp"
+            android:name="dk.aau.cs.giraf.cars.game.SpeedFragment"
+            android:id="@+id/speed" />
+
+    </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_below="@+id/speedContainer"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -39,42 +42,15 @@
                 android:textSize="@dimen/default_text_size"
                 android:textColor="@color/settingsTextColor" />
 
-            <LinearLayout
+            <dk.aau.cs.giraf.cars.ColorButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <dk.aau.cs.giraf.cars.ColorButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/color_button"
-                    android:width="200dp"
-                    android:height="200dp"
-                    android:id="@+id/colorPick1"
-                    android:onClick="ColorPickClick"/>
-
-                <dk.aau.cs.giraf.cars.ColorButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/color_button"
-                    android:width="200dp"
-                    android:height="200dp"
-                    android:id="@+id/colorPick2"
-                    android:onClick="ColorPickClick"/>
-
-                <dk.aau.cs.giraf.cars.ColorButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/color_button"
-                    android:width="200dp"
-                    android:height="200dp"
-                    android:id="@+id/colorPick3"
-                    android:onClick="ColorPickClick"/>
-
-            </LinearLayout>
+                android:layout_margin="5dp"
+                android:background="@drawable/car"
+                android:width="200dp"
+                android:height="100dp"
+                android:id="@+id/colorPick"
+                android:onClick="ColorPickClick"/>
 
         </LinearLayout>
 
@@ -82,7 +58,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="@dimen/settings_default_margin">
+            android:layout_marginLeft="@dimen/settings_default_margin"
+            android:layout_below="@+id/speedContainer"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -98,6 +77,4 @@
 
         </LinearLayout>
 
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
