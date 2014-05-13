@@ -51,11 +51,19 @@ public abstract class GameScreen extends Screen {
         return obstacles.findCollision(car);
     }
 
-    protected void moveCarTo(float y){
+    protected void moveCarTo(float y) {
         y *= (game.getHeight() - grassSize * 2 - car.height);
         y += grassSize;
 
         car.setVerticalTarget(y);
+    }
+
+    protected void setCarSpeed(float speed) {
+        car.setSpeed(speed);
+    }
+
+    protected void resetCar(){
+        car.reset();
     }
 
     @Override
