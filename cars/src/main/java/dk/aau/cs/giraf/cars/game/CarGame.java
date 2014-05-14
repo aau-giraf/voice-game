@@ -20,7 +20,7 @@ import dk.aau.cs.giraf.cars.game.Overlay.WinningScreen;
 
 public class CarGame extends CarsActivity {
     private final int GRASS_HEIGHT = 70;
-    private boolean pickupMode = true;
+    private GameMode gameMode;
 
     GameSettings gamesettings;
     StartScreen startScreen;
@@ -35,6 +35,7 @@ public class CarGame extends CarsActivity {
 
     @Override
     public Screen getFirstScreen() {
+        this.gameMode = gamesettings.GetGameMode();
         ObstacleCollection obstacles = new ObstacleCollection(new PreferencesObstacles(this.gamesettings));
         Car car = new Car(-Assets.GetCar().getWidth(), getHeight() - GRASS_HEIGHT - Assets.GetCar().getHeight());
         car.setColor(gamesettings.GetColor());
@@ -45,11 +46,7 @@ public class CarGame extends CarsActivity {
         crashScreen = new CrashScreen(this, car, obstacles);
         pauseScreen = new PauseScreen(this, car, obstacles, GRASS_HEIGHT);
         winningScreen = new WinningScreen(this, car, obstacles);
-        if (pickupMode)
-            runningScreen = new PickupRunningScreen(this, car, obstacles, carControl, gamesettings.GetSpeed());
-        else
-            runningScreen = new AvoidRunningScreen(this, car, obstacles, carControl, gamesettings.GetSpeed());
-
+        runningScreen =  gameMode == GameMode.pickup ? new PickupRunningScreen(this, car, obstacles, carControl, gamesettings.GetSpeed()) : new AvoidRunningScreen(this, car, obstacles, carControl, gamesettings.GetSpeed());
         return startScreen;
     }
 
