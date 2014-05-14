@@ -20,8 +20,6 @@ public class Sound {
 
     public boolean IsPlaying() { return mediaPlayer.isPlaying(); }
 
-    public void Reset() { mediaPlayer.reset(); }
-
     public void Dispose() {
         mediaPlayer.release();
     }
