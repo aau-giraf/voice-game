@@ -4,18 +4,33 @@ import android.content.Context;
 import android.media.MediaPlayer;
 
 public class Sound {
-    int soundId;
-    MediaPlayer mediaPlayer;
+    private int soundId;
+    private MediaPlayer mediaPlayer;
+    private boolean isPlayed;
 
     public Sound (Context context, int soundId, float volume) {
         this.soundId = soundId;
         this.mediaPlayer = MediaPlayer.create(context, soundId);
         this.mediaPlayer.setVolume(volume, volume);
         this.mediaPlayer.setLooping(false);
+
+        this.isPlayed = false;
     }
 
     public void Play() {
-        mediaPlayer.start();
+        if (!isPlayed && !mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+            isPlayed = true;
+        }
+    }
+
+    public void Reset() {
+        isPlayed = false;
+    }
+
+    public void PlayAndReset() {
+        Play();
+        Reset();
     }
 
     public boolean IsPlaying() { return mediaPlayer.isPlaying(); }
