@@ -7,9 +7,6 @@ import android.util.Log;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 
-/**
- * Created by Stefan on 12-05-2014.
- */
 public class OverlayButton extends OverlayText {
 
 
@@ -52,14 +49,6 @@ public class OverlayButton extends OverlayText {
         this.clicked = false;
     }
 
-
-    /**
-     * Create a Overlaybutton with the default colors and alignment
-     *
-     * @param x
-     * @param y
-     * @param buttonText
-     */
     public OverlayButton(int x, int y, String buttonText) {
         this(x, y, Color.WHITE, buttonText, Paint.Align.CENTER, 75);
     }
@@ -80,9 +69,6 @@ public class OverlayButton extends OverlayText {
         return clicked;
     }
 
-    /**
-     * Updates the value of the pressed variable so it is true when the button is touched
-     */
     @Override
     public void Update(Input.TouchEvent[] touchEvents, float deltaTime) {
         boolean clickedset = false;
@@ -113,8 +99,6 @@ public class OverlayButton extends OverlayText {
         g.drawBorder(bounds.left, bounds.top, bounds.width(), bounds.height(), Color.WHITE);
         g.drawRect(bounds.left, bounds.top, bounds.width(), bounds.height(), pressed ? Color.GRAY : Color.DKGRAY);
         g.drawString(buttonText, x, y, pButton);
-        Log.d("button", bounds.toString());
-
     }
 
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">cars</string>
+    <string name="app_name">Stemmespillet</string>
     <string name="play_again_button_text">Spil igen</string>
     <string name="crash_button_text">Ny tur</string>
     <string name="countdown_drive">Kør</string>

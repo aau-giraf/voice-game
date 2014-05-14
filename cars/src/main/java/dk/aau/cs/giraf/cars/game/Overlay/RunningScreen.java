@@ -24,8 +24,10 @@ public abstract class RunningScreen extends GameScreen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
 
-        if (getCarLocationX() > game.getWidth())
+        if (getCarLocationX() + getCarWidth() > game.getWidth() - getFinishLineWidth()) {
+            Assets.GetWellDone().play(1.0f);
             showWinningScreen();
+        }
 
         float moveTo = 1f - carControl.getMove(touchEvents);
         moveTo = Math.max(0, Math.min(1, moveTo));

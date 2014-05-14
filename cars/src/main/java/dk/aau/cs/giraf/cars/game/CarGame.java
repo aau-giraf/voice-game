@@ -28,6 +28,7 @@ public class CarGame extends CarsActivity {
     PauseScreen pauseScreen;
     WinningScreen winningScreen;
     RunningScreen runningScreen;
+    private CarControl carControl;
 
     public CarGame() {
         super();
@@ -39,8 +40,8 @@ public class CarGame extends CarsActivity {
         ObstacleCollection obstacles = new ObstacleCollection(new PreferencesObstacles(this.gamesettings));
         Car car = new Car(-Assets.GetCar().getWidth(), getHeight() - GRASS_HEIGHT - Assets.GetCar().getHeight());
         car.setColor(gamesettings.GetColor());
-        //CarControl carControl = new VolumeCarControl(gamesettings.GetMinVolume(), gamesettings.GetMaxVolume());
-        CarControl carControl = new TouchCarControl(getHeight() - 2 * GRASS_HEIGHT - (int) car.height, GRASS_HEIGHT + (int) car.height / 2);
+        carControl = new VolumeCarControl(gamesettings.GetMinVolume(), gamesettings.GetMaxVolume());
+        //carControl = new TouchCarControl(getHeight() - 2 * GRASS_HEIGHT - (int) car.height, GRASS_HEIGHT + (int) car.height / 2);
 
         startScreen = new StartScreen(this, car, obstacles);
         crashScreen = new CrashScreen(this, car, obstacles);
@@ -86,5 +87,13 @@ public class CarGame extends CarsActivity {
 
     public void showRunningScreen() {
         setScreen(runningScreen);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (carControl instanceof VolumeCarControl)
+            ((VolumeCarControl) carControl).Stop();
     }
 }
