@@ -1,22 +1,29 @@
 package dk.aau.cs.giraf.cars.framework;
 
-import android.media.SoundPool;
+import android.content.Context;
+import android.media.MediaPlayer;
 
 public class Sound {
     int soundId;
-    SoundPool soundPool;
+    MediaPlayer mediaPlayer;
 
-    public Sound(SoundPool soundPool, int soundId) {
+    public Sound (Context context, int soundId, float volume) {
         this.soundId = soundId;
-        this.soundPool = soundPool;
+        this.mediaPlayer = MediaPlayer.create(context, soundId);
+        this.mediaPlayer.setVolume(volume, volume);
+        this.mediaPlayer.setLooping(false);
     }
 
-    public void play(float volume) {
-        soundPool.play(soundId, volume, volume, 0, 0, 1);
+    public void Play() {
+        mediaPlayer.start();
     }
 
-    public void dispose() {
-        soundPool.unload(soundId);
+    public boolean IsPlaying() { return mediaPlayer.isPlaying(); }
+
+    public void Reset() { mediaPlayer.reset(); }
+
+    public void Dispose() {
+        mediaPlayer.release();
     }
 
 }

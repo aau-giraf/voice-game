@@ -1,6 +1,8 @@
 package dk.aau.cs.giraf.cars.game;
 
+import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Audio;
+import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Image;
 import dk.aau.cs.giraf.cars.framework.Sound;
@@ -26,13 +28,13 @@ public class Assets {
         snail_picto = graphics.newImage("snail_picto.png", Graphics.ImageFormat.ARGB8888);
         tiger_picto = graphics.newImage("tiger_picto.png", Graphics.ImageFormat.ARGB8888);
 
-        carStart = audio.createSound("sounds/car_start.mp3");
-        pickup = audio.createSound("sounds/double_honk.mp3");
-        done = audio.createSound("sounds/faerdig.mp3");
-        wellDone = audio.createSound("sounds/godt_gaaet.mp3");
-        newTurn = audio.createSound("sounds/ny_tur.mp3");
-        playAgain = audio.createSound("sounds/spil_igen.mp3");
-        crash = audio.createSound("sounds/crash.mp3");
+        carStart = audio.createSound(R.raw.car_start);
+        pickup = audio.createSound(R.raw.double_honk);
+        done = audio.createSound(R.raw.faerdig);
+        wellDone = audio.createSound(R.raw.godt_gaaet);
+        newTurn = audio.createSound(R.raw.ny_tur);
+        playAgain = audio.createSound(R.raw.spil_igen);
+        crash = audio.createSound(R.raw.crash);
 
         loaded = true;
     }
