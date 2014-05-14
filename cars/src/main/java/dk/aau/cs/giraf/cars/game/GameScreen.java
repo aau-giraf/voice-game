@@ -59,6 +59,10 @@ public abstract class GameScreen extends Screen {
         return obstacles.findCollision(car);
     }
 
+    protected void removeObstacle(Obstacle obstacle){
+        obstacles.removeObstacle(obstacle);
+    }
+
     protected Point getCollisionPoint(GameItem obstacle) {
         return obstacle.GetCollisionCenter(car);
     }

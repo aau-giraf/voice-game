@@ -30,6 +30,10 @@ public class ObstacleCollection implements GameObject {
         return null;
     }
 
+    public void removeObstacle(Obstacle obstacle){
+        obstacles.remove(obstacle);
+    }
+
     @Override
     public void Draw(Graphics graphics, float deltaTime) {
         for (Obstacle o : obstacles)
