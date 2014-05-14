@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RadioButton;
 
 import java.util.LinkedList;
 
 import dk.aau.cs.giraf.cars.game.CalibrationFragment;
+import dk.aau.cs.giraf.cars.game.GameMode;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.SpeedFragment;
 import dk.aau.cs.giraf.gui.GColorPicker;
@@ -24,6 +26,8 @@ public class Settings extends Activity {
 
     SpeedFragment speed;
     CalibrationFragment calibration;
+
+    GameMode gameMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,8 @@ public class Settings extends Activity {
         calibration.SetMinVolume(gamesettings.GetMinVolume());
         calibration.SetMaxVolume(gamesettings.GetMaxVolume());
         colorPickButton.SetColor(gamesettings.GetColor());
+
+        initializeGameMode();
     }
 
     public void ColorPickClick(View view) {
@@ -67,18 +73,13 @@ public class Settings extends Activity {
 
     @Override
     public void onBackPressed() {
-        LinkedList<Integer> colors = new LinkedList<Integer>();
-
         Log.d("database","map " + Boolean.toString(gamesettings.GetMap() == null));
-        GameSettings gs = new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume(),gamesettings.GetMap());
+        GameSettings gs = new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume(),gamesettings.GetMap(), gameMode);
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         databaseHelper.Initialize(child_id);
         databaseHelper.SaveSettings(gs);
 
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("GameSettings", gs);
-        setResult(Activity.RESULT_OK, intent);
         this.finish();
     }
 
@@ -87,10 +88,20 @@ public class Settings extends Activity {
         switch(v.getId())
         {
             case R.id.radioButtonpPickup:
+                gameMode = GameMode.pickup;
                 break;
             case R.id.radioButtonAvoid:
+                gameMode = GameMode.avoid;
                 break;
         }
+    }
+
+    private void initializeGameMode(){
+        this.gameMode = gamesettings.GetGameMode();
+        if (gameMode==GameMode.pickup)
+            ((RadioButton)findViewById(R.id.radioButtonpPickup)).setChecked(true);
+        if (gameMode==GameMode.avoid)
+            ((RadioButton)findViewById(R.id.radioButtonAvoid)).setChecked(true);
     }
 
 }

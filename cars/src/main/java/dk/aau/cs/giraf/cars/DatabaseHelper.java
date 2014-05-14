@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.util.Log;
+
+import dk.aau.cs.giraf.cars.game.GameMode;
 import dk.aau.cs.giraf.cars.game.GameSettings;
 import dk.aau.cs.giraf.cars.game.Obstacle;
 import dk.aau.cs.giraf.oasis.lib.controllers.ApplicationController;
@@ -25,9 +27,6 @@ import java.util.Map;
 public class DatabaseHelper {
     public static final String CHILD_ID = "currentChildID";
     public static final String GUARDIAN_ID = "currentGuardianID";
-    public static final String SETTINGS = "settings";
-
-    private static final int OBSTACLE_SIZE = 100;
 
     Context context;
     int child_id;
@@ -60,8 +59,6 @@ public class DatabaseHelper {
             return new GameSettings();
         }
 
-        HashMap<String, String> colors = settings.get("colors");
-
         int color = Integer.parseInt(settings.get("color").get("default"));
 
         float speed = Float.parseFloat(settings.get("speed").get("default"));
@@ -78,8 +75,9 @@ public class DatabaseHelper {
                 map.put(entry.getKey(), Float.valueOf(entry.getValue()));
         }
 
+        GameMode gameMode = GameMode.valueOf(settings.get("game_mode").get("default"));
 
-        return new GameSettings(color, speed, min, max,map);
+        return new GameSettings(color, speed, min, max, map, gameMode);
     }
 
     public int GetDefaultChild() {
@@ -103,7 +101,7 @@ public class DatabaseHelper {
         s.addValue("color", "default", Integer.toString(gs.GetColor()));
         s.addValue("calibration", "min", Float.toString(gs.GetMinVolume()));
         s.addValue("calibration", "max", Float.toString(gs.GetMaxVolume()));
-
+        s.addValue("game_mode", "default", gs.GetGameMode().name());
 
         Log.d("database","jeg gemmer map der er " + gs.GetMap().size());
         SaveMapToSettings(gs.GetMap(),s);
