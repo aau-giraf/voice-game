@@ -82,7 +82,7 @@ public abstract class GameScreen extends Screen {
         car.reset();
     }
 
-    protected float getCarLocation() {
+    protected float getCarLocationX() {
         return car.x;
     }
 
