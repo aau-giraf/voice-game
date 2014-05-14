@@ -15,6 +15,7 @@ import dk.aau.cs.giraf.cars.game.Interfaces.Updatable;
 public abstract class GameScreen extends Screen {
     private final int grassSize = 70;
     private final int finishLineScale = 15;
+    private final int finishLineWidth=80;
     private int finishLineX;
 
     private ObstacleCollection obstacles;
@@ -34,7 +35,7 @@ public abstract class GameScreen extends Screen {
         drawables = new ArrayList<Drawable>();
         updatables = new ArrayList<Updatable>();
 
-        this.finishLineX = game.getWidth()-80;
+        this.finishLineX = game.getWidth()-finishLineWidth;
     }
 
     protected void Add(Drawable d) {
