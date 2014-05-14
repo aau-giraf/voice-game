@@ -2,13 +2,11 @@ package dk.aau.cs.giraf.cars;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import dk.aau.cs.giraf.cars.game.CalibrationFragment;
@@ -82,6 +80,17 @@ public class Settings extends Activity {
         intent.putExtra("GameSettings", gs);
         setResult(Activity.RESULT_OK, intent);
         this.finish();
+    }
+
+    public void onRadioButtonClicked(View v)
+    {
+        switch(v.getId())
+        {
+            case R.id.radioButtonpPickup:
+                break;
+            case R.id.radioButtonAvoid:
+                break;
+        }
     }
 
 }

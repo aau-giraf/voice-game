@@ -52,7 +52,36 @@
                 android:id="@+id/colorPick"
                 android:onClick="ColorPickClick"/>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <dk.aau.cs.giraf.gui.GRadioGroup
+                    android:id="@+id/myRadioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <dk.aau.cs.giraf.gui.GRadioButton
+                        android:id="@+id/radioButtonpPickup"
+                        android:text="Sammel op"
+                        android:onClick="onRadioButtonClicked"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        />
+
+                    <dk.aau.cs.giraf.gui.GRadioButton
+                        android:id="@+id/radioButtonAvoid"
+                        android:text="Undgå"
+                        android:onClick="onRadioButtonClicked"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        />
+                </dk.aau.cs.giraf.gui.GRadioGroup>
+            </LinearLayout>
+
         </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="wrap_content"
