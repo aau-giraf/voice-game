@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.cars.game.Overlay;
 
 import android.graphics.Rect;
+
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.*;
@@ -23,13 +24,20 @@ public class RunningScreen extends GameScreen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
 
+        if (getCarLocationX() + getCarWidth() > game.getWidth() - getFinishLineWidth()) {
+            Assets.GetWellDone().play(1.0f);
+            showWinningScreen();
+        }
+
         float moveTo = 1f - carControl.getMove(touchEvents);
         moveTo = Math.max(0, Math.min(1, moveTo));
         moveCarTo(moveTo);
 
         Obstacle obstacle = getCollisionObstacle();
-        if (obstacle != null)
+        if (obstacle != null) {
+            Assets.GetCrash().play(1.0f);
             showCrashScreen(obstacle);
+        }
 
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN && e.inBounds(pauseButtonRec))

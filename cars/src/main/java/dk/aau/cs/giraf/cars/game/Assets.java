@@ -32,6 +32,7 @@ public class Assets {
         wellDone = audio.createSound("sounds/godt_gaaet.mp3");
         newTurn = audio.createSound("sounds/ny_tur.mp3");
         playAgain = audio.createSound("sounds/spil_igen.mp3");
+        crash = audio.createSound("sounds/crash.mp3");
 
         loaded = true;
     }
@@ -95,7 +96,7 @@ public class Assets {
         return star;
     }
 
-    private static Sound carStart, pickup, done, wellDone, newTurn, playAgain;
+    private static Sound carStart, pickup, done, wellDone, newTurn, playAgain, crash;
 
     public static Sound GetCarStart() {
         return carStart;
@@ -120,4 +121,6 @@ public class Assets {
     public static Sound GetPlayAgain() {
         return playAgain;
     }
+
+    public static Sound GetCrash() { return crash; }
 }
