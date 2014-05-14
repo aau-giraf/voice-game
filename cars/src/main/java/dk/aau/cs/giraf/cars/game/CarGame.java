@@ -10,14 +10,17 @@ import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
 import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
 import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
+import dk.aau.cs.giraf.cars.game.Overlay.AvoidRunningScreen;
 import dk.aau.cs.giraf.cars.game.Overlay.CrashScreen;
 import dk.aau.cs.giraf.cars.game.Overlay.PauseScreen;
+import dk.aau.cs.giraf.cars.game.Overlay.PickupRunningScreen;
 import dk.aau.cs.giraf.cars.game.Overlay.RunningScreen;
 import dk.aau.cs.giraf.cars.game.Overlay.StartScreen;
 import dk.aau.cs.giraf.cars.game.Overlay.WinningScreen;
 
 public class CarGame extends CarsActivity {
     private final int GRASS_HEIGHT = 70;
+    private boolean pickupMode = true;
 
     GameSettings gamesettings;
     StartScreen startScreen;
@@ -42,7 +45,10 @@ public class CarGame extends CarsActivity {
         crashScreen = new CrashScreen(this, car, obstacles);
         pauseScreen = new PauseScreen(this, car, obstacles, GRASS_HEIGHT);
         winningScreen = new WinningScreen(this, car, obstacles);
-        runningScreen = new RunningScreen(this, car, obstacles, carControl, gamesettings.GetSpeed());
+        if (pickupMode)
+            runningScreen = new PickupRunningScreen(this, car, obstacles, carControl, gamesettings.GetSpeed());
+        else
+            runningScreen = new AvoidRunningScreen(this, car, obstacles, carControl, gamesettings.GetSpeed());
 
         return startScreen;
     }

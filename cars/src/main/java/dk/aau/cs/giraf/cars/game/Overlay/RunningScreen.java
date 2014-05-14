@@ -7,7 +7,7 @@ import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.*;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 
-public class RunningScreen extends GameScreen {
+public abstract class RunningScreen extends GameScreen {
     private Rect pauseButtonRec = new Rect(20, 20, 100, 100);
     private Rect pauseButtonImageRec = new Rect(0, 0, Assets.GetPlayButton().getWidth(), Assets.GetPlayButton().getHeight());
 
@@ -30,12 +30,6 @@ public class RunningScreen extends GameScreen {
         float moveTo = 1f - carControl.getMove(touchEvents);
         moveTo = Math.max(0, Math.min(1, moveTo));
         moveCarTo(moveTo);
-
-        Obstacle obstacle = getCollisionObstacle();
-        if (obstacle != null) {
-            Assets.GetCrash().play(1.0f);
-            showCrashScreen(obstacle);
-        }
 
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN && e.inBounds(pauseButtonRec))
