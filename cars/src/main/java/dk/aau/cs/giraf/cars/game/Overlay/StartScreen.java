@@ -79,7 +79,7 @@ public class StartScreen extends GameScreen {
         super.update(touchEvents, deltaTime);
 
         if (!startSoundPlayed && visualCounter == 2) {
-            Assets.GetCarStart().play(1.0f);
+            Assets.GetCarStart().Play();
             startSoundPlayed = true;
         }
 

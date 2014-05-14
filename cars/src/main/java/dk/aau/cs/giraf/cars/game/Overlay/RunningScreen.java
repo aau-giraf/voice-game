@@ -25,7 +25,7 @@ public class RunningScreen extends GameScreen {
         super.update(touchEvents, deltaTime);
 
         if (getCarLocationX() + getCarWidth() > game.getWidth() - getFinishLineWidth()) {
-            Assets.GetWellDone().play(1.0f);
+            Assets.GetWellDone().Play();
             showWinningScreen();
         }
 
@@ -35,7 +35,7 @@ public class RunningScreen extends GameScreen {
 
         Obstacle obstacle = getCollisionObstacle();
         if (obstacle != null) {
-            Assets.GetCrash().play(1.0f);
+            Assets.GetCrash().Play();
             showCrashScreen(obstacle);
         }
 
