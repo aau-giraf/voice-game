@@ -11,8 +11,6 @@ import dk.aau.cs.giraf.cars.game.MapEditor;
 import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GTextView;
-import dk.aau.cs.giraf.oasis.lib.Helper;
-import dk.aau.cs.giraf.oasis.lib.controllers.ProfileController;
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 
 public class MainActivity extends Activity {
@@ -35,13 +33,15 @@ public class MainActivity extends Activity {
         //dk.aau.cs.giraf.oasis.lib.Helper h = new dk.aau.cs.giraf.oasis.lib.Helper(this);
         //h.CreateDummyData();
         currentId = intent.getIntExtra(DatabaseHelper.CHILD_ID, database.GetDefaultChild());
-        guardianId = intent.getIntExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian(currentId));
+        Log.d("id", Integer.toString(currentId));
+        guardianId = intent.getIntExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian());
 
         Profile curGuardian = database.GetProfileById(guardianId);
         Profile curProfile;
-        if (currentId == -1)
+        if (currentId == -1) {
             curProfile = null;
-        else
+            currentId = guardianId;
+        } else
             curProfile = database.GetProfileById(currentId);
 
         setContentView(R.layout.activity_main_menu);
@@ -61,15 +61,13 @@ public class MainActivity extends Activity {
         gButtonProfileSelect.setup(curGuardian, curProfile, new GButtonProfileSelect.onCloseListener() {
             @Override
             public void onClose(Profile guardianProfile, Profile currentProfile) {
-            if(currentProfile == null) {
-                currentId = guardianProfile.getId();
-                profile_text.setText(guardianProfile.getName());
-            }
-            else
-            {
-                currentId = currentProfile.getId();
-                profile_text.setText(currentProfile.getName());
-            }
+                if (currentProfile == null) {
+                    currentId = guardianProfile.getId();
+                    profile_text.setText(guardianProfile.getName());
+                } else {
+                    currentId = currentProfile.getId();
+                    profile_text.setText(currentProfile.getName());
+                }
             }
         });
     }
