@@ -2,7 +2,6 @@ package dk.aau.cs.giraf.cars.game;
 
 import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.Audio;
-import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
 import dk.aau.cs.giraf.cars.framework.Image;
 import dk.aau.cs.giraf.cars.framework.Sound;
@@ -14,19 +13,19 @@ public class Assets {
         if (loaded)
             return;
 
-        grass = graphics.newImage("grass.jpg", Graphics.ImageFormat.RGB565);
-        tarmac = graphics.newImage("tarmac.jpg", Graphics.ImageFormat.RGB565);
-        border = graphics.newImage("border.png", Graphics.ImageFormat.ARGB8888);
-        car = graphics.newImage("car.png", Graphics.ImageFormat.ARGB8888);
-        obstacle = graphics.newImage("obstacle.png", Graphics.ImageFormat.ARGB8888);
-        star = graphics.newImage("star.jpg", Graphics.ImageFormat.ARGB8888);
-        trophy = graphics.newImage("trophy.png", Graphics.ImageFormat.ARGB8888);
-        explosion = graphics.newImage("explosion.png", Graphics.ImageFormat.ARGB8888);
-        pauseButton = graphics.newImage("pauseButton.png", Graphics.ImageFormat.ARGB8888);
-        playButton = graphics.newImage("playButton.png", Graphics.ImageFormat.ARGB8888);
-        rabbit_picto = graphics.newImage("rabbit_picto.png", Graphics.ImageFormat.ARGB8888);
-        snail_picto = graphics.newImage("snail_picto.png", Graphics.ImageFormat.ARGB8888);
-        tiger_picto = graphics.newImage("tiger_picto.png", Graphics.ImageFormat.ARGB8888);
+        grass = graphics.newImage(R.drawable.grass);
+        tarmac = graphics.newImage(R.drawable.tarmac);
+        border = graphics.newImage(R.drawable.border);
+        car = graphics.newImage(R.drawable.car);
+        obstacle = graphics.newImage(R.drawable.obstacle);
+        star = graphics.newImage(R.drawable.star);
+        trophy = graphics.newImage(R.drawable.trophy);
+        explosion = graphics.newImage(R.drawable.explosion);
+        pauseButton = graphics.newImage(R.drawable.pause);
+        playButton = graphics.newImage(R.drawable.play);
+        rabbit_picto = graphics.newImage(R.drawable.rabbit_picto);
+        snail_picto = graphics.newImage(R.drawable.snail_picto);
+        tiger_picto = graphics.newImage(R.drawable.tiger_picto);
 
         carStart = audio.createSound(R.raw.car_start);
         pickup = audio.createSound(R.raw.double_honk);
