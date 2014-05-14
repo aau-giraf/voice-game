@@ -84,7 +84,7 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, MapEditor.class);
         intent.putExtra(DatabaseHelper.CHILD_ID, currentId);
 
-        startActivityForResult(intent, MAPEDITOR_IDENTIFIER);
+        startActivity(intent);
     }
 
     public void showSettings(View view) {
@@ -92,28 +92,6 @@ public class MainActivity extends Activity {
 
         intent.putExtra(DatabaseHelper.CHILD_ID, currentId);
 
-        startActivityForResult(intent, SETTINGS_IDENTIFIER);
+        startActivity(intent);
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        Log.d("childid", "Childid ved retur: " + currentId);
-
-        switch (requestCode) {
-            case (SETTINGS_IDENTIFIER):
-                if (resultCode == Activity.RESULT_OK)
-
-                    break;
-
-            case (MAPEDITOR_IDENTIFIER):
-                if (resultCode == Activity.RESULT_OK)
-
-                    break;
-
-        }
-    }
-
-
 }
