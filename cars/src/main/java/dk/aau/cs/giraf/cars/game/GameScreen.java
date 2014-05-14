@@ -86,6 +86,10 @@ public abstract class GameScreen extends Screen {
         return car.x;
     }
 
+    protected float getCarWidth() { return car.width; }
+
+    protected float getFinishLineWidth() { return finishLineWidth; }
+
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         obstacles.Update(touchEvents, deltaTime);
