@@ -56,6 +56,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_header_game_mode"
+                android:textSize="@dimen/default_text_size"
+                android:textColor="@color/settingsTextColor" />
+
                 <dk.aau.cs.giraf.gui.GRadioGroup
                     android:id="@+id/myRadioGroup"
                     android:layout_width="wrap_content"
@@ -63,18 +71,22 @@
 
                     <dk.aau.cs.giraf.gui.GRadioButton
                         android:id="@+id/radioButtonpPickup"
-                        android:text="Sammel op"
+                        android:text="@string/radio_button_Pickup"
                         android:onClick="onRadioButtonClicked"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:textSize="@dimen/default_text_size"
+                        android:textColor="@color/settingsTextColor"
                         />
 
                     <dk.aau.cs.giraf.gui.GRadioButton
                         android:id="@+id/radioButtonAvoid"
-                        android:text="Undgå"
+                        android:text="@string/radio_button_avoid"
                         android:onClick="onRadioButtonClicked"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:textSize="@dimen/default_text_size"
+                        android:textColor="@color/settingsTextColor"
                         />
                 </dk.aau.cs.giraf.gui.GRadioGroup>
             </LinearLayout>
