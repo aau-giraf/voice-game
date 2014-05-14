@@ -18,7 +18,6 @@ public class StartScreen extends GameScreen {
     private int seconds;
     private String driveMessage;
     private Paint pButton;
-    private boolean startSoundPlayed;
 
     public StartScreen(CarGame game, Car car, ObstacleCollection obstacles) {
         super(game, car, obstacles);
@@ -31,8 +30,6 @@ public class StartScreen extends GameScreen {
         pButton.setColor(Color.WHITE);
 
         this.driveMessage = game.getResources().getString(R.string.countdown_drive);
-
-        startSoundPlayed = false;
 
         resetCounters();
     }
@@ -78,13 +75,12 @@ public class StartScreen extends GameScreen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
 
-        if (!startSoundPlayed && visualCounter == 2) {
+        if (visualCounter == 2) {
             Assets.GetCarStart().Play();
-            startSoundPlayed = true;
         }
 
         if (isTimerDone(deltaTime)) {
-            startSoundPlayed = false;
+            Assets.GetCarStart().Reset();
             showRunningScreen();
         }
     }
