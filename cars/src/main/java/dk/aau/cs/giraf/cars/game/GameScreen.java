@@ -15,7 +15,7 @@ import dk.aau.cs.giraf.cars.game.Interfaces.Updatable;
 public abstract class GameScreen extends Screen {
     private final int grassSize = 70;
     private final int finishLineScale = 15;
-    private final int finishLineWidth=80;
+    private final int finishLineWidth = 80;
     private int finishLineX;
 
     private ObstacleCollection obstacles;
@@ -35,7 +35,7 @@ public abstract class GameScreen extends Screen {
         drawables = new ArrayList<Drawable>();
         updatables = new ArrayList<Updatable>();
 
-        this.finishLineX = game.getWidth()-finishLineWidth;
+        this.finishLineX = game.getWidth() - finishLineWidth;
     }
 
     protected void Add(Drawable d) {
@@ -70,7 +70,7 @@ public abstract class GameScreen extends Screen {
         car.setVerticalTarget(y);
     }
 
-    protected void freezeCar(){
+    protected void freezeCar() {
         car.setVerticalPosition(car.getY());
     }
 
@@ -114,14 +114,13 @@ public abstract class GameScreen extends Screen {
             drawable.Draw(graphics, deltaTime);
     }
 
-    private void drawFinishLine(Graphics graphics)
-    {
-        int height = game.getHeight()-2*grassSize, squareHeight = height/finishLineScale, squareWidth = 40, width = 120;
-        graphics.drawRect(finishLineX,grassSize,width,height, Color.WHITE);
-        for (int i=squareHeight;i<height;i+=2*squareHeight)
-            graphics.drawRect(finishLineX,grassSize+i,41,squareHeight+1,Color.BLACK);
-        for (int i=0;i<height;i+=2*squareHeight)
-            graphics.drawRect(finishLineX+squareWidth,grassSize+i,41,squareHeight+1,Color.BLACK);
+    private void drawFinishLine(Graphics graphics) {
+        int height = game.getHeight() - 2 * grassSize, squareHeight = height / finishLineScale, squareWidth = 40, width = 120;
+        graphics.drawRect(finishLineX, grassSize, width, height, Color.WHITE);
+        for (int i = squareHeight; i < height; i += 2 * squareHeight)
+            graphics.drawRect(finishLineX, grassSize + i, 41, squareHeight + 1, Color.BLACK);
+        for (int i = 0; i < height; i += 2 * squareHeight)
+            graphics.drawRect(finishLineX + squareWidth, grassSize + i, 41, squareHeight + 1, Color.BLACK);
     }
 
     @Override
