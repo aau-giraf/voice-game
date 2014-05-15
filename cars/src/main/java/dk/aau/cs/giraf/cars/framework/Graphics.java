@@ -1,7 +1,6 @@
 package dk.aau.cs.giraf.cars.framework;
 
 import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
@@ -28,22 +27,19 @@ public class Graphics {
     Paint paint;
     Rect srcRect = new Rect();
     Rect dstRect = new Rect();
-    private Resources resources;
 
-    Graphics(Resources resources, AssetManager assets) {
+    Graphics(AssetManager assets) {
         this.assets = assets;
         this.frameBuffer = null;
         this.canvas = null;
         this.paint = new Paint();
-        this.resources = resources;
     }
 
-    public Graphics(Resources resources, AssetManager assets, Bitmap frameBuffer) {
+    public Graphics(AssetManager assets, Bitmap frameBuffer) {
         this.assets = assets;
         this.frameBuffer = frameBuffer;
         this.canvas = new Canvas(frameBuffer);
         this.paint = new Paint();
-        this.resources = resources;
     }
 
     public Image newImage(String fileName, ImageFormat format) {
@@ -82,20 +78,6 @@ public class Graphics {
         format = getImageFormat(bitmap.getConfig());
 
         return new Image(bitmap, format);
-    }
-
-    public Image newImage(int imageId) {
-        Bitmap bm = BitmapFactory.decodeResource(resources, imageId);
-        ImageFormat format;
-
-        if (bm.getConfig() == Config.RGB_565)
-            format = ImageFormat.RGB565;
-        else if (bm.getConfig() == Config.ARGB_4444)
-            format = ImageFormat.ARGB4444;
-        else
-            format = ImageFormat.ARGB8888;
-
-        return new Image(bm, format);
     }
 
     public static Image recolorImage(Image image, int newColor) {

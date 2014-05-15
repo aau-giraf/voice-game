@@ -24,8 +24,8 @@ public class FastRenderView extends SurfaceView implements Runnable {
         this.game = game;
         this.framebuffer = framebuffer;
         this.graphics = this.framebuffer == null ?
-                new Graphics(game.getResources(), context.getAssets()) :
-                new Graphics(game.getResources(), context.getAssets(), framebuffer);
+                new Graphics(context.getAssets()) :
+                new Graphics(context.getAssets(), framebuffer);
         this.input = new Input(context, this, scaleX, scaleY);
         this.holder = getHolder();
     }
