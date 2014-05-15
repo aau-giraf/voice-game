@@ -19,7 +19,7 @@ public class Assets {
         border = graphics.newImage("border.png", Graphics.ImageFormat.ARGB8888);
         car = graphics.newImage("car.png", Graphics.ImageFormat.ARGB8888);
         obstacle = graphics.newImage("obstacle.png", Graphics.ImageFormat.ARGB8888);
-        star = graphics.newImage("star.jpg", Graphics.ImageFormat.ARGB8888);
+        star = graphics.newImage("star.png", Graphics.ImageFormat.ARGB8888);
         trophy = graphics.newImage("trophy.png", Graphics.ImageFormat.ARGB8888);
         explosion = graphics.newImage("explosion.png", Graphics.ImageFormat.ARGB8888);
         pauseButton = graphics.newImage("pauseButton.png", Graphics.ImageFormat.ARGB8888);
