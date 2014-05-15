@@ -52,6 +52,7 @@ public class Settings extends Activity {
         calibration = (CalibrationFragment)getFragmentManager().findFragmentById(R.id.calibration_fragment);
 
         speed.setSpeed(gamesettings.GetSpeed());
+        speed.setCarColor(gamesettings.GetColor());
         calibration.SetMinVolume(gamesettings.GetMinVolume());
         calibration.SetMaxVolume(gamesettings.GetMaxVolume());
         colorPickButton.SetColor(gamesettings.GetColor());
@@ -63,6 +64,7 @@ public class Settings extends Activity {
             @Override
             public void OnOkClick(GColorPicker diag, int color) {
                 button.SetColor(color);
+                speed.setCarColor(color);
             }
         });
         diag.SetCurrColor(button.GetColor());

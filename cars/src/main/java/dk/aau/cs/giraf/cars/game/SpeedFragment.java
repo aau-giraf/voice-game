@@ -7,30 +7,37 @@ import dk.aau.cs.giraf.cars.game.CarsGames.CarsFragment;
 
 public class SpeedFragment extends CarsFragment {
     private Screen screen = null;
-    private float INITIAL_SPEED = 2.0f;
+    private float initialSpeed = 2.0f;
+    private int initialColor = 0;
 
     @Override
     public Screen getFirstScreen() {
         this.screen = new Screen(this, 10);
-        screen.speed = INITIAL_SPEED;
+        screen.speed = initialSpeed;
+        screen.newColor = screen.oldColor = initialColor;
 
         return screen;
     }
 
     public void setSpeed(float speed) {
-
-        INITIAL_SPEED = speed;
-        if (screen != null) {
+        initialSpeed = speed;
+        if (screen != null)
             screen.speed = speed;
-        }
+    }
+
+    public void setCarColor(int color) {
+        initialColor = color;
+        if (screen != null)
+            screen.newColor = color;
     }
 
     public float getSpeed() {
-        return screen != null ? screen.speed : INITIAL_SPEED;
+        return screen != null ? screen.speed : initialSpeed;
     }
 
     private class Screen extends SettingsScreen {
         float speed;
+        int oldColor, newColor;
         private final float MAX_SPEED = Car.MAX_SCALE;
         private final float MAX_SPEED_PPS = Car.MAX_PIXELSPERSECOND;
         private final int GAUGE_MARGIN = 10;
@@ -44,7 +51,7 @@ public class SpeedFragment extends CarsFragment {
             int gameHeight = 2 * grassSize + Assets.GetCar().getHeight();
             int gaugeY = gameHeight + GAUGE_MARGIN;
             gauge = new SpeedGauge(GAUGE_MARGIN, gaugeY, game.getWidth() - 2 * GAUGE_MARGIN, GAUGE_HEIGHT);
-            gauge.SetSpeed(INITIAL_SPEED);
+            gauge.SetSpeed(initialSpeed);
 
             int pictoY = gaugeY + GAUGE_HEIGHT + GAUGE_MARGIN;
             snailPicto = new PictoButton(gauge.GetValueX(1) - PICTO_SIZE/2, pictoY, PICTO_SIZE, PICTO_SIZE, Assets.GetSnailPicto());
@@ -53,6 +60,8 @@ public class SpeedFragment extends CarsFragment {
 
             setCarYToCenter();
             setCarX(-getCarWidth());
+
+            this.setCarColor(initialColor);
         }
 
         @Override
@@ -68,6 +77,11 @@ public class SpeedFragment extends CarsFragment {
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
             gauge.Update(touchEvents, deltaTime);
+
+            if (newColor != oldColor) {
+                this.setCarColor(newColor);
+                newColor = oldColor;
+            }
 
             if (snailPicto.IsPressed(touchEvents, deltaTime))
                 gauge.SetSpeed(1.0f);
