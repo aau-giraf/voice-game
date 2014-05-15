@@ -3,7 +3,6 @@ package dk.aau.cs.giraf.cars.game;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -174,7 +173,6 @@ public class MapEditor extends CarsActivity {
             Obstacle o = new Obstacle(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE);
             obstacles.add(o);
             AddObstacle(map, x, y, index);
-            Log.d("database", map.toString());
             gamesettings.SetMap(map);
             return o;
         }
