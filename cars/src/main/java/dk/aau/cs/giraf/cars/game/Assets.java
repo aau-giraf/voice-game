@@ -16,13 +16,13 @@ public class Assets {
         grass = graphics.newImage(R.drawable.grass);
         tarmac = graphics.newImage(R.drawable.tarmac);
         border = graphics.newImage(R.drawable.border);
-        car = graphics.newImage(R.drawable.car);
+        car = graphics.newImage(R.drawable.ccar);
         obstacle = graphics.newImage(R.drawable.obstacle);
         star = graphics.newImage(R.drawable.star);
         trophy = graphics.newImage(R.drawable.trophy);
         explosion = graphics.newImage(R.drawable.explosion);
         pauseButton = graphics.newImage(R.drawable.pause);
-        playButton = graphics.newImage(R.drawable.play);
+        playButton = graphics.newImage(R.drawable.cplay);
         rabbit_picto = graphics.newImage(R.drawable.rabbit_picto);
         snail_picto = graphics.newImage(R.drawable.snail_picto);
         tiger_picto = graphics.newImage(R.drawable.tiger_picto);
