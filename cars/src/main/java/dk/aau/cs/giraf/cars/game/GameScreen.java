@@ -59,8 +59,12 @@ public abstract class GameScreen extends Screen {
         return roadItems.findCollision(car);
     }
 
-    protected void removeObstacle(RoadItem roadItem){
+    protected void removeObstacle(RoadItem roadItem) {
         roadItems.removeRoadItem(roadItem);
+    }
+
+    protected boolean isRoadItemsEmpty(){
+        return roadItems.isEmpty();
     }
 
     protected Point getCollisionPoint(GameItem obstacle) {
@@ -90,9 +94,17 @@ public abstract class GameScreen extends Screen {
         return car.x;
     }
 
-    protected float getCarWidth() { return car.width; }
+    protected float getCarWidth() {
+        return car.width;
+    }
 
-    protected float getFinishLineWidth() { return finishLineWidth; }
+    protected float getFinishLineWidth() {
+        return finishLineWidth;
+    }
+
+    protected float getFinishLineX() {
+        return finishLineX;
+    }
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
@@ -154,6 +166,8 @@ public abstract class GameScreen extends Screen {
     protected void showCrashScreen(GameItem gameItem) {
         carGame.showCrashScreen(gameItem);
     }
+
+    protected  void showFailureScreen(){carGame.showFailureScreen();}
 
     protected void showPauseScreen() {
         carGame.showPauseScreen();
