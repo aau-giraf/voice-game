@@ -9,14 +9,18 @@ import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 import dk.aau.cs.giraf.cars.game.Obstacle;
 import dk.aau.cs.giraf.cars.game.RoadItem;
 
-public class AvoidRunningScreen extends RunningScreen{
+public class AvoidRunningScreen extends RunningScreen {
     public AvoidRunningScreen(CarGame game, Car car, GameItemCollection obstacles, CarControl carControl, float carSpeed) {
         super(game, car, obstacles, carControl, carSpeed);
     }
 
     @Override
-    public void update(Input.TouchEvent[] touchEvents, float deltaTime){
-        super.update(touchEvents,deltaTime);
+    public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
+        super.update(touchEvents, deltaTime);
+
+        if (getCarLocationX() + getCarWidth() > game.getWidth() - getFinishLineWidth())
+            showWinningScreen();
+
         RoadItem roadItem = getCollisionRoadItem();
         if (roadItem != null) {
             Assets.GetCrash().PlayAndReset();
