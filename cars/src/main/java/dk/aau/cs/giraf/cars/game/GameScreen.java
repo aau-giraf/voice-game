@@ -18,19 +18,19 @@ public abstract class GameScreen extends Screen {
     private final int finishLineWidth = 80;
     private int finishLineX;
 
-    private ObstacleCollection obstacles;
+    private GameItemCollection roadItems;
     private Car car;
     private CarGame carGame;
 
     private ArrayList<Drawable> drawables;
     private ArrayList<Updatable> updatables;
 
-    public GameScreen(CarGame carGame, Car car, ObstacleCollection obstacles) {
+    public GameScreen(CarGame carGame, Car car, GameItemCollection roadItems) {
         super(carGame);
         this.carGame = carGame;
 
         this.car = car;
-        this.obstacles = obstacles;
+        this.roadItems = roadItems;
 
         drawables = new ArrayList<Drawable>();
         updatables = new ArrayList<Updatable>();
@@ -52,15 +52,15 @@ public abstract class GameScreen extends Screen {
     }
 
     protected void resetObstacles() {
-        this.obstacles.resetObstacles();
+        this.roadItems.resetRoadItems();
     }
 
-    protected Obstacle getCollisionObstacle() {
-        return obstacles.findCollision(car);
+    protected RoadItem getCollisionRoadItem() {
+        return roadItems.findCollision(car);
     }
 
     protected void removeObstacle(Obstacle obstacle){
-        obstacles.removeObstacle(obstacle);
+        roadItems.removeObstacle(obstacle);
     }
 
     protected Point getCollisionPoint(GameItem obstacle) {
@@ -96,7 +96,7 @@ public abstract class GameScreen extends Screen {
 
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
-        obstacles.Update(touchEvents, deltaTime);
+        roadItems.Update(touchEvents, deltaTime);
         car.Update(touchEvents, deltaTime);
 
         for (Updatable updatable : updatables)
@@ -115,7 +115,7 @@ public abstract class GameScreen extends Screen {
             graphics.drawImage(Assets.getBorder(), i, game.getHeight() - grassSize - 6, 0, 25, 10, 25);
         }
 
-        obstacles.Draw(graphics, deltaTime);
+        roadItems.Draw(graphics, deltaTime);
         car.Draw(graphics, deltaTime);
 
         for (Drawable drawable : drawables)
