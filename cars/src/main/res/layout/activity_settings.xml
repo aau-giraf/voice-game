@@ -1,4 +1,4 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -7,7 +7,8 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/speedContainer">
 
         <TextView
             android:layout_width="wrap_content"
@@ -24,42 +25,56 @@
             android:name="dk.aau.cs.giraf.cars.game.SpeedFragment"
             android:id="@+id/speed" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_header_color"
-            android:textSize="@dimen/default_text_size"
-            android:textColor="@color/settingsTextColor"
-            android:layout_marginTop="@dimen/settings_default_margin"
-            android:layout_marginLeft="@dimen/settings_default_margin"/>
-
-        <dk.aau.cs.giraf.cars.ColorButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@drawable/ccar"
-            android:width="200dp"
-            android:height="100dp"
-            android:id="@+id/colorPick"
-            android:onClick="ColorPickClick"
-            android:layout_gravity="center_horizontal"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_header_calibration"
-            android:textSize="@dimen/default_text_size"
-            android:textColor="@color/settingsTextColor"
-            android:layout_marginTop="@dimen/settings_default_margin"
-            android:layout_marginLeft="@dimen/settings_default_margin"/>
-
-        <fragment android:name="dk.aau.cs.giraf.cars.game.CalibrationFragment"
-            android:id="@+id/calibration_fragment"
-            android:layout_width="400dp"
-            android:layout_height="280dp"
-            android:layout_marginBottom="@dimen/settings_default_margin"
-            android:layout_gravity="center_horizontal"/>
-
     </LinearLayout>
 
-</ScrollView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/speedContainer"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_header_color"
+                android:textSize="@dimen/default_text_size"
+                android:textColor="@color/settingsTextColor" />
+
+            <dk.aau.cs.giraf.cars.ColorButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/ccar"
+                android:width="200dp"
+                android:height="100dp"
+                android:id="@+id/colorPick"
+                android:onClick="ColorPickClick"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/settings_default_margin"
+            android:layout_below="@+id/speedContainer"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_header_calibration"
+                android:textSize="@dimen/default_text_size"
+                android:textColor="@color/settingsTextColor" />
+
+            <fragment android:name="dk.aau.cs.giraf.cars.game.CalibrationFragment"
+                android:id="@+id/calibration_fragment"
+                android:layout_width="400dp"
+                android:layout_height="280dp" />
+
+        </LinearLayout>
+
+</RelativeLayout>
