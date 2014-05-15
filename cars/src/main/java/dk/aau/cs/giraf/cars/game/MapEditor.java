@@ -24,7 +24,7 @@ public class MapEditor extends CarsActivity {
     private Obstacle dragging = null;
     private Obstacle startDrag = null;
     private GameSettings gamesettings;
-    private int child_id;
+    private int currentId;
     private MapScreen mapScreen;
 
     @Override
@@ -34,13 +34,11 @@ public class MapEditor extends CarsActivity {
         Intent intent = getIntent();
 
         if (intent.hasExtra(DatabaseHelper.CHILD_ID))
-            child_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, 0);
+            currentId = intent.getIntExtra(DatabaseHelper.CHILD_ID, 0);
         else throw new IllegalArgumentException("no child id");
 
-        Log.d("childid", "Childid ved Map create: " + child_id);
-
         DatabaseHelper database = new DatabaseHelper(this);
-        database.Initialize(child_id);
+        database.Initialize(currentId);
 
         gamesettings = database.GetGameSettings();
     }
@@ -79,7 +77,7 @@ public class MapEditor extends CarsActivity {
         super.onBackPressed();
 
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplication());
-        databaseHelper.Initialize(child_id);
+        databaseHelper.Initialize(currentId);
 
         databaseHelper.SaveSettings(gamesettings);
 
@@ -102,7 +100,7 @@ public class MapEditor extends CarsActivity {
             map = new HashMap<String, Float>();
 
             DatabaseHelper databaseHelper = new DatabaseHelper(getApplication());
-            databaseHelper.Initialize(child_id);
+            databaseHelper.Initialize(currentId);
 
             obstacles = gamesettings.LoadObstacles();
             map = gamesettings.GetMap();
