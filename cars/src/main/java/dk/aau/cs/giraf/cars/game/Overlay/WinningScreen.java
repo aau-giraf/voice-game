@@ -37,16 +37,19 @@ public class WinningScreen extends GameScreen {
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
+        Assets.GetWellDone().Play();
         resetButton.Update(touchEvents, deltaTime);
         menuButton.Update(touchEvents, deltaTime);
         if (resetButton.IsClicked()) {
             Assets.GetPlayAgain().PlayAndReset();
+            Assets.GetWellDone().Reset();
             while (Assets.GetPlayAgain().IsPlaying()) {
                 //Do nothing while sound is playing
             }
             showStartScreen();
         } else if (menuButton.IsClicked()) {
             Assets.GetDone().PlayAndReset();
+            Assets.GetWellDone().Reset();
             while (Assets.GetDone().IsPlaying()) {
                 //Do nothing while sound is playing
             }
