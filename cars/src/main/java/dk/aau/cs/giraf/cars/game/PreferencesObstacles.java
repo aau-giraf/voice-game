@@ -10,12 +10,12 @@ public class PreferencesObstacles implements RoadItemGenerator {
     }
 
     @Override
-    public Obstacle[] CreateRoadItems(int width, int height) {
+    public RoadItem[] CreateRoadItems(int width, int height) {
 
-        ArrayList<Obstacle> obstacleList =  gs.LoadObstacles();
-        Obstacle[] obstacles = new Obstacle[obstacleList.size()];
+        ArrayList<RoadItem> roadItemArrayList =  gs.LoadObstacles();
+        RoadItem[] roadItems = new RoadItem[roadItemArrayList.size()];
 
-        return obstacleList.toArray(obstacles);
+        return roadItemArrayList.toArray(roadItems);
 
     }
 }

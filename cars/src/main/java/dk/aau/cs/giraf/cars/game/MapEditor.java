@@ -1,10 +1,6 @@
 package dk.aau.cs.giraf.cars.game;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,8 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import dk.aau.cs.giraf.cars.DatabaseHelper;
-import dk.aau.cs.giraf.cars.MainActivity;
-import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.FastRenderView;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -28,8 +22,8 @@ import dk.aau.cs.giraf.gui.GButtonTrash;
 
 public class MapEditor extends CarsActivity implements View.OnClickListener {
     private boolean delete = false;
-    private Obstacle dragging = null;
-    private Obstacle startDrag = null;
+    private RoadItem dragging = null;
+    private RoadItem startDrag = null;
     private GameSettings gamesettings;
     private int child_id;
 
@@ -95,20 +89,20 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
         private final int finishLineScale = 15;
         private int finishLineX;
 
-        private ArrayList<Obstacle> obstacles;
+        private ArrayList<RoadItem> roadItems;
         private HashMap<String, Float> map;
 
         public MapScreen(Game game) {
             super(game);
             setCarX(-getCarWidth());
 
-            obstacles = new ArrayList<Obstacle>();
+            roadItems = new ArrayList<RoadItem>();
             map = new HashMap<String, Float>();
 
             DatabaseHelper databaseHelper = new DatabaseHelper(getApplication());
             databaseHelper.Initialize(child_id);
 
-            obstacles = gamesettings.LoadObstacles();
+            roadItems = gamesettings.LoadObstacles();
             map = gamesettings.GetMap();
 
             this.finishLineX = game.getWidth()-80;
@@ -119,8 +113,8 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
         public void paint(Graphics graphics, float deltaTime) {
             super.paint(graphics, deltaTime);
             drawFinishLine(graphics);
-            for (Obstacle o : obstacles)
-                o.Draw(graphics, deltaTime);
+            for (RoadItem roadItem : roadItems)
+                roadItem.Draw(graphics, deltaTime);
         }
 
         private void drawFinishLine(Graphics graphics) {
@@ -148,7 +142,7 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
                             dragging = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
                         }
                     if (e.type == Input.TouchEvent.TOUCH_DOWN) {
-                        Obstacle rem = getObstacleAt(e.x, e.y);
+                        RoadItem rem = getObstacleAt(e.x, e.y);
                         if (rem == null) {
                             dragging = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
                         } else {
@@ -165,16 +159,16 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
             }
         }
 
-        private Obstacle getObstacleAt(int x, int y) {
-            for (Obstacle o : obstacles)
-                if (o.GetBounds().contains(x, y)) {
-                    return o;
+        private RoadItem getObstacleAt(int x, int y) {
+            for (RoadItem roadItem : roadItems)
+                if (roadItem.GetBounds().contains(x, y)) {
+                    return roadItem;
                 }
             return null;
         }
 
         private void Clear() {
-            obstacles.clear();
+            roadItems.clear();
             map = new HashMap<String, Float>();
             gamesettings.SetMap(map);
         }
@@ -187,31 +181,31 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
         }
 
         private Obstacle Add(float x, float y) {
-            int index = obstacles.size();
+            int index = roadItems.size();
             Obstacle o = new Obstacle(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE);
-            obstacles.add(o);
+            roadItems.add(o);
             AddObstacle(map, x, y, index);
             Log.d("database", map.toString());
             gamesettings.SetMap(map);
             return o;
         }
 
-        private void Remove(Obstacle obstacle) {
-            int index = obstacles.indexOf(obstacle);
-            int size = obstacles.size();
+        private void Remove(RoadItem roadItem) {
+            int index = roadItems.indexOf(roadItem);
+            int size = roadItems.size();
 
             HashMap<String, Float> map = gamesettings.GetMap();
 
             for (int i = index; i < size - 1; i++) {
-                Obstacle o = obstacles.get(i + 1);
-                map.put("x" + i, o.x);
-                map.put("y" + i, o.y);
+                RoadItem r = roadItems.get(i + 1);
+                map.put("x" + i, r.x);
+                map.put("y" + i, r.y);
             }
             map.remove("x" + (size - 1));
             map.remove("y" + (size - 1));
 
             map.put("count", (float) size - 1);
-            obstacles.remove(obstacle);
+            roadItems.remove(roadItem);
 
             gamesettings.SetMap(map);
         }

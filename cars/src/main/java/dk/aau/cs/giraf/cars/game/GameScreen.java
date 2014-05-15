@@ -59,8 +59,8 @@ public abstract class GameScreen extends Screen {
         return roadItems.findCollision(car);
     }
 
-    protected void removeObstacle(Obstacle obstacle){
-        roadItems.removeObstacle(obstacle);
+    protected void removeObstacle(RoadItem roadItem){
+        roadItems.removeRoadItem(roadItem);
     }
 
     protected Point getCollisionPoint(GameItem obstacle) {

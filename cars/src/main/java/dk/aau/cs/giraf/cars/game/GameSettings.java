@@ -63,12 +63,12 @@ public class GameSettings {
         return map;
     }
 
-    public ArrayList<Obstacle> LoadObstacles() {
-        ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
+    public ArrayList<RoadItem> LoadObstacles() {
+        ArrayList<RoadItem> roadItems = new ArrayList<RoadItem>();
 
         if (map.get("count") == null) {
             Log.d("database", "returning empty obstacles");
-            return obstacles;
+            return roadItems;
         }
         Log.d("database", map.toString());
 
@@ -77,9 +77,9 @@ public class GameSettings {
         for (int i = 0; i < count; i++) {
             float x = map.get("x" + i);
             float y = map.get("y" + i);
-            obstacles.add(new Obstacle(x, y, OBSTACLE_SIZE, OBSTACLE_SIZE));
+            roadItems.add(new RoadItem(x, y, OBSTACLE_SIZE, OBSTACLE_SIZE, gameMode));
         }
-        return obstacles;
+        return roadItems;
     }
 
     public GameMode GetGameMode() {

@@ -7,6 +7,7 @@ import dk.aau.cs.giraf.cars.game.CarGame;
 import dk.aau.cs.giraf.cars.game.GameItemCollection;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 import dk.aau.cs.giraf.cars.game.Obstacle;
+import dk.aau.cs.giraf.cars.game.RoadItem;
 
 public class PickupRunningScreen extends RunningScreen{
     public PickupRunningScreen(CarGame game, Car car, GameItemCollection obstacles, CarControl carControl, float carSpeed) {
@@ -16,10 +17,10 @@ public class PickupRunningScreen extends RunningScreen{
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime){
         super.update(touchEvents,deltaTime);
-        Obstacle obstacle = getCollisionRoadItem();
-        if (obstacle != null) {
+        RoadItem roadItem = getCollisionRoadItem();
+        if (roadItem != null) {
             Assets.GetPickup().play(1.0f);
-            removeObstacle(obstacle);
+            removeObstacle(roadItem);
         }
     }
 }
