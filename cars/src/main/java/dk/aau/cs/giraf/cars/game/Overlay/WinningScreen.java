@@ -13,7 +13,7 @@ public class WinningScreen extends GameScreen {
     private int trophyX;
     private int trophyY;
 
-    public WinningScreen(CarGame game, Car car, ObstacleCollection obstacles) {
+    public WinningScreen(CarGame game, Car car, GameItemCollection obstacles) {
         super(game, car, obstacles);
 
         int gameWidth = game.getWidth();

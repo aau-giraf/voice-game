@@ -1,15 +1,13 @@
 package dk.aau.cs.giraf.cars.game;
 
 
-import android.graphics.Point;
 import android.graphics.PointF;
 
 import java.util.Random;
-import java.util.Vector;
 
-public class WedgeObstacles implements ObstacleGenerator{
+public class WedgeObstacles implements RoadItemGenerator {
     @Override
-    public Obstacle[] CreateObstacles(int width, int height) {
+    public Obstacle[] CreateRoadItems(int width, int height) {
         return new Obstacle[0];
     }
 

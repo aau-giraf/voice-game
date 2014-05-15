@@ -8,8 +8,8 @@ import dk.aau.cs.giraf.cars.framework.Input;
 import dk.aau.cs.giraf.cars.game.Assets;
 import dk.aau.cs.giraf.cars.game.Car;
 import dk.aau.cs.giraf.cars.game.CarGame;
+import dk.aau.cs.giraf.cars.game.GameItemCollection;
 import dk.aau.cs.giraf.cars.game.GameScreen;
-import dk.aau.cs.giraf.cars.game.ObstacleCollection;
 
 public class StartScreen extends GameScreen {
     private final int COUNTDOWN_IN_SECONDS = 3;
@@ -20,7 +20,7 @@ public class StartScreen extends GameScreen {
     private Paint pButton;
     private boolean startSoundPlayed;
 
-    public StartScreen(CarGame game, Car car, ObstacleCollection obstacles) {
+    public StartScreen(CarGame game, Car car, GameItemCollection obstacles) {
         super(game, car, obstacles);
         this.seconds = COUNTDOWN_IN_SECONDS;
         pButton = new Paint();

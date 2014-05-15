@@ -1,10 +1,10 @@
 package dk.aau.cs.giraf.cars.game;
 
-public class TestObstacles implements ObstacleGenerator {
+public class TestObstacles implements RoadItemGenerator {
     private final int TESTSCENARIO = 3;
 
     @Override
-    public Obstacle[] CreateObstacles(int width, int height) {
+    public Obstacle[] CreateRoadItems(int width, int height) {
 
         switch (TESTSCENARIO) {
             case 0:// top + mid

@@ -14,7 +14,7 @@ public abstract class RunningScreen extends GameScreen {
     private CarControl carControl;
     private float carSpeed;
 
-    public RunningScreen(CarGame game, Car car, ObstacleCollection obstacles, CarControl carControl, float carSpeed) {
+    public RunningScreen(CarGame game, Car car, GameItemCollection obstacles, CarControl carControl, float carSpeed) {
         super(game, car, obstacles);
         this.carControl = carControl;
         this.carSpeed = carSpeed;
