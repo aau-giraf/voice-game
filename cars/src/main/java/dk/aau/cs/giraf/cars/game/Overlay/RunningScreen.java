@@ -33,12 +33,6 @@ public abstract class RunningScreen extends GameScreen {
         moveTo = Math.max(0, Math.min(1, moveTo));
         moveCarTo(moveTo);
 
-        RoadItem roadItem = getCollisionRoadItem();
-        if (roadItem != null) {
-            Assets.GetCrash().PlayAndReset();
-            showCrashScreen(roadItem);
-        }
-
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN && e.inBounds(pauseButtonRec))
                 showPauseScreen();

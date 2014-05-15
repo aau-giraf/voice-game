@@ -19,7 +19,7 @@ public class AvoidRunningScreen extends RunningScreen{
         super.update(touchEvents,deltaTime);
         RoadItem roadItem = getCollisionRoadItem();
         if (roadItem != null) {
-            Assets.GetCrash().Play();
+            Assets.GetCrash().PlayAndReset();
             showCrashScreen(roadItem);
         }
     }

@@ -19,7 +19,7 @@ public class PickupRunningScreen extends RunningScreen{
         super.update(touchEvents,deltaTime);
         RoadItem roadItem = getCollisionRoadItem();
         if (roadItem != null) {
-            Assets.GetPickup().Play();
+            Assets.GetPickup().PlayAndReset();
             removeObstacle(roadItem);
         }
     }
