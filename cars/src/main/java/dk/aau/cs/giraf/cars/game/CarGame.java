@@ -11,6 +11,7 @@ import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.AvoidRunningScreen;
 import dk.aau.cs.giraf.cars.game.Overlay.CrashScreen;
+import dk.aau.cs.giraf.cars.game.Overlay.FailureScreen;
 import dk.aau.cs.giraf.cars.game.Overlay.PauseScreen;
 import dk.aau.cs.giraf.cars.game.Overlay.PickupRunningScreen;
 import dk.aau.cs.giraf.cars.game.Overlay.RunningScreen;
@@ -27,6 +28,7 @@ public class CarGame extends CarsActivity {
     PauseScreen pauseScreen;
     WinningScreen winningScreen;
     RunningScreen runningScreen;
+    FailureScreen failureScreen;
     private CarControl carControl;
 
     public CarGame() {
@@ -43,10 +45,16 @@ public class CarGame extends CarsActivity {
         //carControl = new TouchCarControl(getHeight() - 2 * GRASS_HEIGHT - (int) car.height, GRASS_HEIGHT + (int) car.height / 2);
 
         startScreen = new StartScreen(this, car, roadItems);
-        crashScreen = new CrashScreen(this, car, roadItems);
         pauseScreen = new PauseScreen(this, car, roadItems, GRASS_HEIGHT);
         winningScreen = new WinningScreen(this, car, roadItems);
-        runningScreen =  gameMode == GameMode.pickup ? new PickupRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed()) : new AvoidRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed());
+        if (gameMode == GameMode.pickup){
+            runningScreen = new PickupRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed());
+            failureScreen = new FailureScreen(this, car, roadItems);
+        }
+        if (gameMode == GameMode.avoid){
+            runningScreen = new AvoidRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed());
+            crashScreen = new CrashScreen(this, car, roadItems);
+        }
         return startScreen;
     }
 
@@ -74,6 +82,10 @@ public class CarGame extends CarsActivity {
     public void showCrashScreen(GameItem gameItem) {
         crashScreen.setLastCrash(crashScreen.getCollisionPoint(gameItem));
         setScreen(crashScreen);
+    }
+
+    public void showFailureScreen(){
+        setScreen(failureScreen);
     }
 
     public void showPauseScreen() {
