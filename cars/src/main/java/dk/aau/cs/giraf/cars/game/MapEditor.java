@@ -3,7 +3,6 @@ package dk.aau.cs.giraf.cars.game;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -20,12 +19,12 @@ import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
 import dk.aau.cs.giraf.gui.GButtonTrash;
 
-public class MapEditor extends CarsActivity implements View.OnClickListener {
-    private boolean delete = false;
+public class MapEditor extends CarsActivity {
     private RoadItem dragging = null;
     private RoadItem startDrag = null;
     private GameSettings gamesettings;
-    private int child_id;
+    private int currentId;
+    private MapScreen mapScreen;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,20 +33,19 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
         Intent intent = getIntent();
 
         if (intent.hasExtra(DatabaseHelper.CHILD_ID))
-            child_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, 0);
+            currentId = intent.getIntExtra(DatabaseHelper.CHILD_ID, 0);
         else throw new IllegalArgumentException("no child id");
 
-        Log.d("childid", "Childid ved Map create: " + child_id);
-
         DatabaseHelper database = new DatabaseHelper(this);
-        database.Initialize(child_id);
+        database.Initialize(currentId);
 
         gamesettings = database.GetGameSettings();
     }
 
     @Override
     public Screen getFirstScreen() {
-        return new MapScreen(this);
+        mapScreen = new MapScreen(this);
+        return mapScreen;
     }
 
     @Override
@@ -58,7 +56,12 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
         GButtonTrash trashButton = new GButtonTrash(this);
         trashButton.setY(5);
         trashButton.setX(5);
-        trashButton.setOnClickListener(this);
+        trashButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               mapScreen.Clear();
+           }
+        });
 
         linearLayout.addView(trashButton);
 
@@ -68,16 +71,12 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
         return frameLayout;
     }
 
-    public void onClick(View v) {
-        delete = true;
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
 
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplication());
-        databaseHelper.Initialize(child_id);
+        databaseHelper.Initialize(currentId);
 
         databaseHelper.SaveSettings(gamesettings);
 
@@ -100,7 +99,7 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
             map = new HashMap<String, Float>();
 
             DatabaseHelper databaseHelper = new DatabaseHelper(getApplication());
-            databaseHelper.Initialize(child_id);
+            databaseHelper.Initialize(currentId);
 
             roadItems = gamesettings.LoadObstacles();
             map = gamesettings.GetMap();
@@ -128,11 +127,6 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
-            if (delete) {
-                Clear();
-                delete = false;
-            }
-
 
             for (Input.TouchEvent e : touchEvents) {
                 if (e.y > grassSize && e.y < game.getHeight() - grassSize) {
@@ -185,7 +179,6 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
             Obstacle o = new Obstacle(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE);
             roadItems.add(o);
             AddObstacle(map, x, y, index);
-            Log.d("database", map.toString());
             gamesettings.SetMap(map);
             return o;
         }
@@ -207,6 +200,12 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
             map.put("count", (float) size - 1);
             roadItems.remove(roadItem);
 
+            gamesettings.SetMap(map);
+        }
+
+        public void Clear() {
+            obstacles.clear();
+            map = new HashMap<String, Float>();
             gamesettings.SetMap(map);
         }
 

@@ -84,7 +84,9 @@ public class DatabaseHelper {
         return profileController.getChildren().get(0).getId();
     }
 
-    public int GetChildDefaultGuardian(int childId) { return profileController.getGuardiansByChild(profileController.getProfileById(childId)).get(0).getId(); }
+    public int GetChildDefaultGuardian() {
+        return profileController.getGuardians().get(0).getId();
+    }
 
     public Profile GetProfileById(int id) {
         return profileController.getProfileById(id);

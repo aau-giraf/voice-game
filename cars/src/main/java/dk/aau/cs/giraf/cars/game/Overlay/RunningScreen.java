@@ -25,13 +25,19 @@ public abstract class RunningScreen extends GameScreen {
         super.update(touchEvents, deltaTime);
 
         if (getCarLocationX() + getCarWidth() > game.getWidth() - getFinishLineWidth()) {
-            Assets.GetWellDone().play(1.0f);
+            Assets.GetWellDone().PlayAndReset();
             showWinningScreen();
         }
 
         float moveTo = 1f - carControl.getMove(touchEvents);
         moveTo = Math.max(0, Math.min(1, moveTo));
         moveCarTo(moveTo);
+
+        Obstacle obstacle = getCollisionObstacle();
+        if (obstacle != null) {
+            Assets.GetCrash().PlayAndReset();
+            showCrashScreen(obstacle);
+        }
 
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN && e.inBounds(pauseButtonRec))

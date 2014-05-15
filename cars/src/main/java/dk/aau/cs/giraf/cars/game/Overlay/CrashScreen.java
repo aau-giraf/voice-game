@@ -11,6 +11,7 @@ public class CrashScreen extends GameScreen {
     private OverlayButton continueButton;
     private Rect lastCrash;
     private Rect explosionRect;
+    private boolean continuePressed;
 
     public CrashScreen(CarGame game, Car car, GameItemCollection obstacles) {
         super(game, car, obstacles);
@@ -19,6 +20,8 @@ public class CrashScreen extends GameScreen {
 
         this.lastCrash = new Rect(0, 0, 100, 100);
         this.explosionRect = new Rect(0, 0, Assets.GetExplosion().getWidth(), Assets.GetExplosion().getHeight());
+
+        this.continuePressed = false;
     }
 
     public void setLastCrash(Point p) {
@@ -43,10 +46,21 @@ public class CrashScreen extends GameScreen {
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
-        continueButton.Update(touchEvents, deltaTime);
-        if (continueButton.IsClicked()) {
+
+        if (Assets.GetNewTurn().IsPlaying())
+            return;
+        else if (continuePressed) {
+            continuePressed = false;
+            Assets.GetNewTurn().Reset();
             resetCar();
             showRunningScreen();
+        }
+        else {
+            continueButton.Update(touchEvents, deltaTime);
+            if (continueButton.IsClicked()) {
+                Assets.GetNewTurn().Play();
+                continuePressed = true;
+            }
         }
     }
 }

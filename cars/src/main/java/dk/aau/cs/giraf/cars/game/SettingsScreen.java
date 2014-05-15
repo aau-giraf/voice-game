@@ -59,6 +59,8 @@ public abstract class SettingsScreen extends Screen {
         return car.height;
     }
 
+    public void setCarColor(int color) { car.setColor(color); }
+
     @Override
     public void paint(Graphics graphics, float deltaTime) {
         graphics.drawColor(GComponent.GetBackgroundColor());
