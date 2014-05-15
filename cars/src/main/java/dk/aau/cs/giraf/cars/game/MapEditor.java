@@ -1,10 +1,6 @@
 package dk.aau.cs.giraf.cars.game;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,8 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import dk.aau.cs.giraf.cars.DatabaseHelper;
-import dk.aau.cs.giraf.cars.MainActivity;
-import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.cars.framework.FastRenderView;
 import dk.aau.cs.giraf.cars.framework.Game;
 import dk.aau.cs.giraf.cars.framework.Graphics;
@@ -26,12 +20,12 @@ import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
 import dk.aau.cs.giraf.gui.GButtonTrash;
 
-public class MapEditor extends CarsActivity implements View.OnClickListener {
-    private boolean delete = false;
+public class MapEditor extends CarsActivity {
     private Obstacle dragging = null;
     private Obstacle startDrag = null;
     private GameSettings gamesettings;
     private int child_id;
+    private MapScreen mapScreen;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +47,8 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
     @Override
     public Screen getFirstScreen() {
-        return new MapScreen(this);
+        mapScreen = new MapScreen(this);
+        return mapScreen;
     }
 
     @Override
@@ -64,7 +59,12 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
         GButtonTrash trashButton = new GButtonTrash(this);
         trashButton.setY(5);
         trashButton.setX(5);
-        trashButton.setOnClickListener(this);
+        trashButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               mapScreen.Clear();
+           }
+        });
 
         linearLayout.addView(trashButton);
 
@@ -72,10 +72,6 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
         frameLayout.addView(linearLayout);
 
         return frameLayout;
-    }
-
-    public void onClick(View v) {
-        delete = true;
     }
 
     @Override
@@ -134,11 +130,6 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
 
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
-            if (delete) {
-                Clear();
-                delete = false;
-            }
-
 
             for (Input.TouchEvent e : touchEvents) {
                 if (e.y > grassSize && e.y < game.getHeight() - grassSize) {
@@ -171,12 +162,6 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
                     return o;
                 }
             return null;
-        }
-
-        private void Clear() {
-            obstacles.clear();
-            map = new HashMap<String, Float>();
-            gamesettings.SetMap(map);
         }
 
         public void AddObstacle(HashMap<String, Float> map, float x, float y, int index) {
@@ -213,6 +198,12 @@ public class MapEditor extends CarsActivity implements View.OnClickListener {
             map.put("count", (float) size - 1);
             obstacles.remove(obstacle);
 
+            gamesettings.SetMap(map);
+        }
+
+        public void Clear() {
+            obstacles.clear();
+            map = new HashMap<String, Float>();
             gamesettings.SetMap(map);
         }
 
