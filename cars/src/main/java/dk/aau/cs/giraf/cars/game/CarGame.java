@@ -7,7 +7,6 @@ import android.os.Bundle;
 import dk.aau.cs.giraf.cars.DatabaseHelper;
 import dk.aau.cs.giraf.cars.framework.Screen;
 import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
-import dk.aau.cs.giraf.cars.game.Controller.TouchCarControl;
 import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.AvoidRunningScreen;
@@ -37,17 +36,17 @@ public class CarGame extends CarsActivity {
     @Override
     public Screen getFirstScreen() {
         this.gameMode = gamesettings.GetGameMode();
-        ObstacleCollection obstacles = new ObstacleCollection(new PreferencesObstacles(this.gamesettings));
+        GameItemCollection roadItems = new GameItemCollection(new PreferencesObstacles(this.gamesettings));
         Car car = new Car(-Assets.GetCar().getWidth(), getHeight() - GRASS_HEIGHT - Assets.GetCar().getHeight());
         car.setColor(gamesettings.GetColor());
         carControl = new VolumeCarControl(gamesettings.GetMinVolume(), gamesettings.GetMaxVolume());
         //carControl = new TouchCarControl(getHeight() - 2 * GRASS_HEIGHT - (int) car.height, GRASS_HEIGHT + (int) car.height / 2);
 
-        startScreen = new StartScreen(this, car, obstacles);
-        crashScreen = new CrashScreen(this, car, obstacles);
-        pauseScreen = new PauseScreen(this, car, obstacles, GRASS_HEIGHT);
-        winningScreen = new WinningScreen(this, car, obstacles);
-        runningScreen =  gameMode == GameMode.pickup ? new PickupRunningScreen(this, car, obstacles, carControl, gamesettings.GetSpeed()) : new AvoidRunningScreen(this, car, obstacles, carControl, gamesettings.GetSpeed());
+        startScreen = new StartScreen(this, car, roadItems);
+        crashScreen = new CrashScreen(this, car, roadItems);
+        pauseScreen = new PauseScreen(this, car, roadItems, GRASS_HEIGHT);
+        winningScreen = new WinningScreen(this, car, roadItems);
+        runningScreen =  gameMode == GameMode.pickup ? new PickupRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed()) : new AvoidRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed());
         return startScreen;
     }
 
