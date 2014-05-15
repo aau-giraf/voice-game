@@ -33,10 +33,10 @@ public abstract class RunningScreen extends GameScreen {
         moveTo = Math.max(0, Math.min(1, moveTo));
         moveCarTo(moveTo);
 
-        Obstacle obstacle = getCollisionObstacle();
-        if (obstacle != null) {
+        RoadItem roadItem = getCollisionRoadItem();
+        if (roadItem != null) {
             Assets.GetCrash().PlayAndReset();
-            showCrashScreen(obstacle);
+            showCrashScreen(roadItem);
         }
 
         for (Input.TouchEvent e : touchEvents)

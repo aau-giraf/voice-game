@@ -203,12 +203,6 @@ public class MapEditor extends CarsActivity {
             gamesettings.SetMap(map);
         }
 
-        public void Clear() {
-            obstacles.clear();
-            map = new HashMap<String, Float>();
-            gamesettings.SetMap(map);
-        }
-
         @Override
         public void pause() {
 
