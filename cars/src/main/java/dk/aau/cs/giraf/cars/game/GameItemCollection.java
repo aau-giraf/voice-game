@@ -34,6 +34,10 @@ public class GameItemCollection implements GameObject {
         roadItems.remove(roadItem);
     }
 
+    public boolean isEmpty(){
+        return roadItems.size() == 0;
+    }
+
     @Override
     public void Draw(Graphics graphics, float deltaTime) {
         for (RoadItem roadItem : roadItems)
