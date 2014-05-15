@@ -174,13 +174,13 @@ public class MapEditor extends CarsActivity {
 
         }
 
-        private Obstacle Add(float x, float y) {
+        private RoadItem Add(float x, float y) {
             int index = roadItems.size();
-            Obstacle o = new Obstacle(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE);
-            roadItems.add(o);
+            RoadItem roadItem = new RoadItem(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE, gamesettings.GetGameMode());
+            roadItems.add(roadItem);
             AddObstacle(map, x, y, index);
             gamesettings.SetMap(map);
-            return o;
+            return roadItem;
         }
 
         private void Remove(RoadItem roadItem) {
