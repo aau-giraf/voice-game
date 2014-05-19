@@ -18,5 +18,7 @@
     <string name="settings_header_game_mode">Spillemåde</string>
     <string name="radio_button_Pickup">Samle op</string>
     <string name="radio_button_avoid">Undgå</string>
+    <string name="calibration_high_help">Hold knappen \'Høj\' inde mens du siger høje lyde</string>
+    <string name="calibration_low_help">Hold knappen \'Lav\' inde uden at sige noget</string>
 
 </resources>

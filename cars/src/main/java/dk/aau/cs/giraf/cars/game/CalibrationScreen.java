@@ -10,6 +10,7 @@ import dk.aau.cs.giraf.cars.framework.*;
 import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.game.Overlay.OverlayButton;
 import dk.aau.cs.giraf.cars.game.Overlay.OverlayText;
+import dk.aau.cs.giraf.gui.GComponent;
 
 public class CalibrationScreen extends Screen {
     public VolumeCarControl control;
@@ -31,8 +32,8 @@ public class CalibrationScreen extends Screen {
         this.control = control;
         this.readstate = NOT_READING;
 
-        loud = new OverlayButton(20, 100, Color.BLUE, "HØJ", Paint.Align.LEFT);
-        silence = new OverlayButton(20, 260, Color.BLUE, "LAV", Paint.Align.LEFT);
+        loud = new OverlayButton(30, 100, Color.RED, "HØJ", Paint.Align.LEFT, 80);
+        silence = new OverlayButton(30, 245, Color.GREEN, "LAV", Paint.Align.LEFT, 80);
 
         if (control.GetMaxAmplitude() > highest_recorded_vol)
             highest_recorded_vol = control.GetMaxAmplitude();
@@ -63,7 +64,7 @@ public class CalibrationScreen extends Screen {
 
     @Override
     public void paint(Graphics graphics, float deltaTime) {
-        graphics.drawARGB(255, 0, 0, 0);
+        graphics.drawColor(GComponent.GetBackgroundColor());
         loud.Draw(graphics, deltaTime);
         silence.Draw(graphics, deltaTime);
 
@@ -79,11 +80,11 @@ public class CalibrationScreen extends Screen {
         double percentMax = control.GetMaxAmplitude() / highest_recorded_vol;
         double percentMin = control.GetMinAmplitude() / highest_recorded_vol;
 
-        graphics.drawRect(game.getWidth() - 120, game.getHeight() - (int) (percentVol * (double) game.getHeight()), 20, (int) (percentVol * (double) game.getHeight()), Color.RED);
+        graphics.drawRect(game.getWidth() - 120, game.getHeight() - (int) (percentVol * (double) game.getHeight()), 20, (int) (percentVol * (double) game.getHeight()), Color.BLACK);
         currentvol -= 0.01 * Short.MAX_VALUE;
 
-        graphics.drawRect(game.getWidth() - 30, game.getHeight() - (int) (percentMax * (double) game.getHeight()), 20, (int) (percentMax * (double) game.getHeight()), Color.YELLOW);
-        graphics.drawRect(game.getWidth() - 60, game.getHeight() - (int) (percentMin * (double) game.getHeight()), 20, (int) (percentMin * (double) game.getHeight()), Color.RED);
+        graphics.drawRect(game.getWidth() - 30, game.getHeight() - (int) (percentMax * (double) game.getHeight()), 20, (int) (percentMax * (double) game.getHeight()), Color.RED);
+        graphics.drawRect(game.getWidth() - 60, game.getHeight() - (int) (percentMin * (double) game.getHeight()), 20, (int) (percentMin * (double) game.getHeight()), Color.GREEN);
     }
 
     private float getAverageValueOfList(List<Float> list) {
