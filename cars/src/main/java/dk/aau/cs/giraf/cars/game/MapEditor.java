@@ -85,6 +85,7 @@ public class MapEditor extends CarsActivity {
     private class MapScreen extends SettingsScreen {
         private final int grassSize = 70;
         private final int finishLineScale = 15;
+        private final int REMOVE_BUFFER_MANHATTAN = 5;
         private int finishLineX;
 
         private ArrayList<RoadItem> roadItems;
@@ -132,26 +133,25 @@ public class MapEditor extends CarsActivity {
                 if (isInsideMapBounds(e.x, e.y)) {
                     switch (e.type) {
                         case Input.TouchEvent.TOUCH_DOWN:
-                            RoadItem rem = getObstacleAt(e.x, e.y);
-                            if (rem == null) {
-                                dragging = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
-                            } else {
-                                dragging = rem;
-                                startDrag = rem;
-                            }
+                            dragItem = getObstacleAt(e.x, e.y);
+                            dragStart.x = e.x;
+                            dragStart.y = e.y;
+
+                            if (dragItem == null)
+                                dragItem = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
                             break;
-                        
+
                         case Input.TouchEvent.TOUCH_DRAGGED:
-                            if (dragging != null) {
-                                Remove(dragging);
-                                dragging = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
+                            if (dragItem != null) {
+                                Remove(dragItem);
+                                dragItem = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
                             }
                             break;
 
                         case Input.TouchEvent.TOUCH_UP:
-                            if (startDrag == dragging)
-                                Remove(startDrag);
-                            dragging = null;
+                            if (Math.abs(dragStart.x - e.x) + Math.abs(dragStart.y - e.y) < REMOVE_BUFFER_MANHATTAN)
+                                Remove(dragItem);
+                            dragItem = null;
                     }
                 }
             }
