@@ -131,7 +131,7 @@ public class MapEditor extends CarsActivity {
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
             for (Input.TouchEvent e : touchEvents) {
-                if (e.y > grassSize && e.y < game.getHeight() - grassSize) {
+                if (isInsideMapBounds(e.x, e.y)) {
                     if (e.type == Input.TouchEvent.TOUCH_DRAGGED)
                         if (dragging != null) {
                             Remove(dragging);
@@ -153,6 +153,10 @@ public class MapEditor extends CarsActivity {
                     }
                 }
             }
+        }
+
+        private boolean isInsideMapBounds(int x, int y){
+            return y > grassSize && y < game.getHeight() - grassSize;
         }
 
         private RoadItem getObstacleAt(int x, int y) {
