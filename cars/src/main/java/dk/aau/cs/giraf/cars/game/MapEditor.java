@@ -142,10 +142,8 @@ public class MapEditor extends CarsActivity {
                             break;
 
                         case Input.TouchEvent.TOUCH_DRAGGED:
-                            if (dragItem != null) {
-                                Remove(dragItem);
-                                dragItem = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
-                            }
+                            if (dragItem != null)
+                                updateItem(dragItem, e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
                             break;
 
                         case Input.TouchEvent.TOUCH_UP:
@@ -179,7 +177,6 @@ public class MapEditor extends CarsActivity {
             map.put("x" + index, x);
             map.put("y" + index, y);
             map.put("count", (float) index + 1);
-
         }
 
         private RoadItem Add(float x, float y) {
@@ -209,6 +206,14 @@ public class MapEditor extends CarsActivity {
             roadItems.remove(roadItem);
 
             gamesettings.SetMap(map);
+        }
+
+        private void updateItem(RoadItem roadItem, float x, float y){
+            int index = roadItems.indexOf(roadItem);
+            map.put("x" + index, x);
+            map.put("y" + index, y);
+            roadItem.x = x;
+            roadItem.y = y;
         }
 
         @Override
