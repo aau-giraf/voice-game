@@ -2,7 +2,12 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            tools:context="dk.aau.cs.giraf.cars.Settings">
+            tools:context="dk.aau.cs.giraf.cars.Settings"
+    android:overScrollMode="always"
+    android:isScrollContainer="true"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:scrollbarStyle="outsideInset"
+    android:scrollbars="vertical">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:tools="http://schemas.android.com/tools"
@@ -27,9 +32,60 @@
 
             <fragment
                 android:layout_width="fill_parent"
-                android:layout_height="400px"
+                android:layout_height="380px"
                 android:name="dk.aau.cs.giraf.cars.game.SpeedFragment"
                 android:id="@+id/speed"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/settings_default_margin"
+            android:layout_below="@+id/speedContainer"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_header_calibration"
+                    android:textSize="@dimen/default_text_size"
+                    android:textColor="@color/settingsTextColor"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/calibration_high_help"
+                    android:textSize="@dimen/small_text_size"
+                    android:textColor="@color/settingsTextColor"
+                    android:maxWidth="400dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/calibration_low_help"
+                    android:textSize="@dimen/small_text_size"
+                    android:textColor="@color/settingsTextColor"
+                    android:maxWidth="400dp"
+                    />
+
+            </LinearLayout>
+
+            <fragment android:name="dk.aau.cs.giraf.cars.game.CalibrationFragment"
+                android:id="@+id/calibration_fragment"
+                android:layout_width="400dp"
+                android:layout_height="280dp"
+                android:layout_marginTop="35dp"
+                />
 
         </LinearLayout>
 
@@ -103,57 +159,11 @@
 
                 </dk.aau.cs.giraf.gui.GRadioGroup>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/settings_header_calibration"
-                    android:textSize="@dimen/default_text_size"
-                    android:textColor="@color/settingsTextColor"/>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="@dimen/settings_default_margin"
-                android:layout_below="@+id/speedContainer"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/calibration_high_help"
-                        android:textSize="@dimen/small_text_size"
-                        android:textColor="@color/settingsTextColor"
-                        android:maxWidth="400dp"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/calibration_low_help"
-                        android:textSize="@dimen/small_text_size"
-                        android:textColor="@color/settingsTextColor"
-                        android:maxWidth="400dp"
-                        />
-
-                </LinearLayout>
-
-                <fragment android:name="dk.aau.cs.giraf.cars.game.CalibrationFragment"
-                    android:id="@+id/calibration_fragment"
-                    android:layout_width="400dp"
-                    android:layout_height="280dp"
-                    />
 
             </LinearLayout>
+
+
+
 
 
 
