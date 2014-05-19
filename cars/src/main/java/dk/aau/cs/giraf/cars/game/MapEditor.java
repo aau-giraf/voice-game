@@ -139,8 +139,10 @@ public class MapEditor extends CarsActivity {
                             dragStart.y = e.y;
                             canRemove = true;
 
-                            if (dragItem == null)
+                            if (dragItem == null) {
                                 dragItem = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
+                                canRemove = false;
+                            }
                             break;
 
                         case Input.TouchEvent.TOUCH_DRAGGED:
