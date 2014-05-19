@@ -103,20 +103,10 @@ public class CarGame extends CarsActivity {
     }
 
     @Override
-    public void onPause() {
+    protected void onDestroy() {
+        super.onDestroy();
+
         if (carControl instanceof VolumeCarControl)
             ((VolumeCarControl) carControl).Stop();
-
-        ((GameScreen)getCurrentScreen()).freezeCar();
-
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (carControl instanceof VolumeCarControl)
-            ((VolumeCarControl) carControl).Start();
     }
 }

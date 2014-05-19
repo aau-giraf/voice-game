@@ -31,44 +31,10 @@ public class VolumeCarControl implements CarControl {
     private float minAmplitude;
     private float maxAmplitude;
 
-    private boolean running;
-
     public VolumeCarControl(float minAmplitude, float maxAmplitude) {
         this.minAmplitude = minAmplitude;
         this.maxAmplitude = maxAmplitude;
 
-        this.Start();
-    }
-
-    @Override
-    public float getMove(Input.TouchEvent[] touchEvents) {
-        float volume = this.getAmplitude();
-        //Volume is bound by min and max amplitude
-        volume = Math.max(Math.min(volume, maxAmplitude), minAmplitude);
-        return (volume - minAmplitude) / (maxAmplitude - minAmplitude);
-    }
-
-    public float getAmplitude() {
-        return running && mediaRecorder != null ? mediaRecorder.getMaxAmplitude() : 0.0f;
-    }
-
-    @Override
-    public int getBarometerNumber(float y, float height) {
-        return 0;
-    }
-
-    @Override
-    public void Reset() {
-        //Does nothing for this particular controller
-    }
-
-    public void Stop() {
-        running = false;
-        mediaRecorder.stop();
-        mediaRecorder.release();
-    }
-
-    public void Start() {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -80,6 +46,31 @@ public class VolumeCarControl implements CarControl {
             e.printStackTrace();
         }
         mediaRecorder.start();
-        running = true;
+    }
+
+    @Override
+    public float getMove(Input.TouchEvent[] touchEvents) {
+        float volume = (float) mediaRecorder.getMaxAmplitude();
+        //Volume is bound by min and max amplitude
+        volume = Math.max(Math.min(volume, maxAmplitude), minAmplitude);
+        return (volume - minAmplitude) / (maxAmplitude - minAmplitude);
+    }
+
+    public float getAmplitude() {
+        return mediaRecorder.getMaxAmplitude();
+    }
+
+    @Override
+    public int getBarometerNumber(float y, float height) {
+        return 0;
+    }
+
+    @Override
+    public void Reset() {
+    }
+
+    public void Stop() {
+        mediaRecorder.stop();
+        mediaRecorder.release();
     }
 }
