@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.cars.game;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -57,10 +58,10 @@ public class MapEditor extends CarsActivity {
         trashButton.setY(5);
         trashButton.setX(5);
         trashButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               mapScreen.Clear();
-           }
+            @Override
+            public void onClick(View view) {
+                mapScreen.Clear();
+            }
         });
 
         linearLayout.addView(trashButton);
@@ -91,6 +92,9 @@ public class MapEditor extends CarsActivity {
         private ArrayList<RoadItem> roadItems;
         private HashMap<String, Float> map;
 
+        private RoadItem dragItem = null;
+        private Point dragStart = new Point(0, 0);
+
         public MapScreen(Game game) {
             super(game);
             setCarX(-getCarWidth());
@@ -104,9 +108,8 @@ public class MapEditor extends CarsActivity {
             roadItems = gamesettings.LoadObstacles();
             map = gamesettings.GetMap();
 
-            this.finishLineX = game.getWidth()-80;
+            this.finishLineX = game.getWidth() - 80;
         }
-
 
         @Override
         public void paint(Graphics graphics, float deltaTime) {
@@ -127,7 +130,6 @@ public class MapEditor extends CarsActivity {
 
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
-
             for (Input.TouchEvent e : touchEvents) {
                 if (e.y > grassSize && e.y < game.getHeight() - grassSize) {
                     if (e.type == Input.TouchEvent.TOUCH_DRAGGED)
