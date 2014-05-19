@@ -93,6 +93,7 @@ public class MapEditor extends CarsActivity {
 
         private RoadItem dragItem = null;
         private Point dragStart = new Point(0, 0);
+        private boolean canRemove = false;
 
         public MapScreen(Game game) {
             super(game);
@@ -136,18 +137,22 @@ public class MapEditor extends CarsActivity {
                             dragItem = getObstacleAt(e.x, e.y);
                             dragStart.x = e.x;
                             dragStart.y = e.y;
+                            canRemove = true;
 
                             if (dragItem == null)
                                 dragItem = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
                             break;
 
                         case Input.TouchEvent.TOUCH_DRAGGED:
-                            if (dragItem != null)
+                            if (dragItem != null) {
                                 updateItem(dragItem, e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
+                                if (Math.abs(dragStart.x - e.x) + Math.abs(dragStart.y - e.y) > REMOVE_BUFFER_MANHATTAN)
+                                    canRemove = false;
+                            }
                             break;
 
                         case Input.TouchEvent.TOUCH_UP:
-                            if (Math.abs(dragStart.x - e.x) + Math.abs(dragStart.y - e.y) < REMOVE_BUFFER_MANHATTAN)
+                            if (canRemove)
                                 Remove(dragItem);
                             dragItem = null;
                     }
@@ -208,7 +213,7 @@ public class MapEditor extends CarsActivity {
             gamesettings.SetMap(map);
         }
 
-        private void updateItem(RoadItem roadItem, float x, float y){
+        private void updateItem(RoadItem roadItem, float x, float y) {
             int index = roadItems.indexOf(roadItem);
             map.put("x" + index, x);
             map.put("y" + index, y);
