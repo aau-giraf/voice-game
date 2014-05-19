@@ -77,6 +77,9 @@
                         android:layout_width="wrap_content"
                         android:textSize="@dimen/default_text_size"
                         android:textColor="@color/settingsTextColor"
+                        android:paddingRight="10dp"
+                        android:drawableLeft="@drawable/cars_star"
+                        android:drawablePadding="10dp"
                         />
 
                     <dk.aau.cs.giraf.gui.GRadioButton
@@ -87,14 +90,16 @@
                         android:layout_width="wrap_content"
                         android:textSize="@dimen/default_text_size"
                         android:textColor="@color/settingsTextColor"
+                        android:paddingRight="10dp"
+                        android:drawableLeft="@drawable/cars_obstacle"
+                        android:drawablePadding="10dp"
                         />
+
                 </dk.aau.cs.giraf.gui.GRadioGroup>
             </LinearLayout>
 
         </LinearLayout>
-
-
-
+    
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
