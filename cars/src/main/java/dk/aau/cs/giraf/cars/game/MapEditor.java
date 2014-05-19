@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.cars.game;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -20,8 +21,6 @@ import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
 import dk.aau.cs.giraf.gui.GButtonTrash;
 
 public class MapEditor extends CarsActivity {
-    private RoadItem dragging = null;
-    private RoadItem startDrag = null;
     private GameSettings gamesettings;
     private int currentId;
     private MapScreen mapScreen;
@@ -57,10 +56,10 @@ public class MapEditor extends CarsActivity {
         trashButton.setY(5);
         trashButton.setX(5);
         trashButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               mapScreen.Clear();
-           }
+            @Override
+            public void onClick(View view) {
+                mapScreen.Clear();
+            }
         });
 
         linearLayout.addView(trashButton);
@@ -86,10 +85,15 @@ public class MapEditor extends CarsActivity {
     private class MapScreen extends SettingsScreen {
         private final int grassSize = 70;
         private final int finishLineScale = 15;
+        private final int REMOVE_BUFFER_MANHATTAN = 5;
         private int finishLineX;
 
         private ArrayList<RoadItem> roadItems;
         private HashMap<String, Float> map;
+
+        private RoadItem dragItem = null;
+        private Point dragStart = new Point(0, 0);
+        private boolean canRemove = false;
 
         public MapScreen(Game game) {
             super(game);
@@ -104,9 +108,8 @@ public class MapEditor extends CarsActivity {
             roadItems = gamesettings.LoadObstacles();
             map = gamesettings.GetMap();
 
-            this.finishLineX = game.getWidth()-80;
+            this.finishLineX = game.getWidth() - 80;
         }
-
 
         @Override
         public void paint(Graphics graphics, float deltaTime) {
@@ -127,30 +130,38 @@ public class MapEditor extends CarsActivity {
 
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
-
             for (Input.TouchEvent e : touchEvents) {
-                if (e.y > grassSize && e.y < game.getHeight() - grassSize) {
-                    if (e.type == Input.TouchEvent.TOUCH_DRAGGED)
-                        if (dragging != null) {
-                            Remove(dragging);
-                            dragging = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
-                        }
-                    if (e.type == Input.TouchEvent.TOUCH_DOWN) {
-                        RoadItem rem = getObstacleAt(e.x, e.y);
-                        if (rem == null) {
-                            dragging = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
-                        } else {
-                            dragging = rem;
-                            startDrag = rem;
-                        }
-                    } else if (e.type == Input.TouchEvent.TOUCH_UP) {
-                        if (startDrag == dragging)
-                            Remove(startDrag);
-                        dragging = null;
+                if (isInsideMapBounds(e.x, e.y)) {
+                    switch (e.type) {
+                        case Input.TouchEvent.TOUCH_DOWN:
+                            dragItem = getObstacleAt(e.x, e.y);
+                            dragStart.x = e.x;
+                            dragStart.y = e.y;
+                            canRemove = true;
 
+                            if (dragItem == null)
+                                dragItem = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
+                            break;
+
+                        case Input.TouchEvent.TOUCH_DRAGGED:
+                            if (dragItem != null) {
+                                updateItem(dragItem, e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
+                                if (Math.abs(dragStart.x - e.x) + Math.abs(dragStart.y - e.y) > REMOVE_BUFFER_MANHATTAN)
+                                    canRemove = false;
+                            }
+                            break;
+
+                        case Input.TouchEvent.TOUCH_UP:
+                            if (canRemove)
+                                Remove(dragItem);
+                            dragItem = null;
                     }
                 }
             }
+        }
+
+        private boolean isInsideMapBounds(int x, int y) {
+            return y > grassSize && y < game.getHeight() - grassSize;
         }
 
         private RoadItem getObstacleAt(int x, int y) {
@@ -171,7 +182,6 @@ public class MapEditor extends CarsActivity {
             map.put("x" + index, x);
             map.put("y" + index, y);
             map.put("count", (float) index + 1);
-
         }
 
         private RoadItem Add(float x, float y) {
@@ -201,6 +211,14 @@ public class MapEditor extends CarsActivity {
             roadItems.remove(roadItem);
 
             gamesettings.SetMap(map);
+        }
+
+        private void updateItem(RoadItem roadItem, float x, float y) {
+            int index = roadItems.indexOf(roadItem);
+            map.put("x" + index, x);
+            map.put("y" + index, y);
+            roadItem.x = x;
+            roadItem.y = y;
         }
 
         @Override
