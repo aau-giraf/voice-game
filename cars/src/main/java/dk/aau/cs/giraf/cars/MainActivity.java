@@ -19,7 +19,6 @@ public class MainActivity extends Activity {
     private static final int MAPEDITOR_IDENTIFIER = 1;
 
     int currentId, guardianId;
-    GTextView profile_text;
     GButtonProfileSelect gButtonProfileSelect;
 
     @Override
@@ -50,24 +49,15 @@ public class MainActivity extends Activity {
         v.setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
         setContentView(v);
 
-        profile_text = (GTextView) findViewById(R.id.profile_text);
         gButtonProfileSelect = (GButtonProfileSelect) findViewById(R.id.profile_button);
-
-        if (curProfile == null)
-            profile_text.setText(curGuardian.getName());
-        else
-            profile_text.setText(curProfile.getName());
 
         gButtonProfileSelect.setup(curGuardian, curProfile, new GButtonProfileSelect.onCloseListener() {
             @Override
             public void onClose(Profile guardianProfile, Profile currentProfile) {
-                if (currentProfile == null) {
+                if (currentProfile == null)
                     currentId = guardianProfile.getId();
-                    profile_text.setText(guardianProfile.getName());
-                } else {
+                else
                     currentId = currentProfile.getId();
-                    profile_text.setText(currentProfile.getName());
-                }
             }
         });
     }
