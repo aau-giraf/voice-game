@@ -24,7 +24,8 @@
             android:id="@+id/button2"
             android:onClick="startGame"
             android:textSize="@dimen/menu_button_text_size"
-            android:layout_margin="20dp" />
+            android:layout_margin="20dp"
+            android:minWidth="400dp"/>
 
         <dk.aau.cs.giraf.gui.GButton
             android:layout_width="wrap_content"
@@ -33,7 +34,8 @@
             android:id="@+id/mapbutton"
             android:onClick="startMapEditor"
             android:textSize="@dimen/menu_button_text_size"
-            android:layout_margin="20dp" />
+            android:layout_margin="20dp"
+            android:minWidth="400dp"/>
 
         <dk.aau.cs.giraf.gui.GButton
             android:layout_width="wrap_content"
@@ -42,7 +44,8 @@
             android:id="@+id/button"
             android:onClick="showSettings"
             android:textSize="@dimen/menu_button_text_size"
-            android:layout_margin="20dp" />
+            android:layout_margin="20dp"
+            android:minWidth="400dp"/>
 
     </LinearLayout>
 
