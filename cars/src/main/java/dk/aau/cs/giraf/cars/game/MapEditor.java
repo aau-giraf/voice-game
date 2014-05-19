@@ -132,30 +132,34 @@ public class MapEditor extends CarsActivity {
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
             for (Input.TouchEvent e : touchEvents) {
                 if (isInsideMapBounds(e.x, e.y)) {
-                    if (e.type == Input.TouchEvent.TOUCH_DRAGGED)
-                        if (dragging != null) {
-                            Remove(dragging);
-                            dragging = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
-                        }
-                    if (e.type == Input.TouchEvent.TOUCH_DOWN) {
-                        RoadItem rem = getObstacleAt(e.x, e.y);
-                        if (rem == null) {
-                            dragging = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
-                        } else {
-                            dragging = rem;
-                            startDrag = rem;
-                        }
-                    } else if (e.type == Input.TouchEvent.TOUCH_UP) {
-                        if (startDrag == dragging)
-                            Remove(startDrag);
-                        dragging = null;
+                    switch (e.type) {
+                        case Input.TouchEvent.TOUCH_DOWN:
+                            RoadItem rem = getObstacleAt(e.x, e.y);
+                            if (rem == null) {
+                                dragging = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
+                            } else {
+                                dragging = rem;
+                                startDrag = rem;
+                            }
+                            break;
+                        
+                        case Input.TouchEvent.TOUCH_DRAGGED:
+                            if (dragging != null) {
+                                Remove(dragging);
+                                dragging = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
+                            }
+                            break;
 
+                        case Input.TouchEvent.TOUCH_UP:
+                            if (startDrag == dragging)
+                                Remove(startDrag);
+                            dragging = null;
                     }
                 }
             }
         }
 
-        private boolean isInsideMapBounds(int x, int y){
+        private boolean isInsideMapBounds(int x, int y) {
             return y > grassSize && y < game.getHeight() - grassSize;
         }
 
