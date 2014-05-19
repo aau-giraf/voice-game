@@ -21,8 +21,6 @@ import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
 import dk.aau.cs.giraf.gui.GButtonTrash;
 
 public class MapEditor extends CarsActivity {
-    private RoadItem dragging = null;
-    private RoadItem startDrag = null;
     private GameSettings gamesettings;
     private int currentId;
     private MapScreen mapScreen;
