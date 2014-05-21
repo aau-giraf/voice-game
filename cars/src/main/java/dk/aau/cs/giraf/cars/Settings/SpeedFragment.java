@@ -1,11 +1,12 @@
 package dk.aau.cs.giraf.cars.Settings;
 
 import dk.aau.cs.giraf.cars.Assets;
+import dk.aau.cs.giraf.cars.CarsGames.CarsFragment;
 import dk.aau.cs.giraf.cars.Game.Car;
 import dk.aau.cs.giraf.game_framework.Game;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
-import dk.aau.cs.giraf.cars.Game.CarsGames.CarsFragment;
+
 
 public class SpeedFragment extends CarsFragment {
     private Screen screen = null;
