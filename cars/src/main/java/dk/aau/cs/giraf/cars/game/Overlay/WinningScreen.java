@@ -1,9 +1,9 @@
 package dk.aau.cs.giraf.cars.game.Overlay;
 
 import dk.aau.cs.giraf.cars.R;
-import dk.aau.cs.giraf.cars.framework.GameActivity;
-import dk.aau.cs.giraf.cars.framework.Graphics;
-import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.game_framework.GameActivity;
+import dk.aau.cs.giraf.game_framework.Graphics;
+import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.cars.game.*;
 
 public class WinningScreen extends GameScreen {

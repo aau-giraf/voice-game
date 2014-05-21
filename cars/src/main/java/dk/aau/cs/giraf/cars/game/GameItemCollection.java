@@ -2,8 +2,8 @@ package dk.aau.cs.giraf.cars.game;
 
 import java.util.ArrayList;
 
-import dk.aau.cs.giraf.cars.framework.Graphics;
-import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.game_framework.Graphics;
+import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.cars.game.Interfaces.GameObject;
 
 public class GameItemCollection implements GameObject {

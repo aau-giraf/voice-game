@@ -4,8 +4,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
-import dk.aau.cs.giraf.cars.framework.Graphics;
-import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.game_framework.Graphics;
+import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.cars.game.*;
 
 public class PauseScreen extends GameScreen {

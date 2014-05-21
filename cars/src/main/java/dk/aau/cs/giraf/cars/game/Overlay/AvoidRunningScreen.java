@@ -1,6 +1,6 @@
 package dk.aau.cs.giraf.cars.game.Overlay;
 
-import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.cars.game.Assets;
 import dk.aau.cs.giraf.cars.game.Car;
 import dk.aau.cs.giraf.cars.game.CarGame;

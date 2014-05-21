@@ -1,6 +1,6 @@
 package dk.aau.cs.giraf.cars.game.Interfaces;
 
-import dk.aau.cs.giraf.cars.framework.Graphics;
+import dk.aau.cs.giraf.game_framework.Graphics;
 
 /**
  * Created by Stefan on 02-04-2014.

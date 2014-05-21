@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import dk.aau.cs.giraf.cars.DatabaseHelper;
-import dk.aau.cs.giraf.cars.framework.FastRenderView;
-import dk.aau.cs.giraf.cars.framework.Game;
-import dk.aau.cs.giraf.cars.framework.Graphics;
-import dk.aau.cs.giraf.cars.framework.Input;
-import dk.aau.cs.giraf.cars.framework.Screen;
+import dk.aau.cs.giraf.game_framework.FastRenderView;
+import dk.aau.cs.giraf.game_framework.Game;
+import dk.aau.cs.giraf.game_framework.Graphics;
+import dk.aau.cs.giraf.game_framework.Input;
+import dk.aau.cs.giraf.game_framework.Screen;
 import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
 import dk.aau.cs.giraf.gui.GButtonTrash;
 

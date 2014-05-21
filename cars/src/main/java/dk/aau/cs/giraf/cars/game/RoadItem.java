@@ -3,9 +3,9 @@ package dk.aau.cs.giraf.cars.game;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import dk.aau.cs.giraf.cars.framework.Graphics;
-import dk.aau.cs.giraf.cars.framework.Image;
-import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.game_framework.Graphics;
+import dk.aau.cs.giraf.game_framework.Image;
+import dk.aau.cs.giraf.game_framework.Input;
 
 public class RoadItem extends GameItem {
     private Paint paint;

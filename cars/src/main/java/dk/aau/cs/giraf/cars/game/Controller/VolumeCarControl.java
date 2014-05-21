@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import android.util.Log;
 
-import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
 
 public class VolumeCarControl implements CarControl {

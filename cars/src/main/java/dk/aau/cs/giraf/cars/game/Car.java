@@ -4,11 +4,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import dk.aau.cs.giraf.cars.framework.Graphics;
-import dk.aau.cs.giraf.cars.framework.Image;
-import dk.aau.cs.giraf.cars.framework.Input;
-import dk.aau.cs.giraf.cars.framework.MoveSineLine;
-import dk.aau.cs.giraf.cars.framework.mFloat;
+import dk.aau.cs.giraf.game_framework.Graphics;
+import dk.aau.cs.giraf.game_framework.Image;
+import dk.aau.cs.giraf.game_framework.Input;
+import dk.aau.cs.giraf.game_framework.MoveSineLine;
+import dk.aau.cs.giraf.game_framework.mFloat;
 
 public class Car extends GameItem {
     public static final float MAX_PIXELSPERSECOND = 300f;

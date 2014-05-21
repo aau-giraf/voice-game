@@ -1,7 +1,7 @@
 package dk.aau.cs.giraf.cars.game;
 
-import dk.aau.cs.giraf.cars.framework.Graphics;
-import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.game_framework.Graphics;
+import dk.aau.cs.giraf.game_framework.Input;
 
 public class Obstacle extends RoadItem {
 

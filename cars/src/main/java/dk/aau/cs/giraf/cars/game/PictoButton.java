@@ -4,9 +4,9 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.provider.ContactsContract;
 
-import dk.aau.cs.giraf.cars.framework.Graphics;
-import dk.aau.cs.giraf.cars.framework.Image;
-import dk.aau.cs.giraf.cars.framework.Input;
+import dk.aau.cs.giraf.game_framework.Graphics;
+import dk.aau.cs.giraf.game_framework.Image;
+import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.cars.game.Interfaces.Drawable;
 
 public class PictoButton implements Drawable {

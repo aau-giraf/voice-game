@@ -1,8 +1,8 @@
 package dk.aau.cs.giraf.cars.game;
 
-import dk.aau.cs.giraf.cars.framework.Game;
-import dk.aau.cs.giraf.cars.framework.Graphics;
-import dk.aau.cs.giraf.cars.framework.Screen;
+import dk.aau.cs.giraf.game_framework.Game;
+import dk.aau.cs.giraf.game_framework.Graphics;
+import dk.aau.cs.giraf.game_framework.Screen;
 import dk.aau.cs.giraf.gui.GComponent;
 
 public abstract class SettingsScreen extends Screen {

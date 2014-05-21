@@ -1,11 +1,11 @@
 package dk.aau.cs.giraf.cars.game;
 
 import dk.aau.cs.giraf.cars.R;
-import dk.aau.cs.giraf.cars.framework.Audio;
-import dk.aau.cs.giraf.cars.framework.Game;
-import dk.aau.cs.giraf.cars.framework.Graphics;
-import dk.aau.cs.giraf.cars.framework.Image;
-import dk.aau.cs.giraf.cars.framework.Sound;
+import dk.aau.cs.giraf.game_framework.Audio;
+import dk.aau.cs.giraf.game_framework.Game;
+import dk.aau.cs.giraf.game_framework.Graphics;
+import dk.aau.cs.giraf.game_framework.Image;
+import dk.aau.cs.giraf.game_framework.Sound;
 
 public class Assets {
     private static boolean loaded = false;

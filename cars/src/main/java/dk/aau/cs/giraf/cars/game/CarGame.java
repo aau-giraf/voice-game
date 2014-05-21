@@ -5,7 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import dk.aau.cs.giraf.cars.DatabaseHelper;
-import dk.aau.cs.giraf.cars.framework.Screen;
+import dk.aau.cs.giraf.game_framework.Screen;
 import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
 import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;

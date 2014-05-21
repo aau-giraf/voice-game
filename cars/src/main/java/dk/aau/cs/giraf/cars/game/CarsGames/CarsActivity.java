@@ -1,9 +1,9 @@
 package dk.aau.cs.giraf.cars.game.CarsGames;
 
-import dk.aau.cs.giraf.cars.framework.GameActivity;
-import dk.aau.cs.giraf.cars.framework.Graphics;
-import dk.aau.cs.giraf.cars.framework.Input;
-import dk.aau.cs.giraf.cars.framework.Screen;
+import dk.aau.cs.giraf.game_framework.GameActivity;
+import dk.aau.cs.giraf.game_framework.Graphics;
+import dk.aau.cs.giraf.game_framework.Input;
+import dk.aau.cs.giraf.game_framework.Screen;
 import dk.aau.cs.giraf.cars.game.Assets;
 
 public abstract class CarsActivity extends GameActivity {
