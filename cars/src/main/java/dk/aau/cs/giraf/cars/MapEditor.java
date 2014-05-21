@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,13 +11,15 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import dk.aau.cs.giraf.cars.DatabaseHelper;
+import dk.aau.cs.giraf.cars.CarsGames.CarsActivity;
+import dk.aau.cs.giraf.cars.Game.RoadItem;
+import dk.aau.cs.giraf.cars.Settings.GameSettings;
+import dk.aau.cs.giraf.cars.Settings.SettingsScreen;
 import dk.aau.cs.giraf.game_framework.FastRenderView;
 import dk.aau.cs.giraf.game_framework.Game;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.game_framework.Screen;
-import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
 import dk.aau.cs.giraf.gui.GButtonTrash;
 
 public class MapEditor extends CarsActivity {

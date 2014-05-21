@@ -1,16 +1,17 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.Game;
 
 import android.graphics.Color;
 import android.graphics.Point;
 
 import java.util.ArrayList;
 
+import dk.aau.cs.giraf.cars.Assets;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.game_framework.Screen;
-import dk.aau.cs.giraf.cars.game.Interfaces.Drawable;
-import dk.aau.cs.giraf.cars.game.Interfaces.GameObject;
-import dk.aau.cs.giraf.cars.game.Interfaces.Updatable;
+import dk.aau.cs.giraf.cars.Interfaces.Drawable;
+import dk.aau.cs.giraf.cars.Interfaces.GameObject;
+import dk.aau.cs.giraf.cars.Interfaces.Updatable;
 
 public abstract class GameScreen extends Screen {
     private final int grassSize = 70;

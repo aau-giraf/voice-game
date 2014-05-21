@@ -1,11 +1,11 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.Game;
 
 import android.graphics.Point;
 import android.graphics.Rect;
 
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
-import dk.aau.cs.giraf.cars.game.Interfaces.GameObject;
+import dk.aau.cs.giraf.cars.Interfaces.GameObject;
 
 public abstract class GameItem implements GameObject {
     public float x, y;

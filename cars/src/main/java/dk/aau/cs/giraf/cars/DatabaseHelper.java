@@ -1,13 +1,10 @@
 package dk.aau.cs.giraf.cars;
 
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.SharedPreferences;
 import android.util.Log;
 
-import dk.aau.cs.giraf.cars.game.GameMode;
-import dk.aau.cs.giraf.cars.game.GameSettings;
-import dk.aau.cs.giraf.cars.game.Obstacle;
+import dk.aau.cs.giraf.cars.Game.GameMode;
+import dk.aau.cs.giraf.cars.Settings.GameSettings;
 import dk.aau.cs.giraf.oasis.lib.controllers.ApplicationController;
 import dk.aau.cs.giraf.oasis.lib.controllers.ProfileApplicationController;
 import dk.aau.cs.giraf.oasis.lib.controllers.ProfileController;
@@ -16,9 +13,7 @@ import dk.aau.cs.giraf.oasis.lib.models.Profile;
 import dk.aau.cs.giraf.oasis.lib.models.ProfileApplication;
 import dk.aau.cs.giraf.oasis.lib.models.Setting;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 /**

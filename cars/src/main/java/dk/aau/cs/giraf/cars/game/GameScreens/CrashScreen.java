@@ -1,27 +1,36 @@
-package dk.aau.cs.giraf.cars.game.Overlay;
+package dk.aau.cs.giraf.cars.Game.GameScreens;
 
 import android.graphics.Point;
 import android.graphics.Rect;
-
+import dk.aau.cs.giraf.cars.Assets;
 import dk.aau.cs.giraf.cars.R;
+import dk.aau.cs.giraf.cars.Game.Car;
+import dk.aau.cs.giraf.cars.Game.CarGame;
+import dk.aau.cs.giraf.cars.Game.GameItemCollection;
+import dk.aau.cs.giraf.cars.Game.GameScreen;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
-import dk.aau.cs.giraf.cars.game.Assets;
-import dk.aau.cs.giraf.cars.game.Car;
-import dk.aau.cs.giraf.cars.game.CarGame;
-import dk.aau.cs.giraf.cars.game.GameItemCollection;
-import dk.aau.cs.giraf.cars.game.GameScreen;
 
-public class FailureScreen extends GameScreen {
+public class CrashScreen extends GameScreen {
     private OverlayButton continueButton;
+    private Rect lastCrash;
+    private Rect explosionRect;
     private boolean continuePressed;
 
-    public FailureScreen(CarGame game, Car car, GameItemCollection obstacles) {
+    public CrashScreen(CarGame game, Car car, GameItemCollection obstacles) {
         super(game, car, obstacles);
 
         continueButton = new OverlayButton(game.getWidth() / 2, game.getHeight() / 2, game.getResources().getString(R.string.crash_button_text));
 
+        this.lastCrash = new Rect(0, 0, 100, 100);
+        this.explosionRect = new Rect(0, 0, Assets.GetExplosion().getWidth(), Assets.GetExplosion().getHeight());
+
         this.continuePressed = false;
+    }
+
+    public void setLastCrash(Point p) {
+        lastCrash.offsetTo(p.x, p.y);
+        lastCrash.offset(-lastCrash.width() / 2, -lastCrash.height() / 2);
     }
 
     @Override
@@ -33,7 +42,8 @@ public class FailureScreen extends GameScreen {
     @Override
     public void paint(Graphics graphics, float deltaTime) {
         super.paint(graphics, deltaTime);
-        //Cirkler om kasser evt
+        graphics.drawScaledImage(Assets.GetExplosion(), lastCrash, explosionRect);
+        graphics.drawARGB(155, 0, 0, 0);
         continueButton.Draw(graphics, deltaTime);
     }
 
@@ -57,5 +67,4 @@ public class FailureScreen extends GameScreen {
             }
         }
     }
-
 }

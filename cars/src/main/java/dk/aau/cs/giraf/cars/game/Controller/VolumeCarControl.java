@@ -1,13 +1,11 @@
-package dk.aau.cs.giraf.cars.game.Controller;
+package dk.aau.cs.giraf.cars.Game.Controller;
 
 import android.media.MediaRecorder;
 
 import java.io.IOException;
 
-import android.util.Log;
-
 import dk.aau.cs.giraf.game_framework.Input;
-import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
+import dk.aau.cs.giraf.cars.Interfaces.CarControl;
 
 public class VolumeCarControl implements CarControl {
     private MediaRecorder mediaRecorder;

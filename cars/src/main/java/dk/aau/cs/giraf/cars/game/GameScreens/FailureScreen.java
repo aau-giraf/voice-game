@@ -1,32 +1,24 @@
-package dk.aau.cs.giraf.cars.game.Overlay;
+package dk.aau.cs.giraf.cars.Game.GameScreens;
 
-import android.graphics.Point;
-import android.graphics.Rect;
 import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
-import dk.aau.cs.giraf.cars.game.*;
+import dk.aau.cs.giraf.cars.Assets;
+import dk.aau.cs.giraf.cars.Game.Car;
+import dk.aau.cs.giraf.cars.Game.CarGame;
+import dk.aau.cs.giraf.cars.Game.GameItemCollection;
+import dk.aau.cs.giraf.cars.Game.GameScreen;
 
-public class CrashScreen extends GameScreen {
+public class FailureScreen extends GameScreen {
     private OverlayButton continueButton;
-    private Rect lastCrash;
-    private Rect explosionRect;
     private boolean continuePressed;
 
-    public CrashScreen(CarGame game, Car car, GameItemCollection obstacles) {
+    public FailureScreen(CarGame game, Car car, GameItemCollection obstacles) {
         super(game, car, obstacles);
 
         continueButton = new OverlayButton(game.getWidth() / 2, game.getHeight() / 2, game.getResources().getString(R.string.crash_button_text));
 
-        this.lastCrash = new Rect(0, 0, 100, 100);
-        this.explosionRect = new Rect(0, 0, Assets.GetExplosion().getWidth(), Assets.GetExplosion().getHeight());
-
         this.continuePressed = false;
-    }
-
-    public void setLastCrash(Point p) {
-        lastCrash.offsetTo(p.x, p.y);
-        lastCrash.offset(-lastCrash.width() / 2, -lastCrash.height() / 2);
     }
 
     @Override
@@ -38,8 +30,7 @@ public class CrashScreen extends GameScreen {
     @Override
     public void paint(Graphics graphics, float deltaTime) {
         super.paint(graphics, deltaTime);
-        graphics.drawScaledImage(Assets.GetExplosion(), lastCrash, explosionRect);
-        graphics.drawARGB(155, 0, 0, 0);
+        //Cirkler om kasser evt
         continueButton.Draw(graphics, deltaTime);
     }
 
@@ -63,4 +54,5 @@ public class CrashScreen extends GameScreen {
             }
         }
     }
+
 }

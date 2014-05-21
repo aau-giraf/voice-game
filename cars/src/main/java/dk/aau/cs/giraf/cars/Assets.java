@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars;
 
 import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.game_framework.Audio;

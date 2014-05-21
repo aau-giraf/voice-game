@@ -1,9 +1,9 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.Settings;
 
 import android.graphics.Color;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
+import dk.aau.cs.giraf.cars.Game.GameMode;
+import dk.aau.cs.giraf.cars.Game.RoadItem;
 
 import java.util.*;
 

@@ -1,16 +1,17 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.Settings;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import dk.aau.cs.giraf.cars.Game.Car;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
-import dk.aau.cs.giraf.cars.game.Interfaces.Drawable;
-import dk.aau.cs.giraf.cars.game.Interfaces.Updatable;
+import dk.aau.cs.giraf.cars.Interfaces.Drawable;
+import dk.aau.cs.giraf.cars.Interfaces.Updatable;
 
 public class SpeedGauge implements Drawable, Updatable{
 
     private final int MIN_SPEED = 0;
-    private final int MAX_SPEED = (int)Car.MAX_SCALE;
+    private final int MAX_SPEED = (int) Car.MAX_SCALE;
     private final int PADDING = 5;
     private final int VALUE_TEXT_SIZE = 20;
     private final int VALUE_TEXT_MARGIN = 4;

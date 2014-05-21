@@ -1,13 +1,12 @@
-package dk.aau.cs.giraf.cars.game.CarsGames;
+package dk.aau.cs.giraf.cars.CarsGames;
 
-import dk.aau.cs.giraf.game_framework.GameFragment;
+import dk.aau.cs.giraf.game_framework.GameActivity;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.game_framework.Screen;
-import dk.aau.cs.giraf.cars.game.Assets;
+import dk.aau.cs.giraf.cars.Assets;
 
-public abstract class CarsFragment extends GameFragment {
-
+public abstract class CarsActivity extends GameActivity {
     public abstract Screen getFirstScreen();
 
     @Override
@@ -16,7 +15,7 @@ public abstract class CarsFragment extends GameFragment {
     }
 
     private class LoadingScreen extends Screen {
-        public LoadingScreen(CarsFragment game) {
+        public LoadingScreen(CarsActivity game) {
             super(game);
         }
 
@@ -28,7 +27,7 @@ public abstract class CarsFragment extends GameFragment {
         @Override
         public void paint(Graphics graphics, float deltaTime) {
             Assets.LoadAssets(graphics, game.getAudio());
-            game.setScreen(((CarsFragment)game).getFirstScreen());
+            game.setScreen(((CarsActivity)game).getFirstScreen());
         }
 
         @Override
@@ -51,4 +50,5 @@ public abstract class CarsFragment extends GameFragment {
 
         }
     }
+
 }

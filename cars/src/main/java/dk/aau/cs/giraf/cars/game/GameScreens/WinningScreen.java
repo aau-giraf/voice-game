@@ -1,10 +1,14 @@
-package dk.aau.cs.giraf.cars.game.Overlay;
+package dk.aau.cs.giraf.cars.Game.GameScreens;
 
+import dk.aau.cs.giraf.cars.Assets;
 import dk.aau.cs.giraf.cars.R;
+import dk.aau.cs.giraf.cars.Game.Car;
+import dk.aau.cs.giraf.cars.Game.CarGame;
+import dk.aau.cs.giraf.cars.Game.GameItemCollection;
+import dk.aau.cs.giraf.cars.Game.GameScreen;
 import dk.aau.cs.giraf.game_framework.GameActivity;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
-import dk.aau.cs.giraf.cars.game.*;
 
 public class WinningScreen extends GameScreen {
     private OverlayButton resetButton;

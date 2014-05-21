@@ -1,5 +1,7 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.Settings;
 
+import dk.aau.cs.giraf.cars.Assets;
+import dk.aau.cs.giraf.cars.Game.Car;
 import dk.aau.cs.giraf.game_framework.Game;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Screen;

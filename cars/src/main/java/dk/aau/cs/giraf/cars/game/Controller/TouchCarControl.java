@@ -1,7 +1,7 @@
-package dk.aau.cs.giraf.cars.game.Controller;
+package dk.aau.cs.giraf.cars.Game.Controller;
 
 import dk.aau.cs.giraf.game_framework.Input;
-import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
+import dk.aau.cs.giraf.cars.Interfaces.CarControl;
 
 
 public class TouchCarControl implements CarControl {

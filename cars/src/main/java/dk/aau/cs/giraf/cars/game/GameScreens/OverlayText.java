@@ -1,10 +1,10 @@
-package dk.aau.cs.giraf.cars.game.Overlay;
+package dk.aau.cs.giraf.cars.Game.GameScreens;
 
 import android.graphics.Color;
 import android.graphics.Paint;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
-import dk.aau.cs.giraf.cars.game.Interfaces.GameObject;
+import dk.aau.cs.giraf.cars.Interfaces.GameObject;
 
 public class OverlayText implements GameObject {
     protected Paint pButton;

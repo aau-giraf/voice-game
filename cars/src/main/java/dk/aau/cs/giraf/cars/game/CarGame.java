@@ -1,22 +1,24 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.Game;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import dk.aau.cs.giraf.cars.DatabaseHelper;
+import dk.aau.cs.giraf.cars.Assets;
+import dk.aau.cs.giraf.cars.Settings.GameSettings;
 import dk.aau.cs.giraf.game_framework.Screen;
-import dk.aau.cs.giraf.cars.game.CarsGames.CarsActivity;
-import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
-import dk.aau.cs.giraf.cars.game.Interfaces.CarControl;
-import dk.aau.cs.giraf.cars.game.Overlay.AvoidRunningScreen;
-import dk.aau.cs.giraf.cars.game.Overlay.CrashScreen;
-import dk.aau.cs.giraf.cars.game.Overlay.FailureScreen;
-import dk.aau.cs.giraf.cars.game.Overlay.PauseScreen;
-import dk.aau.cs.giraf.cars.game.Overlay.PickupRunningScreen;
-import dk.aau.cs.giraf.cars.game.Overlay.RunningScreen;
-import dk.aau.cs.giraf.cars.game.Overlay.StartScreen;
-import dk.aau.cs.giraf.cars.game.Overlay.WinningScreen;
+import dk.aau.cs.giraf.cars.CarsGames.CarsActivity;
+import dk.aau.cs.giraf.cars.Game.Controller.VolumeCarControl;
+import dk.aau.cs.giraf.cars.Interfaces.CarControl;
+import dk.aau.cs.giraf.cars.Game.GameScreens.AvoidRunningScreen;
+import dk.aau.cs.giraf.cars.Game.GameScreens.CrashScreen;
+import dk.aau.cs.giraf.cars.Game.GameScreens.FailureScreen;
+import dk.aau.cs.giraf.cars.Game.GameScreens.PauseScreen;
+import dk.aau.cs.giraf.cars.Game.GameScreens.PickupRunningScreen;
+import dk.aau.cs.giraf.cars.Game.GameScreens.RunningScreen;
+import dk.aau.cs.giraf.cars.Game.GameScreens.StartScreen;
+import dk.aau.cs.giraf.cars.Game.GameScreens.WinningScreen;
 
 public class CarGame extends CarsActivity {
     private final int GRASS_HEIGHT = 70;

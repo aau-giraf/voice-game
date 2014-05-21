@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.Settings;
 
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -6,10 +6,10 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.aau.cs.giraf.cars.Game.Controller.VolumeCarControl;
+import dk.aau.cs.giraf.cars.Game.GameScreens.OverlayButton;
 import dk.aau.cs.giraf.game_framework.*;
-import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
-import dk.aau.cs.giraf.cars.game.Overlay.OverlayButton;
-import dk.aau.cs.giraf.cars.game.Overlay.OverlayText;
+
 import dk.aau.cs.giraf.gui.GComponent;
 
 public class CalibrationScreen extends Screen {

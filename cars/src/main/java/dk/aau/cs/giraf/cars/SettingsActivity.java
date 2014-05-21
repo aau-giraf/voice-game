@@ -8,16 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
 
-import java.util.LinkedList;
-
-import dk.aau.cs.giraf.cars.game.CalibrationFragment;
-import dk.aau.cs.giraf.cars.game.GameMode;
-import dk.aau.cs.giraf.cars.game.GameSettings;
-import dk.aau.cs.giraf.cars.game.SpeedFragment;
+import dk.aau.cs.giraf.cars.Settings.CalibrationFragment;
+import dk.aau.cs.giraf.cars.Game.GameMode;
+import dk.aau.cs.giraf.cars.Settings.GameSettings;
+import dk.aau.cs.giraf.cars.Settings.SpeedFragment;
 import dk.aau.cs.giraf.gui.GColorPicker;
 import dk.aau.cs.giraf.gui.GComponent;
 
-public class Settings extends Activity {
+public class SettingsActivity extends Activity {
     GameSettings gamesettings;
     int current_id;
 

@@ -1,10 +1,10 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.Game;
 
 import java.util.ArrayList;
 
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
-import dk.aau.cs.giraf.cars.game.Interfaces.GameObject;
+import dk.aau.cs.giraf.cars.Interfaces.GameObject;
 
 public class GameItemCollection implements GameObject {
     private ArrayList<RoadItem> roadItems;

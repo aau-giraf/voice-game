@@ -6,11 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import dk.aau.cs.giraf.cars.game.CarGame;
-import dk.aau.cs.giraf.cars.game.MapEditor;
+import dk.aau.cs.giraf.cars.Game.CarGame;
 import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GComponent;
-import dk.aau.cs.giraf.gui.GTextView;
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 
 public class MainActivity extends Activity {
@@ -76,7 +74,7 @@ public class MainActivity extends Activity {
     }
 
     public void showSettings(View view) {
-        Intent intent = new Intent(this, Settings.class);
+        Intent intent = new Intent(this, SettingsActivity.class);
 
         intent.putExtra(DatabaseHelper.CHILD_ID, currentId);
 

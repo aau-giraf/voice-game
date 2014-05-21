@@ -1,4 +1,6 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.Game;
+
+import dk.aau.cs.giraf.cars.Settings.GameSettings;
 
 import java.util.ArrayList;
 

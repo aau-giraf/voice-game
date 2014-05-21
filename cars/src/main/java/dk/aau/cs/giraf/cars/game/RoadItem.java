@@ -1,8 +1,9 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.Game;
 
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import dk.aau.cs.giraf.cars.Assets;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Image;
 import dk.aau.cs.giraf.game_framework.Input;
@@ -10,7 +11,7 @@ import dk.aau.cs.giraf.game_framework.Input;
 public class RoadItem extends GameItem {
     private Paint paint;
     private int value;
-    private  GameMode gameMode;
+    private GameMode gameMode;
 
     public RoadItem(float x, float y, float width, float height) {
         super(x, y, width, height);

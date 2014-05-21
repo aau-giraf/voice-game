@@ -1,9 +1,10 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.Game;
 
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import dk.aau.cs.giraf.cars.Assets;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Image;
 import dk.aau.cs.giraf.game_framework.Input;

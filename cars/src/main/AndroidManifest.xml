@@ -31,17 +31,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".game.CarGame"
+            android:name=".Game.Game.CarGame"
             android:screenOrientation="landscape"
             android:label="@string/title_activity_cargame">
         </activity>
         <activity
-            android:name=".game.MapEditor"
+            android:name=".MapEditor"
             android:screenOrientation="landscape"
             android:label="@string/title_activity_mapeditor">
         </activity>
         <activity
-            android:name=".Settings"
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">

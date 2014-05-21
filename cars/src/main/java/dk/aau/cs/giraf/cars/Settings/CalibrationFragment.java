@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cars.game;
+package dk.aau.cs.giraf.cars.Settings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import dk.aau.cs.giraf.game_framework.Screen;
-import dk.aau.cs.giraf.cars.game.CarsGames.CarsFragment;
-import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
+import dk.aau.cs.giraf.cars.Game.CarsGames.CarsFragment;
+import dk.aau.cs.giraf.cars.Game.Controller.VolumeCarControl;
 
 
 public class CalibrationFragment extends CarsFragment {

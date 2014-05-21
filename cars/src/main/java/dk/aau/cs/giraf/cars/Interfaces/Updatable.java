@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cars.game.Interfaces;
+package dk.aau.cs.giraf.cars.Interfaces;
 
 import dk.aau.cs.giraf.game_framework.Input;
 
