@@ -1,6 +1,6 @@
 package dk.aau.cs.giraf.cars;
 
-class ColorButton extends android.widget.Button {
+public class ColorButton extends android.widget.Button {
     private int color;
 
     public ColorButton(android.content.Context context) {
