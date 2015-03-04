@@ -1,1 +1,7 @@
 include ':metadata', ':OasisLib', ':giraf-component', ':cars'
+project(':OasisLib').projectDir = new File('giraf-component/OasisLib')
+project(':metadata').projectDir = new File('giraf-component/OasisLib/metadata')
+include ':local-db'
+project(':local-db').projectDir = new File('giraf-component/OasisLib/local-db')
+include ':metadata_local'
+project(':metadata_local').projectDir = new File('giraf-component/OasisLib/local-db/metadata_local')

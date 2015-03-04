@@ -1,12 +1,6 @@
-[submodule "OasisLib"]
-	path = OasisLib
-	url = http://cs-cust06-int.cs.aau.dk/git-ro/oasis-lib.git
 [submodule "giraf-component"]
 	path = giraf-component
 	url = http://cs-cust06-int.cs.aau.dk/git-ro/giraf-component.git
-[submodule "metadata"]
-	path = metadata
-	url = http://cs-cust06-int.cs.aau.dk/git-ro/meta-database.git
 [submodule "cars/src/main/java/dk/aau/cs/giraf/game_framework"]
 	path = cars/src/main/java/dk/aau/cs/giraf/game_framework
 	url = http://cs-cust06-int.cs.aau.dk/git-ro/game-framework.git
