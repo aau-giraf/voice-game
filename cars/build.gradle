@@ -1,4 +1,16 @@
+buildscript {
+    repositories {
+        maven {
+          url uri('gradleLibs/')
+        }
+    }
+    dependencies {
+        classpath 'dk.giraf:deployPlugin:1.0'
+    }
+}
+
 apply plugin: 'android'
+apply plugin: 'dk.giraf.deploy'
 
 android {
     compileSdkVersion 19
