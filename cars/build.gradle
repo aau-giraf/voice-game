@@ -6,11 +6,13 @@ buildscript {
     }
     dependencies {
         classpath 'dk.giraf:deployPlugin:1.0'
+        classpath 'com.github.triplet.gradle:play-publisher:1.0.2'
     }
 }
 
 apply plugin: 'android'
 apply plugin: 'dk.giraf.deploy'
+apply plugin: 'play'
 
 android {
     compileSdkVersion 19
@@ -39,4 +41,10 @@ dependencies {
     compile project(':giraf-component')
     compile project(':metadata')
     compile project(':OasisLib')
+}
+
+play {
+    serviceAccountEmail = project.playAcc.accountEmail
+    pk12File = file(project.playAcc.keyPath)
+    track = 'alpha'
 }
