@@ -1,16 +1,19 @@
 buildscript {
     repositories {
+        mavenCentral()
         maven {
             url 'http://cs-cust06-int.cs.aau.dk/artifactory/libraries'
         }
     }
     dependencies {
         classpath 'dk.aau.cs.giraf:auto-deploy-gradle-plugin:1.0'
+        classpath 'com.github.triplet.gradle:play-publisher:1.0.2'
     }
 }
 
 apply plugin: 'android'
 apply plugin: 'dk.giraf.deploy'
+apply plugin: 'play'
 
 android {
     compileSdkVersion 19
@@ -23,13 +26,15 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 19
-        versionCode 1
         versionName "1.0"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+        debug {
+            testCoverageEnabled true
         }
     }
 }
@@ -39,4 +44,10 @@ dependencies {
     compile project(':giraf-component')
     compile project(':metadata')
     compile project(':OasisLib')
+}
+
+play {
+    serviceAccountEmail = project.playAcc.accountEmail
+    pk12File = file(project.playAcc.keyPath)
+    track = 'alpha'
 }
