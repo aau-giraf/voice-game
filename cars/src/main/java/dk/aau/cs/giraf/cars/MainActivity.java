@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.cars;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.View;
 import dk.aau.cs.giraf.cars.Game.CarGame;
 import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GComponent;
+import dk.aau.cs.giraf.oasis.lib.Helper;
 import dk.aau.cs.giraf.oasis.lib.models.Profile;
 
 public class MainActivity extends Activity {
@@ -29,17 +31,28 @@ public class MainActivity extends Activity {
 
         //dk.aau.cs.giraf.oasis.lib.Helper h = new dk.aau.cs.giraf.oasis.lib.Helper(this);
         //h.CreateDummyData();
-        currentId = intent.getIntExtra(DatabaseHelper.CHILD_ID, database.GetDefaultChild());
-        Log.d("id", Integer.toString(currentId));
-        guardianId = intent.getIntExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian());
+        // Skip loading screen if monkey test
+        if (ActivityManager.isUserAMonkey()) {
+            Helper h = new Helper(this);
+            h.CreateDummyData();
+
+            currentId = -1;
+            guardianId = h.profilesHelper.getGuardians().get(0).getId();
+        }
+        else {
+            currentId = intent.getIntExtra(DatabaseHelper.CHILD_ID, database.GetDefaultChild());
+            Log.d("id", Integer.toString(currentId));
+            guardianId = intent.getIntExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian());
+        }
 
         Profile curGuardian = database.GetProfileById(guardianId);
         Profile curProfile;
         if (currentId == -1) {
             curProfile = null;
             currentId = guardianId;
-        } else
+        } else {
             curProfile = database.GetProfileById(currentId);
+        }
 
         setContentView(R.layout.activity_main_menu);
 
