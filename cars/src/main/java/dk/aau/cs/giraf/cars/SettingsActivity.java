@@ -33,7 +33,7 @@ public class SettingsActivity extends Activity {
 
         Intent intent = getIntent();
 
-        int guardianId = 0;
+        long guardianId = 0;
         DatabaseHelper database = new DatabaseHelper(this);
 
         if(intent.hasExtra(DatabaseHelper.CHILD_ID))

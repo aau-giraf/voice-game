@@ -34,7 +34,6 @@ public class MainActivity extends Activity {
         // Skip loading screen if monkey test
         if (ActivityManager.isUserAMonkey()) {
             Helper h = new Helper(this);
-            h.CreateDummyData();
 
             currentId = -1;
             guardianId = h.profilesHelper.getGuardians().get(0).getId();
