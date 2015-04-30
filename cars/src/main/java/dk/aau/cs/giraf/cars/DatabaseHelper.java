@@ -5,13 +5,13 @@ import android.util.Log;
 
 import dk.aau.cs.giraf.cars.Game.GameMode;
 import dk.aau.cs.giraf.cars.Settings.GameSettings;
-import dk.aau.cs.giraf.oasis.lib.controllers.ApplicationController;
-import dk.aau.cs.giraf.oasis.lib.controllers.ProfileApplicationController;
-import dk.aau.cs.giraf.oasis.lib.controllers.ProfileController;
-import dk.aau.cs.giraf.oasis.lib.models.Application;
-import dk.aau.cs.giraf.oasis.lib.models.Profile;
-import dk.aau.cs.giraf.oasis.lib.models.ProfileApplication;
-import dk.aau.cs.giraf.oasis.lib.models.Setting;
+import dk.aau.cs.giraf.dblib.controllers.ApplicationController;
+import dk.aau.cs.giraf.dblib.controllers.ProfileApplicationController;
+import dk.aau.cs.giraf.dblib.controllers.ProfileController;
+import dk.aau.cs.giraf.dblib.models.Application;
+import dk.aau.cs.giraf.dblib.models.Profile;
+import dk.aau.cs.giraf.dblib.models.ProfileApplication;
+import dk.aau.cs.giraf.dblib.models.Setting;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class DatabaseHelper {
     public static final String GUARDIAN_ID = "currentGuardianID";
 
     Context context;
-    int child_id;
+    long child_id;
 
     Application application;
     ProfileApplication profileApplication;
@@ -41,7 +41,7 @@ public class DatabaseHelper {
         profileController = new ProfileController(context);
     }
 
-    public void Initialize(int child_id) {
+    public void Initialize(long child_id) {
         this.child_id = child_id;
         profileApplication = LoadProfileApplication(child_id);
     }
@@ -75,20 +75,20 @@ public class DatabaseHelper {
         return new GameSettings(color, speed, min, max, map, gameMode);
     }
 
-    public int GetDefaultChild() {
+    public long GetDefaultChild() {
         return profileController.getChildren().get(0).getId();
     }
 
-    public int GetChildDefaultGuardian() {
+    public long GetChildDefaultGuardian() {
         return profileController.getGuardians().get(0).getId();
     }
 
-    public Profile GetProfileById(int id) {
+    public Profile GetProfileById(long id) {
         return profileController.getProfileById(id);
     }
 
     public GameSettings GetGameSettings() {
-        Setting<String, String, String> setting = profileApplication.getSettings();
+        Setting<String, String, String> setting = profileApplication.getSettin  gs();
         return ParseSettings(setting);
     }
 
@@ -118,7 +118,7 @@ public class DatabaseHelper {
 
     }
 
-    private ProfileApplication LoadProfileApplication(int id) {
+    private ProfileApplication LoadProfileApplication(long id) {
         Profile profile = profileController.getProfileById(id);
 
         ProfileApplication profileApplication = profileApplicationController.getProfileApplicationByProfileIdAndApplicationId(application, profile);

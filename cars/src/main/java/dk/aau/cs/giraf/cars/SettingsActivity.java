@@ -17,7 +17,7 @@ import dk.aau.cs.giraf.gui.GComponent;
 
 public class SettingsActivity extends Activity {
     GameSettings gamesettings;
-    int current_id;
+    long current_id;
 
     ColorButton colorPickButton;
 
@@ -33,13 +33,13 @@ public class SettingsActivity extends Activity {
 
         Intent intent = getIntent();
 
-        int guardianId = 0;
+        long guardianId = 0;
         DatabaseHelper database = new DatabaseHelper(this);
 
         if(intent.hasExtra(DatabaseHelper.CHILD_ID))
             current_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, 0);
         if(current_id == -1)
-        current_id = intent.getIntExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian());
+        current_id = intent.getLongExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian());
 
         Log.d("childid","Childid ved Settings create: "+ current_id);
 

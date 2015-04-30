@@ -10,15 +10,15 @@ import android.view.View;
 import dk.aau.cs.giraf.cars.Game.CarGame;
 import dk.aau.cs.giraf.gui.GButtonProfileSelect;
 import dk.aau.cs.giraf.gui.GComponent;
-import dk.aau.cs.giraf.oasis.lib.Helper;
-import dk.aau.cs.giraf.oasis.lib.models.Profile;
+import dk.aau.cs.giraf.dblib.Helper;
+import dk.aau.cs.giraf.dblib.models.Profile;
 
 public class MainActivity extends Activity {
 
     private static final int SETTINGS_IDENTIFIER = 0;
     private static final int MAPEDITOR_IDENTIFIER = 1;
 
-    int currentId, guardianId;
+    long currentId, guardianId;
     GButtonProfileSelect gButtonProfileSelect;
 
     @Override
@@ -39,9 +39,9 @@ public class MainActivity extends Activity {
             guardianId = h.profilesHelper.getGuardians().get(0).getId();
         }
         else {
-            currentId = intent.getIntExtra(DatabaseHelper.CHILD_ID, database.GetDefaultChild());
-            Log.d("id", Integer.toString(currentId));
-            guardianId = intent.getIntExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian());
+            currentId = intent.getLongExtra(DatabaseHelper.CHILD_ID, database.GetDefaultChild());
+            Log.d("id", Long.toString(currentId));
+            guardianId = intent.getLongExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian());
         }
 
         Profile curGuardian = database.GetProfileById(guardianId);
