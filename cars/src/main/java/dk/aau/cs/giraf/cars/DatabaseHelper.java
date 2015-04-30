@@ -88,7 +88,7 @@ public class DatabaseHelper {
     }
 
     public GameSettings GetGameSettings() {
-        Setting<String, String, String> setting = profileApplication.getSettin  gs();
+        Setting<String, String, String> setting = profileApplication.getSettings();
         return ParseSettings(setting);
     }
 
