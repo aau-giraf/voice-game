@@ -6,8 +6,8 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 import java.util.List;
 
-import dk.aau.cs.giraf.cars.Game.Controller.VolumeCarControl;
-import dk.aau.cs.giraf.cars.Game.GameScreens.OverlayButton;
+import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
+import dk.aau.cs.giraf.cars.game.GameScreens.OverlayButton;
 import dk.aau.cs.giraf.game_framework.*;
 
 import dk.aau.cs.giraf.gui.GComponent;

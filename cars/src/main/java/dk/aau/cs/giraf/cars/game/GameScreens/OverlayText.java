@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cars.Game.GameScreens;
+package dk.aau.cs.giraf.cars.game.GameScreens;
 
 import android.graphics.Color;
 import android.graphics.Paint;

@@ -2,7 +2,7 @@ package dk.aau.cs.giraf.cars.Settings;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-import dk.aau.cs.giraf.cars.Game.Car;
+import dk.aau.cs.giraf.cars.game.Car;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.cars.Interfaces.Drawable;

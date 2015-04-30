@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.RadioButton;
 
 import dk.aau.cs.giraf.cars.Settings.CalibrationFragment;
-import dk.aau.cs.giraf.cars.Game.GameMode;
+import dk.aau.cs.giraf.cars.game.GameMode;
 import dk.aau.cs.giraf.cars.Settings.GameSettings;
 import dk.aau.cs.giraf.cars.Settings.SpeedFragment;
 import dk.aau.cs.giraf.gui.GColorPicker;
@@ -17,7 +17,7 @@ import dk.aau.cs.giraf.gui.GComponent;
 
 public class SettingsActivity extends Activity {
     GameSettings gamesettings;
-    int current_id;
+    long current_id;
 
     ColorButton colorPickButton;
 
@@ -37,9 +37,9 @@ public class SettingsActivity extends Activity {
         DatabaseHelper database = new DatabaseHelper(this);
 
         if(intent.hasExtra(DatabaseHelper.CHILD_ID))
-            current_id = intent.getIntExtra(DatabaseHelper.CHILD_ID, 0);
+            current_id = intent.getLongExtra(DatabaseHelper.CHILD_ID, 0);
         if(current_id == -1)
-        current_id = intent.getIntExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian());
+        current_id = intent.getLongExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian());
 
         Log.d("childid","Childid ved Settings create: "+ current_id);
 

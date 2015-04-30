@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import dk.aau.cs.giraf.cars.CarsGames.CarsActivity;
-import dk.aau.cs.giraf.cars.Game.RoadItem;
+import dk.aau.cs.giraf.cars.game.RoadItem;
 import dk.aau.cs.giraf.cars.Settings.GameSettings;
 import dk.aau.cs.giraf.cars.Settings.SettingsScreen;
 import dk.aau.cs.giraf.game_framework.FastRenderView;
@@ -24,7 +24,7 @@ import dk.aau.cs.giraf.gui.GButtonTrash;
 
 public class MapEditor extends CarsActivity {
     private GameSettings gamesettings;
-    private int currentId;
+    private long currentId;
     private MapScreen mapScreen;
 
     @Override
@@ -34,7 +34,7 @@ public class MapEditor extends CarsActivity {
         Intent intent = getIntent();
 
         if (intent.hasExtra(DatabaseHelper.CHILD_ID))
-            currentId = intent.getIntExtra(DatabaseHelper.CHILD_ID, 0);
+            currentId = intent.getLongExtra(DatabaseHelper.CHILD_ID, 0);
         else throw new IllegalArgumentException("no child id");
 
         DatabaseHelper database = new DatabaseHelper(this);

@@ -2,8 +2,8 @@ package dk.aau.cs.giraf.cars.Settings;
 
 import android.graphics.Color;
 import android.util.Log;
-import dk.aau.cs.giraf.cars.Game.GameMode;
-import dk.aau.cs.giraf.cars.Game.RoadItem;
+import dk.aau.cs.giraf.cars.game.GameMode;
+import dk.aau.cs.giraf.cars.game.RoadItem;
 
 import java.util.*;
 

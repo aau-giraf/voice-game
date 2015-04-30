@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cars.Game.Controller;
+package dk.aau.cs.giraf.cars.game.Controller;
 
 import android.media.MediaRecorder;
 

@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cars.Game;
+package dk.aau.cs.giraf.cars.game;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -9,16 +9,16 @@ import dk.aau.cs.giraf.cars.Assets;
 import dk.aau.cs.giraf.cars.Settings.GameSettings;
 import dk.aau.cs.giraf.game_framework.Screen;
 import dk.aau.cs.giraf.cars.CarsGames.CarsActivity;
-import dk.aau.cs.giraf.cars.Game.Controller.VolumeCarControl;
+import dk.aau.cs.giraf.cars.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.cars.Interfaces.CarControl;
-import dk.aau.cs.giraf.cars.Game.GameScreens.AvoidRunningScreen;
-import dk.aau.cs.giraf.cars.Game.GameScreens.CrashScreen;
-import dk.aau.cs.giraf.cars.Game.GameScreens.FailureScreen;
-import dk.aau.cs.giraf.cars.Game.GameScreens.PauseScreen;
-import dk.aau.cs.giraf.cars.Game.GameScreens.PickupRunningScreen;
-import dk.aau.cs.giraf.cars.Game.GameScreens.RunningScreen;
-import dk.aau.cs.giraf.cars.Game.GameScreens.StartScreen;
-import dk.aau.cs.giraf.cars.Game.GameScreens.WinningScreen;
+import dk.aau.cs.giraf.cars.game.GameScreens.AvoidRunningScreen;
+import dk.aau.cs.giraf.cars.game.GameScreens.CrashScreen;
+import dk.aau.cs.giraf.cars.game.GameScreens.FailureScreen;
+import dk.aau.cs.giraf.cars.game.GameScreens.PauseScreen;
+import dk.aau.cs.giraf.cars.game.GameScreens.PickupRunningScreen;
+import dk.aau.cs.giraf.cars.game.GameScreens.RunningScreen;
+import dk.aau.cs.giraf.cars.game.GameScreens.StartScreen;
+import dk.aau.cs.giraf.cars.game.GameScreens.WinningScreen;
 
 public class CarGame extends CarsActivity {
     private final int GRASS_HEIGHT = 70;
@@ -65,7 +65,7 @@ public class CarGame extends CarsActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Intent i = getIntent();
-        int child_id = i.getIntExtra(DatabaseHelper.CHILD_ID, 0);
+        long child_id = i.getLongExtra(DatabaseHelper.CHILD_ID, 0);
 
         DatabaseHelper database = new DatabaseHelper(this);
         database.Initialize(child_id);

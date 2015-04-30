@@ -1,4 +1,4 @@
-package dk.aau.cs.giraf.cars.Game.GameScreens;
+package dk.aau.cs.giraf.cars.game.GameScreens;
 
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -6,10 +6,10 @@ import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.cars.Assets;
-import dk.aau.cs.giraf.cars.Game.Car;
-import dk.aau.cs.giraf.cars.Game.CarGame;
-import dk.aau.cs.giraf.cars.Game.GameItemCollection;
-import dk.aau.cs.giraf.cars.Game.GameScreen;
+import dk.aau.cs.giraf.cars.game.Car;
+import dk.aau.cs.giraf.cars.game.CarGame;
+import dk.aau.cs.giraf.cars.game.GameItemCollection;
+import dk.aau.cs.giraf.cars.game.GameScreen;
 
 public class StartScreen extends GameScreen {
     private final int COUNTDOWN_IN_SECONDS = 3;

@@ -3,15 +3,15 @@ package dk.aau.cs.giraf.cars;
 import android.content.Context;
 import android.util.Log;
 
-import dk.aau.cs.giraf.cars.Game.GameMode;
+import dk.aau.cs.giraf.cars.game.GameMode;
 import dk.aau.cs.giraf.cars.Settings.GameSettings;
-import dk.aau.cs.giraf.oasis.lib.controllers.ApplicationController;
-import dk.aau.cs.giraf.oasis.lib.controllers.ProfileApplicationController;
-import dk.aau.cs.giraf.oasis.lib.controllers.ProfileController;
-import dk.aau.cs.giraf.oasis.lib.models.Application;
-import dk.aau.cs.giraf.oasis.lib.models.Profile;
-import dk.aau.cs.giraf.oasis.lib.models.ProfileApplication;
-import dk.aau.cs.giraf.oasis.lib.models.Setting;
+import dk.aau.cs.giraf.dblib.controllers.ApplicationController;
+import dk.aau.cs.giraf.dblib.controllers.ProfileApplicationController;
+import dk.aau.cs.giraf.dblib.controllers.ProfileController;
+import dk.aau.cs.giraf.dblib.models.Application;
+import dk.aau.cs.giraf.dblib.models.Profile;
+import dk.aau.cs.giraf.dblib.models.ProfileApplication;
+import dk.aau.cs.giraf.dblib.models.Settings;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class DatabaseHelper {
     public static final String GUARDIAN_ID = "currentGuardianID";
 
     Context context;
-    int child_id;
+    long child_id;
 
     Application application;
     ProfileApplication profileApplication;
@@ -41,84 +41,91 @@ public class DatabaseHelper {
         profileController = new ProfileController(context);
     }
 
-    public void Initialize(int child_id) {
+    public void Initialize(long child_id) {
         this.child_id = child_id;
         profileApplication = LoadProfileApplication(child_id);
     }
 
-    private GameSettings ParseSettings(Setting<String, String, String> settings) {
+    private GameSettings ParseSettings(Settings settings) {
 
         Log.d("database","parse");
-        if (settings.isEmpty()) {
+
+        //Hack to check if settings is empty, there is no method for this.
+        if(settings.toJSON().equals("{}")){
             Log.d("database", "opret ny gamesettings");
             return new GameSettings();
         }
 
-        int color = Integer.parseInt(settings.get("color").get("default"));
+        int color = Integer.parseInt(settings.getSetting(this.context, "color"));
+        float speed = Float.parseFloat(settings.getSetting(this.context, "speed"));
+        float min = Float.parseFloat(settings.getSetting(this.context, "minvolume"));
+        float max = Float.parseFloat(settings.getSetting(this.context, "maxvolume"));
 
-        float speed = Float.parseFloat(settings.get("speed").get("default"));
-
-        float min = Float.parseFloat(settings.get("calibration").get("min"));
-        float max = Float.parseFloat(settings.get("calibration").get("max"));
-
-        HashMap<String,String> mapsettings = settings.get("map");
-        Log.d("database","w " + Boolean.toString(mapsettings==null));
+        String mapSettings = settings.getSetting(this.context, "map");
 
         HashMap<String, Float> map = new HashMap<String, Float>();
-        if(mapsettings!= null) {
-            for (Map.Entry<String, String> entry : mapsettings.entrySet())
-                map.put(entry.getKey(), Float.valueOf(entry.getValue()));
+        if(mapSettings.length() > 0){
+        String[] keyValuePair = mapSettings.split(";");
+            for (String e: keyValuePair){
+                String[] keyAndValue = e.split(":");
+                map.put(keyAndValue[0],Float.valueOf(keyAndValue[1]));
+            }
         }
 
-        GameMode gameMode = GameMode.valueOf(settings.get("game_mode").get("default"));
+        GameMode gameMode = GameMode.valueOf(settings.getSetting(this.context, "game_mode"));
 
         return new GameSettings(color, speed, min, max, map, gameMode);
     }
 
-    public int GetDefaultChild() {
+    public long GetDefaultChild() {
         return profileController.getChildren().get(0).getId();
     }
 
-    public int GetChildDefaultGuardian() {
+    public long GetChildDefaultGuardian() {
         return profileController.getGuardians().get(0).getId();
     }
 
-    public Profile GetProfileById(int id) {
+    public Profile GetProfileById(long id) {
         return profileController.getProfileById(id);
     }
 
     public GameSettings GetGameSettings() {
-        Setting<String, String, String> setting = profileApplication.getSettings();
+        Settings setting;
+        Profile childProfile = profileController.getProfileById(this.child_id);
+        if(childProfile == null){
+            setting = new Settings();
+        } else {
+            setting = childProfile.getNewSettings();
+        }
         return ParseSettings(setting);
     }
 
     public void SaveSettings(GameSettings gs) {
-        Setting<String, String, String> s = new Setting<String, String, String>();
-        s.addValue("speed", "default", Float.toString(gs.GetSpeed()));
-        s.addValue("color", "default", Integer.toString(gs.GetColor()));
-        s.addValue("calibration", "min", Float.toString(gs.GetMinVolume()));
-        s.addValue("calibration", "max", Float.toString(gs.GetMaxVolume()));
-        s.addValue("game_mode", "default", gs.GetGameMode().name());
 
-        Log.d("database","jeg gemmer map der er " + gs.GetMap().size());
-        SaveMapToSettings(gs.GetMap(),s);
+        Settings s = new Settings();
+        SaveMapToSettings(gs.GetMap() , s);
+        s.createSetting(this.context, "speed", Float.toString(gs.GetSpeed()));
+        s.createSetting(this.context, "color", Integer.toString(gs.GetColor()));
+        s.createSetting(this.context, "minvolume", Float.toString(gs.GetMinVolume()));
+        s.createSetting(this.context, "maxvolume", Float.toString(gs.GetMaxVolume()));
+        s.createSetting(this.context, "game_mode", gs.GetGameMode().name());
 
-        profileApplication.setSettings(s);
+        Profile childProfile = profileController.getProfileById(this.child_id);
+        childProfile.setNewSettings(s);
+        profileController.modify(childProfile);
 
-        profileApplicationController.modifyProfileApplication(profileApplication);
     }
 
-    private void SaveMapToSettings(HashMap<String,Float> map, Setting<String,String,String> s)
+    private void SaveMapToSettings(HashMap<String,Float> map, Settings s)
     {
-
+        String stringMap = "";
         for (Map.Entry<String,Float> e: map.entrySet())
-            s.addValue("map",e.getKey(),Float.toString(e.getValue()));
-        if(s.get("map")!=null)
-        Log.d("database","mapsize ved save " + Integer.toString(s.get("map").size()));
+                stringMap += e.getKey() + ":" + Float.toString(e.getValue()) + ";";
+        s.createSetting(this.context, "map", stringMap);
 
     }
 
-    private ProfileApplication LoadProfileApplication(int id) {
+    private ProfileApplication LoadProfileApplication(long id) {
         Profile profile = profileController.getProfileById(id);
 
         ProfileApplication profileApplication = profileApplicationController.getProfileApplicationByProfileIdAndApplicationId(application, profile);

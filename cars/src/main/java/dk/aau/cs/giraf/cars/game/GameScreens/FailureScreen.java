@@ -1,13 +1,13 @@
-package dk.aau.cs.giraf.cars.Game.GameScreens;
+package dk.aau.cs.giraf.cars.game.GameScreens;
 
 import dk.aau.cs.giraf.cars.R;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.cars.Assets;
-import dk.aau.cs.giraf.cars.Game.Car;
-import dk.aau.cs.giraf.cars.Game.CarGame;
-import dk.aau.cs.giraf.cars.Game.GameItemCollection;
-import dk.aau.cs.giraf.cars.Game.GameScreen;
+import dk.aau.cs.giraf.cars.game.Car;
+import dk.aau.cs.giraf.cars.game.CarGame;
+import dk.aau.cs.giraf.cars.game.GameItemCollection;
+import dk.aau.cs.giraf.cars.game.GameScreen;
 
 public class FailureScreen extends GameScreen {
     private OverlayButton continueButton;

@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Game.CarGame"
+            android:name=".game.CarGame"
             android:screenOrientation="landscape"
             android:label="@string/title_activity_cargame">
         </activity>
