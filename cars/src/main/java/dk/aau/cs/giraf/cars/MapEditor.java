@@ -1,8 +1,10 @@
 package dk.aau.cs.giraf.cars;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import dk.aau.cs.giraf.cars.CarsGames.CarsActivity;
+import dk.aau.cs.giraf.cars.Interfaces.Drawable;
 import dk.aau.cs.giraf.cars.game.RoadItem;
 import dk.aau.cs.giraf.cars.Settings.GameSettings;
 import dk.aau.cs.giraf.cars.Settings.SettingsScreen;
@@ -20,7 +23,7 @@ import dk.aau.cs.giraf.game_framework.Game;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.game_framework.Screen;
-import dk.aau.cs.giraf.gui.GButtonTrash;
+import dk.aau.cs.giraf.gui.GirafButton;
 
 public class MapEditor extends CarsActivity {
     private GameSettings gamesettings;
@@ -54,7 +57,8 @@ public class MapEditor extends CarsActivity {
         FrameLayout frameLayout = new FrameLayout(this);
         LinearLayout linearLayout = new LinearLayout(this);
 
-        GButtonTrash trashButton = new GButtonTrash(this);
+        android.graphics.drawable.Drawable trashCan = this.getResources().getDrawable(R.drawable.trashcan);
+        GirafButton trashButton = new GirafButton(this, trashCan);
         trashButton.setY(5);
         trashButton.setX(5);
         trashButton.setOnClickListener(new View.OnClickListener() {
