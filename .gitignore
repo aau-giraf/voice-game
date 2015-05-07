@@ -5,3 +5,4 @@
 .DS_Store
 *.iml
 model_data.bin
+build
