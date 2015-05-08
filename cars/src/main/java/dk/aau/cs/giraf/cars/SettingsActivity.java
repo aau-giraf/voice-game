@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
 
+import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.cars.Settings.CalibrationFragment;
 import dk.aau.cs.giraf.cars.game.GameMode;
 import dk.aau.cs.giraf.cars.Settings.GameSettings;
@@ -15,7 +16,7 @@ import dk.aau.cs.giraf.cars.Settings.SpeedFragment;
 import dk.aau.cs.giraf.gui.GColorPicker;
 import dk.aau.cs.giraf.gui.GComponent;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends GirafActivity {
     GameSettings gamesettings;
     long current_id;
 
