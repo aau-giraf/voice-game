@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="dk.aau.cs.giraf.cars"
+          package="dk.aau.cs.giraf.voicegame"
           android:versionCode="1"
           android:versionName="0.1">
 
@@ -47,7 +47,7 @@
             android:label="@string/title_activity_settings"
             android:screenOrientation="landscape">
             <intent-filter>
-                <action android:name="dk.aau.cs.giraf.cars.SETTINGSACTIVITY"/>
+                <action android:name="dk.aau.cs.giraf.voicegame.SETTINGSACTIVITY"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
