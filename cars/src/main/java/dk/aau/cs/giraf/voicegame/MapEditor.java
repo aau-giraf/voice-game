@@ -215,16 +215,11 @@ public class MapEditor extends CarsActivity {
             map.put("count", (float) index + 1);
         }
 
-        // TODO this id can be removed.
-        int currentRoadItemID = 0;
-
         // Gets called when an object is added in the map editor screen
         private RoadItem Add(float x, float y) {
             int index = roadItems.size();
 
-            // TODO remove current currentRoadItemID on the next two lines
-            RoadItem roadItem = new RoadItem(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE, gamesettings.GetGameMode(), currentRoadItemID);
-            currentRoadItemID++;
+            RoadItem roadItem = new RoadItem(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE, gamesettings.GetGameMode());
             roadItems.add(roadItem);
             AddObstacle(map, x, y, index);
             gamesettings.SetMap(map);

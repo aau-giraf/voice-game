@@ -13,25 +13,20 @@ public class RoadItem extends GameItem {
     private int value; // the number
     private GameMode gameMode;
 
-    //TODO test code, can be removed
-    private int id;
 
-    public RoadItem(float x, float y, float width, float height, int id) {
+    public RoadItem(float x, float y, float width, float height) {
         super(x, y, width, height);
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setTextSize(46);
         paint.setTextAlign(Paint.Align.CENTER);
 
-        // The magic value below is the height of the game 800 minus the total height of the grass 2x70
-        // TODO hard coded value for the screen size! This needs to be changed.
-        setBarometerNumber();
 
-        this.id = id;
+        setBarometerNumber();
     }
 
-    public RoadItem(float x, float y, float width, float height, GameMode gameMode, int id) {
-        this(x,y,width,height, id);
+    public RoadItem(float x, float y, float width, float height, GameMode gameMode) {
+        this(x,y,width,height);
         this.gameMode = gameMode;
     }
 
@@ -58,12 +53,13 @@ public class RoadItem extends GameItem {
 
     @Override
     public void Update(Input.TouchEvent[] touchEvents, float deltaTime) {
-        // TODO this can be removed
-        System.out.print("RoadItem id: " + id);
+
     }
 
     // Method that can be called to update the number written on the obstacle
     public void setBarometerNumber() {
+        // The magic value below is the height of the game 800 minus the total height of the grass 2x70
+        // TODO hard coded value for the screen size! This needs to be changed.
         value = getBarometerNumber(GetBounds().centerY() - 100, 600);
     }
 }

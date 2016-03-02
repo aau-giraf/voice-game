@@ -1,7 +1,7 @@
 package dk.aau.cs.giraf.voicegame.game.GameScreens;
 
 import android.graphics.Rect;
-
+import android.util.Log;
 import dk.aau.cs.giraf.voicegame.Assets;
 import dk.aau.cs.giraf.voicegame.game.Car;
 import dk.aau.cs.giraf.voicegame.game.CarGame;
@@ -24,6 +24,7 @@ public abstract class RunningScreen extends GameScreen {
         this.carSpeed = carSpeed;
     }
 
+    // Method that is called when the game is running
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);

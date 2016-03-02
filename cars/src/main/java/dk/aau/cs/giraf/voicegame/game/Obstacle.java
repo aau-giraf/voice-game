@@ -7,8 +7,7 @@ import dk.aau.cs.giraf.game_framework.Input;
 public class Obstacle extends RoadItem {
 
     public Obstacle(float x, float y, float width, float height) {
-        // TODO remove -2
-        super(x, y, width, height, -2);
+        super(x, y, width, height);
     }
 
     @Override

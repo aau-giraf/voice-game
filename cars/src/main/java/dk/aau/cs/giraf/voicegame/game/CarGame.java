@@ -72,6 +72,8 @@ public class CarGame extends CarsActivity {
 
         gamesettings = database.GetGameSettings();
 
+
+
         super.onCreate(savedInstanceState);
 
 
