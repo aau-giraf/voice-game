@@ -61,6 +61,10 @@ public abstract class SettingsScreen extends Screen {
         return car.height;
     }
 
+    // Method for getting the dimensions of the screen
+    public int getScreenWidth() { return gameWidth; }
+    public int getScreenHeight() { return gameHeight; }
+
     public void setCarColor(int color) { car.setColor(color); }
 
     @Override

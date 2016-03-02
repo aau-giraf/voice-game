@@ -32,6 +32,7 @@ public abstract class RunningScreen extends GameScreen {
         moveTo = Math.max(0, Math.min(1, moveTo));
         moveCarTo(moveTo);
 
+        // listening for touch on the pause button
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN && e.inBounds(pauseButtonRec))
                 showPauseScreen();

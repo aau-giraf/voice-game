@@ -77,7 +77,8 @@ public class GameSettings {
         for (int i = 0; i < count; i++) {
             float x = map.get("x" + i);
             float y = map.get("y" + i);
-            roadItems.add(new RoadItem(x, y, OBSTACLE_SIZE, OBSTACLE_SIZE, gameMode));
+            // TODO remove the -1 later
+            roadItems.add(new RoadItem(x, y, OBSTACLE_SIZE, OBSTACLE_SIZE, gameMode, -1));
         }
         return roadItems;
     }

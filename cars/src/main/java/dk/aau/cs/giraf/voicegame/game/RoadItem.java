@@ -7,13 +7,16 @@ import dk.aau.cs.giraf.voicegame.Assets;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Image;
 import dk.aau.cs.giraf.game_framework.Input;
-
+// inheritence order: GameObject -> GameItem -> RoadItem -> Obstacle
 public class RoadItem extends GameItem {
     private Paint paint;
-    private int value;
+    private int value; // the number
     private GameMode gameMode;
 
-    public RoadItem(float x, float y, float width, float height) {
+    //TODO test code, can be removed
+    private int id;
+
+    public RoadItem(float x, float y, float width, float height, int id) {
         super(x, y, width, height);
         paint = new Paint();
         paint.setAntiAlias(true);
@@ -21,11 +24,14 @@ public class RoadItem extends GameItem {
         paint.setTextAlign(Paint.Align.CENTER);
 
         // The magic value below is the height of the game 800 minus the total height of the grass 2x70
-        value = getBarometerNumber(GetBounds().centerY() - 100, 600);
+        // TODO hard coded value for the screen size! This needs to be changed.
+        setBarometerNumber();
+
+        this.id = id;
     }
 
-    public RoadItem(float x, float y, float width, float height, GameMode gameMode) {
-        this(x,y,width,height);
+    public RoadItem(float x, float y, float width, float height, GameMode gameMode, int id) {
+        this(x,y,width,height, id);
         this.gameMode = gameMode;
     }
 
@@ -52,6 +58,13 @@ public class RoadItem extends GameItem {
 
     @Override
     public void Update(Input.TouchEvent[] touchEvents, float deltaTime) {
+        // TODO this can be removed
+        System.out.print("RoadItem id: " + id);
+    }
+
+    // Method that can be called to update the number written on the obstacle
+    public void setBarometerNumber() {
+        value = getBarometerNumber(GetBounds().centerY() - 100, 600);
     }
 }
 

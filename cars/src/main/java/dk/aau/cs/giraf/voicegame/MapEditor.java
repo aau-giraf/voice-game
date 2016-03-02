@@ -28,6 +28,7 @@ import dk.aau.cs.giraf.gui.GirafButton;
 public class MapEditor extends CarsActivity {
     private GameSettings gamesettings;
     private long currentId;
+    // Holder of screen settings
     private MapScreen mapScreen;
 
     @Override
@@ -44,10 +45,12 @@ public class MapEditor extends CarsActivity {
         database.Initialize(currentId);
 
         gamesettings = database.GetGameSettings();
+
     }
 
     @Override
     public Screen getFirstScreen() {
+
         mapScreen = new MapScreen(this);
         return mapScreen;
     }
@@ -57,6 +60,7 @@ public class MapEditor extends CarsActivity {
         FrameLayout frameLayout = new FrameLayout(this);
         LinearLayout linearLayout = new LinearLayout(this);
 
+        // adding trash button
         android.graphics.drawable.Drawable trashCan = this.getResources().getDrawable(R.drawable.trashcan);
         GirafButton trashButton = new GirafButton(this, trashCan);
         trashButton.setY(5);
@@ -69,6 +73,25 @@ public class MapEditor extends CarsActivity {
         });
 
         linearLayout.addView(trashButton);
+
+        // adding save button
+        android.graphics.drawable.Drawable saveIcon = this.getResources().getDrawable(R.drawable.icon_save);
+        GirafButton saveButton = new GirafButton(this, saveIcon);
+        saveButton.setY(5);
+
+        // width is 1280px
+        // It is not possible to get the dimensions of the icon, so we're subtracting a percentage of the screens width, in order to accommodate scaling.
+        saveButton.setX(this.getWidth() - ((this.getHeight() / 100) * 17 ));
+
+        // currently does the same as the trash button
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mapScreen.Clear();
+            }
+        });
+        
+        linearLayout.addView(saveButton);
 
         frameLayout.addView(renderview);
         frameLayout.addView(linearLayout);
@@ -192,15 +215,29 @@ public class MapEditor extends CarsActivity {
             map.put("count", (float) index + 1);
         }
 
+        // TODO this id can be removed.
+        int currentRoadItemID = 0;
+
+        // Gets called when an object is added in the map editor screen
         private RoadItem Add(float x, float y) {
             int index = roadItems.size();
-            RoadItem roadItem = new RoadItem(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE, gamesettings.GetGameMode());
+
+            // TODO remove current currentRoadItemID on the next two lines
+            RoadItem roadItem = new RoadItem(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE, gamesettings.GetGameMode(), currentRoadItemID);
+            currentRoadItemID++;
             roadItems.add(roadItem);
             AddObstacle(map, x, y, index);
             gamesettings.SetMap(map);
+
+            // TODO remove this
+            System.out.println("MapEditor - Add method");
+
             return roadItem;
+
+
         }
 
+        // Gets called when an object is removed in the map editor screen
         private void Remove(RoadItem roadItem) {
             int index = roadItems.indexOf(roadItem);
             int size = roadItems.size();
@@ -219,14 +256,22 @@ public class MapEditor extends CarsActivity {
             roadItems.remove(roadItem);
 
             gamesettings.SetMap(map);
+            // TODO remove this
+            System.out.println("MapEditor - Remove method");
         }
 
+        // Gets called when an objects position is updated in the map editor screen
         private void updateItem(RoadItem roadItem, float x, float y) {
             int index = roadItems.indexOf(roadItem);
             map.put("x" + index, x);
             map.put("y" + index, y);
             roadItem.x = x;
             roadItem.y = y;
+
+            // updates the barometer number of the star (The number indicating how high the sound volume must be in order for the car to reach the star)
+            roadItem.setBarometerNumber();
+            // TODO remove this
+            System.out.println("MapEditor - Update method");
         }
 
         @Override

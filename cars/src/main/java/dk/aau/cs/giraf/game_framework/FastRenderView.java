@@ -61,6 +61,7 @@ public class FastRenderView extends SurfaceView implements Runnable {
 
     }
 
+    // the game loop, contains an update and a draw method call
     public void run() {
         Rect dstRect = new Rect();
         long startTime = System.nanoTime();
@@ -83,6 +84,8 @@ public class FastRenderView extends SurfaceView implements Runnable {
             events.toArray(array);
 
             if (graphics != null && graphics.frameBuffer != null) {
+
+                // update and paint methods here.
                 game.getCurrentScreen().update(array, deltaTime);
                 game.getCurrentScreen().paint(graphics, deltaTime);
 
