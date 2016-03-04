@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.voicegame;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -10,6 +11,12 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -87,7 +94,34 @@ public class MapEditor extends CarsActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mapScreen.Clear();
+                Track trackToSave = new Track(1, "Idas Bane", mapScreen.roadItems);
+                String fileName = "/sdcard/TracksFile";
+                try{
+                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
+                    oos.writeObject(trackToSave);
+                    oos.close();
+                } catch (FileNotFoundException e){
+                    System.out.println("File not found - output");
+                    e.printStackTrace();
+                } catch (IOException e){
+                    System.out.println("IO exception happend while writing");
+                    e.printStackTrace();
+                }
+
+                try{
+                    ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName));
+                    Track trackFromFile = (Track) ois.readObject();
+                    System.out.println("Read Name = " + trackFromFile.getName());
+                }catch (FileNotFoundException e){
+                    System.out.println("File not found - input");
+                    e.printStackTrace();
+                } catch (IOException e){
+                    System.out.println("IO exception happend while reading");
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e){
+                    System.out.println("Wrong cast");
+                    e.printStackTrace();
+                }
             }
         });
         

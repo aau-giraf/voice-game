@@ -3,13 +3,21 @@ package dk.aau.cs.giraf.voicegame.game;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import java.io.Serializable;
+
 import dk.aau.cs.giraf.voicegame.Assets;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Image;
 import dk.aau.cs.giraf.game_framework.Input;
 // inheritence order: GameObject -> GameItem -> RoadItem -> Obstacle
-public class RoadItem extends GameItem {
-    private Paint paint;
+
+
+
+public class RoadItem extends GameItem implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private transient Paint paint;
     private int value; // the number
     private GameMode gameMode;
 
