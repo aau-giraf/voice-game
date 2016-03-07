@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
-
+import com.google.analytics.tracking.android.EasyTracker;
 import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.voicegame.game.CarGame;
 import dk.aau.cs.giraf.gui.GComponent;
@@ -81,6 +81,19 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
             }
         });
         loadWidgets();
+    }
+
+    //Google analytics - start logging
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);  // Start logging
+    }
+    //Google analytics - Stop logging
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);  // stop logging
     }
 
     public void startGame(View view) {
