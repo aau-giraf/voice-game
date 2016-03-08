@@ -43,6 +43,8 @@ public class VolumeCarControl implements CarControl {
         float volume = this.getAmplitude();
         //Volume is bound by min and max amplitude
         volume = Math.max(Math.min(volume, maxAmplitude), minAmplitude);
+
+        // TODO implement an if statement, that make the car move up when there is silence.
         return (volume - minAmplitude) / (maxAmplitude - minAmplitude);
     }
 
