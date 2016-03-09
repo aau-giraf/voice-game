@@ -22,7 +22,6 @@ public class SettingsActivity extends GirafActivity {
 
     ColorButton colorPickButton;
 
-
     SpeedFragment speed;
     CalibrationFragment calibration;
 
@@ -65,15 +64,15 @@ public class SettingsActivity extends GirafActivity {
 
     public void ColorPickClick(View view) {
         final ColorButton button = (ColorButton)view;
-        GColorPicker diag = new GColorPicker(view.getContext(), new GColorPicker.OnOkListener() {
+        GColorPicker colorPicker = new GColorPicker(view.getContext(), new GColorPicker.OnOkListener() {
             @Override
             public void OnOkClick(GColorPicker diag, int color) {
                 button.SetColor(color);
                 speed.setCarColor(color);
             }
         });
-        diag.SetCurrColor(button.GetColor());
-        diag.show();
+        colorPicker.SetCurrColor(button.GetColor());
+        colorPicker.show();
     }
 
     @Override
