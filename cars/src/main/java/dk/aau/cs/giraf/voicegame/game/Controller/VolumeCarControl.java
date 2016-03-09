@@ -5,10 +5,17 @@ import android.media.MediaRecorder;
 import java.io.IOException;
 
 import dk.aau.cs.giraf.game_framework.Input;
+import dk.aau.cs.giraf.voicegame.DatabaseHelper;
 import dk.aau.cs.giraf.voicegame.Interfaces.CarControl;
+import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 
 public class VolumeCarControl implements CarControl {
     private MediaRecorder mediaRecorder;
+    private DatabaseHelper database;
+
+    public VolumeCarControl() {
+
+    }
 
     public void setMinAmplitude(float minAmplitude) {
         this.minAmplitude = minAmplitude;
@@ -39,13 +46,22 @@ public class VolumeCarControl implements CarControl {
     }
 
     @Override
-    public float getMove(Input.TouchEvent[] touchEvents) {
+    public float getMove(Input.TouchEvent[] touchEvents, GameSettings.MoveState moveState) {
         float volume = this.getAmplitude();
         //Volume is bound by min and max amplitude
         volume = Math.max(Math.min(volume, maxAmplitude), minAmplitude);
 
-        // TODO implement an if statement, that make the car move up when there is silence.
-        return (volume - minAmplitude) / (maxAmplitude - minAmplitude);
+        // calculate move on wether the car reacts to noise or silence.
+        float move;
+
+        if(moveState == GameSettings.MoveState.noise.silence) {
+            move = ( maxAmplitude - volume) / (maxAmplitude - minAmplitude);
+        } else {
+            move = (volume - minAmplitude) / (maxAmplitude - minAmplitude);
+        }
+
+        return move;
+
     }
 
     public float getAmplitude() {

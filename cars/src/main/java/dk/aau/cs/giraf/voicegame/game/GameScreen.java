@@ -12,6 +12,7 @@ import dk.aau.cs.giraf.game_framework.Screen;
 import dk.aau.cs.giraf.voicegame.Interfaces.Drawable;
 import dk.aau.cs.giraf.voicegame.Interfaces.GameObject;
 import dk.aau.cs.giraf.voicegame.Interfaces.Updatable;
+import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 
 public abstract class GameScreen extends Screen {
     private final int grassSize = 70;
@@ -25,6 +26,8 @@ public abstract class GameScreen extends Screen {
 
     private ArrayList<Drawable> drawables;
     private ArrayList<Updatable> updatables;
+
+
 
     public GameScreen(CarGame carGame, Car car, GameItemCollection roadItems) {
         super(carGame);

@@ -52,11 +52,11 @@ public class CarGame extends CarsActivity {
         pauseScreen = new PauseScreen(this, car, roadItems, GRASS_HEIGHT);
         winningScreen = new WinningScreen(this, car, roadItems);
         if (gameMode == GameMode.pickup){
-            runningScreen = new PickupRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed());
+            runningScreen = new PickupRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed(), gamesettings.getMoveState());
             failureScreen = new FailureScreen(this, car, roadItems);
         }
         if (gameMode == GameMode.avoid){
-            runningScreen = new AvoidRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed());
+            runningScreen = new AvoidRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed(), gamesettings.getMoveState());
             crashScreen = new CrashScreen(this, car, roadItems);
         }
         return startScreen;

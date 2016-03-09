@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.voicegame.game.Controller;
 
 import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.voicegame.Interfaces.CarControl;
+import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 
 
 public class TouchCarControl implements CarControl {
@@ -15,7 +16,7 @@ public class TouchCarControl implements CarControl {
         lastMove = 0;
     }
 
-    public float getMove(Input.TouchEvent[] touchEvents) {
+    public float getMove(Input.TouchEvent[] touchEvents, GameSettings.MoveState moveState) {
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN || e.type == Input.TouchEvent.TOUCH_DRAGGED)
                 lastMove = 1f - ((e.y - offset) / height);
