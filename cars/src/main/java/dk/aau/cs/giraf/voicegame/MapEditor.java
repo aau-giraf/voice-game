@@ -224,9 +224,6 @@ public class MapEditor extends CarsActivity {
             AddObstacle(map, x, y, index);
             gamesettings.SetMap(map);
 
-            // TODO remove this
-            System.out.println("MapEditor - Add method");
-
             return roadItem;
 
 

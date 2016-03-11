@@ -10,7 +10,7 @@ import dk.aau.cs.giraf.game_framework.Input;
 // inheritence order: GameObject -> GameItem -> RoadItem -> Obstacle
 public class RoadItem extends GameItem {
     private Paint paint;
-    private int value; // the number
+    private int value; // the number on the obstacle
     private GameMode gameMode;
 
 

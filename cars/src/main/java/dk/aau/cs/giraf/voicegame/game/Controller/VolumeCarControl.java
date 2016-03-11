@@ -11,11 +11,6 @@ import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 
 public class VolumeCarControl implements CarControl {
     private MediaRecorder mediaRecorder;
-    private DatabaseHelper database;
-
-    public VolumeCarControl() {
-
-    }
 
     public void setMinAmplitude(float minAmplitude) {
         this.minAmplitude = minAmplitude;
