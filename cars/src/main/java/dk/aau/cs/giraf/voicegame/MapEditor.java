@@ -248,8 +248,6 @@ public class MapEditor extends CarsActivity {
             roadItems.remove(roadItem);
 
             gamesettings.SetMap(map);
-            // TODO remove this
-            System.out.println("MapEditor - Remove method");
         }
 
         // Gets called when an objects position is updated in the map editor screen
@@ -262,8 +260,6 @@ public class MapEditor extends CarsActivity {
 
             // updates the barometer number of the star (The number indicating how high the sound volume must be in order for the car to reach the star)
             roadItem.setBarometerNumber();
-            // TODO remove this
-            System.out.println("MapEditor - Update method");
         }
 
         @Override
