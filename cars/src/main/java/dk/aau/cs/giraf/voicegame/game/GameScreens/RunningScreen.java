@@ -5,6 +5,7 @@ import android.util.Log;
 import dk.aau.cs.giraf.voicegame.Assets;
 import dk.aau.cs.giraf.voicegame.game.Car;
 import dk.aau.cs.giraf.voicegame.game.CarGame;
+import dk.aau.cs.giraf.voicegame.game.Enums.MoveState;
 import dk.aau.cs.giraf.voicegame.game.GameItemCollection;
 import dk.aau.cs.giraf.voicegame.game.GameScreen;
 import dk.aau.cs.giraf.game_framework.Graphics;
@@ -18,8 +19,10 @@ public abstract class RunningScreen extends GameScreen {
 
     private CarControl carControl;
     private float carSpeed;
+    // storing wether the car moves on noise or silence;
+    private MoveState moveState;
 
-    public RunningScreen(CarGame game, Car car, GameItemCollection obstacles, CarControl carControl, float carSpeed) {
+    public RunningScreen(CarGame game, Car car, GameItemCollection obstacles, CarControl carControl, float carSpeed, MoveState moveState) {
         super(game, car, obstacles);
         this.carControl = carControl;
         this.carSpeed = carSpeed;
@@ -27,6 +30,7 @@ public abstract class RunningScreen extends GameScreen {
         for (RoadItem roaditem: getTrack().getObstacleArray()) {
             roaditem.initPaint();
         }
+        this.moveState = moveState;
     }
 
     // Method that is called when the game is running
@@ -34,7 +38,7 @@ public abstract class RunningScreen extends GameScreen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
 
-        float moveTo = 1f - carControl.getMove(touchEvents);
+        float moveTo = 1f - carControl.getMove(touchEvents, moveState);
         moveTo = Math.max(0, Math.min(1, moveTo));
         moveCarTo(moveTo);
 

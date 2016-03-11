@@ -2,6 +2,10 @@ package dk.aau.cs.giraf.voicegame.Settings;
 
 import android.graphics.Color;
 import android.util.Log;
+
+import org.apache.commons.lang.enums.*;
+
+import dk.aau.cs.giraf.voicegame.game.Enums.MoveState;
 import dk.aau.cs.giraf.voicegame.game.GameMode;
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
 
@@ -20,6 +24,10 @@ public class GameSettings {
     private float maxVolume;
     private HashMap<String, Float> map;
     private GameMode gameMode;
+    // when set to silence, the car moves when the microphone is not picking up sound.
+    // TODO implement way to set this property in the settings menu
+    private MoveState moveState = MoveState.silence;
+
 
     public GameSettings() {
         this.color = DEFAULT_COLOR;
@@ -63,6 +71,8 @@ public class GameSettings {
         return map;
     }
 
+    public MoveState getMoveState() { return moveState; }
+
     public ArrayList<RoadItem> LoadObstacles() {
         ArrayList<RoadItem> roadItems = new ArrayList<RoadItem>();
 
@@ -77,7 +87,7 @@ public class GameSettings {
         for (int i = 0; i < count; i++) {
             float x = map.get("x" + i);
             float y = map.get("y" + i);
-            // TODO remove the -1 later
+
             roadItems.add(new RoadItem(x, y, OBSTACLE_SIZE, OBSTACLE_SIZE, gameMode));
         }
         return roadItems;

@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
-
+//import com.google.analytics.tracking.android.EasyTracker;
 import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.voicegame.Settings.CalibrationFragment;
 import dk.aau.cs.giraf.voicegame.game.GameMode;
@@ -21,7 +21,6 @@ public class SettingsActivity extends GirafActivity {
     long current_id;
 
     ColorButton colorPickButton;
-
 
     SpeedFragment speed;
     CalibrationFragment calibration;
@@ -62,18 +61,31 @@ public class SettingsActivity extends GirafActivity {
 
         initializeGameMode();
     }
-
+/*
+    //Google analytics - start logging
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);  // Start logging
+    }
+    //Google analytics - Stop logging
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);  // stop logging
+    }
+*/
     public void ColorPickClick(View view) {
         final ColorButton button = (ColorButton)view;
-        GColorPicker diag = new GColorPicker(view.getContext(), new GColorPicker.OnOkListener() {
+        GColorPicker colorPicker = new GColorPicker(view.getContext(), new GColorPicker.OnOkListener() {
             @Override
             public void OnOkClick(GColorPicker diag, int color) {
                 button.SetColor(color);
                 speed.setCarColor(color);
             }
         });
-        diag.SetCurrColor(button.GetColor());
-        diag.show();
+        colorPicker.SetCurrColor(button.GetColor());
+        colorPicker.show();
     }
 
     @Override
