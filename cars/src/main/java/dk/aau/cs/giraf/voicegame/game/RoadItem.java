@@ -15,26 +15,30 @@ import dk.aau.cs.giraf.game_framework.Input;
 
 public class RoadItem extends GameItem implements Serializable {
 
+    private class PaintSerializeable extends Paint implements Serializable {
+        public PaintSerializeable() {
+            super();
+        }
+    }
+
     private static final long serialVersionUID = 1L;
 
-    private transient Paint paint;
+    private PaintSerializeable paint;
     private int value; // the number
     private GameMode gameMode;
 
 
     public RoadItem(float x, float y, float width, float height) {
         super(x, y, width, height);
-        paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setTextSize(46);
-        paint.setTextAlign(Paint.Align.CENTER);
+        paint = new PaintSerializeable();
+        this.initPaint();
 
 
         setBarometerNumber();
     }
 
     public RoadItem(float x, float y, float width, float height, GameMode gameMode) {
-        this(x,y,width,height);
+        this(x, y, width, height);
         this.gameMode = gameMode;
     }
 
@@ -69,6 +73,12 @@ public class RoadItem extends GameItem implements Serializable {
         // The magic value below is the height of the game 800 minus the total height of the grass 2x70
         // TODO hard coded value for the screen size! This needs to be changed.
         value = getBarometerNumber(GetBounds().centerY() - 100, 600);
+    }
+
+    public void initPaint() {
+        paint.setAntiAlias(true);
+        paint.setTextSize(46);
+        paint.setTextAlign(Paint.Align.CENTER);
     }
 }
 

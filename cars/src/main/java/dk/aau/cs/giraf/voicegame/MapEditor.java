@@ -111,12 +111,13 @@ public class MapEditor extends CarsActivity {
                 try{
                     ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName));
                     Track trackFromFile = (Track) ois.readObject();
+                    mapScreen.setTrack(trackFromFile);
                     System.out.println("Read Name = " + trackFromFile.getName());
                 }catch (FileNotFoundException e){
                     System.out.println("File not found - input");
                     e.printStackTrace();
                 } catch (IOException e){
-                    System.out.println("IO exception happend while reading");
+                    System.out.println("IO exception happened while reading");
                     e.printStackTrace();
                 } catch (ClassNotFoundException e){
                     System.out.println("Wrong cast");

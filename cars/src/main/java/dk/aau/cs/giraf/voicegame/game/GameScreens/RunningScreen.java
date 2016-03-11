@@ -10,6 +10,7 @@ import dk.aau.cs.giraf.voicegame.game.GameScreen;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.voicegame.Interfaces.CarControl;
+import dk.aau.cs.giraf.voicegame.game.RoadItem;
 
 public abstract class RunningScreen extends GameScreen {
     private Rect pauseButtonRec = new Rect(20, 20, 100, 100);
@@ -22,6 +23,10 @@ public abstract class RunningScreen extends GameScreen {
         super(game, car, obstacles);
         this.carControl = carControl;
         this.carSpeed = carSpeed;
+        System.out.println("Running screen: track name: " + getTrack().getName());
+        for (RoadItem roaditem: getTrack().getObstacleArray()) {
+            roaditem.initPaint();
+        }
     }
 
     // Method that is called when the game is running
@@ -44,6 +49,9 @@ public abstract class RunningScreen extends GameScreen {
         super.paint(graphics, deltaTime);
 
         graphics.drawScaledImage(Assets.GetPauseButton(), pauseButtonRec, pauseButtonImageRec);
+
+        for (RoadItem roadItem : getTrack().getObstacleArray())
+            roadItem.Draw(graphics, deltaTime);
     }
 
     @Override

@@ -1,8 +1,12 @@
 package dk.aau.cs.giraf.game_framework;
 
+import dk.aau.cs.giraf.voicegame.Track;
+
 public abstract class Screen {
     protected final Game game;
-
+    //Used for saving track. Not ideal solution
+    //TODO: Find alternative solution
+    protected static Track track = null;
     public Screen(Game game) {
         this.game = game;
     }
@@ -22,5 +26,13 @@ public abstract class Screen {
     public void showScreen(){
     }
     public void hideScreen(){
+    }
+
+    public void setTrack(Track track){
+        this.track = track;
+    }
+
+    public static Track getTrack() {
+        return track;
     }
 }

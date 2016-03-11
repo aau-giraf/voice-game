@@ -3,11 +3,13 @@ package dk.aau.cs.giraf.voicegame.game;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+import java.io.Serializable;
+
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.voicegame.Interfaces.GameObject;
 // inheritence order: GameObject -> GameItem -> RoadItem -> Obstacle
-public abstract class GameItem implements GameObject {
+public abstract class GameItem implements GameObject, Serializable {
     public float x, y;
     public final float width, height;
 
