@@ -6,6 +6,7 @@ import dk.aau.cs.giraf.voicegame.Assets;
 import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 import dk.aau.cs.giraf.voicegame.game.Car;
 import dk.aau.cs.giraf.voicegame.game.CarGame;
+import dk.aau.cs.giraf.voicegame.game.Enums.MoveState;
 import dk.aau.cs.giraf.voicegame.game.GameItemCollection;
 import dk.aau.cs.giraf.voicegame.game.GameScreen;
 import dk.aau.cs.giraf.game_framework.Graphics;
@@ -19,9 +20,9 @@ public abstract class RunningScreen extends GameScreen {
     private CarControl carControl;
     private float carSpeed;
     // storing wether the car moves on noise or silence;
-    private GameSettings.MoveState moveState;
+    private MoveState moveState;
 
-    public RunningScreen(CarGame game, Car car, GameItemCollection obstacles, CarControl carControl, float carSpeed, GameSettings.MoveState moveState) {
+    public RunningScreen(CarGame game, Car car, GameItemCollection obstacles, CarControl carControl, float carSpeed, MoveState moveState) {
         super(game, car, obstacles);
         this.carControl = carControl;
         this.carSpeed = carSpeed;

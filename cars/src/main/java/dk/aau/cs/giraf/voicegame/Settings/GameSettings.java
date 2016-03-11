@@ -5,6 +5,7 @@ import android.util.Log;
 
 import org.apache.commons.lang.enums.*;
 
+import dk.aau.cs.giraf.voicegame.game.Enums.MoveState;
 import dk.aau.cs.giraf.voicegame.game.GameMode;
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
 
@@ -27,7 +28,6 @@ public class GameSettings {
     // TODO implement way to set this property in the settings menu
     private MoveState moveState = MoveState.silence;
 
-    public enum MoveState {silence, noise}
 
     public GameSettings() {
         this.color = DEFAULT_COLOR;

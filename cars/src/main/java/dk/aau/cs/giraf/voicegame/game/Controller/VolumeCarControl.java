@@ -8,6 +8,7 @@ import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.voicegame.DatabaseHelper;
 import dk.aau.cs.giraf.voicegame.Interfaces.CarControl;
 import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
+import dk.aau.cs.giraf.voicegame.game.Enums.MoveState;
 
 public class VolumeCarControl implements CarControl {
     private MediaRecorder mediaRecorder;
@@ -41,7 +42,7 @@ public class VolumeCarControl implements CarControl {
     }
 
     @Override
-    public float getMove(Input.TouchEvent[] touchEvents, GameSettings.MoveState moveState) {
+    public float getMove(Input.TouchEvent[] touchEvents, MoveState moveState) {
         float volume = this.getAmplitude();
         //Volume is bound by min and max amplitude
         volume = Math.max(Math.min(volume, maxAmplitude), minAmplitude);
@@ -49,7 +50,7 @@ public class VolumeCarControl implements CarControl {
         // calculate move on wether the car reacts to noise or silence.
         float move;
 
-        if(moveState == GameSettings.MoveState.noise.silence) {
+        if(moveState == MoveState.silence) {
             move = ( maxAmplitude - volume) / (maxAmplitude - minAmplitude);
         } else {
             move = (volume - minAmplitude) / (maxAmplitude - minAmplitude);
