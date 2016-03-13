@@ -94,7 +94,7 @@ public class MapEditor extends CarsActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Track trackToSave = new Track(1, "Idas Bane", mapScreen.roadItems);
+                Track trackToSave = new Track(1, "Bane 1", mapScreen.roadItems);
                 String fileName = "/sdcard/TracksFile";
                 try{
                     ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
