@@ -19,7 +19,6 @@ public class WinningScreen extends GameScreen {
 
     public WinningScreen(CarGame game, Car car, GameItemCollection obstacles) {
         super(game, car, obstacles);
-
         int gameWidth = game.getWidth();
         int gameHeight = game.getHeight();
         this.trophyX = (gameWidth - Assets.GetTrophy().getWidth()) / 2;
@@ -41,7 +40,6 @@ public class WinningScreen extends GameScreen {
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
-        Assets.GetWellDone().Play();
         resetButton.Update(touchEvents, deltaTime);
         menuButton.Update(touchEvents, deltaTime);
         if (resetButton.IsClicked()) {

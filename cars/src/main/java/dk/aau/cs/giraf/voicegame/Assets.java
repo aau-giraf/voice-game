@@ -28,11 +28,15 @@ public class Assets {
 
         carStart = audio.createSound(R.raw.car_start);
         pickup = audio.createSound(R.raw.double_honk);
-        done = audio.createSound(R.raw.faerdig);
-        wellDone = audio.createSound(R.raw.godt_gaaet);
-        newTurn = audio.createSound(R.raw.ny_tur);
-        playAgain = audio.createSound(R.raw.spil_igen);
+        done = audio.createSound(R.raw.vg_faerdig);
+        wellDone = audio.createSound(R.raw.vg_godt_gaaet);
+        newTurn = audio.createSound(R.raw.vg_ny_tur);
+        playAgain = audio.createSound(R.raw.vg_spil_igen);
         crash = audio.createSound(R.raw.crash);
+        settings = audio.createSound(R.raw.vg_indstillinger);
+        editTrack = audio.createSound(R.raw.vg_redig_bane);
+        back = audio.createSound(R.raw.vg_tilbage);
+        startGame = audio.createSound(R.raw.vg_start_spil);
 
         loaded = true;
     }
@@ -96,7 +100,7 @@ public class Assets {
         return star;
     }
 
-    private static Sound carStart, pickup, done, wellDone, newTurn, playAgain, crash;
+    private static Sound carStart, pickup, done, wellDone, newTurn, playAgain, crash, settings, editTrack, startGame, back;
 
     public static Sound GetCarStart() {
         return carStart;
@@ -123,4 +127,12 @@ public class Assets {
     }
 
     public static Sound GetCrash() { return crash; }
+
+    public static Sound GetSettings() { return settings; }
+
+    public static Sound GetStartGame() { return startGame; }
+
+    public static Sound GetEditTrack() { return editTrack; }
+
+    public static Sound GetBack() { return back; }
 }
