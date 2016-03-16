@@ -13,6 +13,7 @@ import android.view.View;
 
 //import com.google.analytics.tracking.android.EasyTracker;
 import dk.aau.cs.giraf.activity.GirafActivity;
+import dk.aau.cs.giraf.game_framework.GameActivity;
 import dk.aau.cs.giraf.voicegame.game.CarGame;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.dblib.Helper;
@@ -98,6 +99,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     }*/
 
     public void startGame(View view) {
+
         Intent intent = new Intent(this, CarGame.class);
         intent.putExtra(DatabaseHelper.CHILD_ID, currentId);
         startActivity(intent);
