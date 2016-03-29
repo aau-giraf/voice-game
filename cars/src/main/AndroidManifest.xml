@@ -38,7 +38,7 @@
             android:name=".game.CarGame"
             android:screenOrientation="landscape"
             android:label="@string/title_activity_cargame"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            android:theme="@style/GirafTheme.NoTitleBar">
         </activity>
         <activity
             android:name=".MapEditor"

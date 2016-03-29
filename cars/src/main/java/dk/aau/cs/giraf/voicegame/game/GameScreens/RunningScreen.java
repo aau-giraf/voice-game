@@ -2,7 +2,14 @@ package dk.aau.cs.giraf.voicegame.game.GameScreens;
 
 import android.graphics.Rect;
 import android.util.Log;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import dk.aau.cs.giraf.voicegame.Assets;
+import dk.aau.cs.giraf.voicegame.Track;
 import dk.aau.cs.giraf.voicegame.game.Car;
 import dk.aau.cs.giraf.voicegame.game.CarGame;
 import dk.aau.cs.giraf.voicegame.game.Enums.MoveState;
@@ -19,18 +26,28 @@ public abstract class RunningScreen extends GameScreen {
 
     private CarControl carControl;
     private float carSpeed;
-    // storing wether the car moves on noise or silence;
+    // storing whether the car moves on noise or silence;
     private MoveState moveState;
+    private Track currentTrack;
+
+    // hard coded filename
+    // TODO This will be changed in later, already assigned tasks.
+    String fileName = "/sdcard/TracksFile";
 
     public RunningScreen(CarGame game, Car car, GameItemCollection obstacles, CarControl carControl, float carSpeed, MoveState moveState) {
         super(game, car, obstacles);
         this.carControl = carControl;
         this.carSpeed = carSpeed;
-        System.out.println("Running screen: track name: " + getTrack().getName());
-        for (RoadItem roaditem: getTrack().getObstacleArray()) {
-            roaditem.initPaint();
-        }
         this.moveState = moveState;
+
+        currentTrack = loadTrack();
+        if(currentTrack != null) {
+            System.out.println("Running screen: track name: " + currentTrack.getName());
+            for (RoadItem roaditem: currentTrack.getObstacleArray()) {
+                roaditem.initPaint();
+            }
+        }
+
     }
 
     // Method that is called when the game is running
@@ -54,12 +71,34 @@ public abstract class RunningScreen extends GameScreen {
 
         graphics.drawScaledImage(Assets.GetPauseButton(), pauseButtonRec, pauseButtonImageRec);
 
-        for (RoadItem roadItem : getTrack().getObstacleArray())
-            roadItem.Draw(graphics, deltaTime);
+        if(currentTrack != null) {
+            for (RoadItem roadItem : currentTrack.getObstacleArray())
+                roadItem.Draw(graphics, deltaTime);
+        }
+
     }
 
     @Override
     public void showScreen() {
         setCarSpeed(carSpeed);
+    }
+
+    private Track loadTrack() {
+        Track trackFromFile = null;
+        try{
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName));
+            trackFromFile = (Track) ois.readObject();
+        }catch (FileNotFoundException e){
+            System.out.println("File not found - input");
+            e.printStackTrace();
+        } catch (IOException e){
+            System.out.println("IO exception happened while reading");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            System.out.println("Wrong cast");
+            e.printStackTrace();
+        }
+
+        return trackFromFile;
     }
 }

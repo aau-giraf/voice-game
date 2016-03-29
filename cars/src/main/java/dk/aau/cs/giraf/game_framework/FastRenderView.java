@@ -3,9 +3,12 @@ package dk.aau.cs.giraf.game_framework;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.graphics.Rect;
+import android.view.Display;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 
 import java.util.List;
 
@@ -19,6 +22,9 @@ public class FastRenderView extends SurfaceView implements Runnable {
     volatile boolean running = false;
     private int skipFrames = 2;
 
+    private Bitmap screenshot;
+    private boolean screenshotTaken = true;
+
     public FastRenderView(Context context, Game game, Bitmap framebuffer, float scaleX, float scaleY) {
         super(context);
         this.game = game;
@@ -28,6 +34,13 @@ public class FastRenderView extends SurfaceView implements Runnable {
                 new Graphics(context.getAssets(), framebuffer);
         this.input = new Input(context, this, scaleX, scaleY);
         this.holder = getHolder();
+
+        WindowManager wm =  (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        screenshot = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_8888);
     }
 
     @Override
@@ -89,6 +102,28 @@ public class FastRenderView extends SurfaceView implements Runnable {
                 game.getCurrentScreen().update(array, deltaTime);
                 game.getCurrentScreen().paint(graphics, deltaTime);
 
+                // this parts only runs when the user requests a screenshot
+                if(!screenshotTaken) {
+
+                    Canvas tempCanvas = new Canvas(screenshot);
+                    Canvas originialCanvas = graphics.canvas;
+
+                    graphics.canvas = tempCanvas;
+
+                    graphics.frameBuffer = screenshot;
+                    game.getCurrentScreen().paint(graphics, deltaTime);
+
+
+
+                    tempCanvas.getClipBounds(dstRect);
+
+                    tempCanvas.drawBitmap(screenshot, null, dstRect, null);
+
+
+                    graphics.frameBuffer = framebuffer;
+                    graphics.canvas = originialCanvas;
+                    screenshotTaken = true;
+                }
 
                 Canvas canvas = holder.lockCanvas();
                 canvas.getClipBounds(dstRect);
@@ -109,5 +144,16 @@ public class FastRenderView extends SurfaceView implements Runnable {
             }
 
         }
+    }
+
+    public Bitmap getScreenshot() {
+        // user requests a screenshot here
+        screenshotTaken = false;
+
+        // busy wait loop while we wait for the next frame to be drawn
+        while(!screenshotTaken) {
+        }
+
+        return screenshot;
     }
 }

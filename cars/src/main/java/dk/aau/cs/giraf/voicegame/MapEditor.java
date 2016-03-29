@@ -8,7 +8,9 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.io.FileInputStream;
@@ -20,6 +22,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.voicegame.CarsGames.CarsActivity;
 import dk.aau.cs.giraf.voicegame.Interfaces.Drawable;
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
@@ -32,11 +35,12 @@ import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.game_framework.Screen;
 import dk.aau.cs.giraf.gui.GirafButton;
 
-public class MapEditor extends CarsActivity {
+public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnCustomViewCreatedListener {
     private GameSettings gamesettings;
     private long currentId;
     // Holder of screen settings
     private MapScreen mapScreen;
+    private Bitmap screenshot;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +67,7 @@ public class MapEditor extends CarsActivity {
     }
 
     @Override
-    public View getContentView(FastRenderView renderview) {
+    public View getContentView(final FastRenderView renderview) {
         FrameLayout frameLayout = new FrameLayout(this);
         LinearLayout linearLayout = new LinearLayout(this);
 
@@ -94,35 +98,9 @@ public class MapEditor extends CarsActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Track trackToSave = new Track(1, "Bane 1", mapScreen.roadItems);
-                String fileName = "/sdcard/TracksFile";
-                try{
-                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
-                    oos.writeObject(trackToSave);
-                    oos.close();
-                } catch (FileNotFoundException e){
-                    System.out.println("File not found - output");
-                    e.printStackTrace();
-                } catch (IOException e){
-                    System.out.println("IO exception happend while writing");
-                    e.printStackTrace();
-                }
-
-                try{
-                    ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName));
-                    Track trackFromFile = (Track) ois.readObject();
-                    mapScreen.setTrack(trackFromFile);
-                    System.out.println("Read Name = " + trackFromFile.getName());
-                }catch (FileNotFoundException e){
-                    System.out.println("File not found - input");
-                    e.printStackTrace();
-                } catch (IOException e){
-                    System.out.println("IO exception happened while reading");
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e){
-                    System.out.println("Wrong cast");
-                    e.printStackTrace();
-                }
+                screenshot = renderview.getScreenshot();
+                GirafInflatableDialog saveDialog = GirafInflatableDialog.newInstance("Gem bane", "Her kan du se et billede af din bane", R.layout.activity_save_dialog, SAVE_DIALOG_ID);
+                saveDialog.show(getSupportFragmentManager(), SAVE_DIALOG_TAG);
             }
         });
         
@@ -144,6 +122,49 @@ public class MapEditor extends CarsActivity {
         databaseHelper.SaveSettings(gamesettings);
 
         this.finish();
+    }
+
+    @Override
+    public void editCustomView(ViewGroup viewGroup, int i) {
+        if(i == SAVE_DIALOG_ID) {
+
+            ImageView screenshotImage = (ImageView)viewGroup.findViewById(R.id.saveDialogScreenshot);
+            screenshotImage.setImageBitmap(screenshot);
+
+            GirafButton saveButton = (GirafButton) viewGroup.findViewById(R.id.button_gem);
+            GirafButton anullerButton = (GirafButton) viewGroup.findViewById(R.id.button_anuller);
+
+            saveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Track trackToSave = new Track(1, "Bane 1", mapScreen.roadItems);
+                    String fileName = "/sdcard/TracksFile";
+                    try{
+                        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
+                        oos.writeObject(trackToSave);
+                        oos.close();
+                        System.out.println("gemt :)");
+                    } catch (FileNotFoundException e){
+                        System.out.println("File not found - output");
+                        e.printStackTrace();
+                    } catch (IOException e){
+                        System.out.println("IO exception happened while writing");
+                        e.printStackTrace();
+                    }
+
+                    // TODO make the dialog close after succesful save
+                }
+            });
+
+            anullerButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO make the dialog close
+                }
+            });
+
+
+        }
     }
 
     private class MapScreen extends SettingsScreen {

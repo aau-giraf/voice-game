@@ -9,13 +9,18 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-public abstract class GameActivity extends Activity implements Game {
-    FastRenderView renderView;
+import dk.aau.cs.giraf.activity.GirafActivity;
+
+public abstract class GameActivity extends GirafActivity implements Game {
+    protected FastRenderView renderView;
     Audio audio;
     FileIO fileIO;
     Screen screen;
     Point size;
     GameMessenger messenger;
+
+    protected static final String SAVE_DIALOG_TAG = "SAVE_DIALOG";
+    protected static final Integer SAVE_DIALOG_ID = 1;
 
     public GameActivity() {
         this.messenger = new Messenger(this);
@@ -31,8 +36,8 @@ public abstract class GameActivity extends Activity implements Game {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+        requestWindowFeature(SAVE_DIALOG_ID);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
                         & WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
@@ -53,6 +58,7 @@ public abstract class GameActivity extends Activity implements Game {
         fileIO = new FileIO(this);
         audio = new Audio(this);
         screen = getInitScreen();
+        super.onCreate(savedInstanceState);
         setContentView(getContentView(renderView));
     }
 
