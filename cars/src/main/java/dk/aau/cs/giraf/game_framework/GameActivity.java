@@ -36,9 +36,8 @@ public abstract class GameActivity extends GirafActivity implements Game {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        requestWindowFeature(SAVE_DIALOG_ID);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
                         & WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -58,7 +57,7 @@ public abstract class GameActivity extends GirafActivity implements Game {
         fileIO = new FileIO(this);
         audio = new Audio(this);
         screen = getInitScreen();
-        super.onCreate(savedInstanceState);
+
         setContentView(getContentView(renderView));
     }
 

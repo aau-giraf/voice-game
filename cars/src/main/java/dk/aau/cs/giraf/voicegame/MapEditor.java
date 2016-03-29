@@ -132,7 +132,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
             screenshotImage.setImageBitmap(screenshot);
 
             GirafButton saveButton = (GirafButton) viewGroup.findViewById(R.id.button_gem);
-            GirafButton anullerButton = (GirafButton) viewGroup.findViewById(R.id.button_anuller);
+            GirafButton cancelButton = (GirafButton) viewGroup.findViewById(R.id.button_anuller);
 
             saveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -156,7 +156,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 }
             });
 
-            anullerButton.setOnClickListener(new View.OnClickListener() {
+            cancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // TODO make the dialog close

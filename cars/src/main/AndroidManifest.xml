@@ -43,7 +43,8 @@
         <activity
             android:name=".MapEditor"
             android:screenOrientation="landscape"
-            android:label="@string/title_activity_mapeditor">
+            android:label="@string/title_activity_mapeditor"
+            android:theme="@style/GirafTheme.NoTitleBar">
         </activity>
         <activity
             android:name=".SettingsActivity"
