@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.voicegame;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,7 +44,7 @@ public class SettingsActivity extends GirafActivity{
         if(current_id == -1)
         current_id = intent.getLongExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian());
 
-        Log.d("childid", "Childid ved Settings create: " + current_id);
+        Log.d("childid","Childid ved Settings create: "+ current_id);
 
         database.Initialize(current_id);
         gamesettings = database.GetGameSettings();

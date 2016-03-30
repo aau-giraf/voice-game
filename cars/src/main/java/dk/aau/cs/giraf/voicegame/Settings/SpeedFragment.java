@@ -1,7 +1,12 @@
 package dk.aau.cs.giraf.voicegame.Settings;
 
+import android.app.Activity;
+import android.view.View;
+import android.widget.RelativeLayout;
 import dk.aau.cs.giraf.voicegame.Assets;
 import dk.aau.cs.giraf.voicegame.CarsGames.CarsFragment;
+import dk.aau.cs.giraf.voicegame.R;
+import dk.aau.cs.giraf.voicegame.SettingsActivity;
 import dk.aau.cs.giraf.voicegame.game.Car;
 import dk.aau.cs.giraf.game_framework.Game;
 import dk.aau.cs.giraf.game_framework.Graphics;
@@ -80,10 +85,15 @@ public class SpeedFragment extends CarsFragment {
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
             gauge.Update(touchEvents, deltaTime);
+            //RelativeLayout test = (RelativeLayout)((SettingsActivity) getActivity()).findViewById(R.id.settingsChange);
+           // int settingsChanged = test.getVisibility();
 
             if (newColor != oldColor) {
                 this.setCarColor(newColor);
                 newColor = oldColor;
+                /* if (settingsChanged == View.INVISIBLE){
+                    test.setVisibility(View.VISIBLE);
+                }*/
             }
 
             if (snailPicto.IsPressed(touchEvents, deltaTime))
@@ -93,6 +103,11 @@ public class SpeedFragment extends CarsFragment {
             if (tigerPicto.IsPressed(touchEvents, deltaTime))
                 gauge.SetSpeed(9.0f);
 
+            /*if(speed != gauge.GetSpeed()){
+                if(settingsChanged == View.INVISIBLE){
+                    test.setVisibility(View.VISIBLE);
+                }
+            }*/
             speed = gauge.GetSpeed();
             int speedInPPS = (int)((gauge.GetSpeed() / MAX_SPEED) * MAX_SPEED_PPS);
             float x = getCarX();
