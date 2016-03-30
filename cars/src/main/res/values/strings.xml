@@ -16,6 +16,7 @@
     <string name="settings_header_color">Vælg farve på bil</string>
     <string name="settings_header_calibration">Kalibrer mikrofon</string>
     <string name="settings_header_game_mode">Spillemåde</string>
+    <string name="settings_save_cancel">Gem eller annuller indstillinger</string>
     <string name="radio_button_Pickup">Samle op</string>
     <string name="radio_button_avoid">Undgå</string>
     <string name="calibration_high_help">Hold knappen \'Høj\' inde mens du siger høje lyde</string>
