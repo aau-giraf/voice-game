@@ -2,7 +2,6 @@ package dk.aau.cs.giraf.voicegame;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,7 +12,7 @@ import android.view.View;
 
 //import com.google.analytics.tracking.android.EasyTracker;
 import dk.aau.cs.giraf.activity.GirafActivity;
-import dk.aau.cs.giraf.game_framework.GameActivity;
+import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 import dk.aau.cs.giraf.voicegame.game.CarGame;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.dblib.Helper;
@@ -27,6 +26,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     private static final int SETTINGS_IDENTIFIER = 0;
     private static final int MAPEDITOR_IDENTIFIER = 1;
     private static final int CHANGE_USER_SELECTOR_DIALOG = 100;
+    private GameSettings gameSettings;
 
     long currentId, guardianId;
     GirafButton GirafButtonProfileSelect;
@@ -63,6 +63,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
             curProfile = database.GetProfileById(currentId);
         }
 
+        setGameSettings(GameSettings.LoadSettings(getApplicationContext()));
         setContentView(R.layout.activity_main_menu);
 
         View v = LayoutInflater.from(this).inflate(R.layout.activity_main_menu, null);
@@ -99,25 +100,25 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     }*/
 
     public void startGame(View view) {
-
         Intent intent = new Intent(this, CarGame.class);
         intent.putExtra(DatabaseHelper.CHILD_ID, currentId);
+        intent.putExtra("settings", getGameSettings());
         startActivity(intent);
     }
 
     public void startMapEditor(View view) {
         Intent intent = new Intent(this, MapEditor.class);
         intent.putExtra(DatabaseHelper.CHILD_ID, currentId);
-
+        intent.putExtra("settings", getGameSettings());
         startActivity(intent);
     }
 
     public void showSettings(View view) {
         Intent intent = new Intent(this, SettingsActivity.class);
 
-        intent.putExtra(DatabaseHelper.CHILD_ID, currentId);
+        intent.putExtra("settings", getGameSettings());
 
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     }
 
     private void loadWidgets() {
@@ -146,5 +147,25 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
             loadWidgets();
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 0:
+                if (resultCode == Activity.RESULT_OK) {
+                    setGameSettings((GameSettings) data.getSerializableExtra("settings"));
+                }
+                break;
+        }
+    }
+
+    public GameSettings getGameSettings() {
+        return gameSettings;
+    }
+
+    public void setGameSettings(GameSettings gameSettings) {
+        this.gameSettings = gameSettings;
     }
 }

@@ -1,6 +1,9 @@
 package dk.aau.cs.giraf.voicegame;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,9 +12,16 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 //import com.google.analytics.tracking.android.EasyTracker;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.voicegame.Settings.CalibrationFragment;
+import dk.aau.cs.giraf.voicegame.Settings.SpeedGauge;
 import dk.aau.cs.giraf.voicegame.game.GameMode;
 import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 import dk.aau.cs.giraf.voicegame.Settings.SpeedFragment;
@@ -19,8 +29,7 @@ import dk.aau.cs.giraf.gui.GColorPicker;
 import dk.aau.cs.giraf.gui.GComponent;
 
 public class SettingsActivity extends GirafActivity{
-    GameSettings gamesettings;
-    long current_id;
+    protected GameSettings gameSettings, initSettings;
 
     GirafButton saveSettingsButton, cancelSettingsButton;
     ColorButton colorPickButton;
@@ -36,18 +45,11 @@ public class SettingsActivity extends GirafActivity{
 
         Intent intent = getIntent();
 
-        long guardianId = 0;
-        DatabaseHelper database = new DatabaseHelper(this);
+        if(intent.hasExtra("settings")) {
+            gameSettings = (GameSettings) intent.getSerializableExtra("settings");
+        }
+        initSettings = gameSettings;
 
-        if(intent.hasExtra(DatabaseHelper.CHILD_ID))
-            current_id = intent.getLongExtra(DatabaseHelper.CHILD_ID, 0);
-        if(current_id == -1)
-        current_id = intent.getLongExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian());
-
-        Log.d("childid", "Childid ved Settings create: " + current_id);
-
-        database.Initialize(current_id);
-        gamesettings = database.GetGameSettings();
         View v = LayoutInflater.from(this).inflate(R.layout.activity_settings, null);
         v.setBackgroundColor(GComponent.GetBackgroundColor());
         setContentView(v);
@@ -56,15 +58,20 @@ public class SettingsActivity extends GirafActivity{
         cancelSettingsButton = new GirafButton(this,getResources().getDrawable(R.drawable.icon_cancel));
 
         saveSettingsButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * onClick method for saveSettingsButton
+             * @param v
+             */
             @Override
             public void onClick(View v) {
-
+                SaveSettings();
             }
         });
+
         cancelSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                gameSettings = initSettings;
             }
         });
         addGirafButtonToActionBar(saveSettingsButton, GirafActivity.RIGHT);
@@ -74,11 +81,11 @@ public class SettingsActivity extends GirafActivity{
         speed = (SpeedFragment) getFragmentManager().findFragmentById(R.id.speed);
         calibration = (CalibrationFragment)getFragmentManager().findFragmentById(R.id.calibration_fragment);
 
-        speed.setSpeed(gamesettings.GetSpeed());
-        speed.setCarColor(gamesettings.GetColor());
-        calibration.SetMinVolume(gamesettings.GetMinVolume());
-        calibration.SetMaxVolume(gamesettings.GetMaxVolume());
-        colorPickButton.SetColor(gamesettings.GetColor());
+        speed.setSpeed(gameSettings.GetSpeed());
+        speed.setCarColor(gameSettings.GetColor());
+        calibration.SetMinVolume(gameSettings.GetMinVolume());
+        calibration.SetMaxVolume(gameSettings.GetMaxVolume());
+        colorPickButton.SetColor(gameSettings.GetColor());
 
         initializeGameMode();
     }
@@ -111,13 +118,11 @@ public class SettingsActivity extends GirafActivity{
 
     @Override
     public void onBackPressed() {
-        Log.d("database","map " + Boolean.toString(gamesettings.GetMap() == null));
-        GameSettings gs = new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume(),gamesettings.GetMap(), gameMode);
-
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-        databaseHelper.Initialize(current_id);
-        databaseHelper.SaveSettings(gs);
-
+        //TODO Cancel changed settings
+        //TODO Add "There are unsaved changes" dialog
+        Intent result = new Intent();
+        result.putExtra("settings", gameSettings);
+        setResult(Activity.RESULT_OK, result);
         this.finish();
     }
 
@@ -135,11 +140,43 @@ public class SettingsActivity extends GirafActivity{
     }
 
     private void initializeGameMode(){
-        this.gameMode = gamesettings.GetGameMode();
-        if (gameMode==GameMode.pickup)
-            ((RadioButton)findViewById(R.id.radioButtonpPickup)).setChecked(true);
-        if (gameMode==GameMode.avoid)
-            ((RadioButton)findViewById(R.id.radioButtonAvoid)).setChecked(true);
+        if(gameMode == null){
+            gameMode = gameSettings.GetGameMode();//Get default
+        }
+        if (gameMode==GameMode.pickup) {
+            ((RadioButton) findViewById(R.id.radioButtonpPickup)).setChecked(true);
+            ((RadioButton) findViewById(R.id.radioButtonAvoid)).setChecked(false);
+        }
+        if (gameMode==GameMode.avoid) {
+            ((RadioButton) findViewById(R.id.radioButtonAvoid)).setChecked(true);
+            ((RadioButton) findViewById(R.id.radioButtonpPickup)).setChecked(false);
+        }
     }
 
+    /**
+     * Saves object GameSettings, which implements Serializable to local file.
+     */
+    public void SaveSettings(){
+        FileOutputStream fos = null;
+        try {
+            fos = getApplicationContext().openFileOutput("vg_settings", Context.MODE_PRIVATE);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ObjectOutputStream os = null;
+        try {
+            os = new ObjectOutputStream(fos);
+            os.writeObject(new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume(),gameSettings.GetMap(), gameMode));
+            os.close();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initSettings = gameSettings;
+    }
 }

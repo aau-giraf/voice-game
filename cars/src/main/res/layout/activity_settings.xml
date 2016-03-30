@@ -31,9 +31,9 @@
 
             <fragment
                 android:layout_width="fill_parent"
-                android:layout_height="380px"
+                android:layout_height="190dp"
                 android:name="dk.aau.cs.giraf.voicegame.Settings.SpeedFragment"
-                android:id="@+id/speed"/>
+                android:id="@+id/speed" />
 
         </LinearLayout>
 
