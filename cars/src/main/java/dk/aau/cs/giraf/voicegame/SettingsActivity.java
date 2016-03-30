@@ -44,7 +44,7 @@ public class SettingsActivity extends GirafActivity{
         if(current_id == -1)
         current_id = intent.getLongExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian());
 
-        Log.d("childid","Childid ved Settings create: "+ current_id);
+        Log.d("childid", "Childid ved Settings create: " + current_id);
 
         database.Initialize(current_id);
         gamesettings = database.GetGameSettings();
@@ -52,8 +52,24 @@ public class SettingsActivity extends GirafActivity{
         v.setBackgroundColor(GComponent.GetBackgroundColor());
         setContentView(v);
 
-        saveSettingsButton = (GirafButton) findViewById(R.id.saveSettings);
-        cancelSettingsButton = (GirafButton) findViewById(R.id.settingsCancel);
+        saveSettingsButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_save));
+        cancelSettingsButton = new GirafButton(this,getResources().getDrawable(R.drawable.icon_cancel));
+
+        saveSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        cancelSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        addGirafButtonToActionBar(saveSettingsButton, GirafActivity.RIGHT);
+        addGirafButtonToActionBar(cancelSettingsButton, GirafActivity.RIGHT);
+
         colorPickButton = (ColorButton) findViewById(R.id.colorPick);
         speed = (SpeedFragment) getFragmentManager().findFragmentById(R.id.speed);
         calibration = (CalibrationFragment)getFragmentManager().findFragmentById(R.id.calibration_fragment);
@@ -103,13 +119,6 @@ public class SettingsActivity extends GirafActivity{
         databaseHelper.SaveSettings(gs);
 
         this.finish();
-    }
-    public void onSaveSettingsClicked(View v){
-
-    }
-
-    public void onCancelSettingsClicked(View v){
-
     }
 
     public void onRadioButtonClicked(View v)
