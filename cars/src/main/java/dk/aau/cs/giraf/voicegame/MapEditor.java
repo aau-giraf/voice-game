@@ -56,7 +56,11 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
         DatabaseHelper database = new DatabaseHelper(this);
         database.Initialize(currentId);
 
-        gamesettings = database.GetGameSettings();
+        if(intent.hasExtra("settings")){
+            gamesettings = (GameSettings)intent.getSerializableExtra("settings");
+        } else {
+            gamesettings = new GameSettings(); //Default settings
+        }
 
     }
 
@@ -327,7 +331,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
         @Override
         public void resume() {
-
+            gamesettings = GameSettings.LoadSettings(getApplicationContext());//Might be a hack
         }
 
         @Override

@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import dk.aau.cs.giraf.voicegame.DatabaseHelper;
 import dk.aau.cs.giraf.voicegame.Assets;
+import dk.aau.cs.giraf.voicegame.MainActivity;
 import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 import dk.aau.cs.giraf.game_framework.Screen;
 import dk.aau.cs.giraf.voicegame.CarsGames.CarsActivity;
@@ -70,9 +71,11 @@ public class CarGame extends CarsActivity {
         DatabaseHelper database = new DatabaseHelper(this);
         database.Initialize(child_id);
 
-        gamesettings = database.GetGameSettings();
-
-
+        if(i.hasExtra("settings")) {
+            gamesettings = (GameSettings) i.getSerializableExtra("settings");
+        } else {
+            gamesettings = new GameSettings(); //Default settings
+        }
 
         super.onCreate(savedInstanceState);
 
@@ -119,7 +122,7 @@ public class CarGame extends CarsActivity {
     @Override
     public void onResume() {
         super.onResume();
-
+        gamesettings = GameSettings.LoadSettings(getApplicationContext());//Might be a hack
         if (carControl instanceof VolumeCarControl)
             ((VolumeCarControl) carControl).Start();
     }
