@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
-//import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.EasyTracker;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -89,7 +89,7 @@ public class SettingsActivity extends GirafActivity{
 
         initializeGameMode();
     }
-/*
+
     //Google analytics - start logging
     @Override
     public void onStart() {
@@ -102,7 +102,7 @@ public class SettingsActivity extends GirafActivity{
         super.onStop();
         EasyTracker.getInstance(this).activityStop(this);  // stop logging
     }
-*/
+
     public void ColorPickClick(View view) {
         final ColorButton button = (ColorButton)view;
         GColorPicker colorPicker = new GColorPicker(view.getContext(), new GColorPicker.OnOkListener() {
