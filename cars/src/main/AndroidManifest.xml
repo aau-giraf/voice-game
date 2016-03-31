@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="dk.aau.cs.giraf.voicegame"
-          android:versionCode="1"
-          android:versionName="0.1">
-
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    xmlns:tools="http://schemas.android.com/tools"
+    package="dk.aau.cs.giraf.voicegame"
+    android:versionCode="1"
+    android:versionName="0.1">
 
     <uses-sdk
         android:minSdkVersion="15"
-        android:targetSdkVersion="23"/>
+        android:targetSdkVersion="23" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -29,32 +31,34 @@
             android:label="@string/app_name"
             android:screenOrientation="landscape">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".game.CarGame"
-            android:screenOrientation="landscape"
             android:label="@string/title_activity_cargame"
-            android:theme="@style/GirafTheme.NoTitleBar">
-        </activity>
+            android:screenOrientation="landscape"
+            android:theme="@style/GirafTheme.NoTitleBar"></activity>
         <activity
             android:name=".MapEditor"
-            android:screenOrientation="landscape"
             android:label="@string/title_activity_mapeditor"
-            android:theme="@style/GirafTheme.NoTitleBar">
-        </activity>
+            android:screenOrientation="landscape"
+            android:theme="@style/GirafTheme.NoTitleBar"></activity>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="landscape">
             <intent-filter>
-                <action android:name="dk.aau.cs.giraf.voicegame.SETTINGSACTIVITY"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="dk.aau.cs.giraf.voicegame.SETTINGSACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".TrackPickerActivity"
+            android:label="@string/title_activity_track_picker"></activity>
     </application>
 
 </manifest>

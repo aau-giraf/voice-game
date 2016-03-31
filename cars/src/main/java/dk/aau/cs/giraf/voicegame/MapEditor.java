@@ -41,6 +41,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
     // Holder of screen settings
     private MapScreen mapScreen;
     private Bitmap screenshot;
+    private GirafInflatableDialog saveDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,7 +100,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
             @Override
             public void onClick(View view) {
                 screenshot = renderview.getScreenshot();
-                GirafInflatableDialog saveDialog = GirafInflatableDialog.newInstance("Gem bane", "Her kan du se et billede af din bane", R.layout.activity_save_dialog, SAVE_DIALOG_ID);
+                saveDialog = GirafInflatableDialog.newInstance("Gem bane", "Her kan du se et billede af din bane", R.layout.activity_save_dialog, SAVE_DIALOG_ID);
                 saveDialog.show(getSupportFragmentManager(), SAVE_DIALOG_TAG);
             }
         });
@@ -125,7 +126,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
     }
 
     @Override
-    public void editCustomView(ViewGroup viewGroup, int i) {
+    public void editCustomView(final ViewGroup viewGroup, int i) {
         if(i == SAVE_DIALOG_ID) {
 
             ImageView screenshotImage = (ImageView)viewGroup.findViewById(R.id.saveDialogScreenshot);
@@ -143,7 +144,6 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
                         oos.writeObject(trackToSave);
                         oos.close();
-                        System.out.println("gemt :)");
                     } catch (FileNotFoundException e){
                         System.out.println("File not found - output");
                         e.printStackTrace();
@@ -153,6 +153,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                     }
 
                     // TODO make the dialog close after succesful save
+                    saveDialog.dismiss();
                 }
             });
 
@@ -160,6 +161,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 @Override
                 public void onClick(View v) {
                     // TODO make the dialog close
+                    saveDialog.dismiss();
                 }
             });
 

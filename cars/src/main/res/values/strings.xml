@@ -20,5 +20,6 @@
     <string name="radio_button_avoid">Undgå</string>
     <string name="calibration_high_help">Hold knappen \'Høj\' inde mens du siger høje lyde</string>
     <string name="calibration_low_help">Hold knappen \'Lav\' inde uden at sige noget</string>
+    <string name="title_activity_track_picker">TrackPickerActivity</string>
 
 </resources>

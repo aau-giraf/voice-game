@@ -6,4 +6,4 @@
     <dimen name="small_text_size">25sp</dimen>
     <dimen name="menu_button_text_size">50sp</dimen>
     <dimen name="settings_default_margin">10dp</dimen>
-    </resources>
+</resources>
