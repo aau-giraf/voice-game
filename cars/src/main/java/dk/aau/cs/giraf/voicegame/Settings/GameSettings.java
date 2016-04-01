@@ -6,6 +6,7 @@ import android.util.Log;
 
 import org.apache.commons.lang.enums.*;
 
+import dk.aau.cs.giraf.voicegame.SettingsActivity;
 import dk.aau.cs.giraf.voicegame.game.Enums.MoveState;
 import dk.aau.cs.giraf.voicegame.game.GameMode;
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
@@ -114,6 +115,12 @@ public class GameSettings implements Serializable {
         try {
             fis = context.openFileInput("vg_settings");
         } catch (FileNotFoundException e) {
+            SettingsActivity.SaveSettings(null, context);//Creates new save file with default settings
+            try {
+                fis = context.openFileInput("vg_settings");
+            } catch (FileNotFoundException e1) {
+                e1.printStackTrace();
+            }
             e.printStackTrace();
         }
         ObjectInputStream is = null;

@@ -37,7 +37,6 @@ import dk.aau.cs.giraf.gui.GirafButton;
 
 public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnCustomViewCreatedListener {
     private GameSettings gamesettings;
-    private long currentId;
     // Holder of screen settings
     private MapScreen mapScreen;
     private Bitmap screenshot;
@@ -47,13 +46,6 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-
-        if (intent.hasExtra(DatabaseHelper.CHILD_ID))
-            currentId = intent.getLongExtra(DatabaseHelper.CHILD_ID, 0);
-        else throw new IllegalArgumentException("no child id");
-
-        DatabaseHelper database = new DatabaseHelper(this);
-        database.Initialize(currentId);
 
         if(intent.hasExtra("settings")){
             gamesettings = (GameSettings)intent.getSerializableExtra("settings");
@@ -120,11 +112,6 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
     public void onBackPressed() {
         super.onBackPressed();
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(getApplication());
-        databaseHelper.Initialize(currentId);
-
-        databaseHelper.SaveSettings(gamesettings);
-
         this.finish();
     }
 
@@ -190,9 +177,6 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
             roadItems = new ArrayList<RoadItem>();
             map = new HashMap<String, Float>();
-
-            DatabaseHelper databaseHelper = new DatabaseHelper(getApplication());
-            databaseHelper.Initialize(currentId);
 
             roadItems = gamesettings.LoadObstacles();
             map = gamesettings.GetMap();
