@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.voicegame.Settings;
 
 import dk.aau.cs.giraf.voicegame.Assets;
 import dk.aau.cs.giraf.voicegame.CarsGames.CarsFragment;
+import dk.aau.cs.giraf.voicegame.SettingsActivity;
 import dk.aau.cs.giraf.voicegame.game.Car;
 import dk.aau.cs.giraf.game_framework.Game;
 import dk.aau.cs.giraf.game_framework.Graphics;
@@ -26,6 +27,7 @@ public class SpeedFragment extends CarsFragment {
         initialSpeed = speed;
         if (screen != null)
             screen.speed = speed;
+        System.out.println("Set speed: " + initialSpeed);
     }
 
     public void setCarColor(int color) {
@@ -80,7 +82,6 @@ public class SpeedFragment extends CarsFragment {
         @Override
         public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
             gauge.Update(touchEvents, deltaTime);
-
             if (newColor != oldColor) {
                 this.setCarColor(newColor);
                 newColor = oldColor;
@@ -109,7 +110,6 @@ public class SpeedFragment extends CarsFragment {
 
         @Override
         public void resume() {
-
         }
 
         @Override
