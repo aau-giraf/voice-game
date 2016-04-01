@@ -10,12 +10,10 @@ import dk.aau.cs.giraf.voicegame.game.RoadItem;
  */
 public class Track implements Serializable {
     private int id;
-    private String name;
     private ArrayList<RoadItem> obstacleArray;
 
-    public Track(int id, String name, ArrayList<RoadItem> obstacleArray){
+    public Track(int id, ArrayList<RoadItem> obstacleArray){
         this.id = id;
-        this.name = name;
         this.obstacleArray = obstacleArray;
     }
 
@@ -23,9 +21,6 @@ public class Track implements Serializable {
         return id;
     }
 
-    public String getName(){
-        return name;
-    }
 
     public ArrayList<RoadItem> getObstacleArray() {
         return obstacleArray;

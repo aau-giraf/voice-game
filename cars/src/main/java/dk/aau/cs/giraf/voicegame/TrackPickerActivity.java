@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.voicegame;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,17 +16,28 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+
 import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.voicegame.Interfaces.Drawable;
+import dk.aau.cs.giraf.voicegame.game.CarGame;
 import dk.aau.cs.giraf.voicegame.game.GameItem;
 
 public class TrackPickerActivity extends GirafActivity {
 
     private static final int PLAY_BUTTON_ID = 1;
-
+    private int listObjectClicked;
+    private ArrayList<Integer> trackArrayList;
+    private TrackOrganizer trackOrganizer = null;
+    private GList trackList;
+    private Track track;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,18 +54,18 @@ public class TrackPickerActivity extends GirafActivity {
         //ImageView image = (ImageView) findViewById(R.id.button_track1_image);
         //image.setBackgroundColor(Color.BLACK);
 
-        String array[] = {"Track1", "Track2", "Track3"};
-        ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, array);
-        GList trackList = (GList) findViewById(R.id.list_tracks);
 
-        trackList.setAdapter(adapter);
+        TrackOrganizer trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
+
+        updateTrackArrayList();
 
         trackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String string = String.valueOf(parent.getItemAtPosition(position));
-                Toast.makeText(TrackPickerActivity.this, string, Toast.LENGTH_LONG).show();
+                listObjectClicked = (int)parent.getItemAtPosition(position);
+                Toast.makeText(TrackPickerActivity.this, String.valueOf(listObjectClicked), Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -65,7 +77,10 @@ public class TrackPickerActivity extends GirafActivity {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(TrackPickerActivity.this, CarGame.class);
+                intent.putExtra("settings", getIntent().getExtras());
+                //intent.putExtra("track", )
+                startActivity(intent);
             }
         });
         addGirafButtonToActionBar(playButton, GirafActivity.RIGHT);
@@ -77,7 +92,9 @@ public class TrackPickerActivity extends GirafActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                trackOrganizer.deleteTrack(listObjectClicked);
+                updateTrackArrayList();
+                System.out.println("It should be deleted by now");
             }
         });
         addGirafButtonToActionBar(deleteButton, GirafActivity.RIGHT);
@@ -95,4 +112,22 @@ public class TrackPickerActivity extends GirafActivity {
         addGirafButtonToActionBar(editButton, GirafActivity.RIGHT);
     }
 
+    private void updateTrackArrayList(){
+        trackArrayList = new ArrayList<>();
+        if(!trackOrganizer.getArray().isEmpty()){
+            for (Track track: trackOrganizer.getArray()) {
+                if(track != null){
+                    trackArrayList.add(track.getID());
+                }
+
+            }
+        }
+
+
+
+        ListAdapter adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_list_item_1, trackArrayList);
+        trackList = (GList) findViewById(R.id.list_tracks);
+
+        trackList.setAdapter(adapter);
+    }
 }

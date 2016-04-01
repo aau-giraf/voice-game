@@ -99,14 +99,16 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     }
 
     public void startGame(View view) {
+        /*
         Intent intent = new Intent(this, CarGame.class);
         intent.putExtra(DatabaseHelper.CHILD_ID, currentId);
-        intent.putExtra("settings", getGameSettings());
+
         startActivity(intent);
-        /*
+        */
 
         Intent intent = new Intent(this, TrackPickerActivity.class);
-        startActivity(intent);*/
+        intent.putExtra("settings", getGameSettings());
+        startActivity(intent);
 
     }
 

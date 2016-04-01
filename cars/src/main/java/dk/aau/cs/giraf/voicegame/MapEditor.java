@@ -43,6 +43,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
     private Bitmap screenshot;
     private GirafInflatableDialog saveDialog;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,21 +143,13 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
             saveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Track trackToSave = new Track(1, "Bane 1", mapScreen.roadItems);
-                    String fileName = "/sdcard/TracksFile";
-                    try{
-                        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
-                        oos.writeObject(trackToSave);
-                        oos.close();
-                    } catch (FileNotFoundException e){
-                        System.out.println("File not found - output");
-                        e.printStackTrace();
-                    } catch (IOException e){
-                        System.out.println("IO exception happened while writing");
-                        e.printStackTrace();
-                    }
+                    //Read the trackorganizer from file
+                    TrackOrganizer trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
+                    //Add a track to the trackorganizer
+                    trackOrganizer.addTrack(mapScreen.roadItems);
+                    //Write the trackorganizer to the file.
+                    IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
 
-                    // TODO make the dialog close after succesful save
                     saveDialog.dismiss();
                 }
             });
