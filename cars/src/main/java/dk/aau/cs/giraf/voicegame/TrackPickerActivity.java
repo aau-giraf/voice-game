@@ -15,6 +15,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GList;
@@ -42,8 +44,15 @@ public class TrackPickerActivity extends GirafActivity {
         //ImageView image = (ImageView) findViewById(R.id.button_track1_image);
         //image.setBackgroundColor(Color.BLACK);
 
-        String array[] = {"Track1", "Track2", "Track3"};
-        ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, array);
+        ArrayList<Integer> array = new ArrayList<>();
+        array.add(0);
+        array.add(1);
+        array.add(2);
+        array.add(3);
+        array.add(4);
+        array.add(5);
+
+        ListAdapter adapter = new TrackListAdapter(this, array);
         GList trackList = (GList) findViewById(R.id.list_tracks);
 
         trackList.setAdapter(adapter);
