@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
+import java.util.ArrayList;
+
 import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GList;
@@ -30,6 +32,9 @@ import dk.aau.cs.giraf.voicegame.Interfaces.Drawable;
 import dk.aau.cs.giraf.voicegame.game.CarGame;
 import dk.aau.cs.giraf.voicegame.game.GameItem;
 
+/**
+ * The activity from where the user can see and choose the tracks that have been saved
+ */
 public class TrackPickerActivity extends GirafActivity {
 
     private static final int PLAY_BUTTON_ID = 1;
@@ -54,8 +59,18 @@ public class TrackPickerActivity extends GirafActivity {
         //ImageView image = (ImageView) findViewById(R.id.button_track1_image);
         //image.setBackgroundColor(Color.BLACK);
 
+        ArrayList<Integer> array = new ArrayList<>();
+        array.add(0);
+        array.add(1);
+        array.add(2);
+        array.add(3);
+        array.add(4);
+        array.add(5);
 
-        TrackOrganizer trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
+        ListAdapter adapter = new TrackListAdapter(this, array);
+        GList trackList = (GList) findViewById(R.id.list_tracks);
+
+        trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
 
         updateTrackArrayList();
 
@@ -114,6 +129,7 @@ public class TrackPickerActivity extends GirafActivity {
 
     private void updateTrackArrayList(){
         trackArrayList = new ArrayList<>();
+        if(trackOrganizer == null) System.out.println("trackorganizer is null");
         if(!trackOrganizer.getArray().isEmpty()){
             for (Track track: trackOrganizer.getArray()) {
                 if(track != null){

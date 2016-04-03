@@ -9,6 +9,9 @@ import dk.aau.cs.giraf.voicegame.game.RoadItem;
  * Keeps track of all the tracks; their name and position in the array and places it within the array.
  */
 public class TrackOrganizer implements Serializable{
+
+    static final long serialVersionUID = 1L;
+
     private ArrayList<Track> trackArrayList;
 
     public  TrackOrganizer(){

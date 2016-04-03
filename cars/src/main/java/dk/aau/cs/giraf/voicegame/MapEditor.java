@@ -37,7 +37,6 @@ import dk.aau.cs.giraf.gui.GirafButton;
 
 public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnCustomViewCreatedListener {
     private GameSettings gamesettings;
-    private long currentId;
     // Holder of screen settings
     private MapScreen mapScreen;
     private Bitmap screenshot;
@@ -49,13 +48,6 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-
-        if (intent.hasExtra(DatabaseHelper.CHILD_ID))
-            currentId = intent.getLongExtra(DatabaseHelper.CHILD_ID, 0);
-        else throw new IllegalArgumentException("no child id");
-
-        DatabaseHelper database = new DatabaseHelper(this);
-        database.Initialize(currentId);
 
         if(intent.hasExtra("settings")){
             gamesettings = (GameSettings)intent.getSerializableExtra("settings");
@@ -105,7 +97,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
             @Override
             public void onClick(View view) {
                 screenshot = renderview.getScreenshot();
-                saveDialog = GirafInflatableDialog.newInstance("Gem bane", "Her kan du se et billede af din bane", R.layout.activity_save_dialog, SAVE_DIALOG_ID);
+                saveDialog = GirafInflatableDialog.newInstance(getResources().getString(R.string.save_dialog_title), getResources().getString(R.string.save_dialog_text), R.layout.activity_save_dialog, SAVE_DIALOG_ID);
                 saveDialog.show(getSupportFragmentManager(), SAVE_DIALOG_TAG);
             }
         });
@@ -122,14 +114,15 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
     public void onBackPressed() {
         super.onBackPressed();
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(getApplication());
-        databaseHelper.Initialize(currentId);
-
-        databaseHelper.SaveSettings(gamesettings);
-
         this.finish();
     }
 
+    /**
+     * and override method from implementing GirafInflatableDialog.OnCustomViewCreatedListener
+     * Content of the dialog goes in this method
+     * @param viewGroup the views inside the dialog, access this when editing views.
+     * @param i the id of the dialog
+     */
     @Override
     public void editCustomView(final ViewGroup viewGroup, int i) {
         if(i == SAVE_DIALOG_ID) {
@@ -157,7 +150,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
             cancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO make the dialog close
+
                     saveDialog.dismiss();
                 }
             });
@@ -185,9 +178,6 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
             roadItems = new ArrayList<RoadItem>();
             map = new HashMap<String, Float>();
-
-            DatabaseHelper databaseHelper = new DatabaseHelper(getApplication());
-            databaseHelper.Initialize(currentId);
 
             roadItems = gamesettings.LoadObstacles();
             map = gamesettings.GetMap();

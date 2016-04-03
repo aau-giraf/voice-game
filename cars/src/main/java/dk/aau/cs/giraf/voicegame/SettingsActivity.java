@@ -64,7 +64,8 @@ public class SettingsActivity extends GirafActivity{
              */
             @Override
             public void onClick(View v) {
-                SaveSettings();
+                SaveSettings(new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(),
+                        calibration.GetMaxVolume(),gameSettings.GetMap(), gameMode), getApplicationContext());
             }
         });
 
@@ -156,17 +157,20 @@ public class SettingsActivity extends GirafActivity{
     /**
      * Saves object GameSettings, which implements Serializable to local file.
      */
-    public void SaveSettings(){
+    public static void SaveSettings(GameSettings gs, Context context){
+        if(gs == null){
+            gs = new GameSettings();//Causes creation of file with default settings
+        }
         FileOutputStream fos = null;
         try {
-            fos = getApplicationContext().openFileOutput("vg_settings", Context.MODE_PRIVATE);
+            fos = context.openFileOutput("vg_settings", Context.MODE_PRIVATE);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         ObjectOutputStream os = null;
         try {
             os = new ObjectOutputStream(fos);
-            os.writeObject(new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(), calibration.GetMaxVolume(),gameSettings.GetMap(), gameMode));
+            os.writeObject(gs);
             os.close();
             fos.close();
         } catch (IOException e) {
