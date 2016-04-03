@@ -70,6 +70,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     }
 
     public void startGame(View view) {
+
         /*
         Intent intent = new Intent(this, CarGame.class);
         intent.putExtra("settings", getGameSettings());

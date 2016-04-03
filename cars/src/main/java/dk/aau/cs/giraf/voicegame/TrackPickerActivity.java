@@ -54,22 +54,6 @@ public class TrackPickerActivity extends GirafActivity {
         createPlayButton();
 
         setContentView(v);
-
-        //ImageView trackImage1 = (ImageView) findViewById(R.id.image_track1);
-        //ImageView image = (ImageView) findViewById(R.id.button_track1_image);
-        //image.setBackgroundColor(Color.BLACK);
-
-        ArrayList<Integer> array = new ArrayList<>();
-        array.add(0);
-        array.add(1);
-        array.add(2);
-        array.add(3);
-        array.add(4);
-        array.add(5);
-
-        ListAdapter adapter = new TrackListAdapter(this, array);
-        GList trackList = (GList) findViewById(R.id.list_tracks);
-
         trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
 
         updateTrackArrayList();
@@ -107,7 +91,11 @@ public class TrackPickerActivity extends GirafActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //Delete a track from the trackorganizer
                 trackOrganizer.deleteTrack(listObjectClicked);
+                //Write the trackorganizer to the file.
+                IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
                 updateTrackArrayList();
                 System.out.println("It should be deleted by now");
             }
@@ -141,7 +129,7 @@ public class TrackPickerActivity extends GirafActivity {
 
 
 
-        ListAdapter adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_list_item_1, trackArrayList);
+        ListAdapter adapter = new TrackListAdapter(this, trackArrayList);
         trackList = (GList) findViewById(R.id.list_tracks);
 
         trackList.setAdapter(adapter);
