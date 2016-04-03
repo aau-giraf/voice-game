@@ -23,5 +23,7 @@
     <string name="calibration_low_help">Hold knappen \'Lav\' inde uden at sige noget</string>
     <string name="Profile_selector">Vælg den borger du vil skifte til</string>
     <string name="title_activity_track_picker">TrackPickerActivity</string>
+    <string name="save_dialog_title">Gem bane</string>
+    <string name="save_dialog_text">Her kan du se et billede af din bane</string>
 
 </resources>

@@ -24,6 +24,9 @@ import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.voicegame.Interfaces.Drawable;
 import dk.aau.cs.giraf.voicegame.game.GameItem;
 
+/**
+ * The activity from where the user can see and choose the tracks that have been saved
+ */
 public class TrackPickerActivity extends GirafActivity {
 
     private static final int PLAY_BUTTON_ID = 1;

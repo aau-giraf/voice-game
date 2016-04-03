@@ -78,6 +78,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         */
 
         Intent intent = new Intent(this, TrackPickerActivity.class);
+        intent.putExtra("settings", getGameSettings());
         startActivity(intent);
 
     }
