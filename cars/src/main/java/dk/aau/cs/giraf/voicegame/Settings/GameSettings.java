@@ -29,7 +29,7 @@ public class GameSettings implements Serializable {
     private float speed;
     private float minVolume;
     private float maxVolume;
-    private HashMap<String, Float> map;
+    private ArrayList<RoadItem> roadItems;
     private GameMode gameMode;
     // when set to silence, the car moves when the microphone is not picking up sound.
     // TODO implement way to set this property in the settings menu
@@ -41,16 +41,14 @@ public class GameSettings implements Serializable {
         this.speed = DEFAULT_SPEED;
         this.minVolume = DEFAULT_MIN;
         this.maxVolume = DEFAULT_MAX;
-        this.map = new HashMap<String, Float>();
         this.gameMode = DEFAULT_GAME_MODE;
     }
 
-    public GameSettings(int color, float speed, float minVolume, float maxVolume, HashMap<String, Float> map, GameMode gameMode) {
+    public GameSettings(int color, float speed, float minVolume, float maxVolume, GameMode gameMode) {
         this.color = color;
         this.speed = speed;
         this.minVolume = minVolume;
         this.maxVolume = maxVolume;
-        this.map = map;
         this.gameMode = gameMode;
     }
 
@@ -70,33 +68,15 @@ public class GameSettings implements Serializable {
         return maxVolume;
     }
 
-    public void SetMap(HashMap<String, Float> map) {
-        this.map = map;
-    }
 
-    public HashMap<String, Float> GetMap() {
-        return map;
+    public void setRoadItem(ArrayList<RoadItem> roadItems) {
+        this.roadItems = roadItems;
     }
 
     public MoveState getMoveState() { return moveState; }
 
     public ArrayList<RoadItem> LoadObstacles() {
-        ArrayList<RoadItem> roadItems = new ArrayList<RoadItem>();
 
-        if (map.get("count") == null) {
-            Log.d("database", "returning empty obstacles");
-            return roadItems;
-        }
-        Log.d("database", map.toString());
-
-        int count = map.get("count").intValue();
-        Log.d("database", "count" + count);
-        for (int i = 0; i < count; i++) {
-            float x = map.get("x" + i);
-            float y = map.get("y" + i);
-
-            roadItems.add(new RoadItem(x, y, OBSTACLE_SIZE, OBSTACLE_SIZE, gameMode));
-        }
         return roadItems;
     }
 

@@ -62,9 +62,9 @@ public class TrackPickerActivity extends GirafActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listObjectClicked = (int)parent.getItemAtPosition(position);
+                listObjectClicked = (int) parent.getItemAtPosition(position);
                 Toast.makeText(TrackPickerActivity.this, String.valueOf(listObjectClicked), Toast.LENGTH_SHORT).show();
-
+                track = trackOrganizer.getTrack(listObjectClicked);
             }
         });
 
@@ -110,9 +110,18 @@ public class TrackPickerActivity extends GirafActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(TrackPickerActivity.this, MapEditor.class);
-                intent.putExtra("settings", getIntent().getBundleExtra("settings"));
-                startActivity(intent);
+                if(track != null) {
+                    trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
+                    Intent intent = new Intent(TrackPickerActivity.this, MapEditor.class);
+                    intent.putExtra("settings", getIntent().getBundleExtra("settings"));
+                    intent.putExtra("edit", true);
+                    intent.putExtra("track", track);
+                    System.out.println("From TrackPickerActivity, Number of stars: " + track.getObstacleArray().size());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(TrackPickerActivity.this, getResources().getString(R.string.track_pick_error), Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         addGirafButtonToActionBar(editButton, GirafActivity.RIGHT);
@@ -120,7 +129,6 @@ public class TrackPickerActivity extends GirafActivity {
 
     private void updateTrackArrayList(){
         trackArrayList = new ArrayList<>();
-        if(trackOrganizer == null) System.out.println("trackorganizer is null");
         if(!trackOrganizer.getArray().isEmpty()){
             for (Track track: trackOrganizer.getArray()) {
                 if(track != null){
@@ -136,5 +144,13 @@ public class TrackPickerActivity extends GirafActivity {
         trackList = (GList) findViewById(R.id.list_tracks);
 
         trackList.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
+        track = null;
     }
 }

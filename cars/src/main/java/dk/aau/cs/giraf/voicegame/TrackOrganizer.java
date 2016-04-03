@@ -34,19 +34,26 @@ public class TrackOrganizer implements Serializable{
         }
     }
 
-    public void deleteTrack(int id){
-        trackArrayList.set(id, null);
+    public void deleteTrack(int trackID){
+        trackArrayList.set(trackID, null);
         for (Track track: trackArrayList) {
             if(track != null){
                 System.out.print(track.getID());
             }else{
                 System.out.print("null");
             }
-
         }
     }
 
     public ArrayList<Track> getArray(){
         return trackArrayList;
+    }
+
+    public Track getTrack(int trackID) {
+        return trackArrayList.get(trackID);
+    }
+
+    public void editTrack(int trackID, ArrayList<RoadItem> roadItems) {
+        trackArrayList.get(trackID).setObstacleArray(roadItems);
     }
 }

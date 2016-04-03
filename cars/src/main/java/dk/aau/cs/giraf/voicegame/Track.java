@@ -25,4 +25,19 @@ public class Track implements Serializable {
     public ArrayList<RoadItem> getObstacleArray() {
         return obstacleArray;
     }
+
+    public void setObstacleArray(ArrayList<RoadItem> obstacleArray) {
+        this.obstacleArray = obstacleArray;
+    }
+
+    /**
+     * This method prepares the roaditems for rendering. Always call this method when loading a track from file or as an extra, else the text might look weird
+     */
+    public void initRoadItems() {
+        if (!obstacleArray.isEmpty()) {
+            for (RoadItem item: obstacleArray) {
+                item.initPaint();
+            }
+        }
+    }
 }

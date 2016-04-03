@@ -74,7 +74,7 @@ public class DatabaseHelper {
 
         GameMode gameMode = GameMode.valueOf(settings.getSetting(this.context, "game_mode"));
 
-        return new GameSettings(color, speed, min, max, map, gameMode);
+        return new GameSettings(color, speed, min, max,/* map,*/ gameMode);
     }
 
     public long GetDefaultChild() {
@@ -103,7 +103,7 @@ public class DatabaseHelper {
     public void SaveSettings(GameSettings gs) {
 
         Settings s = new Settings();
-        SaveMapToSettings(gs.GetMap() , s);
+        //SaveMapToSettings(gs.GetMap() , s);
         s.createSetting(this.context, "speed", Float.toString(gs.GetSpeed()));
         s.createSetting(this.context, "color", Integer.toString(gs.GetColor()));
         s.createSetting(this.context, "minvolume", Float.toString(gs.GetMinVolume()));

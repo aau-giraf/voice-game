@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.voicegame;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -21,11 +22,6 @@ public class IOService {
         }
         return ioService;
     }
-
-    public IOService(){
-
-    }
-
 
     /**
      * Method will try to read the trackOrganizer, it does not already exist (is null), then it will instantiate a new TrackOrganizer instead.
@@ -71,6 +67,14 @@ public class IOService {
             System.out.println("IO exception happened while writing");
             e.printStackTrace();
         }
+    }
+
+    public void deleteTrackOrganizer(){
+        File file = new File(TRACK_FILE_PATH);
+        if (file != null) {
+            file.delete();
+        }
+
     }
 
 }
