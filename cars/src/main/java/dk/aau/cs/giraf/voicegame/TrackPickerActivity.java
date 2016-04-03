@@ -72,6 +72,9 @@ public class TrackPickerActivity extends GirafActivity {
 
     }
 
+    /**
+     * Creates the play button, shown in the toolbar
+     */
     private void createPlayButton() {
         GirafButton playButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_play));
 
@@ -84,6 +87,9 @@ public class TrackPickerActivity extends GirafActivity {
         addGirafButtonToActionBar(playButton, GirafActivity.RIGHT);
     }
 
+    /**
+     * Creates the delete button, shown in the toolbar
+     */
     private void createDeleteButton() {
         GirafButton deleteButton = new GirafButton(this, getResources().getDrawable(R.drawable.delete));
 
@@ -96,6 +102,9 @@ public class TrackPickerActivity extends GirafActivity {
         addGirafButtonToActionBar(deleteButton, GirafActivity.RIGHT);
     }
 
+    /**
+     * Creates the edit track button, shown in the toolbar
+     */
     private void createEditButton() {
         GirafButton editButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_edit));
 
