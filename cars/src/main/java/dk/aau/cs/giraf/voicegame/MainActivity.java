@@ -27,40 +27,11 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
     private static final int CHANGE_USER_SELECTOR_DIALOG = 100;
     private GameSettings gameSettings;
 
-    long currentId, guardianId;
     GirafButton GirafButtonProfileSelect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Intent intent = getIntent();
-
-        DatabaseHelper database = new DatabaseHelper(this);
-
-        //dk.aau.cs.giraf.dblib.Helper h = new dk.aau.cs.giraf.dblib.Helper(this);
-        //h.CreateDummyData();
-        // Skip loading screen if monkey test
-        if (ActivityManager.isUserAMonkey()) {
-            Helper h = new Helper(this);
-
-            currentId = -1;
-            guardianId = h.profilesHelper.getGuardians().get(0).getId();
-        }
-        else {
-            currentId = intent.getLongExtra(DatabaseHelper.CHILD_ID, database.GetDefaultChild());
-            Log.d("id", Long.toString(currentId));
-            guardianId = intent.getLongExtra(DatabaseHelper.GUARDIAN_ID, database.GetChildDefaultGuardian());
-        }
-
-        Profile curGuardian = database.GetProfileById(guardianId);
-        Profile curProfile;
-        if (currentId == -1) {
-            curProfile = null;
-            currentId = guardianId;
-        } else {
-            curProfile = database.GetProfileById(currentId);
-        }
 
         setGameSettings(GameSettings.LoadSettings(getApplicationContext()));
         setContentView(R.layout.activity_main_menu);
@@ -76,7 +47,7 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
             @Override
             public void onClick(View v) {
 
-                GirafProfileSelectorDialog changeUser = GirafProfileSelectorDialog.newInstance(MainActivity.this, guardianId, false, false, "Vælg den borger du vil skifte til.", CHANGE_USER_SELECTOR_DIALOG);
+                GirafProfileSelectorDialog changeUser = GirafProfileSelectorDialog.newInstance(MainActivity.this, 1, false, false, getResources().getString(R.string.Profile_selector), CHANGE_USER_SELECTOR_DIALOG);
                 changeUser.show(getSupportFragmentManager(), "" + CHANGE_USER_SELECTOR_DIALOG);
 
             }
@@ -102,7 +73,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
 
         /*
         Intent intent = new Intent(this, CarGame.class);
-        intent.putExtra(DatabaseHelper.CHILD_ID, currentId);
         intent.putExtra("settings", getGameSettings());
         startActivity(intent);
         */
@@ -114,7 +84,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
 
     public void startMapEditor(View view) {
         Intent intent = new Intent(this, MapEditor.class);
-        intent.putExtra(DatabaseHelper.CHILD_ID, currentId);
         intent.putExtra("settings", getGameSettings());
         startActivity(intent);
     }
@@ -129,14 +98,9 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
 
     private void loadWidgets() {
         final GWidgetProfileSelection widgetProfileSelection = (GWidgetProfileSelection) findViewById(R.id.profile_widget);
-        Helper h = new Helper(this);
-        // Fetch the profile picture
-        Bitmap profilePicture = h.profilesHelper.getById(currentId).getImage();
-        // If there were no profile picture use the default template
-        if (profilePicture == null) {
-            // Fetch the default template
-            profilePicture = ((BitmapDrawable) this.getResources().getDrawable(R.drawable.no_profile_pic)).getBitmap();
-        }
+
+        // Fetch the default template
+        Bitmap profilePicture = ((BitmapDrawable) this.getResources().getDrawable(R.drawable.no_profile_pic)).getBitmap();
 
         // Set the profile picture
         widgetProfileSelection.setImageBitmap(profilePicture);
@@ -149,7 +113,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         if (i == CHANGE_USER_SELECTOR_DIALOG) {
 
             // Update the profile
-            currentId = profile.getId();
             loadWidgets();
         }
 
