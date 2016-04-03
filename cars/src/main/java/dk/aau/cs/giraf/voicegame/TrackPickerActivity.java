@@ -101,6 +101,7 @@ public class TrackPickerActivity extends GirafActivity {
             }
         });
         addGirafButtonToActionBar(deleteButton, GirafActivity.RIGHT);
+        
     }
 
     private void createEditButton() {
