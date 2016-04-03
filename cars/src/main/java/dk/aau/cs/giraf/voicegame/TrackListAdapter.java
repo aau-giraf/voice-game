@@ -22,6 +22,13 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
         super(context, R.layout.track_picker_row, intResource);
     }
 
+    /**
+     * Override method from ArrayAdapter which displays the view for each row in the list in which the adapter is assigned
+     * @param position is the position in the list
+     * @param convertView the view that makes up a row
+     * @param parent the parent view
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

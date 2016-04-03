@@ -31,6 +31,11 @@ public class TrackPickerActivity extends GirafActivity {
 
     private static final int PLAY_BUTTON_ID = 1;
 
+    /**
+     * Called when the activity is started.
+     * Instantiates the TrackListAdapter, which makes the content of list shown in this activity.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +47,6 @@ public class TrackPickerActivity extends GirafActivity {
         createPlayButton();
 
         setContentView(v);
-
-        //ImageView trackImage1 = (ImageView) findViewById(R.id.image_track1);
-        //ImageView image = (ImageView) findViewById(R.id.button_track1_image);
-        //image.setBackgroundColor(Color.BLACK);
 
         ArrayList<Integer> array = new ArrayList<>();
         array.add(0);
@@ -73,7 +74,7 @@ public class TrackPickerActivity extends GirafActivity {
 
     private void createPlayButton() {
         GirafButton playButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_play));
-        //button.setId(R.id.button_playtrack);
+
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,7 +86,7 @@ public class TrackPickerActivity extends GirafActivity {
 
     private void createDeleteButton() {
         GirafButton deleteButton = new GirafButton(this, getResources().getDrawable(R.drawable.delete));
-        //button.setId(R.id.button_playtrack);
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +98,7 @@ public class TrackPickerActivity extends GirafActivity {
 
     private void createEditButton() {
         GirafButton editButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_edit));
-        //button.setId(R.id.button_playtrack);
+
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
