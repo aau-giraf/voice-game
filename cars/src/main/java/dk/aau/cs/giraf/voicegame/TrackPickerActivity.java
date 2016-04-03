@@ -101,7 +101,7 @@ public class TrackPickerActivity extends GirafActivity {
             }
         });
         addGirafButtonToActionBar(deleteButton, GirafActivity.RIGHT);
-        
+
     }
 
     private void createEditButton() {
@@ -110,7 +110,9 @@ public class TrackPickerActivity extends GirafActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(TrackPickerActivity.this, MapEditor.class);
+                intent.putExtra("settings", getIntent().getBundleExtra("settings"));
+                startActivity(intent);
             }
         });
         addGirafButtonToActionBar(editButton, GirafActivity.RIGHT);
