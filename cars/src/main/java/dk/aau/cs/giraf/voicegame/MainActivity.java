@@ -53,9 +53,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
             }
         });
         loadWidgets();
-
-        // TODO This will delete the trackOrganizer, remove before push
-        IOService.instance().deleteTrackOrganizer();
     }
 
 
@@ -82,6 +79,9 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         Intent intent = new Intent(this, TrackPickerActivity.class);
         intent.putExtra("settings", getGameSettings());
         startActivity(intent);
+
+
+
     }
 
     public void startMapEditor(View view) {

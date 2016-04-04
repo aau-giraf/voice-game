@@ -163,7 +163,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
                     //Write the trackorganizer to the file.
                     IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
-                    gamesettings.setRoadItem(mapScreen.roadItems);
+                    gamesettings.setRoadItems(mapScreen.roadItems);
 
                     saveDialog.dismiss();
                 }
@@ -272,8 +272,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
         private void Clear() {
             roadItems = new ArrayList<RoadItem>();
-            //map = new HashMap<String, Float>();
-            gamesettings.setRoadItem(roadItems);
+            gamesettings.setRoadItems(roadItems);
         }
 
         // Gets called when an object is added in the map editor screen
@@ -282,8 +281,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
             RoadItem roadItem = new RoadItem(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE, gamesettings.GetGameMode());
             roadItems.add(roadItem);
-            //AddObstacle(map, x, y, index);
-            gamesettings.setRoadItem(roadItems);
+            gamesettings.setRoadItems(roadItems);
 
             return roadItem;
 
@@ -297,7 +295,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
             roadItems.remove(roadItem);
 
-            gamesettings.setRoadItem(roadItems);
+            gamesettings.setRoadItems(roadItems);
         }
 
         // Gets called when an objects position is updated in the map editor screen

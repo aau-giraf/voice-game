@@ -9,7 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- *
+ * A singleton class that handles read/write actions to/from internal storage
  */
 public class IOService {
     public static final String TRACK_FILE_PATH = "/sdcard/TracksFile";
@@ -69,6 +69,9 @@ public class IOService {
         }
     }
 
+    /**
+     * Deletes the trackOrganizer
+     */
     public void deleteTrackOrganizer(){
         File file = new File(TRACK_FILE_PATH);
         if (file != null) {
