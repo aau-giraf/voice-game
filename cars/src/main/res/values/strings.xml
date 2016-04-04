@@ -25,5 +25,6 @@
     <string name="title_activity_track_picker">TrackPickerActivity</string>
     <string name="save_dialog_title">Gem bane</string>
     <string name="save_dialog_text">Her kan du se et billede af din bane</string>
+    <string name="track_pick_error">Du skal vælge en bane først</string>
 
 </resources>

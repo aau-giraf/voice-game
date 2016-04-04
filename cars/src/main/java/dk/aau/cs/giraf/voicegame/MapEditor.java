@@ -48,18 +48,23 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
         Intent intent = getIntent();
 
+
         if(intent.hasExtra("settings")){
             gamesettings = (GameSettings)intent.getSerializableExtra("settings");
         } else {
             gamesettings = new GameSettings(); //Default settings
         }
-
     }
 
+    /**
+     * gets the mapscreen which is instantied. The false value indicate that the mapscreen is by default working with a blank map.
+     * If set to true, the activity starting the MapEditor activity must supply a track under the name of "track" as extras. TrackPickerActivity does so.
+     * @return the MapScreen that was requested
+     */
     @Override
     public Screen getFirstScreen() {
 
-        mapScreen = new MapScreen(this);
+        mapScreen = new MapScreen(this, getIntent().getBooleanExtra("edit", false));
         return mapScreen;
     }
 
@@ -133,21 +138,26 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
             GirafButton cancelButton = (GirafButton) viewGroup.findViewById(R.id.button_anuller);
 
             saveButton.setOnClickListener(new View.OnClickListener() {
+
+                /**
+                 * When clicking the save button, the track will be edited, if the "edit" extra is set to true, and call the appropriate method in the trackOrganizer
+                 * @param v the view that was clicked
+                 */
                 @Override
                 public void onClick(View v) {
-                    Track trackToSave = new Track(1, "Bane 1", mapScreen.roadItems);
-                    String fileName = "/sdcard/TracksFile";
-                    try{
-                        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName));
-                        oos.writeObject(trackToSave);
-                        oos.close();
-                    } catch (FileNotFoundException e){
-                        System.out.println("File not found - output");
-                        e.printStackTrace();
-                    } catch (IOException e){
-                        System.out.println("IO exception happened while writing");
-                        e.printStackTrace();
+                    //Read the trackorganizer from file
+                    TrackOrganizer trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
+                    //Add a track to the trackorganizer
+                    if (getIntent().getBooleanExtra("edit", false)) {
+                        Track track = (Track)getIntent().getSerializableExtra("track");
+                        trackOrganizer.editTrack(track.getID(), mapScreen.roadItems);
+                    } else {
+                        trackOrganizer.addTrack(mapScreen.roadItems);
                     }
+
+                    //Write the trackorganizer to the file.
+                    IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
+                    gamesettings.setRoadItems(mapScreen.roadItems);
 
                     saveDialog.dismiss();
                 }
@@ -161,7 +171,6 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 }
             });
 
-
         }
     }
 
@@ -172,21 +181,22 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
         private int finishLineX;
 
         private ArrayList<RoadItem> roadItems;
-        private HashMap<String, Float> map;
 
         private RoadItem dragItem = null;
         private Point dragStart = new Point(0, 0);
         private boolean canRemove = false;
 
-        public MapScreen(Game game) {
+        public MapScreen(Game game, boolean editMap) {
             super(game);
             setCarX(-getCarWidth());
 
-            roadItems = new ArrayList<RoadItem>();
-            map = new HashMap<String, Float>();
-
-            roadItems = gamesettings.LoadObstacles();
-            map = gamesettings.GetMap();
+            if(editMap){
+                Track track = (Track)getIntent().getSerializableExtra("track");
+                track.initRoadItems();
+                roadItems = track.getObstacleArray();
+            } else {
+                roadItems = new ArrayList<RoadItem>();
+            }
 
             this.finishLineX = game.getWidth() - 80;
         }
@@ -255,15 +265,8 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
         }
 
         private void Clear() {
-            roadItems.clear();
-            map = new HashMap<String, Float>();
-            gamesettings.SetMap(map);
-        }
-
-        public void AddObstacle(HashMap<String, Float> map, float x, float y, int index) {
-            map.put("x" + index, x);
-            map.put("y" + index, y);
-            map.put("count", (float) index + 1);
+            roadItems = new ArrayList<RoadItem>();
+            gamesettings.setRoadItems(roadItems);
         }
 
         // Gets called when an object is added in the map editor screen
@@ -272,8 +275,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
             RoadItem roadItem = new RoadItem(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE, gamesettings.GetGameMode());
             roadItems.add(roadItem);
-            AddObstacle(map, x, y, index);
-            gamesettings.SetMap(map);
+            gamesettings.setRoadItems(roadItems);
 
             return roadItem;
 
@@ -285,32 +287,24 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
             int index = roadItems.indexOf(roadItem);
             int size = roadItems.size();
 
-            HashMap<String, Float> map = gamesettings.GetMap();
-
-            for (int i = index; i < size - 1; i++) {
-                RoadItem r = roadItems.get(i + 1);
-                map.put("x" + i, r.x);
-                map.put("y" + i, r.y);
-            }
-            map.remove("x" + (size - 1));
-            map.remove("y" + (size - 1));
-
-            map.put("count", (float) size - 1);
             roadItems.remove(roadItem);
 
-            gamesettings.SetMap(map);
+            gamesettings.setRoadItems(roadItems);
         }
 
         // Gets called when an objects position is updated in the map editor screen
         private void updateItem(RoadItem roadItem, float x, float y) {
             int index = roadItems.indexOf(roadItem);
-            map.put("x" + index, x);
-            map.put("y" + index, y);
+
             roadItem.x = x;
             roadItem.y = y;
 
             // updates the barometer number of the star (The number indicating how high the sound volume must be in order for the car to reach the star)
             roadItem.setBarometerNumber();
+        }
+
+        public void setRoadItems(ArrayList<RoadItem> roadItems) {
+            this.roadItems = roadItems;
         }
 
         @Override

@@ -42,10 +42,7 @@ public abstract class RunningScreen extends GameScreen {
 
         currentTrack = loadTrack();
         if(currentTrack != null) {
-            System.out.println("Running screen: track name: " + currentTrack.getName());
-            for (RoadItem roaditem: currentTrack.getObstacleArray()) {
-                roaditem.initPaint();
-            }
+            currentTrack.initRoadItems();
         }
 
     }

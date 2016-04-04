@@ -80,6 +80,8 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         intent.putExtra("settings", getGameSettings());
         startActivity(intent);
 
+
+
     }
 
     public void startMapEditor(View view) {

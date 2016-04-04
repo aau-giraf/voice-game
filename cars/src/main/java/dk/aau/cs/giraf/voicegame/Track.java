@@ -10,12 +10,10 @@ import dk.aau.cs.giraf.voicegame.game.RoadItem;
  */
 public class Track implements Serializable {
     private int id;
-    private String name;
     private ArrayList<RoadItem> obstacleArray;
 
-    public Track(int id, String name, ArrayList<RoadItem> obstacleArray){
+    public Track(int id, ArrayList<RoadItem> obstacleArray){
         this.id = id;
-        this.name = name;
         this.obstacleArray = obstacleArray;
     }
 
@@ -23,11 +21,27 @@ public class Track implements Serializable {
         return id;
     }
 
-    public String getName(){
-        return name;
-    }
 
     public ArrayList<RoadItem> getObstacleArray() {
         return obstacleArray;
+    }
+
+    /**
+     * Needed method for other components that reads road items from game settings.
+     * @param obstacleArray
+     */
+    public void setObstacleArray(ArrayList<RoadItem> obstacleArray) {
+        this.obstacleArray = obstacleArray;
+    }
+
+    /**
+     * This method prepares the roaditems for rendering. Always call this method when loading a track from file or as an extra, else the text might look weird
+     */
+    public void initRoadItems() {
+        if (!obstacleArray.isEmpty()) {
+            for (RoadItem item: obstacleArray) {
+                item.initPaint();
+            }
+        }
     }
 }

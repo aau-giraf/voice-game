@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.voicegame;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,6 +16,12 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+
 import java.util.ArrayList;
 
 import dk.aau.cs.giraf.activity.GirafActivity;
@@ -22,6 +29,7 @@ import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.voicegame.Interfaces.Drawable;
+import dk.aau.cs.giraf.voicegame.game.CarGame;
 import dk.aau.cs.giraf.voicegame.game.GameItem;
 
 /**
@@ -30,6 +38,11 @@ import dk.aau.cs.giraf.voicegame.game.GameItem;
 public class TrackPickerActivity extends GirafActivity {
 
     private static final int PLAY_BUTTON_ID = 1;
+    private int listObjectClicked;
+    private ArrayList<Integer> trackArrayList;
+    private TrackOrganizer trackOrganizer = null;
+    private GList trackList;
+    private Track track;
 
     /**
      * Called when the activity is started.
@@ -47,26 +60,18 @@ public class TrackPickerActivity extends GirafActivity {
         createPlayButton();
 
         setContentView(v);
+        
+        trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
 
-        ArrayList<Integer> array = new ArrayList<>();
-        array.add(0);
-        array.add(1);
-        array.add(2);
-        array.add(3);
-        array.add(4);
-        array.add(5);
-
-        ListAdapter adapter = new TrackListAdapter(this, array);
-        GList trackList = (GList) findViewById(R.id.list_tracks);
-
-        trackList.setAdapter(adapter);
+        updateTrackArrayList();
 
         trackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String string = String.valueOf(parent.getItemAtPosition(position));
-                Toast.makeText(TrackPickerActivity.this, string, Toast.LENGTH_LONG).show();
+                listObjectClicked = (int)parent.getItemAtPosition(position);
+                Toast.makeText(TrackPickerActivity.this, String.valueOf(listObjectClicked), Toast.LENGTH_SHORT).show();
+                track = trackOrganizer.getTrack(listObjectClicked);
             }
         });
 
@@ -81,7 +86,10 @@ public class TrackPickerActivity extends GirafActivity {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(TrackPickerActivity.this, CarGame.class);
+                intent.putExtra("settings", getIntent().getExtras());
+              
+                startActivity(intent);
             }
         });
         addGirafButtonToActionBar(playButton, GirafActivity.RIGHT);
@@ -97,6 +105,11 @@ public class TrackPickerActivity extends GirafActivity {
             @Override
             public void onClick(View view) {
 
+                //Delete a track from the trackorganizer
+                trackOrganizer.deleteTrack(listObjectClicked);
+                //Write the trackorganizer to the file.
+                IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
+                updateTrackArrayList();
             }
         });
         addGirafButtonToActionBar(deleteButton, GirafActivity.RIGHT);
@@ -111,10 +124,46 @@ public class TrackPickerActivity extends GirafActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(track != null) {
+                    trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
+                    Intent intent = new Intent(TrackPickerActivity.this, MapEditor.class);
+                    intent.putExtra("settings", getIntent().getBundleExtra("settings"));
+                    intent.putExtra("edit", true);
+                    intent.putExtra("track", track);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(TrackPickerActivity.this, getResources().getString(R.string.track_pick_error), Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
         addGirafButtonToActionBar(editButton, GirafActivity.RIGHT);
     }
 
+    private void updateTrackArrayList(){
+        trackArrayList = new ArrayList<>();
+        if(!trackOrganizer.getArray().isEmpty()){
+            for (Track track: trackOrganizer.getArray()) {
+                if(track != null){
+                    trackArrayList.add(track.getID());
+                }
+
+            }
+        }
+
+
+
+        ListAdapter adapter = new TrackListAdapter(this, trackArrayList);
+        trackList = (GList) findViewById(R.id.list_tracks);
+
+        trackList.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
+        track = null;
+    }
 }
