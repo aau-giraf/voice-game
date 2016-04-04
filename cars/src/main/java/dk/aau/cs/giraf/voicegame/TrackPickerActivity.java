@@ -75,6 +75,13 @@ public class TrackPickerActivity extends GirafActivity {
 
         trackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+            /**
+             * This method is called each time a row in the list is clicked
+             * @param parent the parent view
+             * @param view the row view that was clicked
+             * @param position the position in the list that was clicked
+             * @param id view id
+             */
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 listObjectClicked = (int) parent.getItemAtPosition(position);
