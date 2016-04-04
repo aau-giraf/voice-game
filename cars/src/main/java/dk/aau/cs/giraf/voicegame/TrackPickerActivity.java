@@ -60,6 +60,7 @@ public class TrackPickerActivity extends GirafActivity {
         createPlayButton();
 
         setContentView(v);
+        
         trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
 
         updateTrackArrayList();
