@@ -18,6 +18,9 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Class that stores the settings for the game.
+ */
 public class GameSettings implements Serializable {
     public final int OBSTACLE_SIZE = 100;
     private final float DEFAULT_SPEED = 2.0f;
@@ -69,7 +72,7 @@ public class GameSettings implements Serializable {
     }
 
 
-    public void setRoadItem(ArrayList<RoadItem> roadItems) {
+    public void setRoadItems(ArrayList<RoadItem> roadItems) {
         this.roadItems = roadItems;
     }
 

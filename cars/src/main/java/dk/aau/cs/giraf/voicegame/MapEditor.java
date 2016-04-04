@@ -1,11 +1,9 @@
 package dk.aau.cs.giraf.voicegame;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +11,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.voicegame.CarsGames.CarsActivity;
-import dk.aau.cs.giraf.voicegame.Interfaces.Drawable;
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
 import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 import dk.aau.cs.giraf.voicegame.Settings.SettingsScreen;
@@ -150,17 +140,14 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                     //Add a track to the trackorganizer
                     if (getIntent().getBooleanExtra("edit", false)) {
                         Track track = (Track)getIntent().getSerializableExtra("track");
-                        // TODO remove before push
-                        System.out.println("track will be edited. Track id: " + track.getID());
                         trackOrganizer.editTrack(track.getID(), mapScreen.roadItems);
-                        System.out.println("From saviong Track, Number of stars: " + trackOrganizer.getTrack(track.getID()).getObstacleArray().size());
                     } else {
                         trackOrganizer.addTrack(mapScreen.roadItems);
                     }
 
                     //Write the trackorganizer to the file.
                     IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
-                    gamesettings.setRoadItem(mapScreen.roadItems);
+                    gamesettings.setRoadItems(mapScreen.roadItems);
 
                     saveDialog.dismiss();
                 }
@@ -197,7 +184,6 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 Track track = (Track)getIntent().getSerializableExtra("track");
                 track.initRoadItems();
                 roadItems = track.getObstacleArray();
-                System.out.println("From MapScreen, Number of stars: " + track.getObstacleArray().size());
             } else {
                 roadItems = new ArrayList<RoadItem>();
             }
@@ -270,8 +256,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
         private void Clear() {
             roadItems = new ArrayList<RoadItem>();
-            //map = new HashMap<String, Float>();
-            gamesettings.setRoadItem(roadItems);
+            gamesettings.setRoadItems(roadItems);
         }
 
         // Gets called when an object is added in the map editor screen
@@ -280,8 +265,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
             RoadItem roadItem = new RoadItem(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE, gamesettings.GetGameMode());
             roadItems.add(roadItem);
-            //AddObstacle(map, x, y, index);
-            gamesettings.setRoadItem(roadItems);
+            gamesettings.setRoadItems(roadItems);
 
             return roadItem;
 
@@ -295,7 +279,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
             roadItems.remove(roadItem);
 
-            gamesettings.setRoadItem(roadItems);
+            gamesettings.setRoadItems(roadItems);
         }
 
         // Gets called when an objects position is updated in the map editor screen
