@@ -41,14 +41,12 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
     private MapScreen mapScreen;
     private Bitmap screenshot;
     private GirafInflatableDialog saveDialog;
-    //private TrackOrganizer trackOrganizer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-
 
         if(intent.hasExtra("settings")){
             gamesettings = (GameSettings)intent.getSerializableExtra("settings");
@@ -69,6 +67,11 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
         return mapScreen;
     }
 
+    /**
+     * Sets the content of the view. Button are created here
+     * @param renderview the class that handles rendering
+     * @return
+     */
     @Override
     public View getContentView(final FastRenderView renderview) {
         FrameLayout frameLayout = new FrameLayout(this);
@@ -146,9 +149,11 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                  */
                 @Override
                 public void onClick(View v) {
-                    //Read the trackorganizer from file
+                    // Read the trackorganizer from file
                     TrackOrganizer trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
-                    //Add a track to the trackorganizer
+
+                    // Add a track to the trackorganizer
+                    // If the "edit" bool is flipped, then the edited track is overwritten, else we create a new track
                     if (getIntent().getBooleanExtra("edit", false)) {
                         Track track = (Track)getIntent().getSerializableExtra("track");
                         trackOrganizer.editTrack(track.getID(), mapScreen.roadItems);

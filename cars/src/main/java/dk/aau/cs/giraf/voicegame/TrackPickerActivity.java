@@ -46,6 +46,7 @@ public class TrackPickerActivity extends GirafActivity {
     private GList trackList;
     private Track track;
     private GameSettings settings;
+    private int savedPosition = -1;
 
     /**
      * Called when the activity is started.
@@ -70,13 +71,24 @@ public class TrackPickerActivity extends GirafActivity {
 
         updateTrackArrayList();
 
+
+
         trackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listObjectClicked = (int)parent.getItemAtPosition(position);
+                listObjectClicked = (int) parent.getItemAtPosition(position);
                 Toast.makeText(TrackPickerActivity.this, String.valueOf(listObjectClicked), Toast.LENGTH_SHORT).show();
                 track = trackOrganizer.getTrack(listObjectClicked);
+
+                parent.getChildAt(position).setBackgroundColor(getResources().getColor(R.color.listRowFocused));
+
+                if(savedPosition != -1 && savedPosition != position) {
+                    parent.getChildAt(savedPosition).setBackgroundColor(getResources().getColor(R.color.listBackground));
+                }
+
+                savedPosition = position;
+
             }
         });
 

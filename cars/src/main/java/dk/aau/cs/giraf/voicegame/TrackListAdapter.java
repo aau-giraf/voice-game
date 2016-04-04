@@ -32,10 +32,10 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
             View rowView = convertView;
 
         ImageView imageTrack1 = (ImageView) rowView.findViewById(R.id.image_track1);
-        imageTrack1.setImageResource(R.drawable.cars_obstacle);
+        imageTrack1.setImageResource(R.drawable.screenshot_placeholder);
 
         ImageView imageTrack2 = (ImageView) rowView.findViewById(R.id.image_track2);
-        imageTrack2.setImageResource(R.drawable.cars_star);
+        imageTrack2.setImageResource(R.drawable.screenshot_placeholder);
 
         return rowView;
     }

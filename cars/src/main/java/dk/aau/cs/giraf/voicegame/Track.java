@@ -13,7 +13,8 @@ import dk.aau.cs.giraf.voicegame.game.RoadItem;
 public class Track implements Serializable {
     private int id;
     private ArrayList<RoadItem> obstacleArray;
-    private Bitmap screenshot;
+    private String screenshotPath;
+    private transient Bitmap screenshot;
 
     public Track(int id, ArrayList<RoadItem> obstacleArray){
         this.id = id;
@@ -44,11 +45,4 @@ public class Track implements Serializable {
         }
     }
 
-    public Bitmap getScreenshot() {
-        return screenshot;
-    }
-
-    public void setScreenshot(Bitmap screenshot) {
-        this.screenshot = screenshot;
-    }
 }

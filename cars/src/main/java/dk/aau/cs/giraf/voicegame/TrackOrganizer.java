@@ -1,5 +1,7 @@
 package dk.aau.cs.giraf.voicegame;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 

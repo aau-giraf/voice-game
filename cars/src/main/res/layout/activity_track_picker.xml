@@ -5,6 +5,7 @@
     android:id="@+id/list_tracks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="@color/listBackground"
     tools:context="dk.aau.cs.giraf.voicegame.TrackPickerActivity">
 
 </dk.aau.cs.giraf.gui.GList>

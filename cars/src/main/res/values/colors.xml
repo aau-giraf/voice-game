@@ -3,4 +3,6 @@
     <color name="colorPickButtonBase">#FFFFFFFF</color>
     <color name="colorPickButtonStroke">#FF777777</color>
     <color name="settingsTextColor">#FF000000</color>
+    <color name="listBackground">#FED76C</color>
+    <color name="listRowFocused">#FFCD59</color>
 </resources>
