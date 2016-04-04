@@ -68,7 +68,6 @@ public class GameSettings implements Serializable {
         return maxVolume;
     }
 
-
     public void setRoadItem(ArrayList<RoadItem> roadItems) {
         this.roadItems = roadItems;
     }

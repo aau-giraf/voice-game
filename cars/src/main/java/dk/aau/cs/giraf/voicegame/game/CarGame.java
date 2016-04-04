@@ -10,6 +10,7 @@ import dk.aau.cs.giraf.voicegame.MainActivity;
 import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 import dk.aau.cs.giraf.game_framework.Screen;
 import dk.aau.cs.giraf.voicegame.CarsGames.CarsActivity;
+import dk.aau.cs.giraf.voicegame.Track;
 import dk.aau.cs.giraf.voicegame.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.voicegame.Interfaces.CarControl;
 import dk.aau.cs.giraf.voicegame.game.GameScreens.AvoidRunningScreen;
@@ -53,11 +54,11 @@ public class CarGame extends CarsActivity {
         pauseScreen = new PauseScreen(this, car, roadItems, GRASS_HEIGHT);
         winningScreen = new WinningScreen(this, car, roadItems);
         if (gameMode == GameMode.pickup){
-            runningScreen = new PickupRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed(), gamesettings.getMoveState());
+            runningScreen = new PickupRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed(), (Track)getIntent().getSerializableExtra("track"), gamesettings.getMoveState());
             failureScreen = new FailureScreen(this, car, roadItems);
         }
         if (gameMode == GameMode.avoid){
-            runningScreen = new AvoidRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed(), gamesettings.getMoveState());
+            runningScreen = new AvoidRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed(), (Track)getIntent().getSerializableExtra("track"), gamesettings.getMoveState());
             crashScreen = new CrashScreen(this, car, roadItems);
         }
         return startScreen;

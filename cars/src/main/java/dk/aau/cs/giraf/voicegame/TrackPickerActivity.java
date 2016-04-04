@@ -29,8 +29,10 @@ import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.voicegame.Interfaces.Drawable;
+import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 import dk.aau.cs.giraf.voicegame.game.CarGame;
 import dk.aau.cs.giraf.voicegame.game.GameItem;
+import dk.aau.cs.giraf.voicegame.game.RoadItem;
 
 /**
  * The activity from where the user can see and choose the tracks that have been saved
@@ -43,6 +45,7 @@ public class TrackPickerActivity extends GirafActivity {
     private TrackOrganizer trackOrganizer = null;
     private GList trackList;
     private Track track;
+    private GameSettings settings;
 
     /**
      * Called when the activity is started.
@@ -58,6 +61,8 @@ public class TrackPickerActivity extends GirafActivity {
         createDeleteButton();
         createEditButton();
         createPlayButton();
+
+        settings = (GameSettings)getIntent().getSerializableExtra("settings");
 
         setContentView(v);
         
@@ -86,9 +91,17 @@ public class TrackPickerActivity extends GirafActivity {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(track == null) {
+                    track = new Track(-1, new ArrayList<RoadItem>());
+                    settings.setRoadItem(new ArrayList<RoadItem>());
+                } else {
+                    settings.setRoadItem(track.getObstacleArray());
+                }
+
                 Intent intent = new Intent(TrackPickerActivity.this, CarGame.class);
-                intent.putExtra("settings", getIntent().getExtras());
-              
+                intent.putExtra("settings", getIntent().getSerializableExtra("settings"));
+                intent.putExtra("track", track);
                 startActivity(intent);
             }
         });
@@ -127,10 +140,9 @@ public class TrackPickerActivity extends GirafActivity {
                 if(track != null) {
                     trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
                     Intent intent = new Intent(TrackPickerActivity.this, MapEditor.class);
-                    intent.putExtra("settings", getIntent().getBundleExtra("settings"));
+                    intent.putExtra("settings", getIntent().getSerializableExtra("settings"));
                     intent.putExtra("edit", true);
                     intent.putExtra("track", track);
-                    System.out.println("From TrackPickerActivity, Number of stars: " + track.getObstacleArray().size());
                     startActivity(intent);
                 } else {
                     Toast.makeText(TrackPickerActivity.this, getResources().getString(R.string.track_pick_error), Toast.LENGTH_SHORT).show();

@@ -55,8 +55,6 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
         } else {
             gamesettings = new GameSettings(); //Default settings
         }
-
-        // trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
     }
 
     /**
@@ -153,10 +151,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                     //Add a track to the trackorganizer
                     if (getIntent().getBooleanExtra("edit", false)) {
                         Track track = (Track)getIntent().getSerializableExtra("track");
-                        // TODO remove before push
-                        System.out.println("track will be edited. Track id: " + track.getID());
                         trackOrganizer.editTrack(track.getID(), mapScreen.roadItems);
-                        System.out.println("From saviong Track, Number of stars: " + trackOrganizer.getTrack(track.getID()).getObstacleArray().size());
                     } else {
                         trackOrganizer.addTrack(mapScreen.roadItems);
                     }
@@ -200,7 +195,6 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 Track track = (Track)getIntent().getSerializableExtra("track");
                 track.initRoadItems();
                 roadItems = track.getObstacleArray();
-                System.out.println("From MapScreen, Number of stars: " + track.getObstacleArray().size());
             } else {
                 roadItems = new ArrayList<RoadItem>();
             }

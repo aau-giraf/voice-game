@@ -34,16 +34,15 @@ public abstract class RunningScreen extends GameScreen {
     // TODO This will be changed in later, already assigned tasks.
     String fileName = "/sdcard/TracksFile";
 
-    public RunningScreen(CarGame game, Car car, GameItemCollection obstacles, CarControl carControl, float carSpeed, MoveState moveState) {
+    public RunningScreen(CarGame game, Car car, GameItemCollection obstacles, CarControl carControl, float carSpeed, Track track, MoveState moveState) {
         super(game, car, obstacles);
         this.carControl = carControl;
         this.carSpeed = carSpeed;
         this.moveState = moveState;
 
-        currentTrack = loadTrack();
-        if(currentTrack != null) {
-            currentTrack.initRoadItems();
-        }
+        currentTrack = track;
+
+        currentTrack.initRoadItems();
 
     }
 
