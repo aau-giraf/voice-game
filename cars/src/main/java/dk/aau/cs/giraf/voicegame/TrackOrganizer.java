@@ -18,7 +18,10 @@ public class TrackOrganizer implements Serializable{
         trackArrayList = new ArrayList<Track>();
     }
 
-
+    /**
+     *  Adds track to the trackarraylist which is handled by the trackorganizer
+     * @param roadItemArrayList the array containing the road items that belongs to the given track
+     */
     public void addTrack(ArrayList<RoadItem> roadItemArrayList){
         Boolean isAdded = false;
 
@@ -34,6 +37,10 @@ public class TrackOrganizer implements Serializable{
         }
     }
 
+    /**
+     * "Deletes" a track by replacing it with null to ensure that the place in the trackarraylist are identical to the id.
+     * @param trackID the track id
+     */
     public void deleteTrack(int trackID){
         trackArrayList.set(trackID, null);
         for (Track track: trackArrayList) {
@@ -45,14 +52,28 @@ public class TrackOrganizer implements Serializable{
         }
     }
 
+    /**
+     * Returns the trackArrayList
+     * @return trackArrayList
+     */
     public ArrayList<Track> getArray(){
         return trackArrayList;
     }
 
+    /**
+     * Get a specific track using id
+     * @param trackID the id of the wanted track
+     * @return the track corresponding to the id
+     */
     public Track getTrack(int trackID) {
         return trackArrayList.get(trackID);
     }
 
+    /**
+     * Overrides the track belonging to the track with the trackID
+     * @param trackID id of the track
+     * @param roadItems array of roaditems in the track
+     */
     public void editTrack(int trackID, ArrayList<RoadItem> roadItems) {
         trackArrayList.get(trackID).setObstacleArray(roadItems);
     }

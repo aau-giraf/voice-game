@@ -116,7 +116,7 @@ public class TrackPickerActivity extends GirafActivity {
     }
 
     /**
-     * Creates the edit track button, shown in the toolbar
+     * Creates the edit track button, shown in the toolbar6
      */
     private void createEditButton() {
         GirafButton editButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_edit));
