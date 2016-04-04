@@ -41,7 +41,6 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
     private MapScreen mapScreen;
     private Bitmap screenshot;
     private GirafInflatableDialog saveDialog;
-    //private TrackOrganizer trackOrganizer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,8 +54,6 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
         } else {
             gamesettings = new GameSettings(); //Default settings
         }
-
-        // trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
     }
 
     /**

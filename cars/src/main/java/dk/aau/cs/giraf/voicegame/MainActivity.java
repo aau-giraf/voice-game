@@ -53,9 +53,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
             }
         });
         loadWidgets();
-
-        // TODO This will delete the trackOrganizer, remove before push
-        IOService.instance().deleteTrackOrganizer();
     }
 
 
