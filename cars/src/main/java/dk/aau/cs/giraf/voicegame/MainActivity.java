@@ -72,18 +72,16 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         EasyTracker.getInstance(this).activityStop(this);  // stop logging
     }
 
+    /**
+     * Upon game start, the TrackPickerActivity is started, which allows the user to pick a track to play
+     * The method is set as the onClick method for the start button in the menu.
+     * @param view the view that was clicked
+     */
     public void startGame(View view) {
-
-        /*
-        Intent intent = new Intent(this, CarGame.class);
-        intent.putExtra("settings", getGameSettings());
-        startActivity(intent);
-        */
 
         Intent intent = new Intent(this, TrackPickerActivity.class);
         intent.putExtra("settings", getGameSettings());
         startActivity(intent);
-
     }
 
     public void startMapEditor(View view) {

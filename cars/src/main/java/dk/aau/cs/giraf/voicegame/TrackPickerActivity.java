@@ -43,6 +43,12 @@ public class TrackPickerActivity extends GirafActivity {
     private TrackOrganizer trackOrganizer = null;
     private GList trackList;
     private Track track;
+
+    /**
+     * Called when the activity is started.
+     * Instantiates the TrackListAdapter, which makes the content of list shown in this activity.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +68,7 @@ public class TrackPickerActivity extends GirafActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listObjectClicked = (int) parent.getItemAtPosition(position);
+                listObjectClicked = (int)parent.getItemAtPosition(position);
                 Toast.makeText(TrackPickerActivity.this, String.valueOf(listObjectClicked), Toast.LENGTH_SHORT).show();
                 track = trackOrganizer.getTrack(listObjectClicked);
             }
@@ -70,24 +76,30 @@ public class TrackPickerActivity extends GirafActivity {
 
     }
 
+    /**
+     * Creates the play button, shown in the toolbar
+     */
     private void createPlayButton() {
         GirafButton playButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_play));
-        //button.setId(R.id.button_playtrack);
+
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TrackPickerActivity.this, CarGame.class);
                 intent.putExtra("settings", getIntent().getExtras());
-                //intent.putExtra("track", )
+              
                 startActivity(intent);
             }
         });
         addGirafButtonToActionBar(playButton, GirafActivity.RIGHT);
     }
 
+    /**
+     * Creates the delete button, shown in the toolbar
+     */
     private void createDeleteButton() {
         GirafButton deleteButton = new GirafButton(this, getResources().getDrawable(R.drawable.delete));
-        //button.setId(R.id.button_playtrack);
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,16 +109,17 @@ public class TrackPickerActivity extends GirafActivity {
                 //Write the trackorganizer to the file.
                 IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
                 updateTrackArrayList();
-                System.out.println("It should be deleted by now");
             }
         });
         addGirafButtonToActionBar(deleteButton, GirafActivity.RIGHT);
-
     }
 
+    /**
+     * Creates the edit track button, shown in the toolbar
+     */
     private void createEditButton() {
         GirafButton editButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_edit));
-        //button.setId(R.id.button_playtrack);
+
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
