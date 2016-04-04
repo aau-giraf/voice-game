@@ -106,9 +106,9 @@ public class TrackPickerActivity extends GirafActivity {
 
                 if(track == null) {
                     track = new Track(-1, new ArrayList<RoadItem>());
-                    settings.setRoadItem(new ArrayList<RoadItem>());
+                    settings.setRoadItems(new ArrayList<RoadItem>());
                 } else {
-                    settings.setRoadItem(track.getObstacleArray());
+                    settings.setRoadItems(track.getObstacleArray());
                 }
 
                 Intent intent = new Intent(TrackPickerActivity.this, CarGame.class);
@@ -189,6 +189,6 @@ public class TrackPickerActivity extends GirafActivity {
         super.onResume();
 
         trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
-        track = null;
+        track = trackOrganizer.getTrack(listObjectClicked);
     }
 }
