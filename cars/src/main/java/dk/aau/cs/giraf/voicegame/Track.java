@@ -26,6 +26,10 @@ public class Track implements Serializable {
         return obstacleArray;
     }
 
+    /**
+     * Needed method for other components that reads road items from game settings.
+     * @param obstacleArray
+     */
     public void setObstacleArray(ArrayList<RoadItem> obstacleArray) {
         this.obstacleArray = obstacleArray;
     }

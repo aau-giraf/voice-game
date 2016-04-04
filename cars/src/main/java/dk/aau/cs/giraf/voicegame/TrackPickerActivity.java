@@ -116,7 +116,7 @@ public class TrackPickerActivity extends GirafActivity {
     }
 
     /**
-     * Creates the edit track button, shown in the toolbar6
+     * Creates the edit track button, shown in the toolbar
      */
     private void createEditButton() {
         GirafButton editButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_edit));
@@ -130,7 +130,6 @@ public class TrackPickerActivity extends GirafActivity {
                     intent.putExtra("settings", getIntent().getBundleExtra("settings"));
                     intent.putExtra("edit", true);
                     intent.putExtra("track", track);
-                    System.out.println("From TrackPickerActivity, Number of stars: " + track.getObstacleArray().size());
                     startActivity(intent);
                 } else {
                     Toast.makeText(TrackPickerActivity.this, getResources().getString(R.string.track_pick_error), Toast.LENGTH_SHORT).show();

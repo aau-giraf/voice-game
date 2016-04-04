@@ -10,6 +10,7 @@ import dk.aau.cs.giraf.voicegame.game.RoadItem;
  */
 public class TrackOrganizer implements Serializable{
 
+    //ID that is connected to the file so that it is known what file it is when it is read.
     static final long serialVersionUID = 1L;
 
     private ArrayList<Track> trackArrayList;
@@ -43,13 +44,6 @@ public class TrackOrganizer implements Serializable{
      */
     public void deleteTrack(int trackID){
         trackArrayList.set(trackID, null);
-        for (Track track: trackArrayList) {
-            if(track != null){
-                System.out.print(track.getID());
-            }else{
-                System.out.print("null");
-            }
-        }
     }
 
     /**
