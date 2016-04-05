@@ -107,6 +107,11 @@ public class TrackPickerActivity extends GirafActivity {
     private void createPlayButton() {
         GirafButton playButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_play));
 
+        /**
+         * This method will be called when the play button is pressen.
+         * It checks if the user have pressed a row, giving track a value, if not then track is given a standard value, mkaing the game start with an empty track.
+         * If track has been given a value, that specific track is played.
+         */
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
