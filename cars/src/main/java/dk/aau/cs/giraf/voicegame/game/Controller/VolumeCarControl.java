@@ -5,9 +5,7 @@ import android.media.MediaRecorder;
 import java.io.IOException;
 
 import dk.aau.cs.giraf.game_framework.Input;
-import dk.aau.cs.giraf.voicegame.DatabaseHelper;
 import dk.aau.cs.giraf.voicegame.Interfaces.CarControl;
-import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 import dk.aau.cs.giraf.voicegame.game.Enums.MoveState;
 
 public class VolumeCarControl implements CarControl {
