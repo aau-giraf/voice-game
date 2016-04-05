@@ -61,7 +61,7 @@ dependencies {
     compile 'dk.aau.cs.giraf:oasisLib:7.3.0@aar'
     compile 'dk.aau.cs.giraf:localDb:5.1.4@aar'
     compile 'dk.aau.cs.giraf:meta-database:3.2.2'
-    compile files('Librairies/libGoogleAnalyticsServices.jar')
+    compile files('librairies/libGoogleAnalyticsServices.jar')
 }
 
 play {
