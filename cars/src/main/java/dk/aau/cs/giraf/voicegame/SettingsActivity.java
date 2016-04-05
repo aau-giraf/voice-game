@@ -64,15 +64,17 @@ public class SettingsActivity extends GirafActivity{
              */
             @Override
             public void onClick(View v) {
-                SaveSettings(new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(),
-                        calibration.GetMaxVolume(), gameMode), getApplicationContext());
+                GameSettings gs = new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(),
+                        calibration.GetMaxVolume(), gameMode);
+                initSettings = gs;
+                SaveSettings(gs, getApplicationContext());
             }
         });
 
         cancelSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gameSettings = initSettings;
+                cancelSettings();
             }
         });
         addGirafButtonToActionBar(saveSettingsButton, GirafActivity.RIGHT);
@@ -119,7 +121,7 @@ public class SettingsActivity extends GirafActivity{
 
     @Override
     public void onBackPressed() {
-        //TODO Cancel changed settings
+        cancelSettings();
         //TODO Add "There are unsaved changes" dialog
         Intent result = new Intent();
         result.putExtra("settings", gameSettings);
@@ -156,6 +158,8 @@ public class SettingsActivity extends GirafActivity{
 
     /**
      * Saves object GameSettings, which implements Serializable to local file.
+     * @param gs GameSettings to be saved
+     * @param context Context of calling activity
      */
     public static void SaveSettings(GameSettings gs, Context context){
         if(gs == null){
@@ -181,6 +185,19 @@ public class SettingsActivity extends GirafActivity{
     @Override
     protected void onResume() {
         super.onResume();
+        gameSettings = GameSettings.LoadSettings(getApplicationContext());
         initSettings = gameSettings;
+    }
+
+    /**
+     * Cancels unsaved settings by resetting values to before changes; updates view.
+     */
+    private void cancelSettings(){
+        gameSettings = initSettings;
+        gameMode = gameSettings.GetGameMode();
+        this.colorPickButton.SetColor(gameSettings.GetColor());
+        speed.setCarColor(gameSettings.GetColor());
+        speed.GetGauge().SetSpeed(gameSettings.GetSpeed());
+        initializeGameMode();
     }
 }

@@ -27,7 +27,6 @@ public class SpeedFragment extends CarsFragment {
         initialSpeed = speed;
         if (screen != null)
             screen.speed = speed;
-        System.out.println("Set speed: " + initialSpeed);
     }
 
     public void setCarColor(int color) {
@@ -38,6 +37,9 @@ public class SpeedFragment extends CarsFragment {
 
     public float getSpeed() {
         return screen != null ? screen.speed : initialSpeed;
+    }
+    public SpeedGauge GetGauge(){
+        return this.screen.gauge;
     }
 
     private class Screen extends SettingsScreen {
@@ -50,6 +52,7 @@ public class SpeedFragment extends CarsFragment {
         private final int PICTO_SIZE = 120;
         private SpeedGauge gauge;
         private PictoButton snailPicto, rabbitPicto, tigerPicto;
+
 
         public Screen(Game game, int grassSize) {
             super(game, grassSize, game.getWidth(), 2 * grassSize + Assets.GetCar().getHeight());
@@ -110,6 +113,7 @@ public class SpeedFragment extends CarsFragment {
 
         @Override
         public void resume() {
+
         }
 
         @Override
