@@ -16,6 +16,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.Console;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -40,7 +41,7 @@ import dk.aau.cs.giraf.voicegame.game.RoadItem;
 public class TrackPickerActivity extends GirafActivity {
 
     private static final int PLAY_BUTTON_ID = 1;
-    private int listObjectClicked;
+    private int listObjectClicked = -1;
     private ArrayList<Integer> trackArrayList;
     private TrackOrganizer trackOrganizer = null;
     private GList trackList;
@@ -70,17 +71,15 @@ public class TrackPickerActivity extends GirafActivity {
         trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
 
         updateTrackArrayList();
-
-
-
-        trackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        this.trackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             /**
              * This method is called each time a row in the list is clicked
-             * @param parent the parent view
-             * @param view the row view that was clicked
+             *
+             * @param parent   the parent view
+             * @param view     the row view that was clicked
              * @param position the position in the list that was clicked
-             * @param id view id
+             * @param id       view id
              */
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -90,15 +89,15 @@ public class TrackPickerActivity extends GirafActivity {
 
                 parent.getChildAt(position).setBackgroundColor(getResources().getColor(R.color.listRowFocused));
 
-                if(savedPosition != -1 && savedPosition != position) {
-                    parent.getChildAt(savedPosition).setBackgroundColor(getResources().getColor(R.color.listBackground));
+                if (savedPosition != -1 && savedPosition != position) {
+                    if (parent.getChildAt(savedPosition) != null) {
+                        parent.getChildAt(savedPosition).setBackgroundColor(getResources().getColor(R.color.listBackground));
+                    }
                 }
 
                 savedPosition = position;
-
             }
         });
-
     }
 
     /**
@@ -147,6 +146,8 @@ public class TrackPickerActivity extends GirafActivity {
                 //Write the trackorganizer to the file.
                 IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
                 updateTrackArrayList();
+
+                track = null;
             }
         });
         addGirafButtonToActionBar(deleteButton, GirafActivity.RIGHT);
@@ -178,7 +179,7 @@ public class TrackPickerActivity extends GirafActivity {
     }
 
     private void updateTrackArrayList(){
-        trackArrayList = new ArrayList<>();
+        trackArrayList = new ArrayList<Integer>();
         if(!trackOrganizer.getArray().isEmpty()){
             for (Track track: trackOrganizer.getArray()) {
                 if(track != null){
@@ -187,13 +188,10 @@ public class TrackPickerActivity extends GirafActivity {
 
             }
         }
-
-
-
         ListAdapter adapter = new TrackListAdapter(this, trackArrayList);
-        trackList = (GList) findViewById(R.id.list_tracks);
+        this.trackList = (GList) findViewById(R.id.list_tracks);
 
-        trackList.setAdapter(adapter);
+        this.trackList.setAdapter(adapter);
     }
 
     @Override
@@ -201,6 +199,10 @@ public class TrackPickerActivity extends GirafActivity {
         super.onResume();
 
         trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
-        track = trackOrganizer.getTrack(listObjectClicked);
+        if(listObjectClicked == -1) {
+            track = null;
+        } else {
+            track = trackOrganizer.getTrack(listObjectClicked);
+        }
     }
 }
