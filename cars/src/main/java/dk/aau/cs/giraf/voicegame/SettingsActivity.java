@@ -65,7 +65,7 @@ public class SettingsActivity extends GirafActivity{
             @Override
             public void onClick(View v) {
                 initSettings = new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(),
-                        calibration.GetMaxVolume(),gameSettings.GetMap(), gameMode);
+                        calibration.GetMaxVolume(), gameMode);
                 SaveSettings(initSettings, getApplicationContext());
             }
         });
