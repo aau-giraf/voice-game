@@ -64,10 +64,9 @@ public class SettingsActivity extends GirafActivity{
              */
             @Override
             public void onClick(View v) {
-                GameSettings gs = new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(),
-                        calibration.GetMaxVolume(), gameMode);
-                initSettings = gs;
-                SaveSettings(gs, getApplicationContext());
+                initSettings = new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(),
+                        calibration.GetMaxVolume(),gameSettings.GetMap(), gameMode);
+                SaveSettings(initSettings, getApplicationContext());
             }
         });
 
@@ -171,7 +170,7 @@ public class SettingsActivity extends GirafActivity{
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        ObjectOutputStream os = null;
+        ObjectOutputStream os;
         try {
             os = new ObjectOutputStream(fos);
             os.writeObject(gs);
