@@ -56,7 +56,7 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.android.support:support-v4:23.2.1'
     compile 'dk.aau.cs.giraf:girafComponent:10.8.3@aar'
     compile 'dk.aau.cs.giraf:oasisLib:9.0.2@aar'
     compile 'dk.aau.cs.giraf:localDb:5.1.8@aar'
