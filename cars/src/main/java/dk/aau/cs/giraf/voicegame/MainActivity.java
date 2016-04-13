@@ -1,33 +1,19 @@
 package dk.aau.cs.giraf.voicegame;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
-import dk.aau.cs.giraf.voicegame.game.CarGame;
 import dk.aau.cs.giraf.gui.GComponent;
-import dk.aau.cs.giraf.dblib.Helper;
-import dk.aau.cs.giraf.dblib.models.Profile;
-import dk.aau.cs.giraf.gui.GWidgetProfileSelection;
-import dk.aau.cs.giraf.gui.GirafButton;
-import dk.aau.cs.giraf.gui.GirafProfileSelectorDialog;
 import com.google.analytics.tracking.android.EasyTracker;
 
-public class MainActivity extends GirafActivity implements GirafProfileSelectorDialog.OnSingleProfileSelectedListener {
+public class MainActivity extends GirafActivity{
 
-    private static final int SETTINGS_IDENTIFIER = 0;
-    private static final int MAPEDITOR_IDENTIFIER = 1;
-    private static final int CHANGE_USER_SELECTOR_DIALOG = 100;
     private GameSettings gameSettings;
 
-    GirafButton GirafButtonProfileSelect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,20 +25,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         View v = LayoutInflater.from(this).inflate(R.layout.activity_main_menu, null);
         v.setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
         setContentView(v);
-
-        GirafButtonProfileSelect = (GirafButton) findViewById(R.id.profile_button);
-
-        // Set the change user button to open the change user dialog
-        GirafButtonProfileSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                GirafProfileSelectorDialog changeUser = GirafProfileSelectorDialog.newInstance(MainActivity.this, 1, false, false, getResources().getString(R.string.Profile_selector), CHANGE_USER_SELECTOR_DIALOG);
-                changeUser.show(getSupportFragmentManager(), "" + CHANGE_USER_SELECTOR_DIALOG);
-
-            }
-        });
-        loadWidgets();
     }
 
 
@@ -75,13 +47,9 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
      * @param view the view that was clicked
      */
     public void startGame(View view) {
-
         Intent intent = new Intent(this, TrackPickerActivity.class);
         intent.putExtra("settings", getGameSettings());
         startActivity(intent);
-
-
-
     }
 
     public void startMapEditor(View view) {
@@ -96,28 +64,6 @@ public class MainActivity extends GirafActivity implements GirafProfileSelectorD
         intent.putExtra("settings", getGameSettings());
 
         startActivityForResult(intent, 0);
-    }
-
-    private void loadWidgets() {
-        final GWidgetProfileSelection widgetProfileSelection = (GWidgetProfileSelection) findViewById(R.id.profile_widget);
-
-        // Fetch the default template
-        Bitmap profilePicture = ((BitmapDrawable) this.getResources().getDrawable(R.drawable.no_profile_pic)).getBitmap();
-
-        // Set the profile picture
-        widgetProfileSelection.setImageBitmap(profilePicture);
-        Log.d("asdf","asdf");
-    }
-
-    @Override
-    public void onProfileSelected(final int i, final Profile profile) {
-
-        if (i == CHANGE_USER_SELECTOR_DIALOG) {
-
-            // Update the profile
-            loadWidgets();
-        }
-
     }
 
     @Override

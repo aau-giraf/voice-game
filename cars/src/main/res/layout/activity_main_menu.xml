@@ -18,36 +18,6 @@
         android:layout_alignParentEnd="true"
         android:gravity="center_vertical|center_horizontal">
 
-        <!--<dk.aau.cs.giraf.gui.GButtonProfileSelect
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/profile_button"
-            android:layout_margin="20dp"
-            android:layout_gravity="left|top"/>-->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <dk.aau.cs.giraf.gui.GWidgetProfileSelection
-                android:id="@+id/profile_widget"
-                android:layout_width="80dp"
-                android:layout_height="100dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerHorizontal="true"
-                android:visibility="visible"
-                android:layout_gravity="left"/>
-
-            <dk.aau.cs.giraf.gui.GirafButton
-                android:id="@+id/profile_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="20dp"
-                app:icon="@drawable/icon_change_user"
-                android:layout_toRightOf="@id/profile_widget"/>
-        </RelativeLayout>
-
         <dk.aau.cs.giraf.gui.GirafButton
             android:layout_width="wrap_content"
             android:layout_height="75sp"
