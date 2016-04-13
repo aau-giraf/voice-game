@@ -7,18 +7,18 @@ buildscript {
     }
     dependencies {
         classpath 'dk.aau.cs.giraf:auto-deploy-gradle-plugin:1.1'
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:2.0.0'
         classpath 'com.github.triplet.gradle:play-publisher:1.1.4'
     }
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'dk.giraf.deploy'
 apply plugin: 'com.github.triplet.play'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     lintOptions {
           abortOnError false
@@ -49,18 +49,18 @@ android {
 repositories {
     mavenCentral()
     maven {
-        url 'http://jenkins.giraf.cs.aau.dk:8080/libraries'
+        url 'http://jenkins.giraf.cs.aau.dk:8080/artifactory/libraries/'
     }
     mavenLocal()
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v4:23.2.1'
-    compile 'dk.aau.cs.giraf:girafComponent:10.4.0@aar'
-    compile 'dk.aau.cs.giraf:oasisLib:7.3.0@aar'
-    compile 'dk.aau.cs.giraf:localDb:5.1.4@aar'
-    compile 'dk.aau.cs.giraf:meta-database:3.2.2'
+    compile 'com.android.support:support-v4:23.3.0'
+    compile 'dk.aau.cs.giraf:girafComponent:10.8.3@aar'
+    compile 'dk.aau.cs.giraf:oasisLib:9.0.2@aar'
+    compile 'dk.aau.cs.giraf:localDb:5.1.8@aar'
+    compile 'dk.aau.cs.giraf:meta-database:3.2.3'
     compile files('librairies/libGoogleAnalyticsServices.jar')
 }
 
