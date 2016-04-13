@@ -50,11 +50,8 @@ public class WinningScreen extends GameScreen {
             }
             showStartScreen();
         } else if (menuButton.IsClicked()) {
-            Assets.GetDone().PlayAndReset();
+
             Assets.GetWellDone().Reset();
-            while (Assets.GetDone().IsPlaying()) {
-                //Do nothing while sound is playing
-            }
             ((GameActivity) game).finish();
         }
     }

@@ -28,7 +28,6 @@ public class Assets {
 
         carStart = audio.createSound(R.raw.car_start);
         pickup = audio.createSound(R.raw.double_honk);
-        done = audio.createSound(R.raw.vg_faerdig);
         wellDone = audio.createSound(R.raw.vg_godt_gaaet);
         newTurn = audio.createSound(R.raw.vg_ny_tur);
         playAgain = audio.createSound(R.raw.vg_spil_igen);
@@ -108,10 +107,6 @@ public class Assets {
 
     public static Sound GetPickup() {
         return pickup;
-    }
-
-    public static Sound GetDone() {
-        return done;
     }
 
     public static Sound GetWellDone() {
