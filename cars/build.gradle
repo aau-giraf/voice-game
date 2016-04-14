@@ -6,7 +6,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'dk.aau.cs.giraf:auto-deploy-gradle-plugin:1.1'
+        classpath 'dk.aau.cs.giraf:auto-deploy-gradle-plugin:1.6.4'
         classpath 'com.android.tools.build:gradle:2.0.0'
         classpath 'com.github.triplet.gradle:play-publisher:1.1.4'
     }
