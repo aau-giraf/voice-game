@@ -75,26 +75,24 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
         android.graphics.drawable.Drawable trashCan = this.getResources().getDrawable(R.drawable.trashcan);
         GirafButton trashButton = new GirafButton(this, trashCan);
         trashButton.setY(5);
-        trashButton.setX(5);
+        // width is 1280px
+        // It is not possible to get the dimensions of the icon, so we're subtracting a percentage of the screens width, in order to accommodate scaling.
+        trashButton.setX(this.getWidth() - ((this.getHeight() / 100) * 25));
         trashButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mapScreen.Clear();
             }
         });
-
         linearLayout.addView(trashButton);
 
         // adding save button
         android.graphics.drawable.Drawable saveIcon = this.getResources().getDrawable(R.drawable.icon_save);
         GirafButton saveButton = new GirafButton(this, saveIcon);
         saveButton.setY(5);
-
         // width is 1280px
         // It is not possible to get the dimensions of the icon, so we're subtracting a percentage of the screens width, in order to accommodate scaling.
-        saveButton.setX(this.getWidth() - ((this.getHeight() / 100) * 17 ));
-
-        // currently does the same as the trash button
+        saveButton.setX(this.getWidth() - ((this.getHeight() / 100) * 20 ));
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,8 +101,20 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 saveDialog.show(getSupportFragmentManager(), SAVE_DIALOG_TAG);
             }
         });
-
         linearLayout.addView(saveButton);
+
+        //adding back button
+        android.graphics.drawable.Drawable iconBack = this.getResources().getDrawable(R.drawable.icon_back);
+        GirafButton backButton = new GirafButton(this, iconBack);
+        backButton.setY(5);
+        backButton.setX(-95);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+        linearLayout.addView(backButton);
 
         frameLayout.addView(renderview);
         frameLayout.addView(linearLayout);
