@@ -1,11 +1,9 @@
 package dk.aau.cs.giraf.voicegame;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +11,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.voicegame.CarsGames.CarsActivity;
-import dk.aau.cs.giraf.voicegame.Interfaces.Drawable;
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
 import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 import dk.aau.cs.giraf.voicegame.Settings.SettingsScreen;
@@ -41,6 +31,9 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
     private MapScreen mapScreen;
     private Bitmap screenshot;
     private GirafInflatableDialog saveDialog;
+    private FastRenderView renderView;
+    private boolean actualBack = false;
+    private boolean isChanged = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +69,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
     public View getContentView(final FastRenderView renderview) {
         FrameLayout frameLayout = new FrameLayout(this);
         LinearLayout linearLayout = new LinearLayout(this);
+        renderView = renderview;
 
         // adding trash button
         android.graphics.drawable.Drawable trashCan = this.getResources().getDrawable(R.drawable.trashcan);
@@ -109,7 +103,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 saveDialog.show(getSupportFragmentManager(), SAVE_DIALOG_TAG);
             }
         });
-        
+
         linearLayout.addView(saveButton);
 
         frameLayout.addView(renderview);
@@ -120,9 +114,16 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        //The back press is only to terminate mapEditor, if changes is saved or user does not want to save.
+        if (actualBack || !isChanged) {
+            super.onBackPressed();
+            this.finish();
+        } else {
+            screenshot = renderView.getScreenshot();
+            saveDialog = GirafInflatableDialog.newInstance(getResources().getString(R.string.header_unsaved_map), getResources().getString(R.string.unsaved_map_text), R.layout.activity_save_dialog, UNSAVED_DIALOG_ID);
+            saveDialog.show(getSupportFragmentManager(), SAVE_DIALOG_TAG);
 
-        this.finish();
+        }
     }
 
     /**
@@ -133,13 +134,36 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
      */
     @Override
     public void editCustomView(final ViewGroup viewGroup, int i) {
-        if(i == SAVE_DIALOG_ID) {
+        if(i == SAVE_DIALOG_ID || i == UNSAVED_DIALOG_ID) {
 
             ImageView screenshotImage = (ImageView)viewGroup.findViewById(R.id.saveDialogScreenshot);
             screenshotImage.setImageBitmap(screenshot);
 
-            GirafButton saveButton = (GirafButton) viewGroup.findViewById(R.id.button_gem);
+            final GirafButton saveButton = (GirafButton) viewGroup.findViewById(R.id.button_gem);
             GirafButton cancelButton = (GirafButton) viewGroup.findViewById(R.id.button_anuller);
+            GirafButton backButton = (GirafButton) viewGroup.findViewById(R.id.button_back);
+
+            //changes on buttons, if the popup is created from the save button or the back button.
+            if (i == UNSAVED_DIALOG_ID) {
+                backButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        actualBack = true;
+                        onBackPressed();
+                    }
+                });
+                saveButton.setContentDescription("actualBack");
+            } else {
+                backButton.setVisibility(viewGroup.INVISIBLE);
+                backButton.setEnabled(false);
+            }
+
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    saveDialog.dismiss();
+                }
+            });
 
             saveButton.setOnClickListener(new View.OnClickListener() {
 
@@ -165,18 +189,17 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                     IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
                     gamesettings.setRoadItems(mapScreen.roadItems);
 
-                    saveDialog.dismiss();
+                    //If the dialog is the unsaved changes, the button terminates the MapEditor.
+                    if (saveButton.getContentDescription() == "actualBack") {
+                        actualBack = true;
+                        onBackPressed();
+                    } else {
+                        //If it is normal save, it only closes the save popup.
+                        isChanged = false;
+                        saveDialog.dismiss();
+                    }
                 }
             });
-
-            cancelButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    saveDialog.dismiss();
-                }
-            });
-
         }
     }
 
@@ -234,15 +257,18 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                             dragStart.x = e.x;
                             dragStart.y = e.y;
                             canRemove = true;
+                            isChanged = true;
 
                             if (dragItem == null) {
                                 dragItem = Add(e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
                                 canRemove = false;
                             }
+
                             break;
 
                         case Input.TouchEvent.TOUCH_DRAGGED:
                             if (dragItem != null) {
+                                isChanged = true;
                                 updateItem(dragItem, e.x - gamesettings.OBSTACLE_SIZE / 2, e.y - gamesettings.OBSTACLE_SIZE / 2);
                                 if (Math.abs(dragStart.x - e.x) + Math.abs(dragStart.y - e.y) > REMOVE_BUFFER_MANHATTAN)
                                     canRemove = false;

@@ -21,6 +21,7 @@ public abstract class GameActivity extends GirafActivity implements Game {
 
     protected static final String SAVE_DIALOG_TAG = "SAVE_DIALOG";
     protected static final Integer SAVE_DIALOG_ID = 1;
+    protected static final Integer UNSAVED_DIALOG_ID = 2;
 
     public GameActivity() {
         this.messenger = new Messenger(this);
