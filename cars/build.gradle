@@ -1,16 +1,13 @@
 buildscript {
     repositories {
         mavenCentral()
-        flatDir {
-            dirs 'libs'
-        }
         maven {
             url 'http://jenkins.giraf.cs.aau.dk:8080/artifactory/libraries'
         }
     }
     dependencies {
         classpath 'dk.aau.cs.giraf:auto-deploy-gradle-plugin:1.6.4'
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:2.0.0'
         classpath 'com.github.triplet.gradle:play-publisher:1.1.4'
     }
 }
@@ -18,7 +15,6 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'dk.giraf.deploy'
 apply plugin: 'com.github.triplet.play'
-apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 23
