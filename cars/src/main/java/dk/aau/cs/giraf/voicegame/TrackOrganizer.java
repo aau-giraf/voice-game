@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.voicegame;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import java.io.Serializable;
@@ -21,22 +22,32 @@ public class TrackOrganizer implements Serializable{
         trackArrayList = new ArrayList<Track>();
     }
 
+    public int getNextID() {
+        for (int i = 0; i < trackArrayList.size(); i++) {
+            if(trackArrayList.get(i) == null) {
+                return i;
+            }
+        }
+
+        return trackArrayList.size();
+    }
+
     /**
      *  Adds track to the trackarraylist which is handled by the trackorganizer
      * @param roadItemArrayList the array containing the road items that belongs to the given track
      */
-    public void addTrack(ArrayList<RoadItem> roadItemArrayList){
+    public void addTrack(ArrayList<RoadItem> roadItemArrayList, String bitmapPath){
         Boolean isAdded = false;
 
 
         for (int i = 0; i<trackArrayList.size(); i++){
             if(trackArrayList.get(i) == null && !isAdded){
-                trackArrayList.add(i, new Track(i,roadItemArrayList));
+                trackArrayList.add(i, new Track(i,roadItemArrayList, bitmapPath));
                 isAdded = true;
             }
         }
         if(!isAdded){
-            trackArrayList.add(new Track(trackArrayList.size(),roadItemArrayList));
+            trackArrayList.add(new Track(trackArrayList.size(),roadItemArrayList, bitmapPath));
         }
     }
 
@@ -52,8 +63,20 @@ public class TrackOrganizer implements Serializable{
      * Returns the trackArrayList
      * @return trackArrayList
      */
-    public ArrayList<Track> getArray(){
+    public ArrayList<Track> getTrackArray(){
         return trackArrayList;
+    }
+
+    public ArrayList<Bitmap> getScreenshotArray(Context ctx) {
+        ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
+        for(int i = 0; i < trackArrayList.size(); i++) {
+            if(trackArrayList.get(i) != null) {
+                Track track = trackArrayList.get(i);
+                bitmaps.add(IOService.instance().readBitmapFromFile(track.getScreenshotPath(), String.valueOf(track.getID())));
+            }
+        }
+
+        return bitmaps;
     }
 
     /**
@@ -63,6 +86,9 @@ public class TrackOrganizer implements Serializable{
      */
     public Track getTrack(int trackID) {
         return trackArrayList.get(trackID);
+    }
+    public Bitmap getTrackScreenshot(int trackID, Context ctx) {
+        return IOService.instance().readBitmapFromFile(getTrack(trackID).getScreenshotPath(), String.valueOf(trackID));
     }
 
     /**

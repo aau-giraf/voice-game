@@ -165,6 +165,9 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 }
             });
 
+            /**
+             * Reads the trackOrganizer from file and overrides it, containing the newly created track aswell.
+             */
             saveButton.setOnClickListener(new View.OnClickListener() {
 
                 /**
@@ -174,19 +177,20 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 @Override
                 public void onClick(View v) {
                     // Read the trackorganizer from file
-                    TrackOrganizer trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
-
+                    TrackOrganizer trackOrganizer = IOService.instance().readTrackOrganizerFromFile(getApplicationContext());
                     // Add a track to the trackorganizer
                     // If the "edit" bool is flipped, then the edited track is overwritten, else we create a new track
                     if (getIntent().getBooleanExtra("edit", false)) {
                         Track track = (Track)getIntent().getSerializableExtra("track");
+                        IOService.instance().overwriteBitmapToFile(screenshot, track.getScreenshotPath(), String.valueOf(track.getID()));
                         trackOrganizer.editTrack(track.getID(), mapScreen.roadItems);
                     } else {
-                        trackOrganizer.addTrack(mapScreen.roadItems);
+                        String bitmapPath = IOService.instance().writeNewBitmapToFile(screenshot, String.valueOf(trackOrganizer.getNextID()), getApplicationContext());
+                        trackOrganizer.addTrack(mapScreen.roadItems, bitmapPath);
                     }
 
                     //Write the trackorganizer to the file.
-                    IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
+                    IOService.instance().writeTrackOrganizerToFile(trackOrganizer, getApplicationContext());
                     gamesettings.setRoadItems(mapScreen.roadItems);
 
                     //If the dialog is the unsaved changes, the button terminates the MapEditor.

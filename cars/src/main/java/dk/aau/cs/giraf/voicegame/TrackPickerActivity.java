@@ -1,27 +1,12 @@
 package dk.aau.cs.giraf.voicegame;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
-
-import java.io.Console;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
 
 import java.util.ArrayList;
 
@@ -29,10 +14,8 @@ import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GirafButton;
-import dk.aau.cs.giraf.voicegame.Interfaces.Drawable;
 import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 import dk.aau.cs.giraf.voicegame.game.CarGame;
-import dk.aau.cs.giraf.voicegame.game.GameItem;
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
 
 /**
@@ -68,7 +51,7 @@ public class TrackPickerActivity extends GirafActivity {
 
         setContentView(v);
         
-        trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
+        trackOrganizer = IOService.instance().readTrackOrganizerFromFile(getApplicationContext());
 
         updateTrackArrayList();
         this.trackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -116,7 +99,7 @@ public class TrackPickerActivity extends GirafActivity {
             public void onClick(View view) {
 
                 if(track == null) {
-                    track = new Track(-1, new ArrayList<RoadItem>());
+                    track = new Track(-1, new ArrayList<RoadItem>(), "");
                     settings.setRoadItems(new ArrayList<RoadItem>());
                 } else {
                     settings.setRoadItems(track.getObstacleArray());
@@ -144,7 +127,7 @@ public class TrackPickerActivity extends GirafActivity {
                 //Delete a track from the trackorganizer
                 trackOrganizer.deleteTrack(listObjectClicked);
                 //Write the trackorganizer to the file.
-                IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
+                IOService.instance().writeTrackOrganizerToFile(trackOrganizer, getApplicationContext());
                 updateTrackArrayList();
 
                 track = null;
@@ -163,7 +146,7 @@ public class TrackPickerActivity extends GirafActivity {
             @Override
             public void onClick(View view) {
                 if(track != null) {
-                    trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
+                    trackOrganizer = IOService.instance().readTrackOrganizerFromFile(getApplicationContext());
                     Intent intent = new Intent(TrackPickerActivity.this, MapEditor.class);
                     intent.putExtra("settings", getIntent().getSerializableExtra("settings"));
                     intent.putExtra("edit", true);
@@ -180,15 +163,15 @@ public class TrackPickerActivity extends GirafActivity {
 
     private void updateTrackArrayList(){
         trackArrayList = new ArrayList<Integer>();
-        if(!trackOrganizer.getArray().isEmpty()){
-            for (Track track: trackOrganizer.getArray()) {
+        if(!trackOrganizer.getTrackArray().isEmpty()){
+            for (Track track: trackOrganizer.getTrackArray()) {
                 if(track != null){
                     trackArrayList.add(track.getID());
                 }
 
             }
         }
-        ListAdapter adapter = new TrackListAdapter(this, trackArrayList);
+        ListAdapter adapter = new TrackListAdapter(this, trackArrayList, trackOrganizer.getScreenshotArray(getApplicationContext()));
         this.trackList = (GList) findViewById(R.id.list_tracks);
 
         this.trackList.setAdapter(adapter);
@@ -198,7 +181,7 @@ public class TrackPickerActivity extends GirafActivity {
     protected void onResume() {
         super.onResume();
 
-        trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
+        trackOrganizer = IOService.instance().readTrackOrganizerFromFile(getApplicationContext());
         if(listObjectClicked == -1) {
             track = null;
         } else {

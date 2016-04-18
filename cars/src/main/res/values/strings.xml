@@ -28,5 +28,7 @@
 	<string name="track_pick_error">Du skal vælge en bane først</string>
     <string name="header_unsaved_map">Vil du gemme?</string>
     <string name="unsaved_map_text">Du har ikke gemt dine ændringer, vil du gemme inden du lukker og går tilbage?</string>
+	<string name="track_file_name">tracksFile</string>
+	<string name="screenshots_dir">screenshots</string>
 
 </resources>

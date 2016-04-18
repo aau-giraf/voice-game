@@ -16,9 +16,10 @@ public class Track implements Serializable {
     private String screenshotPath;
     private transient Bitmap screenshot;
 
-    public Track(int id, ArrayList<RoadItem> obstacleArray){
+    public Track(int id, ArrayList<RoadItem> obstacleArray, String screenshotPath){
         this.id = id;
         this.obstacleArray = obstacleArray;
+        this.screenshotPath = screenshotPath;
     }
 
     public int getID(){
@@ -49,4 +50,7 @@ public class Track implements Serializable {
         }
     }
 
+    public String getScreenshotPath() {
+        return screenshotPath;
+    }
 }

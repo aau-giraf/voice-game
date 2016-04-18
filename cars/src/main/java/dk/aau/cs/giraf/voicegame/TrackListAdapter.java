@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.voicegame;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +19,13 @@ import dk.aau.cs.giraf.voicegame.Interfaces.Drawable;
  */
 public class TrackListAdapter extends ArrayAdapter<Integer> {
     // the commented section is stuff that will be implemented in other tasks, which we are working on.
-    public TrackListAdapter(Context context, ArrayList<Integer> intResource/*, ArrayList<Bitmap> bitmapRessource*/) {
+
+    private ArrayList<Bitmap> bitmaps;
+    private int currentBitmap = 0;
+
+    public TrackListAdapter(Context context, ArrayList<Integer> intResource, ArrayList<Bitmap> bitmapResource) {
         super(context, R.layout.track_picker_row, intResource);
+        bitmaps = bitmapResource;
     }
 
     /**
@@ -39,10 +45,20 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
             View rowView = convertView;
 
         ImageView imageTrack1 = (ImageView) rowView.findViewById(R.id.image_track1);
-        imageTrack1.setImageResource(R.drawable.screenshot_placeholder);
+
+        if( currentBitmap < bitmaps.size()) {
+            imageTrack1.setImageBitmap(bitmaps.get(currentBitmap));
+            currentBitmap++;
+        }
 
         ImageView imageTrack2 = (ImageView) rowView.findViewById(R.id.image_track2);
-        imageTrack2.setImageResource(R.drawable.screenshot_placeholder);
+
+        if( currentBitmap < bitmaps.size()) {
+            imageTrack2.setImageBitmap(bitmaps.get(currentBitmap));
+            currentBitmap++;
+        }
+
+
 
         return rowView;
     }

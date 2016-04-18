@@ -25,6 +25,8 @@ public class MainActivity extends GirafActivity{
         View v = LayoutInflater.from(this).inflate(R.layout.activity_main_menu, null);
         v.setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
         setContentView(v);
+        // TODO Remove this before submission
+        IOService.instance().deleteTrackOrganizer(getApplicationContext());
     }
 
 

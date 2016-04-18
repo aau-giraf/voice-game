@@ -12,8 +12,7 @@
             android:id="@+id/image_track1"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/cars_obstacle"/>
+            android:layout_centerInParent="true"/>
 
     </RelativeLayout>
 
@@ -26,8 +25,7 @@
             android:id="@+id/image_track2"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/cars_star"/>
+            android:layout_centerInParent="true"/>
 
     </RelativeLayout>
 
