@@ -185,7 +185,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                         IOService.instance().overwriteBitmapToFile(screenshot, track.getScreenshotPath(), String.valueOf(track.getID()));
                         trackOrganizer.editTrack(track.getID(), mapScreen.roadItems);
                     } else {
-                        String bitmapPath = IOService.instance().writeNewBitmapToFile(screenshot, String.valueOf(trackOrganizer.getNextID()), getApplicationContext());
+                        String bitmapPath = IOService.instance().writeNewBitmapToFile(screenshot, String.valueOf(trackOrganizer.getNextFreeID()), getApplicationContext());
                         trackOrganizer.addTrack(mapScreen.roadItems, bitmapPath);
                     }
 

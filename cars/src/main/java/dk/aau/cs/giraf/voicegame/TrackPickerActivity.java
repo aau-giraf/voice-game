@@ -54,7 +54,8 @@ public class TrackPickerActivity extends GirafActivity {
         trackOrganizer = IOService.instance().readTrackOrganizerFromFile(getApplicationContext());
 
         updateTrackArrayList();
-        this.trackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        //this.trackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             /**
              * This method is called each time a row in the list is clicked
@@ -64,6 +65,7 @@ public class TrackPickerActivity extends GirafActivity {
              * @param position the position in the list that was clicked
              * @param id       view id
              */
+            /*
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 listObjectClicked = (int) parent.getItemAtPosition(position);
@@ -79,8 +81,10 @@ public class TrackPickerActivity extends GirafActivity {
                 }
 
                 savedPosition = position;
+
             }
-        });
+
+        });*/
     }
 
     /**
@@ -168,10 +172,9 @@ public class TrackPickerActivity extends GirafActivity {
                 if(track != null){
                     trackArrayList.add(track.getID());
                 }
-
             }
         }
-        ListAdapter adapter = new TrackListAdapter(this, trackArrayList, trackOrganizer.getScreenshotArray(getApplicationContext()));
+        ListAdapter adapter = new TrackListAdapter(this, trackArrayList, trackOrganizer.getScreenshotArray(getApplicationContext()), this);
         this.trackList = (GList) findViewById(R.id.list_tracks);
 
         this.trackList.setAdapter(adapter);
@@ -187,5 +190,9 @@ public class TrackPickerActivity extends GirafActivity {
         } else {
             track = trackOrganizer.getTrack(listObjectClicked);
         }
+    }
+
+    public void setTrack(int trackID) {
+        this.track = trackOrganizer.getTrack(trackID);
     }
 }

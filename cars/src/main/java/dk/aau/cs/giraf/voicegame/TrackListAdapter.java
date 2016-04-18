@@ -9,8 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
 
 import dk.aau.cs.giraf.voicegame.Interfaces.Drawable;
 
@@ -19,13 +23,17 @@ import dk.aau.cs.giraf.voicegame.Interfaces.Drawable;
  */
 public class TrackListAdapter extends ArrayAdapter<Integer> {
     // the commented section is stuff that will be implemented in other tasks, which we are working on.
+    private ArrayList<Bitmap> trackScreenshots;
+    private ArrayList<Integer> trackIDs;
+    private TrackPickerActivity parentActivity;
 
-    private ArrayList<Bitmap> bitmaps;
-    private int currentBitmap = 0;
-
-    public TrackListAdapter(Context context, ArrayList<Integer> intResource, ArrayList<Bitmap> bitmapResource) {
+    // The integer and bitmap array are the same size
+    public TrackListAdapter(Context context, ArrayList<Integer> intResource, ArrayList<Bitmap> bitmapResource, TrackPickerActivity parentActivity) {
         super(context, R.layout.track_picker_row, intResource);
-        bitmaps = bitmapResource;
+
+        trackIDs = intResource;
+        trackScreenshots = bitmapResource;
+        this.parentActivity = parentActivity;
     }
 
     /**
@@ -36,7 +44,7 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
      * @return
      */
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         if(convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -45,21 +53,39 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
             View rowView = convertView;
 
         ImageView imageTrack1 = (ImageView) rowView.findViewById(R.id.image_track1);
-
-        if( currentBitmap < bitmaps.size()) {
-            imageTrack1.setImageBitmap(bitmaps.get(currentBitmap));
-            currentBitmap++;
-        }
-
         ImageView imageTrack2 = (ImageView) rowView.findViewById(R.id.image_track2);
 
-        if( currentBitmap < bitmaps.size()) {
-            imageTrack2.setImageBitmap(bitmaps.get(currentBitmap));
-            currentBitmap++;
+        if(position < trackIDs.size()) {
+            imageTrack1.setImageBitmap(trackScreenshots.get(position));
         }
 
+        if(position + 1 < trackIDs.size()) {
+            imageTrack2.setImageBitmap(trackScreenshots.get(position + 1));
+        }
+
+        imageTrack1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position < trackIDs.size()) {
+                    parentActivity.setTrack(trackIDs.get(position));
+                    Toast.makeText(parentActivity, String.valueOf(trackIDs.get(position)), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        imageTrack2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(position + 1 < trackIDs.size()) {
+                    parentActivity.setTrack(trackIDs.get(position + 1));
+                    Toast.makeText(parentActivity, String.valueOf(trackIDs.get(position + 1)), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
         return rowView;
     }
+
+    public int test() { return  1;}
 }

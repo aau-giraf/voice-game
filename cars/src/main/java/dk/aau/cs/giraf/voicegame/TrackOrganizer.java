@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
@@ -22,7 +23,7 @@ public class TrackOrganizer implements Serializable{
         trackArrayList = new ArrayList<Track>();
     }
 
-    public int getNextID() {
+    public int getNextFreeID() {
         for (int i = 0; i < trackArrayList.size(); i++) {
             if(trackArrayList.get(i) == null) {
                 return i;
