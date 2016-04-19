@@ -57,7 +57,9 @@ public class TrackOrganizer implements Serializable{
      * @param trackID the track id
      */
     public void deleteTrack(int trackID){
+        IOService.instance().deleteBitmap(getTrack(trackID).getScreenshotPath(), String.valueOf(trackID));
         trackArrayList.set(trackID, null);
+
     }
 
     /**

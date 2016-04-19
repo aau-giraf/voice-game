@@ -3,6 +3,7 @@ package dk.aau.cs.giraf.voicegame;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -105,7 +106,7 @@ public class IOService {
         FileOutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(bitmapPath);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
             outputStream.close();
         } catch (FileNotFoundException e){
             System.out.println("Bitmap file not found - output");
@@ -151,7 +152,10 @@ public class IOService {
         try {
             File bitmapFile = new File(path, identifier + ".jpg");
             FileInputStream inputStream = new FileInputStream(bitmapFile);
-            bitmap = BitmapFactory.decodeStream(inputStream);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            // load in an image that is 1/4 of the original size, to save memory.
+            options.inSampleSize = 4;
+            bitmap = BitmapFactory.decodeStream(inputStream, new Rect(0, 0, 0, 0), options);
             inputStream.close();
         } catch (FileNotFoundException e){
             System.out.println("Bitmap file not found - output");
@@ -162,6 +166,13 @@ public class IOService {
         }
 
         return bitmap;
+    }
+
+    public void deleteBitmap(String path, String identifier) {
+        File bitmapFile = new File(path, identifier + ".jpg");
+        if(bitmapFile != null) {
+            bitmapFile.delete();
+        }
     }
 
 }

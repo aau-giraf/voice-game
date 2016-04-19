@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
@@ -24,7 +25,6 @@ import dk.aau.cs.giraf.voicegame.game.RoadItem;
 public class TrackPickerActivity extends GirafActivity {
 
     private static final int PLAY_BUTTON_ID = 1;
-    private int listObjectClicked = -1;
     private ArrayList<Integer> trackArrayList;
     private TrackOrganizer trackOrganizer = null;
     private GList trackList;
@@ -53,7 +53,7 @@ public class TrackPickerActivity extends GirafActivity {
         
         trackOrganizer = IOService.instance().readTrackOrganizerFromFile(getApplicationContext());
 
-        updateTrackArrayList();
+        track = null;
 
         //this.trackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -129,7 +129,7 @@ public class TrackPickerActivity extends GirafActivity {
             public void onClick(View view) {
 
                 //Delete a track from the trackorganizer
-                trackOrganizer.deleteTrack(listObjectClicked);
+                trackOrganizer.deleteTrack(track.getID());
                 //Write the trackorganizer to the file.
                 IOService.instance().writeTrackOrganizerToFile(trackOrganizer, getApplicationContext());
                 updateTrackArrayList();
@@ -174,6 +174,9 @@ public class TrackPickerActivity extends GirafActivity {
                 }
             }
         }
+
+
+
         ListAdapter adapter = new TrackListAdapter(this, trackArrayList, trackOrganizer.getScreenshotArray(getApplicationContext()), this);
         this.trackList = (GList) findViewById(R.id.list_tracks);
 
@@ -185,11 +188,10 @@ public class TrackPickerActivity extends GirafActivity {
         super.onResume();
 
         trackOrganizer = IOService.instance().readTrackOrganizerFromFile(getApplicationContext());
-        if(listObjectClicked == -1) {
-            track = null;
-        } else {
-            track = trackOrganizer.getTrack(listObjectClicked);
-        }
+
+        track = null;
+
+        updateTrackArrayList();
     }
 
     public void setTrack(int trackID) {

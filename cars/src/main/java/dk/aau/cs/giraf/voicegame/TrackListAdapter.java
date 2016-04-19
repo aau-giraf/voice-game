@@ -26,6 +26,7 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
     private ArrayList<Bitmap> trackScreenshots;
     private ArrayList<Integer> trackIDs;
     private TrackPickerActivity parentActivity;
+    private ImageView lastClickImage = null;
 
     // The integer and bitmap array are the same size
     public TrackListAdapter(Context context, ArrayList<Integer> intResource, ArrayList<Bitmap> bitmapResource, TrackPickerActivity parentActivity) {
@@ -52,34 +53,52 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
         }
             View rowView = convertView;
 
-        ImageView imageTrack1 = (ImageView) rowView.findViewById(R.id.image_track1);
-        ImageView imageTrack2 = (ImageView) rowView.findViewById(R.id.image_track2);
+        final ImageView imageTrack1 = (ImageView) rowView.findViewById(R.id.image_track1);
+        final ImageView imageTrack2 = (ImageView) rowView.findViewById(R.id.image_track2);
 
-        if(position < trackIDs.size()) {
-            imageTrack1.setImageBitmap(trackScreenshots.get(position));
+        final int calculatedPosition = (position + 1) * 2;
+
+        if((calculatedPosition - 2) < trackIDs.size()) {
+            imageTrack1.setImageBitmap(trackScreenshots.get(calculatedPosition - 2));
         }
 
-        if(position + 1 < trackIDs.size()) {
-            imageTrack2.setImageBitmap(trackScreenshots.get(position + 1));
+        if((calculatedPosition - 1) < trackIDs.size()) {
+            imageTrack2.setImageBitmap(trackScreenshots.get(calculatedPosition - 1));
         }
 
         imageTrack1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position < trackIDs.size()) {
-                    parentActivity.setTrack(trackIDs.get(position));
-                    Toast.makeText(parentActivity, String.valueOf(trackIDs.get(position)), Toast.LENGTH_SHORT).show();
+                if((calculatedPosition - 2) < trackIDs.size()) {
+                    parentActivity.setTrack(trackIDs.get(calculatedPosition - 2));
+                    Toast.makeText(parentActivity, String.valueOf(trackIDs.get(calculatedPosition - 2)), Toast.LENGTH_SHORT).show();
                 }
+
+                if(lastClickImage != null) {
+                    lastClickImage.setBackgroundColor(getContext().getResources().getColor(R.color.listBackground));
+                }
+
+                imageTrack1.setBackgroundColor(getContext().getResources().getColor(R.color.listRowFocused));
+                lastClickImage = imageTrack1;
+
             }
         });
 
         imageTrack2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position + 1 < trackIDs.size()) {
-                    parentActivity.setTrack(trackIDs.get(position + 1));
-                    Toast.makeText(parentActivity, String.valueOf(trackIDs.get(position + 1)), Toast.LENGTH_SHORT).show();
+                if((calculatedPosition - 1) < trackIDs.size()) {
+                    parentActivity.setTrack(trackIDs.get(calculatedPosition - 1));
+                    Toast.makeText(parentActivity, String.valueOf(trackIDs.get(calculatedPosition - 1)), Toast.LENGTH_SHORT).show();
                 }
+
+                if(lastClickImage != null) {
+                    lastClickImage.setBackgroundColor(getContext().getResources().getColor(R.color.listBackground));
+                }
+
+                imageTrack2.setBackgroundColor(getContext().getResources().getColor(R.color.listRowFocused));
+                lastClickImage = imageTrack2;
+
             }
         });
 
@@ -87,5 +106,7 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
         return rowView;
     }
 
-    public int test() { return  1;}
+    public ImageView getLastClickImage() {
+        return lastClickImage;
+    }
 }
