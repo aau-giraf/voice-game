@@ -20,10 +20,7 @@ public class AvoidRunningScreen extends RunningScreen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
 
-        if (getCarLocationX() + getCarWidth() > game.getWidth() - getFinishLineWidth()) {
-            Assets.GetWellDone().Play();
-            showWinningScreen();
-        }
+
         RoadItem roadItem = getCollisionRoadItem();
         if (roadItem != null) {
             Assets.GetCrash().PlayAndReset();

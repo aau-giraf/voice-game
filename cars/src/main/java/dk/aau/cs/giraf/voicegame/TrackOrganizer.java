@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import dk.aau.cs.giraf.voicegame.game.GameMode;
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
 
 /**
@@ -16,6 +17,7 @@ public class TrackOrganizer implements Serializable{
     static final long serialVersionUID = 1L;
 
     private ArrayList<Track> trackArrayList;
+    private int currentTrackID;
 
     public  TrackOrganizer(){
         trackArrayList = new ArrayList<Track>();
@@ -25,18 +27,18 @@ public class TrackOrganizer implements Serializable{
      *  Adds track to the trackarraylist which is handled by the trackorganizer
      * @param roadItemArrayList the array containing the road items that belongs to the given track
      */
-    public void addTrack(ArrayList<RoadItem> roadItemArrayList){
+    public void addTrack(ArrayList<RoadItem> roadItemArrayList, GameMode type){
         Boolean isAdded = false;
 
 
         for (int i = 0; i<trackArrayList.size(); i++){
             if(trackArrayList.get(i) == null && !isAdded){
-                trackArrayList.add(i, new Track(i,roadItemArrayList));
+                trackArrayList.add(i, new Track(i,roadItemArrayList, type));
                 isAdded = true;
             }
         }
         if(!isAdded){
-            trackArrayList.add(new Track(trackArrayList.size(),roadItemArrayList));
+            trackArrayList.add(new Track(trackArrayList.size(),roadItemArrayList, type));
         }
     }
 
@@ -72,5 +74,13 @@ public class TrackOrganizer implements Serializable{
      */
     public void editTrack(int trackID, ArrayList<RoadItem> roadItems) {
         trackArrayList.get(trackID).setObstacleArray(roadItems);
+    }
+
+    public void setCurrentTrackID(int currentTrackID) {
+        this.currentTrackID = currentTrackID;
+    }
+
+    public int getCurrentTrackID() {
+        return currentTrackID;
     }
 }

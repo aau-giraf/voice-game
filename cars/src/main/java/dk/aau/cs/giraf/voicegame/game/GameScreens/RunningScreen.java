@@ -55,6 +55,11 @@ public abstract class RunningScreen extends GameScreen {
         moveTo = Math.max(0, Math.min(1, moveTo));
         moveCarTo(moveTo);
 
+        if (getCarLocationX() + getCarWidth() > game.getWidth() - getFinishLineWidth()) {
+            Assets.GetWellDone().Play();
+            showWinningScreen();
+        }
+
         // listening for touch on the pause button
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN && e.inBounds(pauseButtonRec))
@@ -66,11 +71,6 @@ public abstract class RunningScreen extends GameScreen {
         super.paint(graphics, deltaTime);
 
         graphics.drawScaledImage(Assets.GetPauseButton(), pauseButtonRec, pauseButtonImageRec);
-
-        if(currentTrack != null) {
-            for (RoadItem roadItem : currentTrack.getObstacleArray())
-                roadItem.Draw(graphics, deltaTime);
-        }
 
     }
 

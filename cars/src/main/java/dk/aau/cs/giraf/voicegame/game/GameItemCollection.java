@@ -19,8 +19,11 @@ public class GameItemCollection implements GameObject {
 
     public void resetRoadItems() {
         this.roadItems.clear();
-        for (RoadItem roadItems : this.generator.CreateRoadItems(ROADITEM_SIZE, ROADITEM_SIZE))
+        for (RoadItem roadItems : this.generator.CreateRoadItems(ROADITEM_SIZE, ROADITEM_SIZE)) {
+            roadItems.initPaint();
             this.roadItems.add(roadItems);
+        }
+
     }
 
     public RoadItem findCollision(GameItem gameItem) {

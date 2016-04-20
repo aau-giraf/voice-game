@@ -20,11 +20,13 @@ public class PickupRunningScreen extends RunningScreen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
 
+        /*
         if (isRoadItemsEmpty() && getCarLocationX() + getCarWidth() > game.getWidth() - getFinishLineWidth()) {
             Assets.GetWellDone().Play();
             showWinningScreen();
         }
-        else if (!isRoadItemsEmpty() && getCarLocationX() + getCarWidth() > getFinishLineX())
+        */
+        if (!isRoadItemsEmpty() && getCarLocationX() + getCarWidth() > getFinishLineX())
             showFailureScreen();
 
         RoadItem roadItem = getCollisionRoadItem();

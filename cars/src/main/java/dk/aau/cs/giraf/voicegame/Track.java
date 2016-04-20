@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import dk.aau.cs.giraf.voicegame.game.GameMode;
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
 
 /**
@@ -15,10 +16,12 @@ public class Track implements Serializable {
     private ArrayList<RoadItem> obstacleArray;
     private String screenshotPath;
     private transient Bitmap screenshot;
+    private GameMode mode;
 
-    public Track(int id, ArrayList<RoadItem> obstacleArray){
+    public Track(int id, ArrayList<RoadItem> obstacleArray, GameMode type){
         this.id = id;
         this.obstacleArray = obstacleArray;
+        this.mode = type;
     }
 
     public int getID(){
@@ -49,4 +52,7 @@ public class Track implements Serializable {
         }
     }
 
+    public GameMode getMode() {
+        return mode;
+    }
 }

@@ -71,6 +71,7 @@ public class TrackPickerActivity extends GirafActivity {
         trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
 
         updateTrackArrayList();
+
         this.trackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             /**
@@ -86,6 +87,8 @@ public class TrackPickerActivity extends GirafActivity {
                 listObjectClicked = (int) parent.getItemAtPosition(position);
                 Toast.makeText(TrackPickerActivity.this, String.valueOf(listObjectClicked), Toast.LENGTH_SHORT).show();
                 track = trackOrganizer.getTrack(listObjectClicked);
+                trackOrganizer.setCurrentTrackID(track.getID());
+
 
                 parent.getChildAt(position).setBackgroundColor(getResources().getColor(R.color.listRowFocused));
 
@@ -116,7 +119,8 @@ public class TrackPickerActivity extends GirafActivity {
             public void onClick(View view) {
 
                 if(track == null) {
-                    track = new Track(-1, new ArrayList<RoadItem>());
+                    GameSettings settings = (GameSettings)getIntent().getSerializableExtra("settings");
+                    track = new Track(-1, new ArrayList<RoadItem>(), settings.GetGameMode());
                     settings.setRoadItems(new ArrayList<RoadItem>());
                 } else {
                     settings.setRoadItems(track.getObstacleArray());
@@ -125,6 +129,7 @@ public class TrackPickerActivity extends GirafActivity {
                 Intent intent = new Intent(TrackPickerActivity.this, CarGame.class);
                 intent.putExtra("settings", getIntent().getSerializableExtra("settings"));
                 intent.putExtra("track", track);
+                IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
                 startActivity(intent);
             }
         });

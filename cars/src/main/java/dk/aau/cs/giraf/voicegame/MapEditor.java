@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.voicegame.CarsGames.CarsActivity;
+import dk.aau.cs.giraf.voicegame.game.GameMode;
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
 import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 import dk.aau.cs.giraf.voicegame.Settings.SettingsScreen;
@@ -192,7 +193,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                         Track track = (Track)getIntent().getSerializableExtra("track");
                         trackOrganizer.editTrack(track.getID(), mapScreen.roadItems);
                     } else {
-                        trackOrganizer.addTrack(mapScreen.roadItems);
+                        trackOrganizer.addTrack(mapScreen.roadItems, gamesettings.GetGameMode());
                     }
 
                     //Write the trackorganizer to the file.

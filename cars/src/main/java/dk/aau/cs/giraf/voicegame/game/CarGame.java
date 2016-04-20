@@ -38,7 +38,8 @@ public class CarGame extends CarsActivity {
 
     @Override
     public Screen getFirstScreen() {
-        this.gameMode = gamesettings.GetGameMode();
+        Track track = (Track)getIntent().getSerializableExtra("track");
+        this.gameMode = track.getMode();
         GameItemCollection roadItems = new GameItemCollection(new PreferencesObstacles(this.gamesettings));
         Car car = new Car(-Assets.GetCar().getWidth(), getHeight() - GRASS_HEIGHT - Assets.GetCar().getHeight());
         car.setShowValue(true);
