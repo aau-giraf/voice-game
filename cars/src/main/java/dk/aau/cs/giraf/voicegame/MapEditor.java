@@ -225,6 +225,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
         private RoadItem dragItem = null;
         private Point dragStart = new Point(0, 0);
         private boolean canRemove = false;
+        private GameMode mode;
 
         public MapScreen(Game game, boolean editMap) {
             super(game);
@@ -239,6 +240,13 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
             }
 
             this.finishLineX = game.getWidth() - 80;
+            if(editMap) {
+                Track track = (Track)getIntent().getSerializableExtra("track");
+                mode = track.getMode();
+            } else {
+                mode = gamesettings.GetGameMode();
+            }
+
         }
 
         @Override
@@ -316,7 +324,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
         private RoadItem Add(float x, float y) {
             int index = roadItems.size();
 
-            RoadItem roadItem = new RoadItem(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE, gamesettings.GetGameMode());
+            RoadItem roadItem = new RoadItem(x, y, gamesettings.OBSTACLE_SIZE, gamesettings.OBSTACLE_SIZE, mode);
             roadItems.add(roadItem);
             gamesettings.setRoadItems(roadItems);
 
