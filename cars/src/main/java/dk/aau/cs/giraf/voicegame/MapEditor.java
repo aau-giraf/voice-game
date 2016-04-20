@@ -214,6 +214,10 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
         }
     }
 
+    /**
+     * This class controls what obstacle is placed.
+     * IS also reads in old obstacles, if a track is being edited.
+     */
     private class MapScreen extends SettingsScreen {
         private final int grassSize = 70;
         private final int finishLineScale = 15;

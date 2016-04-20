@@ -36,6 +36,10 @@ public class CarGame extends CarsActivity {
         super();
     }
 
+    /**
+     * Initializes the screens and gets the GameMode enum from the current track that is being played.
+     * @return
+     */
     @Override
     public Screen getFirstScreen() {
         Track track = (Track)getIntent().getSerializableExtra("track");

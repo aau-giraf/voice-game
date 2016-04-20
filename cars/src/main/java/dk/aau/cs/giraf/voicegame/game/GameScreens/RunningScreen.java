@@ -66,12 +66,17 @@ public abstract class RunningScreen extends GameScreen {
                 showPauseScreen();
     }
 
+    /**
+     * Draws the pause button.
+     * Also calls the super class, GameScreen, which draws the obstacles in the track.
+     * @param graphics
+     * @param deltaTime
+     */
     @Override
     public void paint(Graphics graphics, float deltaTime) {
         super.paint(graphics, deltaTime);
 
         graphics.drawScaledImage(Assets.GetPauseButton(), pauseButtonRec, pauseButtonImageRec);
-
     }
 
     @Override
