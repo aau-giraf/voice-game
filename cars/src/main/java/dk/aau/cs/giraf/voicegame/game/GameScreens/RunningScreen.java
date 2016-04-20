@@ -1,7 +1,6 @@
 package dk.aau.cs.giraf.voicegame.game.GameScreens;
 
 import android.graphics.Rect;
-import android.util.Log;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,7 +11,7 @@ import dk.aau.cs.giraf.voicegame.Assets;
 import dk.aau.cs.giraf.voicegame.Track;
 import dk.aau.cs.giraf.voicegame.game.Car;
 import dk.aau.cs.giraf.voicegame.game.CarGame;
-import dk.aau.cs.giraf.voicegame.game.Enums.MoveState;
+import dk.aau.cs.giraf.voicegame.game.Enums.SoundMode;
 import dk.aau.cs.giraf.voicegame.game.GameItemCollection;
 import dk.aau.cs.giraf.voicegame.game.GameScreen;
 import dk.aau.cs.giraf.game_framework.Graphics;
@@ -27,18 +26,18 @@ public abstract class RunningScreen extends GameScreen {
     private CarControl carControl;
     private float carSpeed;
     // storing whether the car moves on noise or silence;
-    private MoveState moveState;
+    private SoundMode soundMode;
     private Track currentTrack;
 
     // hard coded filename
     // TODO This will be changed in later, already assigned tasks.
     String fileName = "/sdcard/TracksFile";
 
-    public RunningScreen(CarGame game, Car car, GameItemCollection obstacles, CarControl carControl, float carSpeed, Track track, MoveState moveState) {
+    public RunningScreen(CarGame game, Car car, GameItemCollection obstacles, CarControl carControl, float carSpeed, Track track, SoundMode soundMode) {
         super(game, car, obstacles);
         this.carControl = carControl;
         this.carSpeed = carSpeed;
-        this.moveState = moveState;
+        this.soundMode = soundMode;
 
         currentTrack = track;
 
@@ -51,7 +50,7 @@ public abstract class RunningScreen extends GameScreen {
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
 
-        float moveTo = 1f - carControl.getMove(touchEvents, moveState);
+        float moveTo = 1f - carControl.getMove(touchEvents, soundMode);
         moveTo = Math.max(0, Math.min(1, moveTo));
         moveCarTo(moveTo);
 

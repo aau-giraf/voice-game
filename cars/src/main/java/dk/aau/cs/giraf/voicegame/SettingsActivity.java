@@ -1,16 +1,12 @@
 package dk.aau.cs.giraf.voicegame;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
-import android.widget.RelativeLayout;
 import com.google.analytics.tracking.android.EasyTracker;
 
 import java.io.FileNotFoundException;
@@ -21,8 +17,8 @@ import java.io.ObjectOutputStream;
 import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.gui.GirafButton;
 import dk.aau.cs.giraf.voicegame.Settings.CalibrationFragment;
-import dk.aau.cs.giraf.voicegame.Settings.SpeedGauge;
 import dk.aau.cs.giraf.voicegame.game.GameMode;
+import dk.aau.cs.giraf.voicegame.game.Enums.SoundMode;
 import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 import dk.aau.cs.giraf.voicegame.Settings.SpeedFragment;
 import dk.aau.cs.giraf.gui.GColorPicker;
@@ -38,6 +34,7 @@ public class SettingsActivity extends GirafActivity{
     CalibrationFragment calibration;
 
     GameMode gameMode;
+    SoundMode soundMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +62,7 @@ public class SettingsActivity extends GirafActivity{
             @Override
             public void onClick(View v) {
                 initSettings = new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(),
-                        calibration.GetMaxVolume(), gameMode);
+                        calibration.GetMaxVolume(), gameMode, soundMode);
                 SaveSettings(initSettings, getApplicationContext());
             }
         });
@@ -90,6 +87,7 @@ public class SettingsActivity extends GirafActivity{
         colorPickButton.SetColor(gameSettings.GetColor());
 
         initializeGameMode();
+        initializeSoundMode();
     }
 
     //Google analytics - start logging
@@ -138,9 +136,18 @@ public class SettingsActivity extends GirafActivity{
             case R.id.radioButtonAvoid:
                 gameMode = GameMode.avoid;
                 break;
+            case R.id.radioButtonSoundUp:
+                soundMode = SoundMode.highUp;
+                break;
+            case R.id.radioButtonSoundDown:
+                soundMode = SoundMode.highDown;
+                break;
         }
     }
 
+    /**
+     * This initiates the gameMode checkbox in settings, so that it shows the current setting
+     */
     private void initializeGameMode(){
         if(gameMode == null){
             gameMode = gameSettings.GetGameMode();//Get default
@@ -148,10 +155,25 @@ public class SettingsActivity extends GirafActivity{
         if (gameMode==GameMode.pickup) {
             ((RadioButton) findViewById(R.id.radioButtonpPickup)).setChecked(true);
             ((RadioButton) findViewById(R.id.radioButtonAvoid)).setChecked(false);
-        }
-        if (gameMode==GameMode.avoid) {
+        } else if (gameMode==GameMode.avoid) {
             ((RadioButton) findViewById(R.id.radioButtonAvoid)).setChecked(true);
             ((RadioButton) findViewById(R.id.radioButtonpPickup)).setChecked(false);
+        }
+    }
+
+    /**
+     * This initiates the soundMode checkbox in settings, so that it shows the current setting
+     */
+    private void initializeSoundMode(){
+        if(soundMode == null){
+            soundMode = gameSettings.GetSoundMode();//Get default
+        }
+        if (soundMode == SoundMode.highUp) {
+            ((RadioButton) findViewById(R.id.radioButtonSoundUp)).setChecked(true);
+            ((RadioButton) findViewById(R.id.radioButtonSoundDown)).setChecked(false);
+        } else if (soundMode == SoundMode.highDown) {
+            ((RadioButton) findViewById(R.id.radioButtonSoundUp)).setChecked(false);
+            ((RadioButton) findViewById(R.id.radioButtonSoundDown)).setChecked(true);
         }
     }
 
@@ -194,9 +216,11 @@ public class SettingsActivity extends GirafActivity{
     private void cancelSettings(){
         gameSettings = initSettings;
         gameMode = gameSettings.GetGameMode();
+        soundMode = gameSettings.GetSoundMode();
         this.colorPickButton.SetColor(gameSettings.GetColor());
         speed.setCarColor(gameSettings.GetColor());
         speed.GetGauge().SetSpeed(gameSettings.GetSpeed());
         initializeGameMode();
+        initializeSoundMode();
     }
 }

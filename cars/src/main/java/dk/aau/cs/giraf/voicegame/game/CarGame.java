@@ -50,17 +50,16 @@ public class CarGame extends CarsActivity {
         
         car.setColor(gamesettings.GetColor());
         carControl = new VolumeCarControl(gamesettings.GetMinVolume(), gamesettings.GetMaxVolume());
-        //carControl = new TouchCarControl(getHeight() - 2 * GRASS_HEIGHT - (int) car.height, GRASS_HEIGHT + (int) car.height / 2);
 
         startScreen = new StartScreen(this, car, roadItems);
         pauseScreen = new PauseScreen(this, car, roadItems, GRASS_HEIGHT);
         winningScreen = new WinningScreen(this, car, roadItems);
         if (gameMode == GameMode.pickup){
-            runningScreen = new PickupRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed(), (Track)getIntent().getSerializableExtra("track"), gamesettings.getMoveState());
+            runningScreen = new PickupRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed(), (Track)getIntent().getSerializableExtra("track"), gamesettings.GetSoundMode());
             failureScreen = new FailureScreen(this, car, roadItems);
         }
         if (gameMode == GameMode.avoid){
-            runningScreen = new AvoidRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed(), (Track)getIntent().getSerializableExtra("track"), gamesettings.getMoveState());
+            runningScreen = new AvoidRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed(), (Track)getIntent().getSerializableExtra("track"), gamesettings.GetSoundMode());
             crashScreen = new CrashScreen(this, car, roadItems);
         }
         return startScreen;

@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.voicegame.Interfaces.CarControl;
-import dk.aau.cs.giraf.voicegame.game.Enums.MoveState;
+import dk.aau.cs.giraf.voicegame.game.Enums.SoundMode;
 
 public class VolumeCarControl implements CarControl {
     private MediaRecorder mediaRecorder;
@@ -39,8 +39,18 @@ public class VolumeCarControl implements CarControl {
         this.Start();
     }
 
+    /**
+     * Calculates the movement up and down based on sound volumen
+     * <p>
+     * Calculates the movement based on volumen and the state of the SoundMode.
+     * And returns the movement that should be taken.
+     * <p>
+     * @param  touchEvents legacy param.
+     * @param  soundMode states if car should move up or down with high sound.
+     * @return float, that describes how much up and down the car should move.
+     */
     @Override
-    public float getMove(Input.TouchEvent[] touchEvents, MoveState moveState) {
+    public float getMove(Input.TouchEvent[] touchEvents, SoundMode soundMode) {
         float volume = this.getAmplitude();
         //Volume is bound by min and max amplitude
         volume = Math.max(Math.min(volume, maxAmplitude), minAmplitude);
@@ -48,14 +58,13 @@ public class VolumeCarControl implements CarControl {
         // calculate move on wether the car reacts to noise or silence.
         float move;
 
-        if(moveState == MoveState.silence) {
-            move = ( maxAmplitude - volume) / (maxAmplitude - minAmplitude);
-        } else {
+        if(soundMode == SoundMode.highUp) {
             move = (volume - minAmplitude) / (maxAmplitude - minAmplitude);
+        } else {
+            move = ( maxAmplitude - volume) / (maxAmplitude - minAmplitude);
         }
 
         return move;
-
     }
 
     public float getAmplitude() {

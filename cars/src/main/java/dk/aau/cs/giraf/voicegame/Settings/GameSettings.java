@@ -2,13 +2,10 @@ package dk.aau.cs.giraf.voicegame.Settings;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
-
-import org.apache.commons.lang.enums.*;
 
 import dk.aau.cs.giraf.voicegame.SettingsActivity;
-import dk.aau.cs.giraf.voicegame.game.Enums.MoveState;
 import dk.aau.cs.giraf.voicegame.game.GameMode;
+import dk.aau.cs.giraf.voicegame.game.Enums.SoundMode;
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
 
 import java.io.FileInputStream;
@@ -28,15 +25,14 @@ public class GameSettings implements Serializable {
     private final float DEFAULT_MAX = 5000;
     private final int DEFAULT_COLOR = Color.BLUE;
     private final GameMode DEFAULT_GAME_MODE = GameMode.pickup;
+    private final SoundMode DEFAULT_SOUND_MODE = SoundMode.highUp;
     private int color;
     private float speed;
     private float minVolume;
     private float maxVolume;
     private ArrayList<RoadItem> roadItems;
     private GameMode gameMode;
-    // when set to silence, the car moves when the microphone is not picking up sound.
-    // TODO implement way to set this property in the settings menu
-    private MoveState moveState = MoveState.silence;
+    private SoundMode soundMode;
 
 
     public GameSettings() {
@@ -45,14 +41,17 @@ public class GameSettings implements Serializable {
         this.minVolume = DEFAULT_MIN;
         this.maxVolume = DEFAULT_MAX;
         this.gameMode = DEFAULT_GAME_MODE;
+        this.soundMode = DEFAULT_SOUND_MODE;
+
     }
 
-    public GameSettings(int color, float speed, float minVolume, float maxVolume, GameMode gameMode) {
+    public GameSettings(int color, float speed, float minVolume, float maxVolume, GameMode gameMode, SoundMode soundMode) {
         this.color = color;
         this.speed = speed;
         this.minVolume = minVolume;
         this.maxVolume = maxVolume;
         this.gameMode = gameMode;
+        this.soundMode = soundMode;
     }
 
     public int GetColor() {
@@ -75,8 +74,6 @@ public class GameSettings implements Serializable {
         this.roadItems = roadItems;
     }
 
-    public MoveState getMoveState() { return moveState; }
-
     public ArrayList<RoadItem> LoadObstacles() {
 
         return roadItems;
@@ -84,6 +81,9 @@ public class GameSettings implements Serializable {
 
     public GameMode GetGameMode() {
         return gameMode;
+    }
+    public SoundMode GetSoundMode() {
+        return soundMode;
     }
 
     /**
