@@ -20,6 +20,8 @@ import java.io.ObjectOutputStream;
  * A singleton class that handles read/write actions to/from internal storage
  */
 public class IOService {
+    private Context ctx;
+
     private static IOService ioService;
 
 
@@ -34,7 +36,7 @@ public class IOService {
      * Method will try to read the trackOrganizer, it does not already exist (is null), then it will instantiate a new TrackOrganizer instead.
      * @return either the track that was read or a new track organizer.
      */
-    public TrackOrganizer readTrackOrganizerFromFile(Context ctx){
+    public TrackOrganizer readTrackOrganizerFromFile(){
         TrackOrganizer trackOrganizer = null;
 
         try{
@@ -66,7 +68,7 @@ public class IOService {
      * Method will write the content of the input to the file
      * @param trackOrganizer the track that should be written to the file
      */
-    public void writeTrackOrganizerToFile(TrackOrganizer trackOrganizer, Context ctx){
+    public void writeTrackOrganizerToFile(TrackOrganizer trackOrganizer){
         try{
             FileOutputStream outputStream = ctx.openFileOutput(ctx.getResources().getString(R.string.track_file_name), Context.MODE_PRIVATE);
             BufferedOutputStream buffer = new BufferedOutputStream(outputStream);
@@ -85,7 +87,7 @@ public class IOService {
     /**
      * Deletes the trackOrganizer
      */
-    public void deleteTrackOrganizer(Context ctx){
+    public void deleteTrackOrganizer(){
         File file = new File(ctx.getFilesDir() + "/" + ctx.getResources().getString(R.string.track_file_name));
         if (file != null) {
             file.delete();
@@ -96,10 +98,9 @@ public class IOService {
      * Writes a bitmap to a file.
      * @param bitmap The bitmap to be saved.
      * @param identifier The name the bitmap will be saved as. Must be unique.
-     * @param ctx The context of the application.
      * @return The path the saved bitmap
      */
-    public String writeNewBitmapToFile(Bitmap bitmap, String identifier, Context ctx) {
+    public String writeNewBitmapToFile(Bitmap bitmap, String identifier) {
         File directory = ctx.getDir(ctx.getResources().getString(R.string.screenshots_dir), Context.MODE_PRIVATE);
         File bitmapPath = new File(directory, identifier + ".jpg");
 
@@ -175,4 +176,11 @@ public class IOService {
         }
     }
 
+    /**
+     * Sets the context of the application, this must be called when the application stars
+     * @param ctx the context of the application
+     */
+    public void setContext(Context ctx) {
+        this.ctx = ctx;
+    }
 }

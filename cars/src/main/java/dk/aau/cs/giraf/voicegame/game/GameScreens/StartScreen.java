@@ -1,5 +1,6 @@
 package dk.aau.cs.giraf.voicegame.game.GameScreens;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import dk.aau.cs.giraf.voicegame.R;

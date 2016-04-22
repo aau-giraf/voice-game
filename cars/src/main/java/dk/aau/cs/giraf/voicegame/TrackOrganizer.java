@@ -18,6 +18,9 @@ public class TrackOrganizer implements Serializable{
     //ID that is connected to the file so that it is known what file it is when it is read.
     static final long serialVersionUID = 1L;
 
+    // TODO temporary max value, some error happens when adding more than 6 tracks. Will make task aswell.
+    private int maxTracks = 5;
+
     private ArrayList<Track> trackArrayList;
     private int currentTrackID;
 
@@ -112,4 +115,22 @@ public class TrackOrganizer implements Serializable{
     public int getCurrentTrackID() {
         return currentTrackID;
     }
+
+    // TODO temporary check for the amount of tracks saved, some error happens when adding more than 6 tracks. Will make task aswell.
+    public boolean canSaveMoreTracks() {
+        int tracksInArray = 0;
+
+        for (Track track: trackArrayList) {
+            if(track != null) {
+                tracksInArray++;
+            }
+        }
+
+        if(tracksInArray < maxTracks) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

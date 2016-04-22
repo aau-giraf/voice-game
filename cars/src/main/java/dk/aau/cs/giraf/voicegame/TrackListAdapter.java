@@ -27,14 +27,16 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
     private ArrayList<Integer> trackIDs;
     private TrackPickerActivity parentActivity;
     private ImageView lastClickImage = null;
+    private TrackOrganizer trackOrganizer;
 
     // The integer and bitmap array are the same size
-    public TrackListAdapter(Context context, ArrayList<Integer> intResource, ArrayList<Bitmap> bitmapResource, TrackPickerActivity parentActivity) {
+    public TrackListAdapter(Context context, ArrayList<Integer> intResource, ArrayList<Bitmap> bitmapResource, TrackOrganizer trackOrganizer, TrackPickerActivity parentActivity) {
         super(context, R.layout.track_picker_row, intResource);
 
         trackIDs = intResource;
         trackScreenshots = bitmapResource;
         this.parentActivity = parentActivity;
+        this.trackOrganizer = trackOrganizer;
     }
 
     /**
@@ -66,11 +68,16 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
             imageTrack2.setImageBitmap(trackScreenshots.get(calculatedPosition - 1));
         }
 
+        /**
+         * This method will be called when pressing images of the left side.
+         * It changed the background color to mark it and tell the trackOrganizer to change it's current track.
+         */
         imageTrack1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if((calculatedPosition - 2) < trackIDs.size()) {
                     parentActivity.setTrack(trackIDs.get(calculatedPosition - 2));
+                    trackOrganizer.setCurrentTrackID(trackIDs.get(calculatedPosition - 2));
                     Toast.makeText(parentActivity, String.valueOf(trackIDs.get(calculatedPosition - 2)), Toast.LENGTH_SHORT).show();
                 }
 
@@ -84,15 +91,20 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
             }
         });
 
+        /**
+         * This method will be called when pressing images of the right side.
+         * It changed the background color to mark it and tell the trackOrganizer to change it's current track.
+         */
         imageTrack2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if((calculatedPosition - 1) < trackIDs.size()) {
+                if ((calculatedPosition - 1) < trackIDs.size()) {
                     parentActivity.setTrack(trackIDs.get(calculatedPosition - 1));
+                    trackOrganizer.setCurrentTrackID(trackIDs.get(calculatedPosition - 1));
                     Toast.makeText(parentActivity, String.valueOf(trackIDs.get(calculatedPosition - 1)), Toast.LENGTH_SHORT).show();
                 }
 
-                if(lastClickImage != null) {
+                if (lastClickImage != null) {
                     lastClickImage.setBackgroundColor(getContext().getResources().getColor(R.color.listBackground));
                 }
 

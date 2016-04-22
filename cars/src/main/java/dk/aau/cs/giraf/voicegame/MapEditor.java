@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -191,7 +192,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 @Override
                 public void onClick(View v) {
                     // Read the trackorganizer from file
-                    TrackOrganizer trackOrganizer = IOService.instance().readTrackOrganizerFromFile(getApplicationContext());
+                    TrackOrganizer trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
                     
                     // Add a track to the trackorganizer
                     // If the "edit" bool is flipped, then the edited track is overwritten, else we create a new track
@@ -199,13 +200,20 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                         Track track = (Track)getIntent().getSerializableExtra("track");
                         IOService.instance().overwriteBitmapToFile(screenshot, track.getScreenshotPath(), String.valueOf(track.getID()));
                         trackOrganizer.editTrack(track.getID(), mapScreen.roadItems);
+
+                    // TODO temporary check, some error happens when adding more than 6 tracks. Will make task aswell.
                     } else {
-                        String bitmapPath = IOService.instance().writeNewBitmapToFile(screenshot, String.valueOf(trackOrganizer.getNextFreeID()), getApplicationContext());
-                        trackOrganizer.addTrack(mapScreen.roadItems, bitmapPath, gamesettings.GetGameMode());
+                        if(trackOrganizer.canSaveMoreTracks()) {
+                            String bitmapPath = IOService.instance().writeNewBitmapToFile(screenshot, String.valueOf(trackOrganizer.getNextFreeID()));
+                            trackOrganizer.addTrack(mapScreen.roadItems, bitmapPath, gamesettings.GetGameMode());
+                        } else {
+                            Toast.makeText(MapEditor.this, "Du kan ikke gemme flere baner", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
 
                     //Write the trackorganizer to the file.
-                    IOService.instance().writeTrackOrganizerToFile(trackOrganizer, getApplicationContext());
+                    IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
                     gamesettings.setRoadItems(mapScreen.roadItems);
 
                     //If the dialog is the unsaved changes, the button terminates the MapEditor.
