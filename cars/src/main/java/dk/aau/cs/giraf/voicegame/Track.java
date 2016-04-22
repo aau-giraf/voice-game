@@ -18,10 +18,11 @@ public class Track implements Serializable {
     private transient Bitmap screenshot;
     private GameMode mode;
 
-    public Track(int id, ArrayList<RoadItem> obstacleArray, GameMode type){
+    public Track(int id, ArrayList<RoadItem> obstacleArray,, String screenshotPath GameMode type){
         this.id = id;
         this.obstacleArray = obstacleArray;
         this.mode = type;
+        this.screenshotPath = screenshotPath;
     }
 
     public int getID(){
@@ -54,5 +55,8 @@ public class Track implements Serializable {
 
     public GameMode getMode() {
         return mode;
+    }
+    public String getScreenshotPath() {
+        return screenshotPath;
     }
 }

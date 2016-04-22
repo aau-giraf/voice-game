@@ -85,12 +85,14 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 mapScreen.Clear();
             }
         });
+
         linearLayout.addView(trashButton);
 
         // adding save button
         android.graphics.drawable.Drawable saveIcon = this.getResources().getDrawable(R.drawable.icon_save);
         GirafButton saveButton = new GirafButton(this, saveIcon);
         saveButton.setY(5);
+
         // width is 1280px
         // It is not possible to get the dimensions of the icon, so we're subtracting a percentage of the screens width, in order to accommodate scaling.
         saveButton.setX(this.getWidth() - ((this.getHeight() / 100) * 20 ));
@@ -102,6 +104,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 saveDialog.show(getSupportFragmentManager(), SAVE_DIALOG_TAG);
             }
         });
+
         linearLayout.addView(saveButton);
 
         //adding back button
@@ -176,6 +179,9 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 }
             });
 
+            /**
+             * Reads the trackOrganizer from file and overrides it, containing the newly created track aswell.
+             */
             saveButton.setOnClickListener(new View.OnClickListener() {
 
                 /**
@@ -185,19 +191,21 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 @Override
                 public void onClick(View v) {
                     // Read the trackorganizer from file
-                    TrackOrganizer trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
-
+                    TrackOrganizer trackOrganizer = IOService.instance().readTrackOrganizerFromFile(getApplicationContext());
+                    
                     // Add a track to the trackorganizer
                     // If the "edit" bool is flipped, then the edited track is overwritten, else we create a new track
                     if (getIntent().getBooleanExtra("edit", false)) {
                         Track track = (Track)getIntent().getSerializableExtra("track");
+                        IOService.instance().overwriteBitmapToFile(screenshot, track.getScreenshotPath(), String.valueOf(track.getID()));
                         trackOrganizer.editTrack(track.getID(), mapScreen.roadItems);
                     } else {
-                        trackOrganizer.addTrack(mapScreen.roadItems, gamesettings.GetGameMode());
+                        String bitmapPath = IOService.instance().writeNewBitmapToFile(screenshot, String.valueOf(trackOrganizer.getNextFreeID()), getApplicationContext());
+                        trackOrganizer.addTrack(mapScreen.roadItems, bitmapPath, gamesettings.GetGameMode());
                     }
 
                     //Write the trackorganizer to the file.
-                    IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
+                    IOService.instance().writeTrackOrganizerToFile(trackOrganizer, getApplicationContext());
                     gamesettings.setRoadItems(mapScreen.roadItems);
 
                     //If the dialog is the unsaved changes, the button terminates the MapEditor.
@@ -244,6 +252,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
             }
 
             this.finishLineX = game.getWidth() - 80;
+            
             if(editMap) {
                 Track track = (Track)getIntent().getSerializableExtra("track");
                 mode = track.getMode();
