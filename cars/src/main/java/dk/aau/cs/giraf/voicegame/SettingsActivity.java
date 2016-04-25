@@ -27,7 +27,7 @@ import dk.aau.cs.giraf.gui.GComponent;
 public class SettingsActivity extends GirafActivity{
     protected GameSettings gameSettings, initSettings;
 
-    GirafButton saveSettingsButton, cancelSettingsButton;
+    GirafButton saveSettingsButton;
     ColorButton colorPickButton;
 
     SpeedFragment speed;
@@ -52,7 +52,6 @@ public class SettingsActivity extends GirafActivity{
         setContentView(v);
 
         saveSettingsButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_save));
-        cancelSettingsButton = new GirafButton(this,getResources().getDrawable(R.drawable.icon_cancel));
 
         saveSettingsButton.setOnClickListener(new View.OnClickListener() {
             /**
@@ -67,14 +66,7 @@ public class SettingsActivity extends GirafActivity{
             }
         });
 
-        cancelSettingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancelSettings();
-            }
-        });
         addGirafButtonToActionBar(saveSettingsButton, GirafActivity.RIGHT);
-        addGirafButtonToActionBar(cancelSettingsButton, GirafActivity.RIGHT);
 
         colorPickButton = (ColorButton) findViewById(R.id.colorPick);
         speed = (SpeedFragment) getFragmentManager().findFragmentById(R.id.speed);
