@@ -21,7 +21,7 @@
         <dk.aau.cs.giraf.gui.GirafButton
             android:layout_width="wrap_content"
             android:layout_height="75sp"
-            app:text="Start Spil"
+            app:text="@string/new_game_botton"
             android:id="@+id/button2"
             android:onClick="startGame"
             android:layout_margin="20dp"
@@ -30,7 +30,7 @@
         <dk.aau.cs.giraf.gui.GirafButton
             android:layout_width="wrap_content"
             android:layout_height="75sp"
-            app:text="Rediger bane"
+            app:text="@string/new_map_botton"
             android:id="@+id/mapbutton"
             android:onClick="startMapEditor"
             android:layout_margin="20dp"
@@ -39,7 +39,7 @@
         <dk.aau.cs.giraf.gui.GirafButton
             android:layout_width="wrap_content"
             android:layout_height="75sp"
-            app:text="Indstillinger"
+            app:text="@string/settings_botton"
             android:id="@+id/button"
             android:onClick="showSettings"
             android:layout_margin="20dp"
