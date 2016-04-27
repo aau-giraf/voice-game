@@ -9,8 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
 import com.google.analytics.tracking.android.EasyTracker;
 
 import java.io.FileNotFoundException;
@@ -20,6 +24,7 @@ import java.io.ObjectOutputStream;
 
 import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.gui.GirafButton;
+import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.voicegame.Settings.CalibrationFragment;
 import dk.aau.cs.giraf.voicegame.Settings.SpeedGauge;
 import dk.aau.cs.giraf.voicegame.game.GameMode;
@@ -28,8 +33,12 @@ import dk.aau.cs.giraf.voicegame.Settings.SpeedFragment;
 import dk.aau.cs.giraf.gui.GColorPicker;
 import dk.aau.cs.giraf.gui.GComponent;
 
-public class SettingsActivity extends GirafActivity{
+public class SettingsActivity extends GirafActivity implements GirafInflatableDialog.OnCustomViewCreatedListener{
     protected GameSettings gameSettings, initSettings;
+
+    private static final String SAVE_DIALOG_TAG = "SAVE_DIALOG";
+    private static final Integer SAVE_DIALOG_ID = 1;
+    private GirafInflatableDialog saveDialog;
 
     GirafButton saveSettingsButton, cancelSettingsButton;
     ColorButton colorPickButton;
@@ -55,7 +64,6 @@ public class SettingsActivity extends GirafActivity{
         setContentView(v);
 
         saveSettingsButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_save));
-        cancelSettingsButton = new GirafButton(this,getResources().getDrawable(R.drawable.icon_cancel));
 
         saveSettingsButton.setOnClickListener(new View.OnClickListener() {
             /**
@@ -64,20 +72,13 @@ public class SettingsActivity extends GirafActivity{
              */
             @Override
             public void onClick(View v) {
-                initSettings = new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(),
-                        calibration.GetMaxVolume(), gameMode);
-                SaveSettings(initSettings, getApplicationContext());
+
+                saveDialog = GirafInflatableDialog.newInstance(getResources().getString(R.string.save_dialog_settings_title), getResources().getString(R.string.save_dialog_settings_text), R.layout.activity_save_dialog_settings, SAVE_DIALOG_ID);
+                saveDialog.show(getSupportFragmentManager(), SAVE_DIALOG_TAG);
             }
         });
 
-        cancelSettingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancelSettings();
-            }
-        });
         addGirafButtonToActionBar(saveSettingsButton, GirafActivity.RIGHT);
-        addGirafButtonToActionBar(cancelSettingsButton, GirafActivity.RIGHT);
 
         colorPickButton = (ColorButton) findViewById(R.id.colorPick);
         speed = (SpeedFragment) getFragmentManager().findFragmentById(R.id.speed);
@@ -198,5 +199,48 @@ public class SettingsActivity extends GirafActivity{
         speed.setCarColor(gameSettings.GetColor());
         speed.GetGauge().SetSpeed(gameSettings.GetSpeed());
         initializeGameMode();
+    }
+
+    /**
+     * and override method from implementing GirafInflatableDialog.OnCustomViewCreatedListener
+     * Content of the dialog goes in this method
+     * @param viewGroup the views inside the dialog, access this when editing views.
+     * @param i the id of the dialog
+     */
+    @Override
+    public void editCustomView(final ViewGroup viewGroup, int i) {
+        if(i == SAVE_DIALOG_ID ) {
+
+            final GirafButton saveButton = (GirafButton) viewGroup.findViewById(R.id.button_gem);
+            GirafButton cancelButton = (GirafButton) viewGroup.findViewById(R.id.button_anuller);
+
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cancelSettings();
+
+                    saveDialog.dismiss();
+                }
+            });
+
+            /**
+             * Reads the trackOrganizer from file and overrides it, containing the newly created track aswell.
+             */
+            saveButton.setOnClickListener(new View.OnClickListener() {
+
+                /**
+                 * When clicking the save button, the track will be edited, if the "edit" extra is set to true, and call the appropriate method in the trackOrganizer
+                 * @param v the view that was clicked
+                 */
+                @Override
+                public void onClick(View v) {
+                    initSettings = new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(),
+                            calibration.GetMaxVolume(), gameMode);
+                    SaveSettings(initSettings, getApplicationContext());
+
+                    saveDialog.dismiss();
+                }
+            });
+        }
     }
 }

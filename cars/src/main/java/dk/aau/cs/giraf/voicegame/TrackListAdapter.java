@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +31,10 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
     private TrackOrganizer trackOrganizer;
 
     // The integer and bitmap array are the same size
-    public TrackListAdapter(Context context, ArrayList<Integer> intResource, ArrayList<Bitmap> bitmapResource, TrackOrganizer trackOrganizer, TrackPickerActivity parentActivity) {
-        super(context, R.layout.track_picker_row, intResource);
+    public TrackListAdapter(Context context, ArrayList<Integer> numberOfRows, ArrayList<Integer> trackIDs, ArrayList<Bitmap> bitmapResource, TrackOrganizer trackOrganizer, TrackPickerActivity parentActivity) {
+        super(context, R.layout.track_picker_row, numberOfRows);
 
-        trackIDs = intResource;
+        this.trackIDs = trackIDs;
         trackScreenshots = bitmapResource;
         this.parentActivity = parentActivity;
         this.trackOrganizer = trackOrganizer;
@@ -61,11 +62,17 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
         final int calculatedPosition = (position + 1) * 2;
 
         if((calculatedPosition - 2) < trackIDs.size()) {
+            Log.v("TackListAdapter", (calculatedPosition - 2) + " < " + trackIDs.size());
             imageTrack1.setImageBitmap(trackScreenshots.get(calculatedPosition - 2));
+        } else {
+            imageTrack2.setImageDrawable(null);
         }
 
         if((calculatedPosition - 1) < trackIDs.size()) {
+            Log.v("TackListAdapter", (calculatedPosition - 1) + " < " + trackIDs.size());
             imageTrack2.setImageBitmap(trackScreenshots.get(calculatedPosition - 1));
+        } else {
+            imageTrack2.setImageDrawable(null);
         }
 
         /**
@@ -78,7 +85,6 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
                 if((calculatedPosition - 2) < trackIDs.size()) {
                     parentActivity.setTrack(trackIDs.get(calculatedPosition - 2));
                     trackOrganizer.setCurrentTrackID(trackIDs.get(calculatedPosition - 2));
-                    Toast.makeText(parentActivity, String.valueOf(trackIDs.get(calculatedPosition - 2)), Toast.LENGTH_SHORT).show();
                 }
 
                 if(lastClickImage != null) {
@@ -101,7 +107,6 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
                 if ((calculatedPosition - 1) < trackIDs.size()) {
                     parentActivity.setTrack(trackIDs.get(calculatedPosition - 1));
                     trackOrganizer.setCurrentTrackID(trackIDs.get(calculatedPosition - 1));
-                    Toast.makeText(parentActivity, String.valueOf(trackIDs.get(calculatedPosition - 1)), Toast.LENGTH_SHORT).show();
                 }
 
                 if (lastClickImage != null) {

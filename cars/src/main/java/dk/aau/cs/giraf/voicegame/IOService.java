@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -12,7 +13,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -46,13 +46,13 @@ public class IOService {
             trackOrganizer = (TrackOrganizer) ois.readObject();
             ois.close();
         }catch (FileNotFoundException e){
-            System.out.println("File not found - input");
+            Log.v("ReadTrackOrganizer", "File not found - input");
             e.printStackTrace();
         } catch (IOException e){
-            System.out.println("IO exception happened while reading");
+            Log.v("ReadTrackOrganizer", "IO exception happened while reading");
             e.printStackTrace();
         } catch (ClassNotFoundException e){
-            System.out.println("Wrong cast");
+            Log.v("ReadTrackOrganizer", "Wrong cast");
             e.printStackTrace();
         }
 
@@ -76,10 +76,10 @@ public class IOService {
             oos.writeObject(trackOrganizer);
             oos.close();
         } catch (FileNotFoundException e){
-            System.out.println("File not found - output");
+            Log.v("WriteTrackOrganizer", "File not found - output");
             e.printStackTrace();
         } catch (IOException e){
-            System.out.println("IO exception happened while writing");
+            Log.v("WriteTrackOrganizer", "IO exception happened while writing");
             e.printStackTrace();
         }
     }
@@ -110,10 +110,10 @@ public class IOService {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
             outputStream.close();
         } catch (FileNotFoundException e){
-            System.out.println("Bitmap file not found - output");
+            Log.v("WriteBitmap", "Bitmap file not found - output");
             e.printStackTrace();
         } catch (IOException e){
-            System.out.println("IO exception happened while writing bitmap");
+            Log.v("WriteBitmap", "IO exception happened while writing bitmap");
             e.printStackTrace();
         }
 
@@ -133,10 +133,10 @@ public class IOService {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 0, outputStream);
             outputStream.close();
         } catch (FileNotFoundException e){
-            System.out.println("Bitmap file not found - output");
+            Log.v("OverwriteBitmap", "Bitmap file not found - output");
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("IO exception happened while writing bitmap");
+            Log.v("OverwriteBitmap", "IO exception happened while writing bitmap");
             e.printStackTrace();
         }
     }
@@ -159,10 +159,10 @@ public class IOService {
             bitmap = BitmapFactory.decodeStream(inputStream, new Rect(0, 0, 0, 0), options);
             inputStream.close();
         } catch (FileNotFoundException e){
-            System.out.println("Bitmap file not found - output");
+            Log.v("ReadBitmap", "Bitmap file not found - output");
             e.printStackTrace();
         } catch (IOException e){
-            System.out.println("IO exception happened while writing bitmap");
+            Log.v("ReadBitmap", "IO exception happened while writing bitmap");
             e.printStackTrace();
         }
 

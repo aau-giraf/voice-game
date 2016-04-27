@@ -2,6 +2,7 @@ package dk.aau.cs.giraf.voicegame;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListAdapter;
@@ -67,8 +68,8 @@ public class TrackPickerActivity extends GirafActivity {
             @Override
             public void onClick(View view) {
 
-                if(track == null) {
-                    GameSettings settings = (GameSettings)getIntent().getSerializableExtra("settings");
+                if (track == null) {
+                    GameSettings settings = (GameSettings) getIntent().getSerializableExtra("settings");
                     track = new Track(-1, new ArrayList<RoadItem>(), "", settings.GetGameMode());
                 }
 
@@ -92,13 +93,19 @@ public class TrackPickerActivity extends GirafActivity {
             @Override
             public void onClick(View view) {
 
-                //Delete a track from the trackorganizer
-                trackOrganizer.deleteTrack(track.getID());
-                //Write the trackorganizer to the file.
-                IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
-                updateTrackArrayList();
+                if(track != null) {
+                    //Delete a track from the trackorganizer
+                    trackOrganizer.deleteTrack(track.getID());
+                    //Write the trackorganizer to the file.
+                    IOService.instance().writeTrackOrganizerToFile(trackOrganizer);
+                    updateTrackArrayList();
 
-                track = null;
+                    track = null;
+                } else {
+                    Toast.makeText(TrackPickerActivity.this, getResources().getString(R.string.track_pick_error), Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
         addGirafButtonToActionBar(deleteButton, GirafActivity.RIGHT);
@@ -129,6 +136,11 @@ public class TrackPickerActivity extends GirafActivity {
         addGirafButtonToActionBar(editButton, GirafActivity.RIGHT);
     }
 
+    /**
+     * Counts all the tracks, and create a dummy array at the size of half the amount of tracks.
+     * We do this, because we hold two tracks on each row.
+     * Both the dummy array and the trackId array is passed tot he adapter when creating the list.
+     */
     private void updateTrackArrayList(){
         trackArrayList = new ArrayList<Integer>();
         if(!trackOrganizer.getTrackArray().isEmpty()){
@@ -138,8 +150,17 @@ public class TrackPickerActivity extends GirafActivity {
                 }
             }
         }
+
+        // create dummy array at half the size of trackArrayList.
+        ArrayList<Integer> numberOfRows = new ArrayList<Integer>();
+
+        for (int i = 0; i < Math.ceil((double)trackArrayList.size() / 2); i++) {
+            numberOfRows.add(0);
+        }
+
+        Log.v("TrackPickerActivity", "trackArray size: " + trackArrayList.size() + ", dummy size: " + numberOfRows.size());
         
-        ListAdapter adapter = new TrackListAdapter(this, trackArrayList, trackOrganizer.getScreenshotArray(getApplicationContext()), trackOrganizer, this);
+        ListAdapter adapter = new TrackListAdapter(this, numberOfRows, trackArrayList, trackOrganizer.getScreenshotArray(), trackOrganizer, this);
         this.trackList = (GList) findViewById(R.id.list_tracks);
 
         this.trackList.setAdapter(adapter);

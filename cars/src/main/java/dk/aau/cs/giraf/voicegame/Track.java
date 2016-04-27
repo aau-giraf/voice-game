@@ -1,7 +1,5 @@
 package dk.aau.cs.giraf.voicegame;
 
-import android.graphics.Bitmap;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -15,7 +13,6 @@ public class Track implements Serializable {
     private int id;
     private ArrayList<RoadItem> obstacleArray;
     private String screenshotPath;
-    private transient Bitmap screenshot;
     private GameMode mode;
 
     public Track(int id, ArrayList<RoadItem> obstacleArray, String screenshotPath, GameMode type){

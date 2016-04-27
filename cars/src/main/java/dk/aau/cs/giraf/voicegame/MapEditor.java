@@ -204,8 +204,8 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                     // TODO temporary check, some error happens when adding more than 6 tracks. Will make task aswell.
                     } else {
                         if(trackOrganizer.canSaveMoreTracks()) {
-                            String bitmapPath = IOService.instance().writeNewBitmapToFile(screenshot, String.valueOf(trackOrganizer.getNextFreeID()));
-                            trackOrganizer.addTrack(mapScreen.roadItems, bitmapPath, gamesettings.GetGameMode());
+
+                            trackOrganizer.addTrack(screenshot, mapScreen.roadItems, gamesettings.GetGameMode());
                         } else {
                             Toast.makeText(MapEditor.this, "Du kan ikke gemme flere baner", Toast.LENGTH_SHORT).show();
                         }

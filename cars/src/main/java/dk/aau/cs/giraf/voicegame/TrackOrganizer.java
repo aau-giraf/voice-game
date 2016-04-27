@@ -18,43 +18,42 @@ public class TrackOrganizer implements Serializable{
     //ID that is connected to the file so that it is known what file it is when it is read.
     static final long serialVersionUID = 1L;
 
-    // TODO temporary max value, some error happens when adding more than 6 tracks. Will make task aswell.
-    private int maxTracks = 5;
+    private int maxTracks = 14;
 
     private ArrayList<Track> trackArrayList;
+    private ArrayList<Integer> deletedIDs;
     private int currentTrackID;
 
     public  TrackOrganizer(){
         trackArrayList = new ArrayList<Track>();
-    }
-
-    public int getNextFreeID() {
-        for (int i = 0; i < trackArrayList.size(); i++) {
-            if(trackArrayList.get(i) == null) {
-                return i;
-            }
-        }
-
-        return trackArrayList.size();
+        deletedIDs = new ArrayList<Integer>();
     }
 
     /**
-     *  Adds track to the trackarraylist which is handled by the trackorganizer
+     * Checks the deletedIDs array for any ID's to use from there, if there is none, then a new one is created.
+     * @return the next free id;
+     */
+    public int getNextFreeID() {
+
+        if(deletedIDs.isEmpty()) {
+            // if there are no deleted ID's to pick from, then use the size of the trackArrayList, as this value is the number of elements in the list  + 1
+            return trackArrayList.size();
+        } else {
+            // get the last ID and delete it from the list, as that ID is now in use again.
+            int result = deletedIDs.get(deletedIDs.size() - 1);
+            deletedIDs.remove(deletedIDs.size() - 1);
+            return result;
+        }
+    }
+
+    /**
+     *  Adds track to the trackarraylist which is handled by the trackorganizer.
      * @param roadItemArrayList the array containing the road items that belongs to the given track
      */
-    public void addTrack(ArrayList<RoadItem> roadItemArrayList, String bitmapPath, GameMode type){
-        Boolean isAdded = false;
-
-
-        for (int i = 0; i<trackArrayList.size(); i++){
-            if(trackArrayList.get(i) == null && !isAdded){
-                trackArrayList.add(i, new Track(i,roadItemArrayList, bitmapPath, type));
-                isAdded = true;
-            }
-        }
-        if(!isAdded){
-            trackArrayList.add(new Track(trackArrayList.size(),roadItemArrayList, bitmapPath, type));
-        }
+    public void addTrack(Bitmap screenshot, ArrayList<RoadItem> roadItemArrayList, GameMode type){
+        int id = getNextFreeID();
+        String bitmapPath = IOService.instance().writeNewBitmapToFile(screenshot, String.valueOf(id));
+        trackArrayList.add(new Track(id, roadItemArrayList, bitmapPath, type));
     }
 
     /**
@@ -63,7 +62,8 @@ public class TrackOrganizer implements Serializable{
      */
     public void deleteTrack(int trackID){
         IOService.instance().deleteBitmap(getTrack(trackID).getScreenshotPath(), String.valueOf(trackID));
-        trackArrayList.set(trackID, null);
+        trackArrayList.remove(getTrack(trackID));
+        deletedIDs.add(trackID);
     }
 
     /**
@@ -74,13 +74,15 @@ public class TrackOrganizer implements Serializable{
         return trackArrayList;
     }
 
-    public ArrayList<Bitmap> getScreenshotArray(Context ctx) {
+    /**
+     * Get the array of screenshots that is stored for all the tracks.
+     * @return
+     */
+    public ArrayList<Bitmap> getScreenshotArray() {
         ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>();
-        for(int i = 0; i < trackArrayList.size(); i++) {
-            if(trackArrayList.get(i) != null) {
-                Track track = trackArrayList.get(i);
-                bitmaps.add(IOService.instance().readBitmapFromFile(track.getScreenshotPath(), String.valueOf(track.getID())));
-            }
+
+        for (Track track: trackArrayList) {
+            bitmaps.add(IOService.instance().readBitmapFromFile(track.getScreenshotPath(), String.valueOf(track.getID())));
         }
 
         return bitmaps;
@@ -92,7 +94,16 @@ public class TrackOrganizer implements Serializable{
      * @return the track corresponding to the id
      */
     public Track getTrack(int trackID) {
-        return trackArrayList.get(trackID);
+
+        Track result = null;
+
+        for (Track track: trackArrayList) {
+            if(track.getID() == trackID) {
+                result = track;
+            }
+        }
+
+        return result;
     }
     
     public Bitmap getTrackScreenshot(int trackID, Context ctx) {
@@ -105,7 +116,7 @@ public class TrackOrganizer implements Serializable{
      * @param roadItems array of roaditems in the track
      */
     public void editTrack(int trackID, ArrayList<RoadItem> roadItems) {
-        trackArrayList.get(trackID).setObstacleArray(roadItems);
+        getTrack(trackID).setObstacleArray(roadItems);
     }
 
     public void setCurrentTrackID(int currentTrackID) {
@@ -132,5 +143,4 @@ public class TrackOrganizer implements Serializable{
             return false;
         }
     }
-
 }
