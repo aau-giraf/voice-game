@@ -261,7 +261,7 @@ public class SettingsActivity extends GirafActivity implements GirafInflatableDi
                 @Override
                 public void onClick(View v) {
                     initSettings = new GameSettings(colorPickButton.GetColor(), speed.getSpeed(), calibration.GetMinVolume(),
-                            calibration.GetMaxVolume(), gameMode);
+                            calibration.GetMaxVolume(), gameMode, soundMode);
                     SaveSettings(initSettings, getApplicationContext());
 
                     saveDialog.dismiss();
