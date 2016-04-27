@@ -40,7 +40,7 @@ public class FastRenderView extends SurfaceView implements Runnable {
         Point size = new Point();
         display.getSize(size);
 
-        screenshot = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_8888);
+        screenshot = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.RGB_565);
     }
 
     @Override

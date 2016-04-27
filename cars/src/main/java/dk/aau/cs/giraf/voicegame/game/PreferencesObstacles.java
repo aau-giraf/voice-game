@@ -1,5 +1,7 @@
 package dk.aau.cs.giraf.voicegame.game;
 
+import android.content.Context;
+
 import dk.aau.cs.giraf.voicegame.IOService;
 import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 import dk.aau.cs.giraf.voicegame.Track;
@@ -15,10 +17,23 @@ public class PreferencesObstacles implements RoadItemGenerator {
         this.gs = gs;
     }
 
+    /**
+     * Creates the roaditems to be displayed from the current track set in the trackOrganizer.
+     * @param width
+     * @param height
+     * @return
+     */
     @Override
     public RoadItem[] CreateRoadItems(int width, int height) {
         trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
-        Track track = trackOrganizer.getTrack(trackOrganizer.getCurrentTrackID());
+        Track track;
+        if(trackOrganizer.getCurrentTrackID() != -1) {
+            track = trackOrganizer.getTrack(trackOrganizer.getCurrentTrackID());
+        } else {
+            track = new Track(-1, new ArrayList<RoadItem>(), "", gs.GetGameMode());
+        }
+
+
         ArrayList<RoadItem> roadItemArrayList =  track.getObstacleArray();
         // TODO fix this by adding settings to IOService
         if(roadItemArrayList == null) {

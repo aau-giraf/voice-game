@@ -1,5 +1,7 @@
 package dk.aau.cs.giraf.game_framework;
 
+import android.content.Context;
+
 import dk.aau.cs.giraf.voicegame.Track;
 
 public abstract class Screen {

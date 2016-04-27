@@ -25,7 +25,7 @@
 	<string name="calibration_high_help">Hold knappen \'Høj\' inde mens du siger høje lyde</string>
 	<string name="calibration_low_help">Hold knappen \'Lav\' inde uden at sige noget</string>
 	<string name="Profile_selector">Vælg den borger du vil skifte til</string>
-	<string name="title_activity_track_picker">TrackPickerActivity</string>
+	<string name="title_activity_track_picker">Vælg en bane</string>
 	<string name="save_dialog_title">Gem bane</string>
 	<string name="save_dialog_text">Her kan du se et billede af din bane</string>
 	<string name="track_pick_error">Du skal vælge en bane først</string>
@@ -34,5 +34,9 @@
 	<string name="settings_header_sound_high_low">Stemmeretning ved høj lyd:</string>
 	<string name="radio_button_sound_up">Op</string>
 	<string name="radio_button_sound_down">Ned</string>
+	<string name="track_file_name">tracksFile</string>
+	<string name="screenshots_dir">screenshots</string>
+	<string name="save_dialog_settings_title">Gem indstillinger</string>
+	<string name="save_dialog_settings_text">Vil du gemme dine indstillinger?</string>
 
 </resources>
