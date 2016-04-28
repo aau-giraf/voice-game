@@ -87,7 +87,7 @@ public class TrackPickerActivity extends GirafActivity {
      * Creates the delete button, shown in the toolbar
      */
     private void createDeleteButton() {
-        GirafButton deleteButton = new GirafButton(this, getResources().getDrawable(R.drawable.delete));
+        GirafButton deleteButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_delete));
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
