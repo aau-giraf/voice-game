@@ -74,7 +74,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
         renderView = renderview;
 
         // adding trash button
-        android.graphics.drawable.Drawable trashCan = this.getResources().getDrawable(R.drawable.trashcan);
+        android.graphics.drawable.Drawable trashCan = this.getResources().getDrawable(R.drawable.icon_delete);
         GirafButton trashButton = new GirafButton(this, trashCan);
         trashButton.setY(5);
         // width is 1280px
