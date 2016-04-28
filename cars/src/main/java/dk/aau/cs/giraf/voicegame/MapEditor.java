@@ -169,7 +169,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 });
                 saveButton.setContentDescription("actualBack");
             } else {
-                backButton.setVisibility(viewGroup.INVISIBLE);
+                backButton.setVisibility(viewGroup.GONE);
                 backButton.setEnabled(false);
             }
 

@@ -16,28 +16,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:src="@drawable/ccar"/>
+        android:src="@drawable/ccar"
+        android:layout_marginBottom="20dp" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="0dp"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
-
-            <dk.aau.cs.giraf.gui.GirafButton
-                android:id="@+id/button_gem"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_centerInParent="true"
-                app:icon="@drawable/icon_save"
-                app:text="Gem"></dk.aau.cs.giraf.gui.GirafButton>
-
-        </RelativeLayout>
+        android:orientation="horizontal"
+        android:layout_gravity="center">
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -50,7 +37,7 @@
                 android:layout_height="40dp"
                 android:layout_centerInParent="true"
                 app:icon="@drawable/icon_back"
-                app:text="Gem ikke"></dk.aau.cs.giraf.gui.GirafButton>
+                app:text="@string/dont_save"></dk.aau.cs.giraf.gui.GirafButton>
 
         </RelativeLayout>
 
@@ -65,7 +52,21 @@
                 android:layout_height="40dp"
                 android:layout_centerInParent="true"
                 app:icon="@drawable/icon_cancel"
-                app:text="Anuller"></dk.aau.cs.giraf.gui.GirafButton>
+                app:text="@string/cancel"></dk.aau.cs.giraf.gui.GirafButton>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <dk.aau.cs.giraf.gui.GirafButton
+                android:id="@+id/button_gem"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                app:icon="@drawable/icon_save"
+                app:text="@string/save"></dk.aau.cs.giraf.gui.GirafButton>
 
         </RelativeLayout>
 
