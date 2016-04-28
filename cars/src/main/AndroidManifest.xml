@@ -65,7 +65,8 @@
         </activity>
         <activity
             android:name=".TrackPickerActivity"
-            android:label="@string/title_activity_track_picker"></activity>
+            android:label="@string/title_activity_track_picker"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>
