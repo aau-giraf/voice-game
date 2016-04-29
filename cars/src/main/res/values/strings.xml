@@ -41,4 +41,37 @@
 	<string name="cancel">Fortryd</string>
 	<string name="save">Gem</string>
 	<string name="dont_save">Gem ikke</string>
+
+	<!-- showcases for TrackPickerActivity -->
+	<string name="edit_button_pick_icon_showcase_help_title_text">Ændre bane</string>
+	<string name="edit_button_pick_icon_showcase_help_content_text">Når en bane er valgt kan den ændres ved at klikke her</string>
+	<string name="play_button_pick_icon_showcase_help_title_text">Spil bane</string>
+	<string name="play_button_pick_icon_showcase_help_content_text">Når en bane er valgt kan banen spilles ved at klikke her</string>
+	<string name="delete_button_pick_icon_showcase_help_title_text">Slet bane</string>
+	<string name="delete_button_pick_icon_showcase_help_content_text">Når en bane er valgt kan den slettes ved at klikke her</string>
+	<string name="track_list_showcase_help_title_text">Baner</string>
+	<string name="track_list_showcase_help_content_text">Her vises dine baner. Nye baner \nkan oprettes fra hovedmenuen</string>
+
+	<!-- showcases for SettingsActivity -->
+	<string name="save_settings_pick_icon_showcase_help_title_text">Gem indstillinger</string>
+	<string name="save_settings_pick_icon_showcase_help_content_text">Klik her for at gemme de ændrede indstillinger</string>
+	<string name="color_pick_pick_icon_showcase_help_title_text">Skift bilens farve</string>
+	<string name="color_pick_pick_icon_showcase_help_content_text">Klik her for at skifte farve på bilen</string>
+	<string name="calibration_fragment_pick_icon_showcase_help_title_text">Kalibrér mikrofon</string>
+	<string name="calibration_fragment_pick_icon_showcase_help_content_text">Her kalibreres mikrofonen. Hold \nHØJ knappen nede og sig en høj lyd, \neller hold LAV knappen nede og vær stille.\nSlip herefter knappen igen</string>
+	<string name="speed_pick_icon_showcase_help_title_text">Indstil bilens hastighed</string>
+	<string name="speed_pick_icon_showcase_help_content_text">Klik på bjælken for at ændre bilens hastighed,\njo højere hastighed desto sværre bliver banen</string>
+	<string name="avoid_pickup_showcase_help_title_text">Spillemåde</string>
+	<string name="avoid_pickup_showcase_help_content_text">Vælg mellem stjerner eller kasser til din bane. \nStjerner skal samles op, mens kasser skal undgåes</string>
+	<string name="radioButton_showcase_help_title_text">Stemmeretning</string>
+	<string name="radioButton_showcase_help_content_text">Vælg enten op eller ned for at bestemme\nhvilken vej bilen skal køre ved lyd</string>
+
+	<!-- showcases for MapEditor -->
+	<string name="trash_button_pick_icon_showcase_help_title_text">Slet ændringer</string>
+	<string name="trash_button_pick_icon_showcase_help_content_text">Klik her for at slette alle ændringer du har foretaget</string>
+	<string name="save_button_pick_icon_showcase_help_title_text">Gem banen</string>
+	<string name="save_button_pick_icon_showcase_help_content_text">Klik her for at gemme banen</string>
+	<string name="place_item_showcase_help_title_text">Skærm klik</string>
+	<string name="place_item_pick_icon_showcase_help_content_text">Klik på banen for at\nindsætte enten stjerner eller kasser.\nDu kan vælge mellem disse under indstillinger</string>
+
 </resources>

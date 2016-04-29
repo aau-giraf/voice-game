@@ -1,20 +1,30 @@
 package dk.aau.cs.giraf.voicegame;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import dk.aau.cs.giraf.gui.GirafInflatableDialog;
+import dk.aau.cs.giraf.showcaseview.ShowcaseManager;
+import dk.aau.cs.giraf.showcaseview.ShowcaseView;
+import dk.aau.cs.giraf.showcaseview.targets.ViewTarget;
 import dk.aau.cs.giraf.voicegame.CarsGames.CarsActivity;
 import dk.aau.cs.giraf.voicegame.game.GameMode;
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
@@ -27,7 +37,7 @@ import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.game_framework.Screen;
 import dk.aau.cs.giraf.gui.GirafButton;
 
-public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnCustomViewCreatedListener {
+public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnCustomViewCreatedListener, ShowcaseManager.ShowcaseCapable {
     private GameSettings gamesettings;
     // Holder of screen settings
     private MapScreen mapScreen;
@@ -36,6 +46,17 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
     private FastRenderView renderView;
     private boolean actualBack = false;
     private boolean isChanged = false;
+
+    // Used for showcase
+    private static final String IS_FIRST_RUN_KEY = "IS_FIRST_RUN_KEY_MAP_EDITOR";
+    private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener;
+    private ShowcaseManager showcaseManager;
+    private boolean isFirstRun;
+
+    GirafButton helpGirafButton;
+    GirafButton saveButton;
+    GirafButton trashButton;
+    GirafButton backButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,7 +96,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
         // adding trash button
         android.graphics.drawable.Drawable trashCan = this.getResources().getDrawable(R.drawable.icon_delete);
-        GirafButton trashButton = new GirafButton(this, trashCan);
+        trashButton = new GirafButton(this, trashCan);
         trashButton.setY(5);
         // width is 1280px
         // It is not possible to get the dimensions of the icon, so we're subtracting a percentage of the screens width, in order to accommodate scaling.
@@ -89,9 +110,26 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
         linearLayout.addView(trashButton);
 
+        // adding help button
+        helpGirafButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_help));
+        helpGirafButton.setY(5);
+        helpGirafButton.setX(this.getWidth() - ((this.getHeight() / 100) * 22));
+
+        helpGirafButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * onClick method for helpGirafButton
+             * @param v
+             */
+            @Override
+            public void onClick(View v) {
+                MapEditor.this.toggleShowcase();
+            }
+        });
+        linearLayout.addView(helpGirafButton);
+
         // adding save button
         android.graphics.drawable.Drawable saveIcon = this.getResources().getDrawable(R.drawable.icon_save);
-        GirafButton saveButton = new GirafButton(this, saveIcon);
+        saveButton = new GirafButton(this, saveIcon);
         saveButton.setY(5);
 
         // width is 1280px
@@ -110,7 +148,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
         //adding back button
         android.graphics.drawable.Drawable iconBack = this.getResources().getDrawable(R.drawable.icon_back);
-        GirafButton backButton = new GirafButton(this, iconBack);
+        backButton = new GirafButton(this, iconBack);
         backButton.setY(5);
         backButton.setX(-95);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -397,6 +435,149 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
         @Override
         public void backButton() {
 
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Check if this is the first run of the app
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        this.isFirstRun = prefs.getBoolean(IS_FIRST_RUN_KEY, true);
+
+        // If it is the first run display ShowcaseView
+        if (isFirstRun) {
+            this.findViewById(android.R.id.content).getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    showShowcase();
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean(IS_FIRST_RUN_KEY, false);
+                    editor.commit();
+
+                    synchronized (MapEditor.this) {
+
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                            MapEditor.this.findViewById(android.R.id.content).getViewTreeObserver().removeGlobalOnLayoutListener(globalLayoutListener);
+                        } else {
+                            MapEditor.this.findViewById(android.R.id.content).getViewTreeObserver().removeOnGlobalLayoutListener(globalLayoutListener);
+                        }
+
+                        globalLayoutListener = null;
+                    }
+                }
+            });
+        }
+    }
+
+    /**
+     * Showcaseview that explain the functionality
+     */
+    @Override
+    public synchronized void showShowcase() {
+
+        // Targets for the Showcase
+        final ViewTarget trashButtonTarget = new ViewTarget(trashButton, 1.5f);
+        final ViewTarget saveButtonTarget = new ViewTarget(saveButton, 1.5f);
+
+        // Create a relative location for the next button
+        final RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        final int margin = ((Number) (getResources().getDisplayMetrics().density * 12)).intValue();
+        lps.setMargins(margin, margin, margin, margin);
+
+        // End button
+        final RelativeLayout.LayoutParams stopLps = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        stopLps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        stopLps.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        final Button stopButton = (Button) LayoutInflater.from(this.getApplicationContext()).inflate(R.layout.showcase_button, null);
+        stopButton.setBackgroundColor(getResources().getColor(R.color.giraf_button_fill_end)); // Showcase Button background color
+        stopButton.setText("Luk");
+        stopLps.setMargins(margin, margin, margin, margin);
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MapEditor.this.toggleShowcase();
+            }
+        });
+
+        // Calculate position for the help text
+        final int textX = getResources().getDisplayMetrics().widthPixels / 2 + margin;
+        final int textY = getResources().getDisplayMetrics().heightPixels / 2 + margin;
+
+        showcaseManager = new ShowcaseManager();
+
+        showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
+            @Override
+            public void configShowCaseView(final ShowcaseView showcaseView) {
+
+                showcaseView.setShowcaseX(getResources().getDisplayMetrics().widthPixels / 2);
+                showcaseView.setShowcaseY(getResources().getDisplayMetrics().heightPixels / 2);
+                showcaseView.setContentTitle(getString(R.string.place_item_showcase_help_title_text));
+                showcaseView.setContentText(getString(R.string.place_item_pick_icon_showcase_help_content_text));
+                showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
+                showcaseView.addView(stopButton, stopLps);
+                showcaseView.setButtonPosition(lps);
+                showcaseView.setTextPostion(textX, textY);
+            }
+        });
+
+        showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
+            @Override
+            public void configShowCaseView(final ShowcaseView showcaseView) {
+
+                showcaseView.setShowcase(saveButtonTarget, true);
+                showcaseView.setContentTitle(getString(R.string.save_button_pick_icon_showcase_help_title_text));
+                showcaseView.setContentText(getString(R.string.save_button_pick_icon_showcase_help_content_text));
+                showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
+                showcaseView.setButtonPosition(lps);
+                showcaseView.setTextPostion(textX, textY);
+            }
+        });
+
+        showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
+            @Override
+            public void configShowCaseView(final ShowcaseView showcaseView) {
+
+                showcaseView.setShowcase(trashButtonTarget, true);
+                showcaseView.setContentTitle(getString(R.string.trash_button_pick_icon_showcase_help_title_text));
+                showcaseView.setContentText(getString(R.string.trash_button_pick_icon_showcase_help_content_text));
+                showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
+                showcaseView.removeView(stopButton);
+                showcaseView.addView(stopButton, lps);
+                showcaseView.setTextPostion(textX, textY);
+            }
+        });
+
+
+        ShowcaseManager.OnDoneListener onDoneCallback = new ShowcaseManager.OnDoneListener() {
+            @Override
+            public void onDone(ShowcaseView showcaseView) {
+                showcaseManager = null;
+                isFirstRun = false;
+            }
+        };
+        showcaseManager.setOnDoneListener(onDoneCallback);
+
+        showcaseManager.start(this);
+    }
+
+    @Override
+    public synchronized void hideShowcase() {
+        if (showcaseManager != null) {
+            showcaseManager.stop();
+            showcaseManager = null;
+        }
+    }
+
+    @Override
+    public synchronized void toggleShowcase() {
+        if (showcaseManager != null) {
+            hideShowcase();
+        } else {
+            showShowcase();
         }
     }
 }

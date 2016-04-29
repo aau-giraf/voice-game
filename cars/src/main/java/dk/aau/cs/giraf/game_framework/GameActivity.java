@@ -68,7 +68,7 @@ public abstract class GameActivity extends GirafActivity implements Game {
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
         screen.resume();
         renderView.resume();

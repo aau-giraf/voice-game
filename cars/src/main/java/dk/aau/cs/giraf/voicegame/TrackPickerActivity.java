@@ -1,11 +1,18 @@
 package dk.aau.cs.giraf.voicegame;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.ListAdapter;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -14,6 +21,9 @@ import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.gui.GComponent;
 import dk.aau.cs.giraf.gui.GList;
 import dk.aau.cs.giraf.gui.GirafButton;
+import dk.aau.cs.giraf.showcaseview.ShowcaseManager;
+import dk.aau.cs.giraf.showcaseview.ShowcaseView;
+import dk.aau.cs.giraf.showcaseview.targets.ViewTarget;
 import dk.aau.cs.giraf.voicegame.Settings.GameSettings;
 import dk.aau.cs.giraf.voicegame.game.CarGame;
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
@@ -21,7 +31,7 @@ import dk.aau.cs.giraf.voicegame.game.RoadItem;
 /**
  * The activity from where the user can see and choose the tracks that have been saved
  */
-public class TrackPickerActivity extends GirafActivity {
+public class TrackPickerActivity extends GirafActivity implements ShowcaseManager.ShowcaseCapable {
 
     private static final int PLAY_BUTTON_ID = 1;
     private ArrayList<Integer> trackArrayList;
@@ -30,6 +40,13 @@ public class TrackPickerActivity extends GirafActivity {
     private Track track;
     private GameSettings settings;
     private int savedPosition = -1;
+    GirafButton helpGirafButton, playButton, deleteButton, editButton;
+
+    // Used for showcaseview
+    private static final String IS_FIRST_RUN_KEY = "IS_FIRST_RUN_KEY_TRACK_PICKER_ACTIVITY";
+    private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener;
+    private ShowcaseManager showcaseManager;
+    private boolean isFirstRun;
 
     /**
      * Called when the activity is started.
@@ -42,6 +59,7 @@ public class TrackPickerActivity extends GirafActivity {
         View v = LayoutInflater.from(this).inflate(R.layout.activity_track_picker, null);
         v.setBackgroundDrawable(GComponent.GetBackground(GComponent.Background.GRADIENT));
 
+        createHelpButton();
         createDeleteButton();
         createEditButton();
         createPlayButton();
@@ -53,11 +71,28 @@ public class TrackPickerActivity extends GirafActivity {
         track = null;
     }
 
+    private void createHelpButton() {
+        helpGirafButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_help));
+
+        helpGirafButton.setOnClickListener(new View.OnClickListener() {
+            /**
+             * onClick method for helpGirafButton
+             * @param v
+             */
+            @Override
+            public void onClick(View v) {
+                TrackPickerActivity.this.toggleShowcase();
+            }
+        });
+
+        addGirafButtonToActionBar(helpGirafButton, GirafActivity.RIGHT);
+    }
+
     /**
      * Creates the play button, shown in the toolbar
      */
     private void createPlayButton() {
-        GirafButton playButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_play));
+        playButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_play));
 
         /**
          * This method will be called when the play button is pressen.
@@ -87,7 +122,7 @@ public class TrackPickerActivity extends GirafActivity {
      * Creates the delete button, shown in the toolbar
      */
     private void createDeleteButton() {
-        GirafButton deleteButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_delete));
+        deleteButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_delete));
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +150,7 @@ public class TrackPickerActivity extends GirafActivity {
      * Creates the edit track button, shown in the toolbar
      */
     private void createEditButton() {
-        GirafButton editButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_edit));
+        editButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_edit));
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,9 +210,164 @@ public class TrackPickerActivity extends GirafActivity {
         track = null;
         trackOrganizer.setCurrentTrackID(-1);
         updateTrackArrayList();
+
+        // Check if this is the first run of the app
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        this.isFirstRun = prefs.getBoolean(IS_FIRST_RUN_KEY, true);
+
+        // If it is the first run display ShowcaseView
+        if (isFirstRun) {
+            this.findViewById(android.R.id.content).getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    showShowcase();
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putBoolean(IS_FIRST_RUN_KEY, false);
+                    editor.commit();
+
+                    synchronized (TrackPickerActivity.this) {
+
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                            TrackPickerActivity.this.findViewById(android.R.id.content).getViewTreeObserver().removeGlobalOnLayoutListener(globalLayoutListener);
+                        } else {
+                            TrackPickerActivity.this.findViewById(android.R.id.content).getViewTreeObserver().removeOnGlobalLayoutListener(globalLayoutListener);
+                        }
+
+                        globalLayoutListener = null;
+                    }
+                }
+            });
+        }
     }
 
     public void setTrack(int trackID) {
         this.track = trackOrganizer.getTrack(trackID);
+    }
+
+    /**
+     * Showcaseview that explain the functionality
+     */
+    public synchronized void showShowcase() {
+
+        // Targets for the Showcase
+        final ViewTarget playButtonTarget = new ViewTarget(playButton, 1.5f);
+        final ViewTarget deleteButtonTarget = new ViewTarget(deleteButton, 1.5f);
+        final ViewTarget editButtonTarget = new ViewTarget(editButton, 1.5f);
+        final ViewTarget trackTarget = new ViewTarget(R.id.list_tracks,this, 0.2f);
+
+        // Create a relative location for the next button
+        final RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        final int margin = ((Number) (getResources().getDisplayMetrics().density * 12)).intValue();
+        lps.setMargins(margin, margin, margin, margin);
+
+        // End button
+        final RelativeLayout.LayoutParams stopLps = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        stopLps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        stopLps.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        final Button stopButton = (Button) LayoutInflater.from(this.getApplicationContext()).inflate(R.layout.showcase_button, null);
+        stopButton.setBackgroundColor(getResources().getColor(R.color.giraf_button_fill_end)); // Showcase Button background color
+        stopButton.setText("Luk");
+        stopLps.setMargins(margin, margin, margin, margin);
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TrackPickerActivity.this.toggleShowcase();
+            }
+        });
+
+        // Calculate position for the help text
+        final int textX = getResources().getDisplayMetrics().widthPixels / 2 + margin;
+        final int textY = getResources().getDisplayMetrics().heightPixels / 2 + margin;
+
+        // Calculate position for the help text to right
+        final int textX_right = (getResources().getDisplayMetrics().widthPixels / 3) * 2;
+
+        showcaseManager = new ShowcaseManager();
+
+        showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
+            @Override
+            public void configShowCaseView(final ShowcaseView showcaseView) {
+
+                showcaseView.setShowcase(playButtonTarget, true);
+                showcaseView.setContentTitle(getString(R.string.play_button_pick_icon_showcase_help_title_text));
+                showcaseView.setContentText(getString(R.string.play_button_pick_icon_showcase_help_content_text));
+                showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
+                showcaseView.setButtonPosition(lps);
+                showcaseView.addView(stopButton, stopLps);
+                showcaseView.setTextPostion(textX, textY);
+            }
+        });
+
+        showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
+            @Override
+            public void configShowCaseView(final ShowcaseView showcaseView) {
+
+                showcaseView.setShowcase(editButtonTarget, true);
+                showcaseView.setContentTitle(getString(R.string.edit_button_pick_icon_showcase_help_title_text));
+                showcaseView.setContentText(getString(R.string.edit_button_pick_icon_showcase_help_content_text));
+                showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
+                showcaseView.setButtonPosition(lps);
+                showcaseView.setTextPostion(textX, textY);
+            }
+        });
+
+        showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
+            @Override
+            public void configShowCaseView(final ShowcaseView showcaseView) {
+
+                showcaseView.setShowcase(deleteButtonTarget, true);
+                showcaseView.setContentTitle(getString(R.string.delete_button_pick_icon_showcase_help_title_text));
+                showcaseView.setContentText(getString(R.string.delete_button_pick_icon_showcase_help_content_text));
+                showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
+                showcaseView.setButtonPosition(lps);
+                showcaseView.setTextPostion(textX, textY);
+            }
+        });
+
+        showcaseManager.addShowCase(new ShowcaseManager.Showcase() {
+            @Override
+            public void configShowCaseView(final ShowcaseView showcaseView) {
+
+                showcaseView.setShowcase(trackTarget, true);
+                showcaseView.setContentTitle(getString(R.string.track_list_showcase_help_title_text));
+                showcaseView.setContentText(getString(R.string.track_list_showcase_help_content_text));
+                showcaseView.setStyle(R.style.GirafCustomShowcaseTheme);
+                showcaseView.removeView(stopButton);
+                showcaseView.addView(stopButton, lps);
+                showcaseView.setTextPostion(textX_right, textY);
+            }
+        });
+
+        ShowcaseManager.OnDoneListener onDoneCallback = new ShowcaseManager.OnDoneListener() {
+            @Override
+            public void onDone(ShowcaseView showcaseView) {
+                showcaseManager = null;
+                isFirstRun = false;
+            }
+        };
+        showcaseManager.setOnDoneListener(onDoneCallback);
+
+        showcaseManager.start(this);
+    }
+
+    @Override
+    public synchronized void hideShowcase() {
+
+        if (showcaseManager != null) {
+            showcaseManager.stop();
+            showcaseManager = null;
+        }
+    }
+
+    @Override
+    public synchronized void toggleShowcase() {
+
+        if (showcaseManager != null) {
+            hideShowcase();
+        } else {
+            showShowcase();
+        }
     }
 }
