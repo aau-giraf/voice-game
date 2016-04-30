@@ -32,8 +32,8 @@ public class CalibrationScreen extends Screen {
         this.control = control;
         this.readstate = NOT_READING;
 
-        loud = new OverlayButton(30, 100, Color.RED, "HØJ", Paint.Align.LEFT, 80);
-        silence = new OverlayButton(30, 245, Color.GREEN, "LAV", Paint.Align.LEFT, 80);
+        loud = new OverlayButton(30, 125, Color.RED, "HØJ", Paint.Align.LEFT, 80);
+        silence = new OverlayButton(30, 250, Color.GREEN, "LAV", Paint.Align.LEFT, 80);
 
         if (control.GetMaxAmplitude() > highest_recorded_vol)
             highest_recorded_vol = control.GetMaxAmplitude();
