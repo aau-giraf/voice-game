@@ -1,6 +1,7 @@
 package dk.aau.cs.giraf.voicegame.game;
 
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import dk.aau.cs.giraf.voicegame.Assets;
@@ -45,7 +46,7 @@ public class CarGame extends CarsActivity {
         Track track = (Track)getIntent().getSerializableExtra("track");
         this.gameMode = track.getMode();
         GameItemCollection roadItems = new GameItemCollection(new PreferencesObstacles(this.gamesettings));
-        Car car = new Car(-Assets.GetCar().getWidth(), getHeight() - GRASS_HEIGHT - Assets.GetCar().getHeight());
+        Car car = new Car(20 - Assets.GetCar().getWidth(), Resources.getSystem().getDisplayMetrics().heightPixels / 2);
         car.setShowValue(true);
         
         car.setColor(gamesettings.GetColor());
