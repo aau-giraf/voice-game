@@ -29,6 +29,7 @@ public class VolumeCarControl implements CarControl {
 
     private float minAmplitude;
     private float maxAmplitude;
+    private float lastAmplitude = 0.0f;
 
     private boolean running;
 
@@ -52,6 +53,8 @@ public class VolumeCarControl implements CarControl {
     @Override
     public float getMove(Input.TouchEvent[] touchEvents, SoundMode soundMode) {
         float volume = this.getAmplitude();
+        lastAmplitude = volume;
+
         //Volume is bound by min and max amplitude
         volume = Math.max(Math.min(volume, maxAmplitude), minAmplitude);
 
@@ -68,7 +71,8 @@ public class VolumeCarControl implements CarControl {
     }
 
     public float getAmplitude() {
-        return running && mediaRecorder != null ? mediaRecorder.getMaxAmplitude() : 0.0f;
+        int amp = mediaRecorder.getMaxAmplitude();
+        return running && mediaRecorder != null && amp != 0.0f ? amp : lastAmplitude;
     }
 
     @Override
