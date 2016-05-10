@@ -173,9 +173,8 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
             this.finish();
         } else {
             screenshot = renderView.getScreenshot();
-            saveDialog = GirafInflatableDialog.newInstance(getResources().getString(R.string.header_unsaved_map), getResources().getString(R.string.unsaved_map_text), R.layout.activity_save_dialog, UNSAVED_DIALOG_ID);
+            saveDialog = GirafInflatableDialog.newInstance(getResources().getString(R.string.header_unsaved), getResources().getString(R.string.unsaved_text), R.layout.activity_save_dialog, UNSAVED_DIALOG_ID);
             saveDialog.show(getSupportFragmentManager(), SAVE_DIALOG_TAG);
-
         }
     }
 
@@ -193,8 +192,8 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
             screenshotImage.setImageBitmap(screenshot);
 
             final GirafButton saveButton = (GirafButton) viewGroup.findViewById(R.id.button_gem);
-            GirafButton cancelButton = (GirafButton) viewGroup.findViewById(R.id.button_anuller);
-            GirafButton backButton = (GirafButton) viewGroup.findViewById(R.id.button_back);
+            final GirafButton backButton = (GirafButton) viewGroup.findViewById(R.id.button_back);
+            final GirafButton cancelButton = (GirafButton) viewGroup.findViewById(R.id.button_annuller);
 
             //changes on buttons, if the popup is created from the save button or the back button.
             if (i == UNSAVED_DIALOG_ID) {
@@ -231,7 +230,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 public void onClick(View v) {
                     // Read the trackorganizer from file
                     TrackOrganizer trackOrganizer = IOService.instance().readTrackOrganizerFromFile();
-                    
+
                     // Add a track to the trackorganizer
                     // If the "edit" bool is flipped, then the edited track is overwritten, else we create a new track
                     if (getIntent().getBooleanExtra("edit", false)) {

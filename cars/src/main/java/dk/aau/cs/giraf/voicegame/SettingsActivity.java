@@ -45,6 +45,14 @@ public class SettingsActivity extends GirafActivity implements GirafInflatableDi
     private static final String SAVE_DIALOG_TAG = "SAVE_DIALOG";
     private static final Integer SAVE_DIALOG_ID = 1;
     private GirafInflatableDialog saveDialog;
+    private static final String UNSAVED_DIALOG_TAG = "UNSAVED_DIALOG";
+    private static final Integer UNSAVED_DIALOG_ID = 2;
+    private GirafInflatableDialog unsavedDialog;
+
+    private boolean actualBack = false, isChanged = false;
+    private float oldCalibrationMax;
+    private float oldCalibrationMin;
+    private float oldSpeed;
 
     GirafButton helpGirafButton, saveSettingsButton;
     ColorButton colorPickButton;
@@ -116,6 +124,10 @@ public class SettingsActivity extends GirafActivity implements GirafInflatableDi
         calibration.SetMaxVolume(gameSettings.GetMaxVolume());
         colorPickButton.SetColor(gameSettings.GetColor());
 
+        oldCalibrationMax = gameSettings.GetMaxVolume();
+        oldCalibrationMin = gameSettings.GetMinVolume();
+        oldSpeed = gameSettings.GetSpeed();
+
         initializeGameMode();
         initializeSoundMode();
     }
@@ -134,6 +146,7 @@ public class SettingsActivity extends GirafActivity implements GirafInflatableDi
     }
 
     public void ColorPickClick(View view) {
+        isChanged = true;
         final ColorButton button = (ColorButton)view;
         GColorPicker colorPicker = new GColorPicker(view.getContext(), new GColorPicker.OnOkListener() {
             @Override
@@ -148,16 +161,30 @@ public class SettingsActivity extends GirafActivity implements GirafInflatableDi
 
     @Override
     public void onBackPressed() {
-        cancelSettings();
-        //TODO Add "There are unsaved changes" dialog
-        Intent result = new Intent();
-        result.putExtra("settings", gameSettings);
-        setResult(Activity.RESULT_OK, result);
-        this.finish();
+        if (oldCalibrationMax != calibration.GetMinVolume()
+            || oldCalibrationMin != calibration.GetMinVolume()
+            || oldSpeed != speed.getSpeed()){
+            isChanged = true;
+        }
+
+        if (actualBack || !isChanged) {
+            cancelSettings();
+
+            Intent result = new Intent();
+            result.putExtra("settings", gameSettings);
+            setResult(Activity.RESULT_OK, result);
+
+            this.finish();
+        } else {
+            unsavedDialog = GirafInflatableDialog.newInstance(getResources().getString(R.string.header_unsaved), getResources().getString(R.string.unsaved_text), R.layout.activity_save_dialog_settings, UNSAVED_DIALOG_ID);
+            unsavedDialog.show(getSupportFragmentManager(), UNSAVED_DIALOG_TAG);
+
+        }
     }
 
     public void onRadioButtonClicked(View v)
     {
+        isChanged = true;
         switch(v.getId())
         {
             case R.id.radioButtonpPickup:
@@ -290,19 +317,44 @@ public class SettingsActivity extends GirafActivity implements GirafInflatableDi
      */
     @Override
     public void editCustomView(final ViewGroup viewGroup, int i) {
-        if(i == SAVE_DIALOG_ID ) {
+        if(i == SAVE_DIALOG_ID || i == UNSAVED_DIALOG_ID) {
 
             final GirafButton saveButton = (GirafButton) viewGroup.findViewById(R.id.button_gem);
-            GirafButton cancelButton = (GirafButton) viewGroup.findViewById(R.id.button_anuller);
+            final GirafButton backButton = (GirafButton) viewGroup.findViewById(R.id.button_back);
+            final GirafButton cancelButton = (GirafButton) viewGroup.findViewById(R.id.button_annuller);
 
-            cancelButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    cancelSettings();
+            if (i == UNSAVED_DIALOG_ID) {
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        unsavedDialog.dismiss();
+                    }
+                });
+            } else {
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        saveDialog.dismiss();
+                    }
+                });
+            }
 
-                    saveDialog.dismiss();
-                }
-            });
+            /**
+             * Creates the backButton if back was pressed.
+             */
+            if (i == UNSAVED_DIALOG_ID) {
+                backButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        actualBack = true;
+                        onBackPressed();
+                    }
+                });
+                saveButton.setContentDescription("actualBack");
+            } else {
+                backButton.setVisibility(View.INVISIBLE);
+                backButton.setEnabled(false);
+            }
 
             /**
              * Reads the trackOrganizer from file and overrides it, containing the newly created track aswell.
@@ -319,7 +371,19 @@ public class SettingsActivity extends GirafActivity implements GirafInflatableDi
                             calibration.GetMaxVolume(), gameMode, soundMode);
                     SaveSettings(initSettings, getApplicationContext());
 
-                    saveDialog.dismiss();
+                    //If the dialog is the unsaved changes, the button terminates the MapEditor.
+                    if (saveButton.getContentDescription() == "actualBack") {
+                        actualBack = true;
+                        onBackPressed();
+                    } else {
+                        //remembering values.
+                        oldCalibrationMax = calibration.GetMinVolume();
+                        oldCalibrationMin = calibration.GetMinVolume();
+                        oldSpeed = speed.getSpeed();
+                        //If it is normal save, it only closes the save popup.
+                        isChanged = false;
+                        saveDialog.dismiss();
+                    }
                 }
             });
         }
