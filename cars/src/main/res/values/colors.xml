@@ -5,4 +5,5 @@
     <color name="settingsTextColor">#FF000000</color>
     <color name="listBackground">#FED76C</color>
     <color name="listRowFocused">#FFCD59</color>
+    <color name="listRowFocusedAlt">#FBAF00</color>
 </resources>

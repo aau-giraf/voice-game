@@ -91,7 +91,7 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
                     lastClickImage.setBackgroundColor(getContext().getResources().getColor(R.color.listBackground));
                 }
 
-                imageTrack1.setBackgroundColor(getContext().getResources().getColor(R.color.listRowFocused));
+                imageTrack1.setBackgroundColor(getContext().getResources().getColor(R.color.listRowFocusedAlt));
                 lastClickImage = imageTrack1;
 
             }
@@ -113,7 +113,7 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
                     lastClickImage.setBackgroundColor(getContext().getResources().getColor(R.color.listBackground));
                 }
 
-                imageTrack2.setBackgroundColor(getContext().getResources().getColor(R.color.listRowFocused));
+                imageTrack2.setBackgroundColor(getContext().getResources().getColor(R.color.listRowFocusedAlt));
                 lastClickImage = imageTrack2;
 
             }

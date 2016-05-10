@@ -154,8 +154,8 @@ public class IOService {
             File bitmapFile = new File(path, identifier + ".jpg");
             FileInputStream inputStream = new FileInputStream(bitmapFile);
             BitmapFactory.Options options = new BitmapFactory.Options();
-            // load in an image that is 1/4 of the original size, to save memory.
-            options.inSampleSize = 4;
+            // load in an image that is 1/2 of the original size, to save memory.
+            options.inSampleSize = 2;
             bitmap = BitmapFactory.decodeStream(inputStream, new Rect(0, 0, 0, 0), options);
             inputStream.close();
         } catch (FileNotFoundException e){

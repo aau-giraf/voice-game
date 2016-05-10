@@ -61,7 +61,7 @@ public class SpeedFragment extends CarsFragment {
             gauge = new SpeedGauge(GAUGE_MARGIN, gaugeY, game.getWidth() - 2 * GAUGE_MARGIN, GAUGE_HEIGHT);
             gauge.SetSpeed(initialSpeed);
 
-            int pictoY = gaugeY + GAUGE_HEIGHT + GAUGE_MARGIN;
+            int pictoY = (gaugeY + GAUGE_HEIGHT + GAUGE_MARGIN);
             snailPicto = new PictoButton(gauge.GetValueX(1) - PICTO_SIZE/2, pictoY, PICTO_SIZE, PICTO_SIZE, Assets.GetSnailPicto());
             rabbitPicto = new PictoButton(gauge.GetValueX(5) - PICTO_SIZE/2, pictoY, PICTO_SIZE, PICTO_SIZE, Assets.GetRabbitPicto());
             tigerPicto = new PictoButton(gauge.GetValueX(9) - PICTO_SIZE/2, pictoY, PICTO_SIZE, PICTO_SIZE, Assets.GetTigerPicto());
