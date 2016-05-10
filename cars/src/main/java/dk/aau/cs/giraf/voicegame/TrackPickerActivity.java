@@ -157,8 +157,6 @@ public class TrackPickerActivity extends GirafActivity {
         for (int i = 0; i < Math.ceil((double)trackArrayList.size() / 2); i++) {
             numberOfRows.add(0);
         }
-
-        Log.v("TrackPickerActivity", "trackArray size: " + trackArrayList.size() + ", dummy size: " + numberOfRows.size());
         
         ListAdapter adapter = new TrackListAdapter(this, numberOfRows, trackArrayList, trackOrganizer.getScreenshotArray(), trackOrganizer, this);
         this.trackList = (GList) findViewById(R.id.list_tracks);

@@ -13,12 +13,16 @@ import dk.aau.cs.giraf.voicegame.game.Car;
 import dk.aau.cs.giraf.voicegame.game.CarGame;
 import dk.aau.cs.giraf.voicegame.game.Enums.SoundMode;
 import dk.aau.cs.giraf.voicegame.game.GameItemCollection;
+import dk.aau.cs.giraf.voicegame.game.GameMode;
 import dk.aau.cs.giraf.voicegame.game.GameScreen;
 import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.voicegame.Interfaces.CarControl;
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
 
+/**
+ * Class shared by both avoid and pickup game modes
+ */
 public abstract class RunningScreen extends GameScreen {
     private Rect pauseButtonRec = new Rect(20, 20, 100, 100);
     private Rect pauseButtonImageRec = new Rect(0, 0, Assets.GetPlayButton().getWidth(), Assets.GetPlayButton().getHeight());
@@ -28,10 +32,6 @@ public abstract class RunningScreen extends GameScreen {
     // storing whether the car moves on noise or silence;
     private SoundMode soundMode;
     private Track currentTrack;
-
-    // hard coded filename
-    // TODO This will be changed in later, already assigned tasks.
-    String fileName = "/sdcard/TracksFile";
 
     public RunningScreen(CarGame game, Car car, GameItemCollection obstacles, CarControl carControl, float carSpeed, Track track, SoundMode soundMode) {
         super(game, car, obstacles);
@@ -54,15 +54,32 @@ public abstract class RunningScreen extends GameScreen {
         moveTo = Math.max(0, Math.min(1, moveTo));
         moveCarTo(moveTo);
 
-        if (getCarLocationX() + getCarWidth() > game.getWidth() - getFinishLineWidth()) {
-            Assets.GetWellDone().Play();
-            showWinningScreen();
-        }
+        checkWinCondition();
 
         // listening for touch on the pause button
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN && e.inBounds(pauseButtonRec))
                 showPauseScreen();
+    }
+
+    /**
+     * When the car hit the finishline, check which game mode is being played and act accordinglys
+     */
+    public void checkWinCondition() {
+
+        if(getCarLocationX() + getCarWidth() > game.getWidth() - getFinishLineWidth()) {
+            if(currentTrack.getMode() == GameMode.pickup) {
+                if(!isRoadItemsEmpty()) {
+                    showFailureScreen();
+                } else {
+                    Assets.GetWellDone().Play();
+                    showWinningScreen();
+                }
+            } else {
+                Assets.GetWellDone().Play();
+                showWinningScreen();
+            }
+        }
     }
 
     /**
@@ -81,24 +98,5 @@ public abstract class RunningScreen extends GameScreen {
     @Override
     public void showScreen() {
         setCarSpeed(carSpeed);
-    }
-
-    private Track loadTrack() {
-        Track trackFromFile = null;
-        try{
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName));
-            trackFromFile = (Track) ois.readObject();
-        }catch (FileNotFoundException e){
-            System.out.println("File not found - input");
-            e.printStackTrace();
-        } catch (IOException e){
-            System.out.println("IO exception happened while reading");
-            e.printStackTrace();
-        } catch (ClassNotFoundException e){
-            System.out.println("Wrong cast");
-            e.printStackTrace();
-        }
-
-        return trackFromFile;
     }
 }
