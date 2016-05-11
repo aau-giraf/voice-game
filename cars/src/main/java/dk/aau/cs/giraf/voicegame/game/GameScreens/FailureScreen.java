@@ -13,6 +13,9 @@ import dk.aau.cs.giraf.voicegame.game.CarGame;
 import dk.aau.cs.giraf.voicegame.game.GameItemCollection;
 import dk.aau.cs.giraf.voicegame.game.GameScreen;
 
+/**
+ * Act as both a failure screen, and a crash screen. This screen will be shown when the car either crash, or fail to collect all the stars.
+ */
 public class FailureScreen extends GameScreen {
     private OverlayButton resetButton;
     private OverlayButton menuButton;

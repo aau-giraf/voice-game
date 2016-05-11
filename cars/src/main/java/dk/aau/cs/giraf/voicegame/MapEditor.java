@@ -245,7 +245,6 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                         } else {
                             Toast.makeText(MapEditor.this, "Du kan ikke gemme flere baner", Toast.LENGTH_SHORT).show();
                         }
-
                     }
 
                     //Write the trackorganizer to the file.
