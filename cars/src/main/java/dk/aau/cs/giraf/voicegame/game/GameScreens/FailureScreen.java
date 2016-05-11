@@ -54,6 +54,12 @@ public class FailureScreen extends GameScreen {
         crashOccured = true;
     }
 
+    /**
+     * Called every frame to paint this screen.
+     * If the class have been marked as a crash screen, the crash image will be drawn.
+     * @param graphics
+     * @param deltaTime
+     */
     @Override
     public void paint(Graphics graphics, float deltaTime) {
         super.paint(graphics, deltaTime);
@@ -66,6 +72,12 @@ public class FailureScreen extends GameScreen {
         menuButton.Draw(graphics, deltaTime);
     }
 
+    /**
+     * Called every frame to update this screen.
+     * If any of the buttons in this screen is clicked, the screen will be unmarked as a crash screen, making it act as a normal failure screen, until it is marked once again.
+     * @param touchEvents
+     * @param deltaTime
+     */
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
