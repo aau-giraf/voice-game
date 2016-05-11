@@ -11,11 +11,8 @@ import dk.aau.cs.giraf.voicegame.CarsGames.CarsActivity;
 import dk.aau.cs.giraf.voicegame.Track;
 import dk.aau.cs.giraf.voicegame.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.voicegame.Interfaces.CarControl;
-import dk.aau.cs.giraf.voicegame.game.GameScreens.AvoidRunningScreen;
-import dk.aau.cs.giraf.voicegame.game.GameScreens.CrashScreen;
 import dk.aau.cs.giraf.voicegame.game.GameScreens.FailureScreen;
 import dk.aau.cs.giraf.voicegame.game.GameScreens.PauseScreen;
-import dk.aau.cs.giraf.voicegame.game.GameScreens.PickupRunningScreen;
 import dk.aau.cs.giraf.voicegame.game.GameScreens.RunningScreen;
 import dk.aau.cs.giraf.voicegame.game.GameScreens.StartScreen;
 import dk.aau.cs.giraf.voicegame.game.GameScreens.WinningScreen;
@@ -26,7 +23,6 @@ public class CarGame extends CarsActivity {
 
     GameSettings gamesettings;
     StartScreen startScreen;
-    CrashScreen crashScreen;
     PauseScreen pauseScreen;
     WinningScreen winningScreen;
     RunningScreen runningScreen;
@@ -55,14 +51,9 @@ public class CarGame extends CarsActivity {
         startScreen = new StartScreen(this, car, roadItems);
         pauseScreen = new PauseScreen(this, car, roadItems, GRASS_HEIGHT);
         winningScreen = new WinningScreen(this, car, roadItems);
-        if (gameMode == GameMode.pickup){
-            runningScreen = new PickupRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed(), (Track)getIntent().getSerializableExtra("track"), gamesettings.GetSoundMode());
-            failureScreen = new FailureScreen(this, car, roadItems);
-        }
-        if (gameMode == GameMode.avoid){
-            runningScreen = new AvoidRunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed(), (Track)getIntent().getSerializableExtra("track"), gamesettings.GetSoundMode());
-            crashScreen = new CrashScreen(this, car, roadItems);
-        }
+        failureScreen = new FailureScreen(this, car, roadItems);
+        runningScreen = new RunningScreen(this, car, roadItems, carControl, gamesettings.GetSpeed(), (Track)getIntent().getSerializableExtra("track"), gamesettings.GetSoundMode());
+
         return startScreen;
     }
 
@@ -80,8 +71,8 @@ public class CarGame extends CarsActivity {
     }
 
     public void showCrashScreen(GameItem gameItem) {
-        crashScreen.setLastCrash(crashScreen.getCollisionPoint(gameItem));
-        setScreen(crashScreen);
+        failureScreen.setLastCrash(failureScreen.getCollisionPoint(gameItem));
+        setScreen(failureScreen);
     }
 
     public void showFailureScreen(){

@@ -23,7 +23,7 @@ import dk.aau.cs.giraf.voicegame.game.RoadItem;
 /**
  * Class shared by both avoid and pickup game modes
  */
-public abstract class RunningScreen extends GameScreen {
+public class RunningScreen extends GameScreen {
     private Rect pauseButtonRec = new Rect(20, 20, 100, 100);
     private Rect pauseButtonImageRec = new Rect(0, 0, Assets.GetPlayButton().getWidth(), Assets.GetPlayButton().getHeight());
 
@@ -60,6 +60,16 @@ public abstract class RunningScreen extends GameScreen {
         for (Input.TouchEvent e : touchEvents)
             if (e.type == Input.TouchEvent.TOUCH_DOWN && e.inBounds(pauseButtonRec))
                 showPauseScreen();
+
+        RoadItem roadItem = getCollisionRoadItem();
+        if (roadItem != null) {
+            if(currentTrack.getMode() == GameMode.pickup) {
+                Assets.GetPickup().PlayAndReset();
+                removeObstacle(roadItem);
+            } else {
+                showCrashScreen(roadItem);
+            }
+        }
     }
 
     /**

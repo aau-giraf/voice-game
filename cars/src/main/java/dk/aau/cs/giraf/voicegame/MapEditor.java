@@ -238,7 +238,6 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                         IOService.instance().overwriteBitmapToFile(screenshot, track.getScreenshotPath(), String.valueOf(track.getID()));
                         trackOrganizer.editTrack(track.getID(), mapScreen.roadItems);
 
-                    // TODO temporary check, some error happens when adding more than 6 tracks. Will make task aswell.
                     } else {
                         if(trackOrganizer.canSaveMoreTracks()) {
 
