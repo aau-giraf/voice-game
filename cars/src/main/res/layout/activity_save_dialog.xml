@@ -14,10 +14,10 @@
     <ImageView
         android:id="@+id/saveDialogScreenshot"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="230dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/ccar"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="center_horizontal"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
