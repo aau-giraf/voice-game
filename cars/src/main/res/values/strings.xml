@@ -47,13 +47,13 @@
 
 	<!-- showcases for TrackPickerActivity -->
 	<string name="edit_button_pick_icon_showcase_help_title_text">Change track</string>
-	<string name="edit_button_pick_icon_showcase_help_content_text">When a map has been selected it can be edited by clicking here</string>
+	<string name="edit_button_pick_icon_showcase_help_content_text">When a track has been selected it can be edited \nby clicking here</string>
 	<string name="play_button_pick_icon_showcase_help_title_text">Play track</string>
-	<string name="play_button_pick_icon_showcase_help_content_text">When a track has been selected it can be played by clicking here</string>
+	<string name="play_button_pick_icon_showcase_help_content_text">When a track has been selected it can be played \nby clicking here</string>
 	<string name="delete_button_pick_icon_showcase_help_title_text">Delete track</string>
-	<string name="delete_button_pick_icon_showcase_help_content_text">When a track has been selected it can be deleted by clicking here</string>
+	<string name="delete_button_pick_icon_showcase_help_content_text">When a track has been selected it can be deleted \nby clicking here</string>
 	<string name="track_list_showcase_help_title_text">Tracks</string>
-	<string name="track_list_showcase_help_content_text">Here your tracks are shown. New tracks \ncan be created from the main menu</string>
+	<string name="track_list_showcase_help_content_text">Here your tracks are shown. \nNew tracks can be created from \nthe main menu</string>
 
 	<!-- showcases for SettingsActivity -->
 	<string name="save_settings_pick_icon_showcase_help_title_text">Save settings</string>
@@ -61,13 +61,13 @@
 	<string name="color_pick_pick_icon_showcase_help_title_text">Change the color of the car</string>
 	<string name="color_pick_pick_icon_showcase_help_content_text">Click here to change the color of the car</string>
 	<string name="calibration_fragment_pick_icon_showcase_help_title_text">Calibrate microphone</string>
-	<string name="calibration_fragment_pick_icon_showcase_help_content_text">Here the microphone is calibrated. Hold down the button \nHigh and make a loud sound, \nor hold down the button Low and be silent.\nLet go of the button after this</string>
+	<string name="calibration_fragment_pick_icon_showcase_help_content_text">Here the microphone is calibrated. Hold down \nthe button "High" and make a loud sound, or hold \ndown the button "Low" and be silent.\nLet go of the button after this</string>
 	<string name="speed_pick_icon_showcase_help_title_text">Change the cars speed</string>
 	<string name="speed_pick_icon_showcase_help_content_text">Click on the ruler to change the speed of the car,\nhigher speed is equal to higher difficulty</string>
 	<string name="avoid_pickup_showcase_help_title_text">Game mode</string>
-	<string name="avoid_pickup_showcase_help_content_text">Choose between stars and boxes for your track. \nStars has to be picked up while boxes needs to be avoided</string>
+	<string name="avoid_pickup_showcase_help_content_text">Choose between stars and boxes for your track. \nStars has to be picked up while boxes needs to \nbe avoided</string>
 	<string name="radioButton_showcase_help_title_text">Car direction</string>
-	<string name="radioButton_showcase_help_content_text">Choose either up or down to decide\nwhich way the car drives with sound present</string>
+	<string name="radioButton_showcase_help_content_text">Choose either up or down to decide which way \nthe car drives with sound present</string>
 
 	<!-- showcases for MapEditor -->
 	<string name="trash_button_pick_icon_showcase_help_title_text">Delete changes</string>
@@ -75,6 +75,6 @@
 	<string name="save_button_pick_icon_showcase_help_title_text">Save track</string>
 	<string name="save_button_pick_icon_showcase_help_content_text">Click here to save the track</string>
 	<string name="place_item_showcase_help_title_text">Screen click</string>
-	<string name="place_item_pick_icon_showcase_help_content_text">Click on the track to\ninsert either stars or boxes.\nYou can choose between these in settings</string>
+	<string name="place_item_pick_icon_showcase_help_content_text">Click on the track to insert either stars or boxes.\nYou can choose between these in settings</string>
 
 </resources>
