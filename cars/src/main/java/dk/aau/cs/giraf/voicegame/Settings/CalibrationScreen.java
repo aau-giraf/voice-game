@@ -1,16 +1,23 @@
 package dk.aau.cs.giraf.voicegame.Settings;
 
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import dk.aau.cs.giraf.gui.GirafInflatableDialog;
+import dk.aau.cs.giraf.showcaseview.ShowcaseManager;
+import dk.aau.cs.giraf.voicegame.R;
 import dk.aau.cs.giraf.voicegame.game.Controller.VolumeCarControl;
 import dk.aau.cs.giraf.voicegame.game.GameScreens.OverlayButton;
 import dk.aau.cs.giraf.game_framework.*;
 
+
+
 import dk.aau.cs.giraf.gui.GComponent;
+
 
 public class CalibrationScreen extends Screen {
     public VolumeCarControl control;
@@ -25,15 +32,16 @@ public class CalibrationScreen extends Screen {
     private final int NOT_READING = 0;
     private final int READING_LOW = 1;
     private final int READING_HIGH = 2;
+    private Resources mResources;
 
-    public CalibrationScreen(GameFragment game, VolumeCarControl control) {
+    public CalibrationScreen(String highSound, String lowSound, GameFragment game, VolumeCarControl control) {
         super(game);
 
         this.control = control;
         this.readstate = NOT_READING;
 
-        loud = new OverlayButton(30, 125, Color.RED, "HØJ", Paint.Align.LEFT, 80);
-        silence = new OverlayButton(30, 250, Color.GREEN, "LAV", Paint.Align.LEFT, 80);
+        loud = new OverlayButton(30, 125, Color.RED, highSound, Paint.Align.LEFT, 80);
+        silence = new OverlayButton(30, 250, Color.GREEN, lowSound, Paint.Align.LEFT, 80);
 
         if (control.GetMaxAmplitude() > highest_recorded_vol)
             highest_recorded_vol = control.GetMaxAmplitude();

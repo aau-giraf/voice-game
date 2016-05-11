@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import dk.aau.cs.giraf.game_framework.Screen;
 import dk.aau.cs.giraf.voicegame.CarsGames.CarsFragment;
 import dk.aau.cs.giraf.voicegame.game.Controller.VolumeCarControl;
+import dk.aau.cs.giraf.voicegame.R;
 
 
 public class CalibrationFragment extends CarsFragment {
@@ -57,7 +58,7 @@ public class CalibrationFragment extends CarsFragment {
     @Override
     public Screen getFirstScreen() {
         control = new VolumeCarControl(minVolume, maxVolume);
-        screen = new CalibrationScreen(this, control);
+        screen = new CalibrationScreen( getResources().getString(R.string.calibration_button_high), getResources().getString(R.string.calibration_button_low), this, control);
         return screen;
     }
 }
