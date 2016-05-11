@@ -63,13 +63,16 @@ public class CarGame extends CarsActivity {
         super.onCreate(savedInstanceState);
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
     }
 
     public void showStartScreen() {
         setScreen(startScreen);
     }
 
+    /**
+     * Use the failure screen as a crash screen.
+     * @param gameItem
+     */
     public void showCrashScreen(GameItem gameItem) {
         failureScreen.setLastCrash(failureScreen.getCollisionPoint(gameItem));
         setScreen(failureScreen);

@@ -14,7 +14,6 @@ import dk.aau.cs.giraf.voicegame.game.GameItemCollection;
 import dk.aau.cs.giraf.voicegame.game.GameScreen;
 
 public class FailureScreen extends GameScreen {
-    //private OverlayButton continueButton;
     private OverlayButton resetButton;
     private OverlayButton menuButton;
     private Rect lastCrash;
@@ -26,8 +25,6 @@ public class FailureScreen extends GameScreen {
 
         int gameWidth = game.getWidth();
         int gameHeight = game.getHeight();
-
-        //continueButton = new OverlayButton(game.getWidth() / 2, game.getHeight() / 2, game.getResources().getString(R.string.crash_button_text));
 
         resetButton = new OverlayButton((int) (gameWidth * 0.25), (int) (gameHeight * 0.65), game.getResources().getString(R.string.crash_button_text));
         menuButton = new OverlayButton((int) (gameWidth * 0.75), (int) (gameHeight * 0.65), game.getResources().getString(R.string.menu_button_text));
@@ -44,6 +41,10 @@ public class FailureScreen extends GameScreen {
         freezeCar();
     }
 
+    /**
+     * Takes in the coordinates of the roadItems that was hit. Flips crashOccured, marking this failurescreen to act as a crashScreen.
+     * @param p
+     */
     public void setLastCrash(Point p) {
         lastCrash.offsetTo(p.x, p.y);
         lastCrash.offset(-lastCrash.width() / 2, -lastCrash.height() / 2);
@@ -54,7 +55,7 @@ public class FailureScreen extends GameScreen {
     public void paint(Graphics graphics, float deltaTime) {
         super.paint(graphics, deltaTime);
 
-        if(crashOccured = true) {
+        if(crashOccured == true) {
             graphics.drawScaledImage(Assets.GetExplosion(), lastCrash, explosionRect);
         }
 
@@ -65,23 +66,7 @@ public class FailureScreen extends GameScreen {
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
-        /*
-        if (Assets.GetNewTurn().IsPlaying())
-            return;
-        else if (continuePressed) {
-            continuePressed = false;
-            Assets.GetNewTurn().Reset();
-            resetCar();
-            showRunningScreen();
-        }
-        else {
-            continueButton.Update(touchEvents, deltaTime);
-            if (continueButton.IsClicked()) {
-                Assets.GetNewTurn().Play();
-                continuePressed = true;
-            }
-        }
-        */
+
         resetButton.Update(touchEvents, deltaTime);
         menuButton.Update(touchEvents, deltaTime);
         if (resetButton.IsClicked()) {
