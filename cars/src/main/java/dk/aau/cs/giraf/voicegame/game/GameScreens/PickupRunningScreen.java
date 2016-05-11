@@ -10,6 +10,9 @@ import dk.aau.cs.giraf.voicegame.game.GameItemCollection;
 import dk.aau.cs.giraf.voicegame.Interfaces.CarControl;
 import dk.aau.cs.giraf.voicegame.game.RoadItem;
 
+/**
+ * This class is used when a track with stars is being played
+ */
 public class PickupRunningScreen extends RunningScreen {
     public PickupRunningScreen(CarGame game, Car car, GameItemCollection obstacles, CarControl carControl, float carSpeed, Track track, SoundMode soundMode) {
         super(game, car, obstacles, carControl, carSpeed, track, soundMode);
@@ -18,9 +21,6 @@ public class PickupRunningScreen extends RunningScreen {
     @Override
     public void update(Input.TouchEvent[] touchEvents, float deltaTime) {
         super.update(touchEvents, deltaTime);
-
-        if (!isRoadItemsEmpty() && getCarLocationX() + getCarWidth() > getFinishLineX())
-            showFailureScreen();
 
         RoadItem roadItem = getCollisionRoadItem();
         if (roadItem != null) {
