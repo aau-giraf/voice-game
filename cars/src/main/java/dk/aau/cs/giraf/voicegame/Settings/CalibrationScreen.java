@@ -57,10 +57,15 @@ public class CalibrationScreen extends Screen {
             //Store average
             float avg = getAverageValueOfList(volumes);
             volumes.clear();
-            if(readstate == READING_HIGH)
-                control.setMaxAmplitude(avg);
-            else
-                control.setMinAmplitude(avg);
+            if (Float.isNaN(avg)){
+                control.setMaxAmplitude(1);
+                control.setMinAmplitude(1);
+            } else {
+                if(readstate == READING_HIGH)
+                    control.setMaxAmplitude(avg);
+                else
+                    control.setMinAmplitude(avg);
+            }
         }
         else if(newstate != NOT_READING && newstate == readstate){
             float vol = control.getAmplitude();

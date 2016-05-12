@@ -12,30 +12,30 @@ public class VolumeCarControl implements CarControl {
     private MediaRecorder mediaRecorder;
 
     public void setMinAmplitude(float minAmplitude) {
-        this.minAmplitude = minAmplitude;
+        this.minAmplitude = minAmplitude < 1000 ? 1000 : minAmplitude;
     }
 
     public void setMaxAmplitude(float maxAmplitude) {
-        this.maxAmplitude = maxAmplitude;
+        this.maxAmplitude = maxAmplitude < 1002 ? 1002 : maxAmplitude;
     }
 
     public float GetMinAmplitude() {
-        return minAmplitude;
+        return minAmplitude < 1000 ? 1000 : minAmplitude;
     }
 
     public float GetMaxAmplitude() {
-        return maxAmplitude;
+        return maxAmplitude < 1002 ? 1002 : maxAmplitude;
     }
 
     private float minAmplitude;
     private float maxAmplitude;
-    private float lastAmplitude = 0.0f;
+    private float lastAmplitude = 1000.0f;
 
     private boolean running;
 
     public VolumeCarControl(float minAmplitude, float maxAmplitude) {
-        this.minAmplitude = minAmplitude;
-        this.maxAmplitude = maxAmplitude;
+        this.minAmplitude = minAmplitude < 1000 ? 1000 : minAmplitude;
+        this.maxAmplitude = maxAmplitude < 1002 ? 1002 : maxAmplitude;
 
         this.Start();
     }
@@ -72,7 +72,12 @@ public class VolumeCarControl implements CarControl {
 
     public float getAmplitude() {
         int amp = mediaRecorder.getMaxAmplitude();
-        return running && mediaRecorder != null && amp != 0.0f ? amp : lastAmplitude;
+        if (running && mediaRecorder != null && amp != 0.0f){
+            lastAmplitude = amp;
+            return amp;
+        } else {
+            return lastAmplitude;
+        }
     }
 
     @Override
