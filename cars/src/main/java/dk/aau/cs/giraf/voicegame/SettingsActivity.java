@@ -161,7 +161,7 @@ public class SettingsActivity extends GirafActivity implements GirafInflatableDi
 
     @Override
     public void onBackPressed() {
-        if (oldCalibrationMax != calibration.GetMinVolume()
+        if (oldCalibrationMax != calibration.GetMaxVolume()
             || oldCalibrationMin != calibration.GetMinVolume()
             || oldSpeed != speed.getSpeed()){
             isChanged = true;
