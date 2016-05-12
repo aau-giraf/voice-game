@@ -77,4 +77,7 @@
 	<string name="place_item_showcase_help_title_text">Screen click</string>
 	<string name="place_item_pick_icon_showcase_help_content_text">Click on the track to insert either stars or boxes.\nYou can choose between these in settings</string>
 
+	<!-- Sounds -->
+	<string name="sound_language">english</string>
+
 </resources>

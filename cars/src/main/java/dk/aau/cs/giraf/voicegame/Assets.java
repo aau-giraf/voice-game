@@ -28,16 +28,31 @@ public class Assets {
 
         carStart = audio.createSound(R.raw.car_start);
         pickup = audio.createSound(R.raw.double_honk);
-        wellDone = audio.createSound(R.raw.vg_godt_gaaet);
-        newTurn = audio.createSound(R.raw.vg_ny_tur);
-        playAgain = audio.createSound(R.raw.vg_spil_igen);
         crash = audio.createSound(R.raw.crash);
         settings = audio.createSound(R.raw.vg_indstillinger);
         editTrack = audio.createSound(R.raw.vg_redig_bane);
         back = audio.createSound(R.raw.vg_tilbage);
         startGame = audio.createSound(R.raw.vg_start_spil);
 
+
+
         loaded = true;
+    }
+
+    public static void LoadAssets(Graphics graphics, Audio audio, String language)
+    {
+        LoadAssets(graphics, audio);
+
+        if (language.equals("danish")) {
+            newTurn = audio.createSound(R.raw.vg_ny_tur);
+            playAgain = audio.createSound(R.raw.vg_spil_igen);
+            wellDone = audio.createSound(R.raw.vg_godt_gaaet);
+        } else
+        {
+            newTurn = audio.createSound(R.raw.new_turn);
+            playAgain = audio.createSound(R.raw.play_again);
+            wellDone = audio.createSound(R.raw.well_done);
+        }
     }
 
     public static boolean GetLoaded() {

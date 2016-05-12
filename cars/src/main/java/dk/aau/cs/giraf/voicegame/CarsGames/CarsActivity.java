@@ -5,6 +5,7 @@ import dk.aau.cs.giraf.game_framework.Graphics;
 import dk.aau.cs.giraf.game_framework.Input;
 import dk.aau.cs.giraf.game_framework.Screen;
 import dk.aau.cs.giraf.voicegame.Assets;
+import dk.aau.cs.giraf.voicegame.R;
 
 public abstract class CarsActivity extends GameActivity {
     public abstract Screen getFirstScreen();
@@ -26,8 +27,9 @@ public abstract class CarsActivity extends GameActivity {
 
         @Override
         public void paint(Graphics graphics, float deltaTime) {
-            Assets.LoadAssets(graphics, game.getAudio());
+            Assets.LoadAssets(graphics, game.getAudio(), getResources().getString(R.string.sound_language));
             game.setScreen(((CarsActivity)game).getFirstScreen());
+
         }
 
         @Override

@@ -77,4 +77,7 @@
 	<string name="place_item_showcase_help_title_text">Skærm klik</string>
 	<string name="place_item_pick_icon_showcase_help_content_text">Klik på banen for at\nindsætte enten stjerner eller kasser.\nDu kan vælge mellem disse under indstillinger</string>
 
+	<!-- Sounds -->
+	<string name="sound_language">danish</string>
+
 </resources>
