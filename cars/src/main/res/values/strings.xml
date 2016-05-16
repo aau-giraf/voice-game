@@ -14,7 +14,7 @@
 	<string name="menu_button_text">New track</string>
 	<string name="title_activity_main_menu">MainMenu</string>
 	<string name="title_activity_cargame">Game</string>
-	<string name="title_activity_mapeditor">MapEditor</string>
+	<string name="title_activity_mapeditor">Create new track</string>
 	<string name="hello_world">Hello world!</string>
 	<string name="action_settings">Settings</string>
 	<string name="title_activity_settings">Settings</string>
@@ -30,7 +30,7 @@
 	<string name="Profile_selector">Choose the citizen you want to change to</string>
 	<string name="title_activity_track_picker">Choose a track</string>
 	<string name="save_dialog_title">Save track</string>
-	<string name="save_dialog_text">Here you can see an image of your track</string>
+	<string name="save_dialog_text">Here you can see an image of the track that you are about to save.</string>
 	<string name="track_pick_error">You have to pick a track first</string>
     <string name="header_unsaved">Do you want to save?</string>
     <string name="unsaved_text">You have unsaved changes, do you want to save them?</string>
@@ -54,6 +54,7 @@
 	<string name="delete_button_pick_icon_showcase_help_content_text">When a track has been selected it can be deleted \nby clicking here</string>
 	<string name="track_list_showcase_help_title_text">Tracks</string>
 	<string name="track_list_showcase_help_content_text">Here your tracks are shown. \nNew tracks can be created from \nthe main menu</string>
+	<string name="no_tracks_in_list">There are no saved tracks</string>
 
 	<!-- showcases for SettingsActivity -->
 	<string name="save_settings_pick_icon_showcase_help_title_text">Save settings</string>
@@ -79,5 +80,6 @@
 
 	<!-- Sounds -->
 	<string name="sound_language">english</string>
+
 
 </resources>

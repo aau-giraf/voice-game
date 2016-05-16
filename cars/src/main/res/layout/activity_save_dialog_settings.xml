@@ -24,12 +24,12 @@
             android:layout_height="match_parent">
 
             <dk.aau.cs.giraf.gui.GirafButton
-                android:id="@+id/button_gem"
+                android:id="@+id/button_annuller"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_centerInParent="true"
-                app:icon="@drawable/icon_save"
-                app:text="@string/save"></dk.aau.cs.giraf.gui.GirafButton>
+                app:icon="@drawable/icon_cancel"
+                app:text="@string/cancel"></dk.aau.cs.giraf.gui.GirafButton>
 
         </RelativeLayout>
 
@@ -54,12 +54,12 @@
             android:layout_height="match_parent">
 
             <dk.aau.cs.giraf.gui.GirafButton
-                android:id="@+id/button_annuller"
+                android:id="@+id/button_gem"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_centerInParent="true"
-                app:icon="@drawable/icon_cancel"
-                app:text="@string/cancel"></dk.aau.cs.giraf.gui.GirafButton>
+                app:icon="@drawable/icon_save"
+                app:text="@string/save"></dk.aau.cs.giraf.gui.GirafButton>
 
         </RelativeLayout>
 

@@ -29,15 +29,23 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
     private TrackPickerActivity parentActivity;
     private ImageView lastClickImage = null;
     private TrackOrganizer trackOrganizer;
+    private boolean isEmpty = false;
 
     // The integer and bitmap array are the same size
-    public TrackListAdapter(Context context, ArrayList<Integer> numberOfRows, ArrayList<Integer> trackIDs, ArrayList<Bitmap> bitmapResource, TrackOrganizer trackOrganizer, TrackPickerActivity parentActivity) {
+    public TrackListAdapter(Context context, ArrayList<Integer> numberOfRows, ArrayList<Integer> trackIDs, ArrayList<Bitmap> bitmapResource,
+                            TrackOrganizer trackOrganizer, TrackPickerActivity parentActivity) {
         super(context, R.layout.track_picker_row, numberOfRows);
 
         this.trackIDs = trackIDs;
         trackScreenshots = bitmapResource;
         this.parentActivity = parentActivity;
         this.trackOrganizer = trackOrganizer;
+
+        // -1 is the standard value for creating an empty track.
+        if(trackIDs.isEmpty()) {
+            isEmpty = trackIDs.isEmpty();
+            trackIDs.add(-1);
+        }
     }
 
     /**
@@ -49,6 +57,15 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
      */
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+
+        if(isEmpty) {
+            if(convertView == null) {
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                convertView = inflater.inflate(R.layout.track_picker_row_empty, parent, false);
+            }
+
+            return convertView;
+        }
 
         if(convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -85,15 +102,15 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
                 if((calculatedPosition - 2) < trackIDs.size()) {
                     parentActivity.setTrack(trackIDs.get(calculatedPosition - 2));
                     trackOrganizer.setCurrentTrackID(trackIDs.get(calculatedPosition - 2));
+
+
+                    if(lastClickImage != null) {
+                        lastClickImage.setBackgroundColor(getContext().getResources().getColor(R.color.listBackground));
+                    }
+
+                    imageTrack1.setBackgroundColor(getContext().getResources().getColor(R.color.listRowFocusedAlt));
+                    lastClickImage = imageTrack1;
                 }
-
-                if(lastClickImage != null) {
-                    lastClickImage.setBackgroundColor(getContext().getResources().getColor(R.color.listBackground));
-                }
-
-                imageTrack1.setBackgroundColor(getContext().getResources().getColor(R.color.listRowFocusedAlt));
-                lastClickImage = imageTrack1;
-
             }
         });
 
@@ -107,15 +124,15 @@ public class TrackListAdapter extends ArrayAdapter<Integer> {
                 if ((calculatedPosition - 1) < trackIDs.size()) {
                     parentActivity.setTrack(trackIDs.get(calculatedPosition - 1));
                     trackOrganizer.setCurrentTrackID(trackIDs.get(calculatedPosition - 1));
+
+
+                    if (lastClickImage != null) {
+                        lastClickImage.setBackgroundColor(getContext().getResources().getColor(R.color.listBackground));
+                    }
+
+                    imageTrack2.setBackgroundColor(getContext().getResources().getColor(R.color.listRowFocusedAlt));
+                    lastClickImage = imageTrack2;
                 }
-
-                if (lastClickImage != null) {
-                    lastClickImage.setBackgroundColor(getContext().getResources().getColor(R.color.listBackground));
-                }
-
-                imageTrack2.setBackgroundColor(getContext().getResources().getColor(R.color.listRowFocusedAlt));
-                lastClickImage = imageTrack2;
-
             }
         });
 

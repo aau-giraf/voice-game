@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
@@ -192,7 +193,11 @@ public class TrackPickerActivity extends GirafActivity implements ShowcaseManage
         for (int i = 0; i < Math.ceil((double)trackArrayList.size() / 2); i++) {
             numberOfRows.add(0);
         }
-        
+
+        if (numberOfRows.isEmpty()) {
+            numberOfRows.add(0);
+        }
+
         ListAdapter adapter = new TrackListAdapter(this, numberOfRows, trackArrayList, trackOrganizer.getScreenshotArray(), trackOrganizer, this);
         this.trackList = (GList) findViewById(R.id.list_tracks);
 

@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import dk.aau.cs.giraf.activity.GirafActivity;
 import dk.aau.cs.giraf.gui.GirafInflatableDialog;
 import dk.aau.cs.giraf.showcaseview.ShowcaseManager;
 import dk.aau.cs.giraf.showcaseview.ShowcaseView;
@@ -97,23 +98,16 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
         // adding trash button
         android.graphics.drawable.Drawable trashCan = this.getResources().getDrawable(R.drawable.icon_delete);
         trashButton = new GirafButton(this, trashCan);
-        trashButton.setY(5);
-        // width is 1280px
-        // It is not possible to get the dimensions of the icon, so we're subtracting a percentage of the screens width, in order to accommodate scaling.
-        trashButton.setX(this.getWidth() - ((this.getHeight() / 100) * 25));
         trashButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mapScreen.Clear();
             }
         });
-
-        linearLayout.addView(trashButton);
+         addGirafButtonToActionBar(trashButton, GirafActivity.RIGHT);
 
         // adding help button
         helpGirafButton = new GirafButton(this, getResources().getDrawable(R.drawable.icon_help));
-        helpGirafButton.setY(5);
-        helpGirafButton.setX(this.getWidth() - ((this.getHeight() / 100) * 22));
 
         helpGirafButton.setOnClickListener(new View.OnClickListener() {
             /**
@@ -125,16 +119,11 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
                 MapEditor.this.toggleShowcase();
             }
         });
-        linearLayout.addView(helpGirafButton);
+        addGirafButtonToActionBar(helpGirafButton, GirafActivity.RIGHT);
 
         // adding save button
         android.graphics.drawable.Drawable saveIcon = this.getResources().getDrawable(R.drawable.icon_save);
         saveButton = new GirafButton(this, saveIcon);
-        saveButton.setY(5);
-
-        // width is 1280px
-        // It is not possible to get the dimensions of the icon, so we're subtracting a percentage of the screens width, in order to accommodate scaling.
-        saveButton.setX(this.getWidth() - ((this.getHeight() / 100) * 20 ));
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,20 +133,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
             }
         });
 
-        linearLayout.addView(saveButton);
-
-        //adding back button
-        android.graphics.drawable.Drawable iconBack = this.getResources().getDrawable(R.drawable.icon_back);
-        backButton = new GirafButton(this, iconBack);
-        backButton.setY(5);
-        backButton.setX(-95);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-        linearLayout.addView(backButton);
+        addGirafButtonToActionBar(saveButton, GirafActivity.RIGHT);
 
         frameLayout.addView(renderview);
         frameLayout.addView(linearLayout);
@@ -431,7 +407,7 @@ public class MapEditor extends CarsActivity implements GirafInflatableDialog.OnC
 
         @Override
         public void backButton() {
-
+            onBackPressed();
         }
     }
 
